@@ -51,10 +51,32 @@ public class MainActivity extends Activity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
+        switch (position) {
+            case 0:
+                FragmentManager fm1 = getFragmentManager();
+                fm1.beginTransaction()
+                        .replace(R.id.container, JournalFragment.newInstance(this))
+                        .commit();
+                break;
+            case 1:
+                FragmentManager fm2 = getFragmentManager();
+                fm2.beginTransaction()
+                        .replace(R.id.container, WorkoutFragment.newInstance(this))
+                        .commit();
+                break;
+            case 2:
+                FragmentManager fm3 = getFragmentManager();
+                fm3.beginTransaction()
+                        .replace(R.id.container, NutritionFragment.newInstance(this))
+                        .commit();
+                break;
+            case 3:
+                FragmentManager fm4 = getFragmentManager();
+                fm4.beginTransaction()
+                        .replace(R.id.container, ProfileFragment.newInstance(this))
+                        .commit();
+            break;
+        }
     }
 
     public void onSectionAttached(int number) {
