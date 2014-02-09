@@ -17,11 +17,17 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    Database db = new Database(this, "journalData", null, 1);
+    Database db;
+
+    JournalFragment journalFragment = (JournalFragment) JournalFragment.newInstance(this);
+    WorkoutFragment workoutFragment = (WorkoutFragment) WorkoutFragment.newInstance(this);
+    NutritionFragment nutritionFragment = (NutritionFragment) NutritionFragment.newInstance(this);
+    ProfileFragment profileFragment = (ProfileFragment) ProfileFragment.newInstance(this);
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -37,6 +43,8 @@ public class MainActivity extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        db = new Database(this, "journalData", null, 1);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -55,25 +63,25 @@ public class MainActivity extends Activity
             case 0:
                 FragmentManager fm1 = getFragmentManager();
                 fm1.beginTransaction()
-                        .replace(R.id.container, JournalFragment.newInstance(this))
+                        .replace(R.id.container, journalFragment)
                         .commit();
                 break;
             case 1:
                 FragmentManager fm2 = getFragmentManager();
                 fm2.beginTransaction()
-                        .replace(R.id.container, WorkoutFragment.newInstance(this))
+                        .replace(R.id.container, workoutFragment)
                         .commit();
                 break;
             case 2:
                 FragmentManager fm3 = getFragmentManager();
                 fm3.beginTransaction()
-                        .replace(R.id.container, NutritionFragment.newInstance(this))
+                        .replace(R.id.container, nutritionFragment)
                         .commit();
                 break;
             case 3:
                 FragmentManager fm4 = getFragmentManager();
                 fm4.beginTransaction()
-                        .replace(R.id.container, ProfileFragment.newInstance(this))
+                        .replace(R.id.container, profileFragment)
                         .commit();
             break;
         }
@@ -110,7 +118,14 @@ public class MainActivity extends Activity
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
+            switch (mNavigationDrawerFragment.getItemSelected()) {
+                case 1:
+                    getMenuInflater().inflate(R.menu.workout, menu);
+                    break;
+                case 2:
+                    getMenuInflater().inflate(R.menu.nutrition, menu);
+                    break;
+            }
             restoreActionBar();
             return true;
         }
@@ -123,52 +138,15 @@ public class MainActivity extends Activity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_saveNutrition) {
+            saveNutrition();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((MainActivity) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
-        }
+    public void saveNutrition() {
+        Toast.makeText(this, nutritionFragment.protein.getText(), Toast.LENGTH_SHORT).show();
     }
 
 }

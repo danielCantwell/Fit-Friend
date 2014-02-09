@@ -5,14 +5,14 @@ package com.cantwellcode.athletejournal;
  */
 public class Nutrition {
 
-    int _id;
-    String _name;
-    String _date;
-    String _type;
-    String _calories;
-    String _protein;
-    String _carbs;
-    String _fat;
+    int _id             = 0;
+    String _name        = "";
+    String _date        = "";
+    String _type        = "";
+    String _calories    = "";
+    String _protein     = "";
+    String _carbs       = "";
+    String _fat         = "";
 
     public Nutrition() {
     }

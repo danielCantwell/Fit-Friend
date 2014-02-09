@@ -256,6 +256,10 @@ public class NavigationDrawerFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    public int getItemSelected() {
+        return mCurrentSelectedPosition;
+    }
+
     /**
      * Per the navigation drawer design guidelines, updates the action bar to show the global app
      * 'context', rather than just what's in the current screen.

@@ -5,16 +5,16 @@ package com.cantwellcode.athletejournal;
  */
 public class Workout {
 
-    int _id;
-    String _name;
-    String _date;
-    String _type;
-    String _time;
-    String _distance;
-    String _speed;
-    String _calories;
-    String _heartRate;
-    String _notes;
+    int _id             = 0;
+    String _name        = "";
+    String _date        = "";
+    String _type        = "";
+    String _time        = "";
+    String _distance    = "";
+    String _speed       = "";
+    String _calories    = "";
+    String _heartRate   = "";
+    String _notes       = "";
 
     public Workout() {
     }
