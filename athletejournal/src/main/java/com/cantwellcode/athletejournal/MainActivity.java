@@ -1,25 +1,15 @@
 package com.cantwellcode.athletejournal;
 
-import android.app.Activity;
-;
 import android.app.ActionBar;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity
+public class MainActivity extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     Database db;
@@ -61,28 +51,32 @@ public class MainActivity extends Activity
         // update the main content by replacing fragments
         switch (position) {
             case 0:
-                FragmentManager fm1 = getFragmentManager();
+                FragmentManager fm1 = getSupportFragmentManager();
                 fm1.beginTransaction()
                         .replace(R.id.container, journalFragment)
                         .commit();
+                mTitle = getString(R.string.title_section1);
                 break;
             case 1:
-                FragmentManager fm2 = getFragmentManager();
+                FragmentManager fm2 = getSupportFragmentManager();
                 fm2.beginTransaction()
                         .replace(R.id.container, workoutFragment)
                         .commit();
+                mTitle = getString(R.string.title_section2);
                 break;
             case 2:
-                FragmentManager fm3 = getFragmentManager();
+                FragmentManager fm3 = getSupportFragmentManager();
                 fm3.beginTransaction()
                         .replace(R.id.container, nutritionFragment)
                         .commit();
+                mTitle = getString(R.string.title_section3);
                 break;
             case 3:
-                FragmentManager fm4 = getFragmentManager();
+                FragmentManager fm4 = getSupportFragmentManager();
                 fm4.beginTransaction()
                         .replace(R.id.container, profileFragment)
                         .commit();
+                mTitle = getString(R.string.title_section4);
             break;
         }
     }
