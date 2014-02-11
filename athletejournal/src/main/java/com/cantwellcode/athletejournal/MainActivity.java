@@ -35,6 +35,7 @@ public class MainActivity extends FragmentActivity
         setContentView(R.layout.activity_main);
 
         db = new Database(this, "journalData", null, 1);
+        journalFragment.setDb(db);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -140,7 +141,7 @@ public class MainActivity extends FragmentActivity
     }
 
     public void saveNutrition() {
-        Toast.makeText(this, nutritionFragment.protein.getText(), Toast.LENGTH_SHORT).show();
+        nutritionFragment.saveNutrition(db);
     }
 
 }

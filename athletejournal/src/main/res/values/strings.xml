@@ -13,4 +13,13 @@
     <string name="action_saveWorkout">Save Workout</string>
     <string name="action_saveNutrition">Save Meal</string>
 
+    <string-array name="meal_types">
+        <item>Breakfast</item>
+        <item>Lunch</item>
+        <item>Dinner</item>
+        <item>Snack</item>
+        <item>Pre-Workout</item>
+        <item>Post-Workout</item>
+    </string-array>
+
 </resources>

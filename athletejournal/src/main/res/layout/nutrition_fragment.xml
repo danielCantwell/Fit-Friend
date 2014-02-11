@@ -20,7 +20,9 @@
         android:hint="Name of Food"
         android:layout_below="@+id/space"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="30dp" />
+        android:layout_marginLeft="30dp"
+        android:layout_alignRight="@+id/n_calories"
+        android:maxLines="1" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -87,10 +89,10 @@
         android:ems="10"
         android:id="@+id/n_calories"
         android:layout_alignBottom="@+id/textView4"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="20dp"
         android:layout_alignLeft="@+id/n_protein"
-        android:text="235" />
+        android:hint="# cal"
+        android:layout_alignRight="@+id/n_protein"
+        android:gravity="center_horizontal" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -99,10 +101,10 @@
         android:ems="10"
         android:id="@+id/n_protein"
         android:layout_above="@+id/textView6"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="20dp"
+        android:hint="grams"
+        android:layout_alignRight="@+id/n_carbs"
         android:layout_alignLeft="@+id/n_carbs"
-        android:text="24" />
+        android:gravity="center_horizontal" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -111,26 +113,27 @@
         android:ems="10"
         android:id="@+id/n_carbs"
         android:layout_alignBottom="@+id/textView6"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="20dp"
-        android:text="16" />
+        android:hint="grams"
+        android:layout_alignLeft="@+id/n_fat"
+        android:layout_alignRight="@+id/n_fat"
+        android:gravity="center_horizontal" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
         android:id="@+id/n_fat"
+        android:hint="grams"
         android:layout_alignBottom="@+id/textView7"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="20dp"
-        android:text="4" />
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/n_date"
+        android:background="@android:drawable/dialog_holo_light_frame"
         android:layout_alignBottom="@+id/n_name"
-        android:layout_alignRight="@+id/n_calories"
-        android:background="@android:drawable/dialog_holo_light_frame"/>
+        android:layout_toRightOf="@+id/n_name" />
 </RelativeLayout>

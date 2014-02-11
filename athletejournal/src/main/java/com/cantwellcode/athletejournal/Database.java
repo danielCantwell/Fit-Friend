@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -50,16 +51,16 @@ public class Database extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String CREATE_WORKOUT_TABLE = "CREATE TABLE " +  TABLE_WORKOUTS + "("
-                + WORKOUT_ID + " INTEGER PRIMARY KEY," + WORKOUT_NAME + " TEXT,"
+                + WORKOUT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + WORKOUT_NAME + " TEXT,"
                 + WORKOUT_DATE + " TEXT," + WORKOUT_TYPE + " TEXT," + WORKOUT_TIME
                 + " TEXT," + WORKOUT_DISTANCE + " TEXT," + WORKOUT_SPEED + " TEXT,"
                 + WORKOUT_CALORIES + " TEXT," + WORKOUT_HEART_RATE + " TEXT,"
                 + WORKOUT_NOTES + " TEXT" + ")";
         String CREATE_NUTRITION_TABLE = "CREATE TABLE " + TABLE_NUTRITION + "("
-                + NUTRITION_ID + " TEXT," + NUTRITION_NAME + " TEXT," + NUTRITION_DATE
+                + NUTRITION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + NUTRITION_NAME + " TEXT," + NUTRITION_DATE
                 + " TEXT," + NUTRITION_TYPE + " TEXT," + NUTRITION_CALORIES + " TEXT,"
                 + NUTRITION_PROTEIN + " TEXT," + NUTRITION_CARBS + " TEXT," + NUTRITION_FAT
-                + "TEXT" + ")";
+                + " TEXT" + ")";
         sqLiteDatabase.execSQL(CREATE_WORKOUT_TABLE);
         sqLiteDatabase.execSQL(CREATE_NUTRITION_TABLE);
     }
@@ -96,7 +97,7 @@ public class Database extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(NUTRITION_NAME, nutrition.get_name());
         values.put(NUTRITION_DATE, nutrition.get_date());
-        values.put(NUTRITION_DATE, nutrition.get_type());
+        values.put(NUTRITION_TYPE, nutrition.get_type());
         values.put(NUTRITION_CALORIES, nutrition.get_calories());
         values.put(NUTRITION_PROTEIN, nutrition.get_protein());
         values.put(NUTRITION_CARBS, nutrition.get_carbs());
@@ -137,6 +138,44 @@ public class Database extends SQLiteOpenHelper {
                 cursor.getString(5), cursor.getString(6), cursor.getString(7));
 
         return nutrition;
+    }
+
+    public List<Nutrition> getTodaysNutrition() {
+
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH) + 1;
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        List<Nutrition> nutritionList = new ArrayList<Nutrition>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_NUTRITION;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                // check if the row is an entry from today
+               if (cursor.getString(2).equals(month + "_" + day + "_" + year)) {
+                    Nutrition nutrition = new Nutrition();
+                    nutrition.set_id(Integer.parseInt(cursor.getString(0)));
+                    nutrition.set_name(cursor.getString(1));
+                    nutrition.set_date(cursor.getString(2));
+                    nutrition.set_type(cursor.getString(3));
+                    nutrition.set_calories(cursor.getString(4));
+                    nutrition.set_protein(cursor.getString(5));
+                    nutrition.set_carbs(cursor.getString(6));
+                    nutrition.set_fat(cursor.getString(7));
+                    // Adding nutrition to list
+                    nutritionList.add(nutrition);
+               }
+            } while (cursor.moveToNext());
+        }
+
+        // return nutrition list
+        return nutritionList;
     }
 
     public List<Workout> getAllWorkouts() {
@@ -203,7 +242,6 @@ public class Database extends SQLiteOpenHelper {
         String countQuery = "SELECT  * FROM " + TABLE_WORKOUTS;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
-        cursor.close();
 
         // return count
         return cursor.getCount();
@@ -213,7 +251,6 @@ public class Database extends SQLiteOpenHelper {
         String countQuery = "SELECT  * FROM " + TABLE_NUTRITION;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
-        cursor.close();
 
         // return count
         return cursor.getCount();

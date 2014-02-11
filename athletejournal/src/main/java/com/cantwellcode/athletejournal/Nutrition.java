@@ -5,20 +5,30 @@ package com.cantwellcode.athletejournal;
  */
 public class Nutrition {
 
-    int _id             = 0;
-    String _name        = "";
-    String _date        = "";
-    String _type        = "";
-    String _calories    = "";
-    String _protein     = "";
-    String _carbs       = "";
-    String _fat         = "";
+    int _id;
+    String _name;
+    String _date;
+    String _type;
+    String _calories;
+    String _protein;
+    String _carbs;
+    String _fat;
 
     public Nutrition() {
     }
 
     public Nutrition(int id, String name, String date, String type, String calories, String protein, String carbs, String fat) {
         this._id = id;
+        this._name = name;
+        this._date = date;
+        this._type = type;
+        this._calories = calories;
+        this._protein = protein;
+        this._carbs = carbs;
+        this._fat = fat;
+    }
+
+    public Nutrition(String name, String date, String type, String calories, String protein, String carbs, String fat) {
         this._name = name;
         this._date = date;
         this._type = type;
