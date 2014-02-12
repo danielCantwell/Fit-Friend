@@ -80,12 +80,6 @@
         android:layout_marginTop="20dp">
 
         <include
-            android:id="@+id/runView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            layout="@layout/run_fragment" />
-
-        <include
             android:id="@+id/swimView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -96,6 +90,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             layout="@layout/bike_fragment" />
+
+        <include
+            android:id="@+id/runView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/run_fragment" />
 
     </ViewFlipper>
 

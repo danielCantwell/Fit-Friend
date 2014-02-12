@@ -5,15 +5,16 @@
     android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Nutrition Intake"
-        android:id="@+id/textView"
-        android:layout_marginTop="65dp"
+        android:text=" Nutrition "
+        android:id="@+id/nutritionButton"
+        android:layout_marginTop="58dp"
         android:layout_below="@+id/textView21"
-        android:layout_alignRight="@+id/gridLayout" />
+        android:layout_centerHorizontal="true"
+        android:background="@android:drawable/dialog_holo_light_frame"/>
 
     <GridLayout
         android:layout_width="wrap_content"
@@ -23,7 +24,7 @@
         android:orientation="vertical"
         android:columnOrderPreserved="false"
         android:id="@+id/gridLayout"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/nutritionButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp">
 
@@ -94,40 +95,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="  /  120"
+            android:text="  /  290"
             android:id="@+id/n_protein_desired_text" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="  /  300"
+            android:text="  /  400"
             android:id="@+id/n_carbs_desired_text" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="  /  30"
+            android:text="  /  50"
             android:id="@+id/n_fat_desired_text" />
     </GridLayout>
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Exercise"
-        android:id="@+id/textView10"
-        android:layout_alignParentBottom="true"
+        android:text=" Exercise "
+        android:id="@+id/exerciseButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="200dp" />
+        android:layout_alignTop="@+id/gridLayout"
+        android:layout_marginTop="120dp"
+        android:background="@android:drawable/dialog_holo_light_frame"/>
 
     <GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textView10"
+        android:layout_alignTop="@+id/exerciseButton"
         android:layout_alignParentLeft="false"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="60dp"
         android:rowCount="3"
         android:columnCount="2"
         android:orientation="vertical"

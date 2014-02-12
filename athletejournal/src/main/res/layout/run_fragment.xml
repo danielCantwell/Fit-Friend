@@ -82,10 +82,10 @@
         android:inputType="number"
         android:ems="10"
         android:id="@+id/runHour"
-        android:text="0"
         android:gravity="center"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/runMinute" />
+        android:layout_toLeftOf="@+id/runMinute"
+        android:hint="H"/>
 
     <EditText
         android:layout_width="50dp"
@@ -93,10 +93,10 @@
         android:inputType="number"
         android:ems="10"
         android:id="@+id/runMinute"
-        android:text="33"
         android:gravity="center"
         android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/editText4" />
+        android:layout_alignLeft="@+id/editText4"
+        android:hint="M"/>
 
     <EditText
         android:layout_width="50dp"
@@ -104,10 +104,10 @@
         android:inputType="number"
         android:ems="10"
         android:id="@+id/runSeconds"
-        android:text="30"
         android:gravity="center"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/runHeartRate" />
+        android:layout_alignRight="@+id/runHeartRate"
+        android:hint="S"/>
 
     <EditText
         android:layout_width="100dp"
@@ -115,10 +115,10 @@
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/editText4"
-        android:text="5.00"
         android:gravity="center"
         android:layout_below="@+id/runMinute"
-        android:layout_alignRight="@+id/runHeartRate" />
+        android:layout_alignRight="@+id/runHeartRate"
+        android:hint="1.00"/>
 
     <EditText
         android:layout_width="50dp"
@@ -127,9 +127,9 @@
         android:ems="10"
         android:id="@+id/runPaceMinute"
         android:gravity="center"
-        android:text="6"
         android:layout_below="@+id/editText4"
-        android:layout_toLeftOf="@+id/runPaceSecond" />
+        android:layout_toLeftOf="@+id/runPaceSecond"
+        android:hint="M"/>
 
     <EditText
         android:layout_width="50dp"
@@ -138,9 +138,9 @@
         android:ems="10"
         android:id="@+id/runPaceSecond"
         android:layout_below="@+id/editText4"
-        android:text="30"
         android:gravity="center"
-        android:layout_toLeftOf="@+id/textView8" />
+        android:layout_toLeftOf="@+id/textView8"
+        android:hint="S"/>
 
     <EditText
         android:layout_width="75dp"
@@ -150,8 +150,8 @@
         android:id="@+id/runHeartRate"
         android:layout_alignBottom="@+id/textView4"
         android:gravity="center"
-        android:text="156"
-        android:layout_alignRight="@+id/runPaceSecond" />
+        android:layout_alignRight="@+id/runPaceSecond"
+        android:hint="120"/>
 
     <EditText
         android:layout_width="75dp"
@@ -160,9 +160,9 @@
         android:ems="10"
         android:id="@+id/runCalories"
         android:gravity="center"
-        android:text="500"
         android:layout_alignRight="@+id/runHeartRate"
-        android:layout_alignBottom="@+id/textView5" />
+        android:layout_alignBottom="@+id/textView5"
+        android:hint="# cal"/>
 
     <TextView
         android:layout_width="wrap_content"

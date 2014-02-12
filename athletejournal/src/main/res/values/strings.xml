@@ -22,4 +22,10 @@
         <item>Post-Workout</item>
     </string-array>
 
+    <string-array name="workout_types">
+        <item>Swim</item>
+        <item>Bike</item>
+        <item>Run</item>
+    </string-array>
+
 </resources>
