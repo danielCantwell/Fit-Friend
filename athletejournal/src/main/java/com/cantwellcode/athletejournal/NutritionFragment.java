@@ -1,5 +1,6 @@
 package com.cantwellcode.athletejournal;
 
+import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.support.v4.app.DialogFragment;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -27,6 +29,8 @@ import java.util.Calendar;
  * Created by Daniel on 2/8/14.
  */
 public class NutritionFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+
+    Database db;
 
     DialogFragment dateFragment;
 
@@ -63,7 +67,9 @@ public class NutritionFragment extends Fragment implements AdapterView.OnItemSel
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.nutrition_fragment, null);
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.new_meal_fragment, null);
+
+        db = new Database(getActivity(), Database.DATABASE_NAME, null, Database.DATABASE_VERSION);
 
         type        = (Spinner)  root.findViewById(R.id.n_type);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -97,6 +103,8 @@ public class NutritionFragment extends Fragment implements AdapterView.OnItemSel
             }
         });
 
+        setHasOptionsMenu(true);
+
         return root;
     }
 
@@ -113,9 +121,38 @@ public class NutritionFragment extends Fragment implements AdapterView.OnItemSel
 
     }
 
+    /* Options Menu */
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        restoreActionBar();
+        inflater.inflate(R.menu.nutrition, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_saveNutrition:
+                saveNutrition();
+                FragmentManager fm1 = getFragmentManager();
+                fm1.beginTransaction()
+                        .replace(R.id.container, NutritionViewFragment.newInstance(getActivity()))
+                        .commit();
+                break;
+            case R.id.action_cancelNutrition:
+                FragmentManager fm2 = getFragmentManager();
+                fm2.beginTransaction()
+                        .replace(R.id.container, NutritionViewFragment.newInstance(getActivity()))
+                        .commit();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     /* Date Picker Fragment */
 
-    public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener{
+    private class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener{
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -162,7 +199,7 @@ public class NutritionFragment extends Fragment implements AdapterView.OnItemSel
         else _fat = "0";
     }
 
-    public void saveNutrition(Database db, NutritionViewFragment nView, Menu actionMenu) {
+    public void saveNutrition() {
         prepareData();
         Toast.makeText(getActivity(), "Saving Meal", Toast.LENGTH_SHORT).show();
         Log.d("Nutrition", "Name: " + _name + " Date: " + _date + " Type: " + _type + " Calories: " + _calories);
@@ -178,13 +215,13 @@ public class NutritionFragment extends Fragment implements AdapterView.OnItemSel
         _protein    = null;
         _carbs      = null;
         _fat        = null;
+    }
 
-        FragmentManager fm = getFragmentManager();
-        fm.beginTransaction()
-                .replace(R.id.container, nView)
-                .commit();
-        actionMenu.clear();
-        getActivity().getMenuInflater().inflate(R.menu.nutrition, actionMenu);
+    private void restoreActionBar() {
+        ActionBar actionBar = getActivity().getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setTitle("New Meal");
     }
 }
 

@@ -15,8 +15,12 @@ import java.util.List;
  */
 public class Database extends SQLiteOpenHelper {
 
+    // enums
+    public static enum NutritionListType { Day, Week, Month, Total };
+
     // Database Name
-    private static final String DATABASE_NAME = "journalData";
+    public static final String DATABASE_NAME = "journalData";
+    public static final int DATABASE_VERSION = 1;
 
     // Workout Table
     private static final String TABLE_WORKOUTS = "workouts";
@@ -140,7 +144,7 @@ public class Database extends SQLiteOpenHelper {
         return nutrition;
     }
 
-    public List<Nutrition> getTodaysNutrition() {
+    public List<Nutrition> getNutritionList(NutritionListType type) {
 
         Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
@@ -150,15 +154,31 @@ public class Database extends SQLiteOpenHelper {
         List<Nutrition> nutritionList = new ArrayList<Nutrition>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_NUTRITION;
+        String dateOptions = " WHERE " + NUTRITION_DATE + "=?";
+
+        String[] currentDay = {month + "_" + day + "_" + year};
 
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        Cursor cursor;
+
+        switch (type) {
+            case Total:
+                cursor = db.rawQuery(selectQuery, null);
+                break;
+            case Day:
+                cursor = db.rawQuery(selectQuery + dateOptions, currentDay);
+                break;
+            default:
+                cursor = db.rawQuery(selectQuery, null);
+                break;
+        }
+
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
                 // check if the row is an entry from today
-               if (cursor.getString(2).equals(month + "_" + day + "_" + year)) {
+               //if (cursor.getString(2).equals(month + "_" + day + "_" + year)) {
                     Nutrition nutrition = new Nutrition();
                     nutrition.set_id(Integer.parseInt(cursor.getString(0)));
                     nutrition.set_name(cursor.getString(1));
@@ -170,7 +190,7 @@ public class Database extends SQLiteOpenHelper {
                     nutrition.set_fat(cursor.getString(7));
                     // Adding nutrition to list
                     nutritionList.add(nutrition);
-               }
+               //}
             } while (cursor.moveToNext());
         }
 

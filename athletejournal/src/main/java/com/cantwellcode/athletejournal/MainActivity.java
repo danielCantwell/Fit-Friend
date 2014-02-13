@@ -18,8 +18,6 @@ public class MainActivity extends FragmentActivity
 
     JournalFragment journalFragment = (JournalFragment) JournalFragment.newInstance(this);
     WorkoutFragment workoutFragment = (WorkoutFragment) WorkoutFragment.newInstance(this);
-    NutritionFragment nutritionFragment = (NutritionFragment) NutritionFragment.newInstance(this);
-    NutritionViewFragment nutritionViewFragment = (NutritionViewFragment) NutritionViewFragment.newInstance(this);
     ProfileFragment profileFragment = (ProfileFragment) ProfileFragment.newInstance(this);
 
     /**
@@ -37,7 +35,7 @@ public class MainActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        db = new Database(this, "journalData", null, 1);
+        db = new Database(this, Database.DATABASE_NAME, null, Database.DATABASE_VERSION);
         journalFragment.setDb(db);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -71,10 +69,9 @@ public class MainActivity extends FragmentActivity
             case 2:
                 FragmentManager fm3 = getSupportFragmentManager();
                 fm3.beginTransaction()
-                        .replace(R.id.container, nutritionViewFragment)
+                        .replace(R.id.container, NutritionViewFragment.newInstance(this))
                         .commit();
                 mTitle = getString(R.string.title_section3);
-                nutritionViewFragment.setDB(db);
                 break;
             case 3:
                 FragmentManager fm4 = getSupportFragmentManager();
@@ -86,23 +83,6 @@ public class MainActivity extends FragmentActivity
         }
     }
 
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
-            case 4:
-                mTitle = getString(R.string.title_section4);
-                break;
-        }
-    }
-
     public void restoreActionBar() {
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
@@ -110,57 +90,8 @@ public class MainActivity extends FragmentActivity
         actionBar.setTitle(mTitle);
     }
 
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        actionMenu = menu;
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-            switch (mNavigationDrawerFragment.getItemSelected()) {
-                case 1:
-                    getMenuInflater().inflate(R.menu.workout, actionMenu);
-                    break;
-                case 2:
-                    getMenuInflater().inflate(R.menu.add_new, actionMenu);
-                    break;
-            }
-            restoreActionBar();
-            return true;
-        }
-        return super.onCreateOptionsMenu(actionMenu);
+    public void onBackPressed() {
+        super.onBackPressed();
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_saveNutrition) {
-            saveNutrition();
-            return true;
-        }
-        else if (id == R.id.action_addNew) {
-            switch (mNavigationDrawerFragment.getItemSelected()) {
-                case 1:
-                    break;
-                case 2:
-                    FragmentManager fm = getSupportFragmentManager();
-                    fm.beginTransaction()
-                            .replace(R.id.container, nutritionFragment)
-                            .commit();
-                    actionMenu.clear();
-                    getMenuInflater().inflate(R.menu.nutrition, actionMenu);
-                    break;
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void saveNutrition() {
-        nutritionFragment.saveNutrition(db, nutritionViewFragment, actionMenu);
-    }
-
 }

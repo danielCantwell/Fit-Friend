@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_green_dark">
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Day"
+            android:id="@+id/n_day_button"
+            android:layout_weight="1"
+            android:background="@android:drawable/dialog_holo_light_frame"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Weekly"
+            android:id="@+id/n_week_button"
+            android:layout_weight="1"
+            android:background="@android:drawable/dialog_holo_light_frame"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Monthly"
+            android:id="@+id/n_month_button"
+            android:layout_weight="1"
+            android:background="@android:drawable/dialog_holo_light_frame"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total"
+            android:id="@+id/n_total_button"
+            android:layout_weight="1"
+            android:background="@android:drawable/dialog_holo_light_frame"/>
+    </TableRow>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@android:id/list"
+        android:choiceMode="singleChoice"
+        android:dividerHeight="2dp" />
+
+</LinearLayout>

@@ -37,6 +37,7 @@ public class JournalFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        setHasOptionsMenu(false);
         super.onCreate(savedInstanceState);
     }
 
@@ -52,7 +53,7 @@ public class JournalFragment extends Fragment {
         nutritionButton = (Button) root.findViewById(R.id.nutritionButton);
         exerciseButton = (Button) root.findViewById(R.id.exerciseButton);
 
-        List<Nutrition> todaysNutrition = db.getTodaysNutrition();
+        List<Nutrition> todaysNutrition = db.getNutritionList(Database.NutritionListType.Day);
 
         int calorieCount = 0;
         int proteinCount = 0;
