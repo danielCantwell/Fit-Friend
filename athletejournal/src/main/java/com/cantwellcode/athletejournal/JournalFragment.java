@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -53,7 +54,12 @@ public class JournalFragment extends Fragment {
         nutritionButton = (Button) root.findViewById(R.id.nutritionButton);
         exerciseButton = (Button) root.findViewById(R.id.exerciseButton);
 
-        List<Nutrition> todaysNutrition = db.getNutritionList(Database.NutritionListType.Day);
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH) + 1;
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        List<Nutrition> todaysNutrition = db.getNutritionList(Database.NutritionListType.Day, month, day, year);
 
         int calorieCount = 0;
         int proteinCount = 0;

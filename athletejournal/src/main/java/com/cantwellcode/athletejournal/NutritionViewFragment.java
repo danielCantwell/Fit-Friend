@@ -56,8 +56,13 @@ public class NutritionViewFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.nutrition_list_view, null);
 
+        final Calendar c = Calendar.getInstance();
+        year = c.get(Calendar.YEAR);
+        month = c.get(Calendar.MONTH) + 1;
+        day = c.get(Calendar.DAY_OF_MONTH);
+
         db = new Database(getActivity(), Database.DATABASE_NAME, null, Database.DATABASE_VERSION);
-        meals = db.getNutritionList(Database.NutritionListType.Day);
+        meals = db.getNutritionList(Database.NutritionListType.Day, month, day, year);
 
         if (meals.isEmpty()) {
             Toast.makeText(getActivity(), "No Meals Have Been Added Today", Toast.LENGTH_LONG).show();
@@ -80,7 +85,7 @@ public class NutritionViewFragment extends ListFragment {
         dayView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                meals = db.getNutritionList(Database.NutritionListType.Day);
+                meals = db.getNutritionList(Database.NutritionListType.Day, month, day, year);
                 mAdapter.clear();
                 mAdapter.addAll(meals);
 
@@ -96,7 +101,7 @@ public class NutritionViewFragment extends ListFragment {
         totalView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                meals = db.getNutritionList(Database.NutritionListType.Total);
+                meals = db.getNutritionList(Database.NutritionListType.Total, month, day, year);
                 mAdapter.clear();
                 mAdapter.addAll(meals);
 
@@ -124,10 +129,10 @@ public class NutritionViewFragment extends ListFragment {
     public void onPrepareOptionsMenu(Menu menu) {
         final Calendar c = Calendar.getInstance();
         year = c.get(Calendar.YEAR);
-        month = c.get(Calendar.MONTH);
+        month = c.get(Calendar.MONTH) + 1;
         day = c.get(Calendar.DAY_OF_MONTH);
 
-        menu.getItem(0).setTitle((month + 1) + " / " + day + " / " + year);
+        menu.getItem(0).setTitle((month) + " / " + day + " / " + year);
     }
 
     @Override
@@ -171,9 +176,13 @@ public class NutritionViewFragment extends ListFragment {
         @Override
         public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
             year = i;
-            month = i2;
+            month = i2 + 1;
             day = i3;
-            menu.getItem(0).setTitle(" " + (month + 1) + " / " + day + " / " + year + " ");
+            menu.getItem(0).setTitle(" " + (month) + " / " + day + " / " + year + " ");
+
+            meals = db.getNutritionList(Database.NutritionListType.Day, month, day, year);
+            mAdapter.clear();
+            mAdapter.addAll(meals);
         }
     }
 }

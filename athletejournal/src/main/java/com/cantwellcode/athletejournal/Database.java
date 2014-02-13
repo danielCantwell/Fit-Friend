@@ -144,12 +144,7 @@ public class Database extends SQLiteOpenHelper {
         return nutrition;
     }
 
-    public List<Nutrition> getNutritionList(NutritionListType type) {
-
-        Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH) + 1;
-        int day = c.get(Calendar.DAY_OF_MONTH);
+    public List<Nutrition> getNutritionList(NutritionListType type, int month, int day, int year) {
 
         List<Nutrition> nutritionList = new ArrayList<Nutrition>();
         // Select All Query
@@ -177,20 +172,17 @@ public class Database extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                // check if the row is an entry from today
-               //if (cursor.getString(2).equals(month + "_" + day + "_" + year)) {
-                    Nutrition nutrition = new Nutrition();
-                    nutrition.set_id(Integer.parseInt(cursor.getString(0)));
-                    nutrition.set_name(cursor.getString(1));
-                    nutrition.set_date(cursor.getString(2));
-                    nutrition.set_type(cursor.getString(3));
-                    nutrition.set_calories(cursor.getString(4));
-                    nutrition.set_protein(cursor.getString(5));
-                    nutrition.set_carbs(cursor.getString(6));
-                    nutrition.set_fat(cursor.getString(7));
-                    // Adding nutrition to list
-                    nutritionList.add(nutrition);
-               //}
+                Nutrition nutrition = new Nutrition();
+                nutrition.set_id(Integer.parseInt(cursor.getString(0)));
+                nutrition.set_name(cursor.getString(1));
+                nutrition.set_date(cursor.getString(2));
+                nutrition.set_type(cursor.getString(3));
+                nutrition.set_calories(cursor.getString(4));
+                nutrition.set_protein(cursor.getString(5));
+                nutrition.set_carbs(cursor.getString(6));
+                nutrition.set_fat(cursor.getString(7));
+                // Adding nutrition to list
+                nutritionList.add(nutrition);
             } while (cursor.moveToNext());
         }
 
