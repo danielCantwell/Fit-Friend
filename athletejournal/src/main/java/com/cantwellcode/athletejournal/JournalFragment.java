@@ -3,10 +3,12 @@ package com.cantwellcode.athletejournal;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
@@ -22,6 +24,11 @@ public class JournalFragment extends Fragment {
     TextView protein;
     TextView carbs;
     TextView fat;
+
+    Button nutritionButton;
+    Button exerciseButton;
+
+    NutritionFragment nutritionFragment = (NutritionFragment) NutritionFragment.newInstance(getActivity());
 
     public static Fragment newInstance(Context context) {
         JournalFragment f = new JournalFragment();
@@ -41,6 +48,9 @@ public class JournalFragment extends Fragment {
         protein = (TextView) root.findViewById(R.id.n_protein_text);
         carbs = (TextView) root.findViewById(R.id.n_carbs_text);
         fat = (TextView) root.findViewById(R.id.n_fat_text);
+
+        nutritionButton = (Button) root.findViewById(R.id.nutritionButton);
+        exerciseButton = (Button) root.findViewById(R.id.exerciseButton);
 
         List<Nutrition> todaysNutrition = db.getTodaysNutrition();
 

@@ -6,8 +6,11 @@ import android.support.v4.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -159,7 +162,7 @@ public class NutritionFragment extends Fragment implements AdapterView.OnItemSel
         else _fat = "0";
     }
 
-    public void saveNutrition(Database db) {
+    public void saveNutrition(Database db, NutritionViewFragment nView, Menu actionMenu) {
         prepareData();
         Toast.makeText(getActivity(), "Saving Meal", Toast.LENGTH_SHORT).show();
         Log.d("Nutrition", "Name: " + _name + " Date: " + _date + " Type: " + _type + " Calories: " + _calories);
@@ -175,6 +178,13 @@ public class NutritionFragment extends Fragment implements AdapterView.OnItemSel
         _protein    = null;
         _carbs      = null;
         _fat        = null;
+
+        FragmentManager fm = getFragmentManager();
+        fm.beginTransaction()
+                .replace(R.id.container, nView)
+                .commit();
+        actionMenu.clear();
+        getActivity().getMenuInflater().inflate(R.menu.nutrition, actionMenu);
     }
 }
 

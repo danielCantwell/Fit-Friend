@@ -12,11 +12,14 @@ import android.widget.Toast;
 public class MainActivity extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
+    Menu actionMenu;
+
     Database db;
 
     JournalFragment journalFragment = (JournalFragment) JournalFragment.newInstance(this);
     WorkoutFragment workoutFragment = (WorkoutFragment) WorkoutFragment.newInstance(this);
     NutritionFragment nutritionFragment = (NutritionFragment) NutritionFragment.newInstance(this);
+    NutritionViewFragment nutritionViewFragment = (NutritionViewFragment) NutritionViewFragment.newInstance(this);
     ProfileFragment profileFragment = (ProfileFragment) ProfileFragment.newInstance(this);
 
     /**
@@ -68,9 +71,10 @@ public class MainActivity extends FragmentActivity
             case 2:
                 FragmentManager fm3 = getSupportFragmentManager();
                 fm3.beginTransaction()
-                        .replace(R.id.container, nutritionFragment)
+                        .replace(R.id.container, nutritionViewFragment)
                         .commit();
                 mTitle = getString(R.string.title_section3);
+                nutritionViewFragment.setDB(db);
                 break;
             case 3:
                 FragmentManager fm4 = getSupportFragmentManager();
@@ -109,22 +113,23 @@ public class MainActivity extends FragmentActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        actionMenu = menu;
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
             switch (mNavigationDrawerFragment.getItemSelected()) {
                 case 1:
-                    getMenuInflater().inflate(R.menu.workout, menu);
+                    getMenuInflater().inflate(R.menu.workout, actionMenu);
                     break;
                 case 2:
-                    getMenuInflater().inflate(R.menu.nutrition, menu);
+                    getMenuInflater().inflate(R.menu.add_new, actionMenu);
                     break;
             }
             restoreActionBar();
             return true;
         }
-        return super.onCreateOptionsMenu(menu);
+        return super.onCreateOptionsMenu(actionMenu);
     }
 
     @Override
@@ -137,11 +142,25 @@ public class MainActivity extends FragmentActivity
             saveNutrition();
             return true;
         }
+        else if (id == R.id.action_addNew) {
+            switch (mNavigationDrawerFragment.getItemSelected()) {
+                case 1:
+                    break;
+                case 2:
+                    FragmentManager fm = getSupportFragmentManager();
+                    fm.beginTransaction()
+                            .replace(R.id.container, nutritionFragment)
+                            .commit();
+                    actionMenu.clear();
+                    getMenuInflater().inflate(R.menu.nutrition, actionMenu);
+                    break;
+            }
+        }
         return super.onOptionsItemSelected(item);
     }
 
     public void saveNutrition() {
-        nutritionFragment.saveNutrition(db);
+        nutritionFragment.saveNutrition(db, nutritionViewFragment, actionMenu);
     }
 
 }
