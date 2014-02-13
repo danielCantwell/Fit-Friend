@@ -217,6 +217,7 @@ public class NutritionViewFragment extends ListFragment {
             meals = db.getNutritionList(Database.NutritionListType.Day, month, day, year);
             mAdapter.clear();
             mAdapter.addAll(meals);
+            updateTotals();
         }
     }
 }
