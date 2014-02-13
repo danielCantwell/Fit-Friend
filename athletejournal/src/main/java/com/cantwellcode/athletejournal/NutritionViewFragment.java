@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -51,6 +52,11 @@ public class NutritionViewFragment extends ListFragment {
     private Button weekView;
     private Button monthView;
     private Button totalView;
+
+    private TextView totalCalories;
+    private TextView totalProtein;
+    private TextView totalCarbs;
+    private TextView totalFat;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -88,6 +94,7 @@ public class NutritionViewFragment extends ListFragment {
                 meals = db.getNutritionList(Database.NutritionListType.Day, month, day, year);
                 mAdapter.clear();
                 mAdapter.addAll(meals);
+                updateTotals();
 
                 dayView.setTextColor(Color.BLUE);
                 weekView.setTextColor(Color.BLACK);
@@ -104,6 +111,7 @@ public class NutritionViewFragment extends ListFragment {
                 meals = db.getNutritionList(Database.NutritionListType.Total, month, day, year);
                 mAdapter.clear();
                 mAdapter.addAll(meals);
+                updateTotals();
 
                 dayView.setTextColor(Color.BLACK);
                 weekView.setTextColor(Color.BLACK);
@@ -113,6 +121,13 @@ public class NutritionViewFragment extends ListFragment {
                 menu.getItem(0).setVisible(false);
             }
         });
+
+        totalCalories = (TextView) root.findViewById(R.id.n_view_total_calories);
+        totalProtein = (TextView) root.findViewById(R.id.n_view_total_protein);
+        totalCarbs = (TextView) root.findViewById(R.id.n_view_total_carbs);
+        totalFat = (TextView) root.findViewById(R.id.n_view_total_fat);
+
+        updateTotals();
 
         return root;
     }
@@ -152,11 +167,30 @@ public class NutritionViewFragment extends ListFragment {
         return super.onOptionsItemSelected(item);
     }
 
-    public void restoreActionBar() {
+    private void restoreActionBar() {
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle("Nutrition Log");
+    }
+
+    private void updateTotals() {
+        int calories = 0;
+        int protein = 0;
+        int carbs = 0;
+        int fat = 0;
+
+        for (Nutrition n : meals) {
+            calories += Integer.parseInt(n.get_calories());
+            protein += Integer.parseInt(n.get_protein());
+            carbs += Integer.parseInt(n.get_carbs());
+            fat += Integer.parseInt(n.get_fat());
+        }
+
+        totalCalories.setText(calories + "");
+        totalProtein.setText(protein + "");
+        totalCarbs.setText(carbs + "");
+        totalFat.setText(fat + "");
     }
 
     /* Date Picker Fragment */
