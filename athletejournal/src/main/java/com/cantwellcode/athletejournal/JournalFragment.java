@@ -1,7 +1,9 @@
 package com.cantwellcode.athletejournal;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -26,8 +28,10 @@ public class JournalFragment extends Fragment {
     TextView carbs;
     TextView fat;
 
-    Button nutritionButton;
-    Button exerciseButton;
+    TextView goalCalories;
+    TextView goalProtein;
+    TextView goalCarbs;
+    TextView goalFat;
 
     NutritionFragment nutritionFragment = (NutritionFragment) NutritionFragment.newInstance(getActivity());
 
@@ -51,8 +55,10 @@ public class JournalFragment extends Fragment {
         carbs = (TextView) root.findViewById(R.id.n_carbs_text);
         fat = (TextView) root.findViewById(R.id.n_fat_text);
 
-        nutritionButton = (Button) root.findViewById(R.id.nutritionButton);
-        exerciseButton = (Button) root.findViewById(R.id.exerciseButton);
+        goalCalories = (TextView) root.findViewById(R.id.n_cal_desired_text);
+        goalProtein = (TextView) root.findViewById(R.id.n_protein_desired_text);
+        goalCarbs = (TextView) root.findViewById(R.id.n_carbs_desired_text);
+        goalFat = (TextView) root.findViewById(R.id.n_fat_desired_text);
 
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
@@ -79,6 +85,16 @@ public class JournalFragment extends Fragment {
         fat.setText(fatCount + "");
 
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        goalCalories.setText(" / " + sp.getString(ProfileFragment.GOAL_CALORIES, "2000"));
+        goalProtein.setText(" / " + sp.getString(ProfileFragment.GOAL_PROTEIN, "80"));
+        goalCarbs.setText(" / " + sp.getString(ProfileFragment.GOAL_CARBS, "300"));
+        goalFat.setText(" / " + sp.getString(ProfileFragment.GOAL_FAT, "40"));
     }
 
     public void setDb(Database d) {

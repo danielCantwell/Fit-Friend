@@ -3,18 +3,20 @@
 <RelativeLayout
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@android:color/holo_green_dark">
 
-    <Button
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text=" Nutrition "
-        android:id="@+id/nutritionButton"
+        android:id="@+id/nutritionView"
         android:layout_marginTop="58dp"
         android:layout_below="@+id/textView21"
         android:layout_centerHorizontal="true"
-        android:background="@android:drawable/dialog_holo_light_frame"/>
+        android:textColor="@android:color/black"
+        android:background="@android:color/holo_green_light"/>
 
     <GridLayout
         android:layout_width="wrap_content"
@@ -24,7 +26,7 @@
         android:orientation="vertical"
         android:columnOrderPreserved="false"
         android:id="@+id/gridLayout"
-        android:layout_below="@+id/nutritionButton"
+        android:layout_below="@+id/nutritionView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp">
 
@@ -113,21 +115,22 @@
             android:id="@+id/n_fat_desired_text" />
     </GridLayout>
 
-    <Button
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text=" Exercise "
-        android:id="@+id/exerciseButton"
+        android:id="@+id/exerciseView"
         android:layout_centerHorizontal="true"
         android:layout_alignTop="@+id/gridLayout"
         android:layout_marginTop="120dp"
-        android:background="@android:drawable/dialog_holo_light_frame"/>
+        android:textColor="@android:color/black"
+        android:background="@android:color/holo_green_light"/>
 
     <GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/exerciseButton"
+        android:layout_alignTop="@+id/exerciseView"
         android:layout_alignParentLeft="false"
         android:layout_marginTop="60dp"
         android:rowCount="3"
@@ -187,5 +190,6 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:textSize="30dp" />
+        android:textSize="30dp"
+        android:textColor="@android:color/white"/>
 </RelativeLayout>
