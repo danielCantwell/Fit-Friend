@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,6 +81,15 @@ public class NutritionViewFragment extends ListFragment {
 
         listView = (ListView) root.findViewById(android.R.id.list);
         listView.setAdapter(mAdapter);
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Nutrition meal = mAdapter.getItem(position);
+                showPopup(view);
+                return true;
+            }
+        });
 
         setHasOptionsMenu(true);
 
@@ -193,6 +203,38 @@ public class NutritionViewFragment extends ListFragment {
         totalProtein.setText(protein + "");
         totalCarbs.setText(carbs + "");
         totalFat.setText(fat + "");
+    }
+
+    private void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(getActivity(), v);
+
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.action_edit:
+                        menuClickEdit();
+                        return true;
+                    case R.id.action_delete:
+                        menuClickDelete();
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.n_list_click, popup.getMenu());
+        popup.show();
+    }
+
+    private void menuClickEdit() {
+
+    }
+
+    private void menuClickDelete() {
+
     }
 
     /* Date Picker Fragment */

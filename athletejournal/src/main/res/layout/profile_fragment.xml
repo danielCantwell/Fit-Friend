@@ -4,7 +4,8 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@android:color/holo_blue_dark">
 
     <Space
         android:layout_width="match_parent"
@@ -23,7 +24,7 @@
             android:layout_marginTop="40dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="44dp" />
+            android:layout_marginLeft="44dp"/>
 
         <EditText
             android:layout_width="75dp"
@@ -36,7 +37,9 @@
             android:layout_marginLeft="60dp"
             android:gravity="center_horizontal"
             android:hint="goal #"
-            android:text="2400" />
+            android:text="2400"
+            android:selectAllOnFocus="true"
+            android:background="@android:color/holo_blue_light"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -59,7 +62,9 @@
             android:layout_alignRight="@+id/profileGoalCalories"
             android:gravity="center_horizontal"
             android:hint="goal #"
-            android:text="100" />
+            android:text="100"
+            android:selectAllOnFocus="true"
+            android:background="@android:color/holo_blue_light"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -93,7 +98,9 @@
             android:gravity="center_horizontal"
             android:layout_alignParentEnd="false"
             android:hint="goal #"
-            android:text="400" />
+            android:text="400"
+            android:selectAllOnFocus="true"
+            android:background="@android:color/holo_blue_light"/>
 
         <EditText
             android:layout_width="wrap_content"
@@ -106,16 +113,30 @@
             android:layout_alignRight="@+id/profileGoalCarbs"
             android:gravity="center_horizontal"
             android:hint="goal #"
-            android:text="50" />
+            android:text="50"
+            android:selectAllOnFocus="true"
+            android:background="@android:color/holo_blue_light"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Update Goals"
+            android:text=" Update Goals "
             android:id="@+id/profileUpdate"
             android:layout_marginTop="48dp"
             android:layout_below="@+id/textView6"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:background="@android:drawable/dialog_holo_light_frame"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" Add Favorite "
+            android:id="@+id/profileAddFavorite"
+            android:layout_below="@+id/profileUpdate"
+            android:layout_centerHorizontal="true"
+            android:layout_alignLeft="@+id/profileUpdate"
+            android:layout_alignRight="@+id/profileUpdate"
+            android:background="@android:drawable/dialog_holo_light_frame"/>
 
     </RelativeLayout>
 

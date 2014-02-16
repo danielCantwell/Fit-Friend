@@ -61,10 +61,10 @@ public class NutritionArrayAdapter extends ArrayAdapter<Nutrition> {
         holder.name.setText(meal.get_name());
         holder.date.setText(meal.get_date());
         holder.type.setText(meal.get_type());
-        holder.calories.setText(meal.get_calories() + "cal");
-        holder.protein.setText(meal.get_protein() + "prot");
-        holder.carbs.setText(meal.get_carbs() + "carbs");
-        holder.fat.setText(meal.get_fat() + "fat");
+        holder.calories.setText(meal.get_calories());
+        holder.protein.setText(meal.get_protein());
+        holder.carbs.setText(meal.get_carbs());
+        holder.fat.setText(meal.get_fat());
 
         return convertView;
     }

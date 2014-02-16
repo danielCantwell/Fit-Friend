@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -151,7 +152,7 @@ public class Database extends SQLiteOpenHelper {
         String selectQuery = "SELECT  * FROM " + TABLE_NUTRITION;
         String dateOptions = " WHERE " + NUTRITION_DATE + "=?";
 
-        String[] currentDay = {month + "_" + day + "_" + year};
+        String[] currentDay = {month + "/" + day + "/" + year};
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor;
@@ -186,6 +187,7 @@ public class Database extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        Collections.reverse(nutritionList);
         // return nutrition list
         return nutritionList;
     }

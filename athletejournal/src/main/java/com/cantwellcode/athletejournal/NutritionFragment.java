@@ -178,7 +178,7 @@ public class NutritionFragment extends Fragment implements AdapterView.OnItemSel
             _name = name.getText().toString();
         else _name = _type;
 
-        _date = (month + 1) + "_" + day + "_" + year;
+        _date = (month + 1) + "/" + day + "/" + year;
 
         // type is already set
 
