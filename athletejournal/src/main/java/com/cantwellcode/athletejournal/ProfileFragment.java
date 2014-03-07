@@ -5,13 +5,17 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -31,6 +35,7 @@ public class ProfileFragment extends Fragment {
     private TextView goalFat;
 
     private Button updateProfile;
+    private Button favorites;
 
     public static Fragment newInstance(Context context) {
         ProfileFragment f = new ProfileFragment();
@@ -46,12 +51,23 @@ public class ProfileFragment extends Fragment {
         goalCarbs    = (TextView) root.findViewById(R.id.profileGoalCarbs);
         goalFat      = (TextView) root.findViewById(R.id.profileGoalFat);
 
-        updateProfile = (Button) root.findViewById(R.id.profileUpdate);
+        updateProfile   = (Button) root.findViewById(R.id.profileUpdate);
+        favorites       = (Button) root.findViewById(R.id.profileFavorites);
 
         updateProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 updateGoals();
+            }
+        });
+
+        favorites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getFragmentManager();
+                fm.beginTransaction()
+                        .replace(R.id.container, FavoritesViewFragment.newInstance(getActivity()))
+                        .commit();
             }
         });
 
@@ -64,5 +80,6 @@ public class ProfileFragment extends Fragment {
         sp.edit().putString(GOAL_PROTEIN, goalProtein.getText().toString()).commit();
         sp.edit().putString(GOAL_CARBS, goalCarbs.getText().toString()).commit();
         sp.edit().putString(GOAL_FAT, goalFat.getText().toString()).commit();
+        Toast.makeText(getActivity(), "Nutrition Goals Updated", Toast.LENGTH_SHORT).show();
     }
 }

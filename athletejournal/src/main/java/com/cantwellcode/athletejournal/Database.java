@@ -49,6 +49,17 @@ public class Database extends SQLiteOpenHelper {
     private static final String NUTRITION_CARBS     = "nutrition_carbs";
     private static final String NUTRITION_FAT       = "nutrition_fat";
 
+    // Favorites Nutrition Table
+    private static final String TABLE_FAVORITES = "favorites";
+    // Columns
+    private static final String FAVORITES_ID        = "favorites_id";
+    private static final String FAVORITES_NAME      = "favorites_name";
+    private static final String FAVORITES_TYPE      = "favorites_type";
+    private static final String FAVORITES_CALORIES  = "favorites_calories";
+    private static final String FAVORITES_PROTEIN   = "favorites_protein";
+    private static final String FAVORITES_CARBS     = "favorites_carbs";
+    private static final String FAVORITES_FAT       = "favorites_fat";
+
     public Database(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
@@ -66,14 +77,21 @@ public class Database extends SQLiteOpenHelper {
                 + " TEXT," + NUTRITION_TYPE + " TEXT," + NUTRITION_CALORIES + " TEXT,"
                 + NUTRITION_PROTEIN + " TEXT," + NUTRITION_CARBS + " TEXT," + NUTRITION_FAT
                 + " TEXT" + ")";
+        String CREATE_FAVORITES_TABLE = "CREATE TABLE " + TABLE_FAVORITES + "("
+                + FAVORITES_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + FAVORITES_NAME
+                + " TEXT," + FAVORITES_TYPE + " TEXT," + FAVORITES_CALORIES + " TEXT,"
+                + FAVORITES_PROTEIN + " TEXT," + FAVORITES_CARBS + " TEXT," + FAVORITES_FAT
+                + " TEXT" + ")";
         sqLiteDatabase.execSQL(CREATE_WORKOUT_TABLE);
         sqLiteDatabase.execSQL(CREATE_NUTRITION_TABLE);
+        sqLiteDatabase.execSQL(CREATE_FAVORITES_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_WORKOUTS);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NUTRITION);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_FAVORITES);
         onCreate(sqLiteDatabase);
     }
 
@@ -113,6 +131,22 @@ public class Database extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void addFavorite(Nutrition nutrition) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(FAVORITES_NAME, nutrition.get_name());
+        values.put(FAVORITES_TYPE, nutrition.get_type());
+        values.put(FAVORITES_CALORIES, nutrition.get_calories());
+        values.put(FAVORITES_PROTEIN, nutrition.get_protein());
+        values.put(FAVORITES_CARBS, nutrition.get_carbs());
+        values.put(FAVORITES_FAT, nutrition.get_fat());
+
+        // Insert Row
+        db.insert(TABLE_FAVORITES, null, values);
+        db.close();
+    }
+
     public Workout getWorkout(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -141,6 +175,22 @@ public class Database extends SQLiteOpenHelper {
         Nutrition nutrition = new Nutrition(Integer.parseInt(cursor.getString(0)),
                 cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
                 cursor.getString(5), cursor.getString(6), cursor.getString(7));
+
+        return nutrition;
+    }
+
+    public Nutrition getFavorite(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_FAVORITES, new String[] { FAVORITES_ID, FAVORITES_NAME,
+                        FAVORITES_TYPE, FAVORITES_CALORIES, FAVORITES_PROTEIN, FAVORITES_CARBS, FAVORITES_FAT},
+                FAVORITES_ID + "=?", new String[] { String.valueOf(id)}, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        Nutrition nutrition = new Nutrition(Integer.parseInt(cursor.getString(0)),
+                cursor.getString(1), "", cursor.getString(2), cursor.getString(3),
+                cursor.getString(4), cursor.getString(5), cursor.getString(6));
 
         return nutrition;
     }
@@ -252,6 +302,35 @@ public class Database extends SQLiteOpenHelper {
         return nutritionList;
     }
 
+    public List<Nutrition> getAllFavorites() {
+        List<Nutrition> favoritesList = new ArrayList<Nutrition>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_FAVORITES;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Nutrition nutrition = new Nutrition();
+                nutrition.set_id(Integer.parseInt(cursor.getString(0)));
+                nutrition.set_name(cursor.getString(1));
+                nutrition.set_date("");
+                nutrition.set_type(cursor.getString(2));
+                nutrition.set_calories(cursor.getString(3));
+                nutrition.set_protein(cursor.getString(4));
+                nutrition.set_carbs(cursor.getString(5));
+                nutrition.set_fat(cursor.getString(6));
+                // Adding nutrition to list
+                favoritesList.add(nutrition);
+            } while (cursor.moveToNext());
+        }
+
+        // return nutrition list
+        return favoritesList;
+    }
+
     public int getWorkoutCount() {
         String countQuery = "SELECT  * FROM " + TABLE_WORKOUTS;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -263,6 +342,15 @@ public class Database extends SQLiteOpenHelper {
 
     public int getNutritionCount() {
         String countQuery = "SELECT  * FROM " + TABLE_NUTRITION;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+
+        // return count
+        return cursor.getCount();
+    }
+
+    public int getFavoritesCount() {
+        String countQuery = "SELECT  * FROM " + TABLE_FAVORITES;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
 
@@ -302,7 +390,23 @@ public class Database extends SQLiteOpenHelper {
         values.put(NUTRITION_FAT, nutrition.get_fat());
 
         // updating row
-        return db.update(TABLE_WORKOUTS, values, WORKOUT_ID + " = ?",
+        return db.update(TABLE_NUTRITION, values, NUTRITION_ID + " = ?",
+                new String[] { String.valueOf(nutrition.get_id()) });
+    }
+
+    public int updateFavorite(Nutrition nutrition) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(FAVORITES_NAME, nutrition.get_name());
+        values.put(FAVORITES_TYPE, nutrition.get_type());
+        values.put(FAVORITES_CALORIES, nutrition.get_calories());
+        values.put(FAVORITES_PROTEIN, nutrition.get_protein());
+        values.put(FAVORITES_CARBS, nutrition.get_carbs());
+        values.put(FAVORITES_FAT, nutrition.get_fat());
+
+        // updating row
+        return db.update(TABLE_FAVORITES, values, FAVORITES_ID + " = ?",
                 new String[] { String.valueOf(nutrition.get_id()) });
     }
 
@@ -316,6 +420,13 @@ public class Database extends SQLiteOpenHelper {
     public void deleteNutrition(Nutrition nutrition) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NUTRITION, NUTRITION_ID + " = ?",
+                new String[] { String.valueOf(nutrition.get_id()) });
+        db.close();
+    }
+
+    public void deleteFavorite(Nutrition nutrition) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_FAVORITES, FAVORITES_ID + " = ?",
                 new String[] { String.valueOf(nutrition.get_id()) });
         db.close();
     }

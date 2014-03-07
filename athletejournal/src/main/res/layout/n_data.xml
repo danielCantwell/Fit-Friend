@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@android:color/holo_blue_light">
+    android:background="@android:drawable/dialog_holo_light_frame">
 
     <TextView
         android:layout_width="wrap_content"
@@ -14,8 +14,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="10dp"
-        android:hint="Name"
-        android:textColor="@android:color/white" />
+        android:hint="Name" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -23,8 +22,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/n_data_date"
         android:layout_below="@+id/n_data_name"
-        android:layout_alignLeft="@+id/n_data_name"
-        android:hint="02/13/2014"/>
+        android:layout_alignLeft="@+id/n_data_name"/>
 
     <TextView
         android:layout_width="wrap_content"

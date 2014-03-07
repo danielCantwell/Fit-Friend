@@ -10,7 +10,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -168,7 +167,7 @@ public class NutritionViewFragment extends ListFragment {
             case R.id.action_addNew:
                 FragmentManager fm = getFragmentManager();
                 fm.beginTransaction()
-                        .replace(R.id.container, NutritionFragment.newInstance(getActivity()))
+                        .replace(R.id.container, AddNutritionFragment.newInstance(getActivity()))
                         .commit();
                 break;
             case R.id.action_changeDate:

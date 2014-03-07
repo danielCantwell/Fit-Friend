@@ -3,8 +3,7 @@
 <RelativeLayout
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@android:color/holo_blue_dark">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
         android:layout_width="wrap_content"
@@ -15,8 +14,7 @@
         android:layout_marginTop="58dp"
         android:layout_below="@+id/textView21"
         android:layout_centerHorizontal="true"
-        android:textColor="@android:color/black"
-        android:background="@android:color/holo_blue_bright"/>
+        android:textColor="@android:color/black"/>
 
     <GridLayout
         android:layout_width="wrap_content"
@@ -28,8 +26,7 @@
         android:id="@+id/gridLayout"
         android:layout_below="@+id/nutritionView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:background="@android:color/holo_blue_light">
+        android:layout_marginTop="15dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -125,8 +122,7 @@
         android:layout_centerHorizontal="true"
         android:layout_alignTop="@+id/gridLayout"
         android:layout_marginTop="120dp"
-        android:textColor="@android:color/black"
-        android:background="@android:color/holo_blue_dark" />
+        android:textColor="@android:color/black"/>
 
     <GridLayout
         android:layout_width="wrap_content"
@@ -137,8 +133,7 @@
         android:rowCount="3"
         android:columnCount="2"
         android:orientation="vertical"
-        android:layout_centerHorizontal="true"
-        android:background="@android:color/holo_blue_light">
+        android:layout_centerHorizontal="true">
 
         <TextView
             android:layout_width="wrap_content"
@@ -193,5 +188,5 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:textSize="30dp"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/holo_red_dark"/>
 </RelativeLayout>

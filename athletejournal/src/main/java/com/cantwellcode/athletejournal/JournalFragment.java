@@ -5,12 +5,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -33,7 +30,7 @@ public class JournalFragment extends Fragment {
     TextView goalCarbs;
     TextView goalFat;
 
-    NutritionFragment nutritionFragment = (NutritionFragment) NutritionFragment.newInstance(getActivity());
+    AddNutritionFragment nutritionFragment = (AddNutritionFragment) AddNutritionFragment.newInstance(getActivity());
 
     public static Fragment newInstance(Context context) {
         JournalFragment f = new JournalFragment();
