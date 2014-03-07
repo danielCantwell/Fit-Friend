@@ -3,6 +3,8 @@ package com.cantwellcode.athletejournal;
 import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -30,6 +32,8 @@ import java.util.Calendar;
  */
 public class AddNutritionFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
+    public static enum InstanceType { NewMeal, EditMeal };
+
     Database db;
 
     DialogFragment dateFragment;
@@ -55,8 +59,13 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
 
     Spinner type;
 
-    public static Fragment newInstance(Context context) {
+    public static Fragment newInstance(Context context, InstanceType instanceType) {
         AddNutritionFragment f = new AddNutritionFragment();
+
+        Bundle args = new Bundle();
+        args.putSerializable("InstanceType", instanceType);
+        f.setArguments(args);
+
         return f;
     }
 
@@ -103,6 +112,19 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
             }
         });
 
+        if (((InstanceType)(getArguments().getSerializable("InstanceType"))).equals(InstanceType.EditMeal)) {
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+            int spinnerPosition = adapter.getPosition(sp.getString("MealToEdit_Type", "Breakfast"));
+
+            name.setText(sp.getString("MealToEdit_Name", ""));
+            type.setSelection(spinnerPosition);
+            calories.setText(sp.getString("MealToEdit_Calories", ""));
+            protein.setText(sp.getString("MealToEdit_Protein", ""));
+            carbs.setText(sp.getString("MealToEdit_Carbs", ""));
+            fat.setText(sp.getString("MealToEdit_Fat", ""));
+        }
+
         setHasOptionsMenu(true);
 
         return root;
@@ -134,7 +156,13 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_saveNutrition:
-                saveNutrition();
+                InstanceType instanceType = (InstanceType) getArguments().getSerializable("InstanceType");
+                if (instanceType == InstanceType.NewMeal) {
+                    saveNutrition();
+                }
+                else if (instanceType == InstanceType.EditMeal) {
+                    editNutrition();
+                }
                 FragmentManager fm1 = getFragmentManager();
                 fm1.beginTransaction()
                         .replace(R.id.container, NutritionViewFragment.newInstance(getActivity()))
@@ -204,6 +232,28 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
         Toast.makeText(getActivity(), "Saving Meal", Toast.LENGTH_SHORT).show();
         Log.d("Nutrition", "Name: " + _name + " Date: " + _date + " Type: " + _type + " Calories: " + _calories);
         db.addNutrition(new Nutrition(_name, _date, _type, _calories, _protein, _carbs, _fat));
+
+        name.setText(null);
+        calories.setText(null);
+        protein.setText(null);
+        carbs.setText(null);
+        fat.setText(null);
+        _name       = null;
+        _calories   = null;
+        _protein    = null;
+        _carbs      = null;
+        _fat        = null;
+    }
+
+    public void editNutrition() {
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        int _id = sp.getInt("MealToEdit_ID", 0);
+
+        prepareData();
+        Toast.makeText(getActivity(), "Saving Meal", Toast.LENGTH_SHORT).show();
+        Log.d("Nutrition", "Name: " + _name + " Date: " + _date + " Type: " + _type + " Calories: " + _calories);
+        db.updateNutrition(new Nutrition(_id, _name, _date, _type, _calories, _protein, _carbs, _fat));
 
         name.setText(null);
         calories.setText(null);

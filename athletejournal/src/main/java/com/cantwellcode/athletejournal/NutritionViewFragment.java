@@ -4,8 +4,10 @@ import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -31,6 +33,9 @@ import java.util.List;
  * Created by Daniel on 2/12/14.
  */
 public class NutritionViewFragment extends ListFragment {
+
+    private enum CurrentView { Day, Week, Month, Total };
+    private CurrentView currentView = CurrentView.Day;
 
     int year;
     int month;
@@ -85,7 +90,7 @@ public class NutritionViewFragment extends ListFragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Nutrition meal = mAdapter.getItem(position);
-                showPopup(view);
+                showPopup(view, meal);
                 return true;
             }
         });
@@ -113,6 +118,8 @@ public class NutritionViewFragment extends ListFragment {
                 totalView.setTextColor(Color.BLACK);
 
                 menu.getItem(0).setVisible(true);
+
+                currentView = CurrentView.Day;
             }
         });
 
@@ -130,6 +137,8 @@ public class NutritionViewFragment extends ListFragment {
                 totalView.setTextColor(Color.BLUE);
 
                 menu.getItem(0).setVisible(false);
+
+                currentView = CurrentView.Total;
             }
         });
 
@@ -167,7 +176,7 @@ public class NutritionViewFragment extends ListFragment {
             case R.id.action_addNew:
                 FragmentManager fm = getFragmentManager();
                 fm.beginTransaction()
-                        .replace(R.id.container, AddNutritionFragment.newInstance(getActivity()))
+                        .replace(R.id.container, AddNutritionFragment.newInstance(getActivity(), AddNutritionFragment.InstanceType.NewMeal))
                         .commit();
                 break;
             case R.id.action_changeDate:
@@ -204,7 +213,7 @@ public class NutritionViewFragment extends ListFragment {
         totalFat.setText(fat + "");
     }
 
-    private void showPopup(View v) {
+    private void showPopup(View v, final Nutrition meal) {
         PopupMenu popup = new PopupMenu(getActivity(), v);
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -212,10 +221,10 @@ public class NutritionViewFragment extends ListFragment {
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.action_edit:
-                        menuClickEdit();
+                        menuClickEdit(meal);
                         return true;
                     case R.id.action_delete:
-                        menuClickDelete();
+                        menuClickDelete(meal);
                         return true;
                     default:
                         return false;
@@ -228,12 +237,40 @@ public class NutritionViewFragment extends ListFragment {
         popup.show();
     }
 
-    private void menuClickEdit() {
+    private void menuClickEdit(Nutrition meal) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sp.edit().putInt("MealToEdit_ID", meal.get_id()).commit();
+        sp.edit().putString("MealToEdit_Name", meal.get_name()).commit();
+        sp.edit().putString("MealToEdit_Type", meal.get_type()).commit();
+        sp.edit().putString("MealToEdit_Calories", meal.get_calories()).commit();
+        sp.edit().putString("MealToEdit_Protein", meal.get_protein()).commit();
+        sp.edit().putString("MealToEdit_Carbs", meal.get_carbs()).commit();
+        sp.edit().putString("MealToEdit_Fat", meal.get_fat()).commit();
 
+        FragmentManager fm = getFragmentManager();
+        fm.beginTransaction()
+                .replace(R.id.container, AddNutritionFragment.newInstance(getActivity(), AddNutritionFragment.InstanceType.EditMeal))
+                .commit();
     }
 
-    private void menuClickDelete() {
+    private void menuClickDelete(Nutrition meal) {
+        db.deleteNutrition(meal);
 
+        switch (currentView) {
+            case Day:
+                meals = db.getNutritionList(Database.NutritionListType.Day, Calendar.MONTH + 1, Calendar.DAY_OF_MONTH, Calendar.YEAR);
+                break;
+            case Total:
+                meals = db.getAllNutrition();
+                break;
+        }
+
+        if (meals.isEmpty()) {
+            Toast.makeText(getActivity(), "No Meals Have Been Added", Toast.LENGTH_LONG).show();
+        }
+        mAdapter = new NutritionArrayAdapter(getActivity(), android.R.id.list, meals);
+        listView.setAdapter(mAdapter);
+        updateTotals();
     }
 
     /* Date Picker Fragment */

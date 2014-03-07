@@ -30,8 +30,6 @@ public class JournalFragment extends Fragment {
     TextView goalCarbs;
     TextView goalFat;
 
-    AddNutritionFragment nutritionFragment = (AddNutritionFragment) AddNutritionFragment.newInstance(getActivity());
-
     public static Fragment newInstance(Context context) {
         JournalFragment f = new JournalFragment();
         return f;
