@@ -57,7 +57,7 @@ public class FavoritesViewFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Nutrition meal = mAdapter.getItem(position);
-                showPopup(view);
+                showPopup(view, meal);
                 return true;
             }
         });
@@ -94,7 +94,7 @@ public class FavoritesViewFragment extends Fragment {
         actionBar.setTitle("Favorite Meals");
     }
 
-    private void showPopup(View v) {
+    private void showPopup(View v, final Nutrition meal) {
         PopupMenu popup = new PopupMenu(getActivity(), v);
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -102,10 +102,10 @@ public class FavoritesViewFragment extends Fragment {
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.action_edit:
-                        menuClickEdit();
+                        menuClickEdit(meal);
                         return true;
                     case R.id.action_delete:
-                        menuClickDelete();
+                        menuClickDelete(meal);
                         return true;
                     default:
                         return false;
@@ -118,11 +118,17 @@ public class FavoritesViewFragment extends Fragment {
         popup.show();
     }
 
-    private void menuClickEdit() {
+    private void menuClickEdit(Nutrition meal) {
 
     }
 
-    private void menuClickDelete() {
-
+    private void menuClickDelete(Nutrition meal) {
+        db.deleteFavorite(meal);
+        meals = db.getAllFavorites();
+        if (meals.isEmpty()) {
+            Toast.makeText(getActivity(), "No Favorites Have Been Added", Toast.LENGTH_LONG).show();
+        }
+        mAdapter = new NutritionArrayAdapter(getActivity(), android.R.id.list, meals);
+        listView.setAdapter(mAdapter);
     }
 }

@@ -19,7 +19,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/n_name"
             android:hint="Name"
-            android:textColorHint="@android:color/white"
+            android:textColorHint="@android:color/holo_red_light"
             android:maxLines="1"
             android:textSize="14sp"
             android:gravity="center"
@@ -86,7 +86,7 @@
             android:ems="10"
             android:id="@+id/n_calories"
             android:hint="# cal"
-            android:textColorHint="@android:color/white"
+            android:textColorHint="@android:color/holo_red_light"
             android:selectAllOnFocus="true"
             android:layout_weight="1"
             android:gravity="center" />
@@ -117,7 +117,7 @@
             android:ems="10"
             android:id="@+id/n_protein"
             android:hint="grams"
-            android:textColorHint="@android:color/white"
+            android:textColorHint="@android:color/holo_red_light"
             android:selectAllOnFocus="true"
             android:layout_weight="1"
             android:gravity="center" />
@@ -148,7 +148,7 @@
             android:ems="10"
             android:id="@+id/n_carbs"
             android:hint="grams"
-            android:textColorHint="@android:color/white"
+            android:textColorHint="@android:color/holo_red_light"
             android:selectAllOnFocus="true"
             android:layout_weight="1"
             android:gravity="center" />
@@ -178,7 +178,7 @@
             android:ems="10"
             android:id="@+id/n_fat"
             android:hint="grams"
-            android:textColorHint="@android:color/white"
+            android:textColorHint="@android:color/holo_red_light"
             android:selectAllOnFocus="true"
             android:layout_weight="1"
             android:gravity="center" />
@@ -198,7 +198,7 @@
             android:layout_height="wrap_content"
             android:text="Fav 1"
             android:textColor="@android:color/white"
-            android:id="@+id/button"
+            android:id="@+id/favButton1"
             android:layout_weight="1"
             android:singleLine="true" />
 
@@ -207,7 +207,7 @@
             android:layout_height="wrap_content"
             android:text="Fav 2"
             android:textColor="@android:color/white"
-            android:id="@+id/button2"
+            android:id="@+id/favButton2"
             android:layout_weight="1"
             android:singleLine="true" />
 
@@ -216,7 +216,7 @@
             android:layout_height="wrap_content"
             android:text="Fav 3"
             android:textColor="@android:color/white"
-            android:id="@+id/button3"
+            android:id="@+id/favButton3"
             android:layout_weight="1"
             android:singleLine="true" />
     </TableRow>
@@ -235,7 +235,7 @@
             android:layout_height="wrap_content"
             android:text="Fav 4"
             android:textColor="@android:color/white"
-            android:id="@+id/button4"
+            android:id="@+id/favButton4"
             android:layout_weight="1"
             android:singleLine="true" />
 
@@ -244,16 +244,16 @@
             android:layout_height="wrap_content"
             android:text="Fav 5"
             android:textColor="@android:color/white"
-            android:id="@+id/button5"
+            android:id="@+id/favButton5"
             android:layout_weight="1"
             android:singleLine="true" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Fav 6"
+            android:text="Other"
             android:textColor="@android:color/white"
-            android:id="@+id/button6"
+            android:id="@+id/favButtonOther"
             android:layout_weight="1"
             android:singleLine="true" />
     </TableRow>
