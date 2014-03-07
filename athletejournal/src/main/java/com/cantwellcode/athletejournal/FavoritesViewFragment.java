@@ -2,7 +2,9 @@ package com.cantwellcode.athletejournal;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,6 +27,8 @@ import java.util.List;
  */
 public class FavoritesViewFragment extends Fragment {
 
+    Context context;
+
     // SQLite Database
     private Database db;
 
@@ -40,6 +44,8 @@ public class FavoritesViewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.favorites_list_view, null);
+
+        context = getActivity();
 
         db = new Database(getActivity(), Database.DATABASE_NAME, null, Database.DATABASE_VERSION);
         meals = db.getAllFavorites();
@@ -80,7 +86,7 @@ public class FavoritesViewFragment extends Fragment {
             case R.id.action_addNew:
                 FragmentManager fm = getFragmentManager();
                 fm.beginTransaction()
-                        .replace(R.id.container, AddFavoriteFragment.newInstance(getActivity()))
+                        .replace(R.id.container, AddFavoriteFragment.newInstance(getActivity(), AddFavoriteFragment.InstanceType.NewFavorite))
                         .commit();
                 break;
         }
@@ -119,7 +125,19 @@ public class FavoritesViewFragment extends Fragment {
     }
 
     private void menuClickEdit(Nutrition meal) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        sp.edit().putInt("FavoriteToEdit_ID", meal.get_id()).commit();
+        sp.edit().putString("FavoriteToEdit_Name", meal.get_name()).commit();
+        sp.edit().putString("FavoriteToEdit_Type", meal.get_type()).commit();
+        sp.edit().putString("FavoriteToEdit_Calories", meal.get_calories()).commit();
+        sp.edit().putString("FavoriteToEdit_Protein", meal.get_protein()).commit();
+        sp.edit().putString("FavoriteToEdit_Carbs", meal.get_carbs()).commit();
+        sp.edit().putString("FavoriteToEdit_Fat", meal.get_fat()).commit();
 
+        FragmentManager fm = getFragmentManager();
+        fm.beginTransaction()
+                .replace(R.id.container, AddFavoriteFragment.newInstance(getActivity(), AddFavoriteFragment.InstanceType.EditFavorite))
+                .commit();
     }
 
     private void menuClickDelete(Nutrition meal) {

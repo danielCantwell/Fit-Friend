@@ -2,7 +2,9 @@ package com.cantwellcode.athletejournal;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -25,6 +27,8 @@ import java.util.Calendar;
  */
 public class AddFavoriteFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
+    public static enum InstanceType { NewFavorite, EditFavorite };
+
     private Database db;
 
     private EditText name;
@@ -42,8 +46,13 @@ public class AddFavoriteFragment extends Fragment implements AdapterView.OnItemS
 
     private Spinner type;
 
-    public static Fragment newInstance(Context context) {
+    public static Fragment newInstance(Context context, InstanceType instanceType) {
         AddFavoriteFragment f = new AddFavoriteFragment();
+
+        Bundle args = new Bundle();
+        args.putSerializable("InstanceType", instanceType);
+        f.setArguments(args);
+
         return f;
     }
 
@@ -73,6 +82,19 @@ public class AddFavoriteFragment extends Fragment implements AdapterView.OnItemS
         protein     = (EditText) root.findViewById(R.id.f_protein);
         carbs       = (EditText) root.findViewById(R.id.f_carbs);
         fat         = (EditText) root.findViewById(R.id.f_fat);
+
+        if (((InstanceType)(getArguments().getSerializable("InstanceType"))).equals(InstanceType.EditFavorite)) {
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+            int spinnerPosition = adapter.getPosition(sp.getString("FavoriteToEdit_Type", "Breakfast"));
+
+            name.setText(sp.getString("FavoriteToEdit_Name", ""));
+            type.setSelection(spinnerPosition);
+            calories.setText(sp.getString("FavoriteToEdit_Calories", ""));
+            protein.setText(sp.getString("FavoriteToEdit_Protein", ""));
+            carbs.setText(sp.getString("FavoriteToEdit_Carbs", ""));
+            fat.setText(sp.getString("FavoriteToEdit_Fat", ""));
+        }
 
         setHasOptionsMenu(true);
 
@@ -105,7 +127,13 @@ public class AddFavoriteFragment extends Fragment implements AdapterView.OnItemS
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_saveNutrition:
-                saveFavorite();
+                InstanceType instanceType = (InstanceType) getArguments().getSerializable("InstanceType");
+                if (instanceType == InstanceType.NewFavorite) {
+                    saveFavorite();
+                }
+                else if (instanceType == InstanceType.EditFavorite) {
+                    editFavorite();
+                }
                 FragmentManager fm1 = getFragmentManager();
                 fm1.beginTransaction()
                         .replace(R.id.container, FavoritesViewFragment.newInstance(getActivity()))
@@ -145,11 +173,33 @@ public class AddFavoriteFragment extends Fragment implements AdapterView.OnItemS
         else _fat = "0";
     }
 
-    public void saveFavorite() {
+    private void saveFavorite() {
         prepareData();
         Toast.makeText(getActivity(), "Saving Meal", Toast.LENGTH_SHORT).show();
         Log.d("Favorite", "Name: " + _name + " Type: " + _type + " Calories: " + _calories);
         db.addFavorite(new Nutrition(_name, "", _type, _calories, _protein, _carbs, _fat));
+
+        name.setText(null);
+        calories.setText(null);
+        protein.setText(null);
+        carbs.setText(null);
+        fat.setText(null);
+        _name       = null;
+        _calories   = null;
+        _protein    = null;
+        _carbs      = null;
+        _fat        = null;
+    }
+
+    private void editFavorite() {
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        int _id = sp.getInt("FavoriteToEdit_ID", 0);
+
+        prepareData();
+        Toast.makeText(getActivity(), "Updating Meal", Toast.LENGTH_SHORT).show();
+        Log.d("Favorite", "Name: " + _name + " Type: " + _type + " Calories: " + _calories);
+        db.updateFavorite(new Nutrition(_id, _name, "", _type, _calories, _protein, _carbs, _fat));
 
         name.setText(null);
         calories.setText(null);
