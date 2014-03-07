@@ -7,11 +7,12 @@
 
     <EditText
         android:id="@+id/f_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:gravity="center"
         android:hint="Name"
         android:maxLines="1"

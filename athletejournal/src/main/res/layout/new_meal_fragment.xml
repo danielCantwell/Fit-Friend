@@ -59,6 +59,7 @@
             android:id="@+id/n_type"
             android:layout_weight="2"
             android:gravity="center"
+            android:textAlignment="center"
             android:background="@android:drawable/dialog_holo_light_frame"/>
     </TableRow>
 
@@ -184,78 +185,16 @@
             android:gravity="center" />
     </TableRow>
 
-    <TableRow
-        android:layout_width="match_parent"
+    <Spinner
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/row7"
-        android:layout_below="@id/row6"
+        android:id="@+id/n_favorites"
+        android:layout_below="@+id/row6"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp">
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Fav 1"
-            android:textColor="@android:color/white"
-            android:id="@+id/favButton1"
-            android:layout_weight="1"
-            android:singleLine="true" />
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Fav 2"
-            android:textColor="@android:color/white"
-            android:id="@+id/favButton2"
-            android:layout_weight="1"
-            android:singleLine="true" />
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Fav 3"
-            android:textColor="@android:color/white"
-            android:id="@+id/favButton3"
-            android:layout_weight="1"
-            android:singleLine="true" />
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/row8"
-        android:layout_below="@+id/row7"
-        android:layout_marginLeft="20dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginRight="20dp">
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Fav 4"
-            android:textColor="@android:color/white"
-            android:id="@+id/favButton4"
-            android:layout_weight="1"
-            android:singleLine="true" />
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Fav 5"
-            android:textColor="@android:color/white"
-            android:id="@+id/favButton5"
-            android:layout_weight="1"
-            android:singleLine="true" />
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Other"
-            android:textColor="@android:color/white"
-            android:id="@+id/favButtonOther"
-            android:layout_weight="1"
-            android:singleLine="true" />
-    </TableRow>
+        android:spinnerMode="dropdown"
+        android:textAlignment="center"/>
 
 </RelativeLayout>

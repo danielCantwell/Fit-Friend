@@ -25,7 +25,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by Daniel on 2/8/14.
@@ -58,6 +60,12 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
     int day;
 
     Spinner type;
+    ArrayAdapter<CharSequence> adapter;
+    Spinner favorites;
+
+    List<String> spinnerFavorites = new ArrayList<String>();
+
+    List<Nutrition> favoritesList;
 
     public static Fragment newInstance(Context context, InstanceType instanceType) {
         AddNutritionFragment f = new AddNutritionFragment();
@@ -80,15 +88,30 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
 
         db = new Database(getActivity(), Database.DATABASE_NAME, null, Database.DATABASE_VERSION);
 
-        type        = (Spinner)  root.findViewById(R.id.n_type);
+        /* Meal Type Spinner */
+        type = (Spinner) root.findViewById(R.id.n_type);
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+        adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.meal_types, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         type.setAdapter(adapter);
         type.setOnItemSelectedListener(this);
+
+        favoritesList = db.getAllFavorites();
+        spinnerFavorites.add("Favorite Meals");
+        for (Nutrition meal : favoritesList) {
+            spinnerFavorites.add(meal._name);
+        }
+        /* Favorites Type Spinner */
+        favorites = (Spinner) root.findViewById(R.id.n_favorites);
+        ArrayAdapter<String> favoritesAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_item, spinnerFavorites);
+        favoritesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        favorites.setAdapter(favoritesAdapter);
+        favorites.setOnItemSelectedListener(this);
+        favorites.setSelection(0);
 
         name        = (EditText) root.findViewById(R.id.n_name);
         date        = (Button)   root.findViewById(R.id.n_date);
@@ -134,8 +157,37 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
         String item = adapterView.getSelectedItem().toString();
-        _type = item;
+
+        switch (adapterView.getId()) {
+            case R.id.n_favorites:
+                if (item.equals("Favorite Meals")) {
+                    name.setText("");
+                    calories.setText("");
+                    protein.setText("");
+                    carbs.setText("");
+                    fat.setText("");
+                }
+                else {
+                    for (Nutrition meal : favoritesList) {
+                        if (meal.get_name() == item) {
+                            int spinnerPosition = adapter.getPosition(meal.get_type());
+
+                            name.setText(meal.get_name());
+                            type.setSelection(spinnerPosition);
+                            calories.setText(meal.get_calories());
+                            protein.setText(meal.get_protein());
+                            carbs.setText(meal.get_carbs());
+                            fat.setText(meal.get_fat());
+                        }
+                    }
+                }
+                break;
+            case R.id.n_type:
+                _type = item;
+                break;
+        }
     }
 
     @Override
