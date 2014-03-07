@@ -258,18 +258,19 @@ public class NutritionViewFragment extends ListFragment {
 
         switch (currentView) {
             case Day:
-                meals = db.getNutritionList(Database.NutritionListType.Day, Calendar.MONTH + 1, Calendar.DAY_OF_MONTH, Calendar.YEAR);
+                meals = db.getNutritionList(Database.NutritionListType.Day, month, day, year);
                 break;
             case Total:
-                meals = db.getAllNutrition();
+                meals = db.getNutritionList(Database.NutritionListType.Total, month, day, year);
                 break;
         }
 
         if (meals.isEmpty()) {
             Toast.makeText(getActivity(), "No Meals Have Been Added", Toast.LENGTH_LONG).show();
         }
-        mAdapter = new NutritionArrayAdapter(getActivity(), android.R.id.list, meals);
-        listView.setAdapter(mAdapter);
+
+        mAdapter.clear();
+        mAdapter.addAll(meals);
         updateTotals();
     }
 
