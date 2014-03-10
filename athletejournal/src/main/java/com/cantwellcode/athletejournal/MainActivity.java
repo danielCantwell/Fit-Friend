@@ -12,8 +12,6 @@ import android.widget.Toast;
 public class MainActivity extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    Menu actionMenu;
-
     Database db;
 
     JournalFragment journalFragment = (JournalFragment) JournalFragment.newInstance(this);
@@ -91,7 +89,5 @@ public class MainActivity extends FragmentActivity
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
+    public void onBackPressed() {super.onBackPressed();}
 }

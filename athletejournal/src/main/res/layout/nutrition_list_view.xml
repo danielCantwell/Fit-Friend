@@ -2,7 +2,8 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#101010">
 
     <TableRow
         android:layout_width="fill_parent"
@@ -53,7 +54,8 @@
             android:id="@+id/n_view_total_calories"
             android:layout_weight="1"
             android:gravity="center"
-            android:hint="calories" />
+            android:hint="calories"
+            android:textColor="#FFD700"/>
 
         <TextView
             android:layout_width="0dp"
@@ -62,7 +64,8 @@
             android:id="@+id/n_view_total_protein"
             android:hint="protein"
             android:gravity="center"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textColor="#FFD700"/>
 
         <TextView
             android:layout_width="0dp"
@@ -71,7 +74,8 @@
             android:id="@+id/n_view_total_carbs"
             android:layout_weight="1"
             android:hint="carbs"
-            android:gravity="center" />
+            android:gravity="center"
+            android:textColor="#FFD700"/>
 
         <TextView
             android:layout_width="0dp"
@@ -80,7 +84,8 @@
             android:id="@+id/n_view_total_fat"
             android:layout_weight="1"
             android:hint="fat"
-            android:gravity="center" />
+            android:gravity="center"
+            android:textColor="#FFD700"/>
     </TableRow>
 
     <TableRow
@@ -94,7 +99,8 @@
             android:text="Calories"
             android:id="@+id/textView"
             android:layout_weight="1"
-            android:gravity="center" />
+            android:gravity="center"
+            android:textColor="@android:color/secondary_text_dark"/>
 
         <TextView
             android:layout_width="0dp"
@@ -103,7 +109,8 @@
             android:text="Protein"
             android:id="@+id/textView2"
             android:layout_weight="1"
-            android:gravity="center" />
+            android:gravity="center"
+            android:textColor="@android:color/secondary_text_dark"/>
 
         <TextView
             android:layout_width="0dp"
@@ -112,7 +119,8 @@
             android:text="Carbs"
             android:id="@+id/textView3"
             android:layout_weight="1"
-            android:gravity="center" />
+            android:gravity="center"
+            android:textColor="@android:color/secondary_text_dark"/>
 
         <TextView
             android:layout_width="0dp"
@@ -121,7 +129,8 @@
             android:text="Fat"
             android:id="@+id/textView4"
             android:layout_weight="1"
-            android:gravity="center" />
+            android:gravity="center"
+            android:textColor="@android:color/secondary_text_dark"/>
     </TableRow>
 
     <ListView

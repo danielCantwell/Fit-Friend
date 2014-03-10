@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -100,10 +102,11 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
         type.setOnItemSelectedListener(this);
 
         favoritesList = db.getAllFavorites();
-        spinnerFavorites.add("Favorite Meals");
         for (Nutrition meal : favoritesList) {
             spinnerFavorites.add(meal._name);
         }
+        Collections.sort(spinnerFavorites);
+        spinnerFavorites.add(0, "Favorite Meals");
         /* Favorites Type Spinner */
         favorites = (Spinner) root.findViewById(R.id.n_favorites);
         ArrayAdapter<String> favoritesAdapter = new ArrayAdapter<String>(getActivity(),
@@ -111,7 +114,6 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
         favoritesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         favorites.setAdapter(favoritesAdapter);
         favorites.setOnItemSelectedListener(this);
-        favorites.setSelection(0);
 
         name        = (EditText) root.findViewById(R.id.n_name);
         date        = (Button)   root.findViewById(R.id.n_date);

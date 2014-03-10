@@ -1,5 +1,6 @@
 package com.cantwellcode.athletejournal;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -71,6 +72,8 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        restoreActionBar();
+
         return root;
     }
 
@@ -81,5 +84,12 @@ public class ProfileFragment extends Fragment {
         sp.edit().putString(GOAL_CARBS, goalCarbs.getText().toString()).commit();
         sp.edit().putString(GOAL_FAT, goalFat.getText().toString()).commit();
         Toast.makeText(getActivity(), "Nutrition Goals Updated", Toast.LENGTH_SHORT).show();
+    }
+
+    private void restoreActionBar() {
+        ActionBar actionBar = getActivity().getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setTitle("Profile");
     }
 }
