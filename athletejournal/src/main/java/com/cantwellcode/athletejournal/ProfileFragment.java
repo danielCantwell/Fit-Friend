@@ -30,10 +30,10 @@ public class ProfileFragment extends Fragment {
     public static final String GOAL_CARBS    = "goalCarbs";
     public static final String GOAL_FAT      = "goalFat";
 
-    private TextView goalCalories;
-    private TextView goalProtein;
-    private TextView goalCarbs;
-    private TextView goalFat;
+    private EditText goalCalories;
+    private EditText goalProtein;
+    private EditText goalCarbs;
+    private EditText goalFat;
 
     private Button updateProfile;
     private Button favorites;
@@ -47,10 +47,17 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.profile_fragment, null);
 
-        goalCalories = (TextView) root.findViewById(R.id.profileGoalCalories);
-        goalProtein  = (TextView) root.findViewById(R.id.profileGoalProtein);
-        goalCarbs    = (TextView) root.findViewById(R.id.profileGoalCarbs);
-        goalFat      = (TextView) root.findViewById(R.id.profileGoalFat);
+        goalCalories = (EditText) root.findViewById(R.id.profileGoalCalories);
+        goalProtein  = (EditText) root.findViewById(R.id.profileGoalProtein);
+        goalCarbs    = (EditText) root.findViewById(R.id.profileGoalCarbs);
+        goalFat      = (EditText) root.findViewById(R.id.profileGoalFat);
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        goalCalories.setText(sp.getString(GOAL_CALORIES, "2400"));
+        goalProtein.setText(sp.getString(GOAL_PROTEIN, "100"));
+        goalCarbs.setText(sp.getString(GOAL_CARBS, "300"));
+        goalFat.setText(sp.getString(GOAL_FAT, "50"));
 
         updateProfile   = (Button) root.findViewById(R.id.profileUpdate);
         favorites       = (Button) root.findViewById(R.id.profileFavorites);

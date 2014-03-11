@@ -2,7 +2,8 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#101010">
 
 
     <EditText
@@ -15,10 +16,11 @@
         android:layout_marginRight="20dp"
         android:gravity="center"
         android:hint="Name"
-        android:maxLines="1"
+        android:maxLines="2"
         android:selectAllOnFocus="true"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColorHint="@android:color/holo_red_light"
+        android:textColorHint="@android:color/holo_blue_light"
+        android:textColor="@android:color/holo_blue_bright"
         android:textSize="14sp" />
 
     <TableRow
@@ -35,16 +37,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
             android:text="Type"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/secondary_text_dark"
+            android:layout_marginLeft="10dp" />
 
         <Spinner
             android:id="@+id/f_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:background="@android:drawable/dialog_holo_light_frame"
+            android:layout_weight="1"
             android:gravity="center" />
     </TableRow>
 
@@ -63,7 +65,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Calories"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/secondary_text_dark"
+            android:layout_marginLeft="10dp" />
 
         <EditText
             android:id="@+id/f_calories"
@@ -75,7 +79,8 @@
             android:hint="# cal"
             android:inputType="number"
             android:selectAllOnFocus="true"
-            android:textColorHint="@android:color/holo_red_light" />
+            android:textColorHint="@android:color/holo_red_light"
+            android:textColor="#FFD700"/>
 
     </TableRow>
 
@@ -94,7 +99,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Protein"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/secondary_text_dark"
+            android:layout_marginLeft="10dp" />
 
         <EditText
             android:id="@+id/f_protein"
@@ -106,7 +113,8 @@
             android:hint="grams"
             android:inputType="number"
             android:selectAllOnFocus="true"
-            android:textColorHint="@android:color/holo_red_light" />
+            android:textColorHint="@android:color/holo_red_light"
+            android:textColor="#FFD700"/>
 
     </TableRow>
 
@@ -125,7 +133,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Carbs"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/secondary_text_dark"
+            android:layout_marginLeft="10dp" />
 
         <EditText
             android:id="@+id/f_carbs"
@@ -137,7 +147,8 @@
             android:hint="grams"
             android:inputType="number"
             android:selectAllOnFocus="true"
-            android:textColorHint="@android:color/holo_red_light" />
+            android:textColorHint="@android:color/holo_red_light"
+            android:textColor="#FFD700"/>
     </TableRow>
 
     <TableRow
@@ -155,7 +166,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Fat"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/secondary_text_dark"
+            android:layout_marginLeft="10dp" />
 
         <EditText
             android:id="@+id/f_fat"
@@ -167,7 +180,8 @@
             android:hint="grams"
             android:inputType="number"
             android:selectAllOnFocus="true"
-            android:textColorHint="@android:color/holo_red_light" />
+            android:textColorHint="@android:color/holo_red_light"
+            android:textColor="#FFD700"/>
     </TableRow>
 
 </RelativeLayout>
