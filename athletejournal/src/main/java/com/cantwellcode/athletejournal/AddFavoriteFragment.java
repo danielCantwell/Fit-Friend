@@ -67,7 +67,7 @@ public class AddFavoriteFragment extends Fragment implements AdapterView.OnItemS
 
         db = new Database(getActivity(), Database.DATABASE_NAME, null, Database.DATABASE_VERSION);
 
-        type        = (Spinner)  root.findViewById(R.id.f_type);
+        type = (Spinner)  root.findViewById(R.id.f_type);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.meal_types, R.layout.spinner_item);

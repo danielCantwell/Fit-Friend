@@ -12,6 +12,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -246,6 +247,8 @@ public class NutritionViewFragment extends ListFragment {
         sp.edit().putString("MealToEdit_Protein", meal.get_protein()).commit();
         sp.edit().putString("MealToEdit_Carbs", meal.get_carbs()).commit();
         sp.edit().putString("MealToEdit_Fat", meal.get_fat()).commit();
+
+        Log.d("PutEditName", sp.getString("MealToEdit_Name", "default"));
 
         FragmentManager fm = getFragmentManager();
         fm.beginTransaction()

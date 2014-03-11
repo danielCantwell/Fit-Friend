@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -38,36 +39,35 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
 
     public static enum InstanceType { NewMeal, EditMeal };
 
-    Database db;
+    private Database db;
 
-    DialogFragment dateFragment;
+    private DialogFragment dateFragment;
 
-    EditText name;
-    Button date;
-    EditText calories;
-    EditText protein;
-    EditText carbs;
-    EditText fat;
+    private EditText name;
+    private Button date;
+    private EditText calories;
+    private EditText protein;
+    private EditText carbs;
+    private EditText fat;
 
-    String _name;
-    String _date;
-    String _type;
-    String _calories;
-    String _protein;
-    String _carbs;
-    String _fat;
+    private String _name;
+    private String _date;
+    private String _type;
+    private String _calories;
+    private String _protein;
+    private String _carbs;
+    private String _fat;
 
-    int year;
-    int month;
-    int day;
+    private int year;
+    private int month;
+    private int day;
 
-    Spinner type;
-    ArrayAdapter<CharSequence> adapter;
-    Spinner favorites;
+    private Spinner type;
+    private ArrayAdapter<CharSequence> adapter;
+    private Spinner favorites;
 
-    List<String> spinnerFavorites = new ArrayList<String>();
-
-    List<Nutrition> favoritesList;
+    private List<String> spinnerFavorites = new ArrayList<String>();
+    private List<Nutrition> favoritesList;
 
     public static Fragment newInstance(Context context, InstanceType instanceType) {
         AddNutritionFragment f = new AddNutritionFragment();
@@ -122,21 +122,6 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
         carbs       = (EditText) root.findViewById(R.id.n_carbs);
         fat         = (EditText) root.findViewById(R.id.n_fat);
 
-        final Calendar c = Calendar.getInstance();
-        year = c.get(Calendar.YEAR);
-        month = c.get(Calendar.MONTH);
-        day = c.get(Calendar.DAY_OF_MONTH);
-
-        date.setText(" " + (month + 1) + " / " + day + " / " + year + " ");
-
-        date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dateFragment = new DatePickerFragment();
-                dateFragment.show(getActivity().getSupportFragmentManager(), "datPicker");
-            }
-        });
-
         if (((InstanceType)(getArguments().getSerializable("InstanceType"))).equals(InstanceType.EditMeal)) {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
@@ -148,7 +133,24 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
             protein.setText(sp.getString("MealToEdit_Protein", ""));
             carbs.setText(sp.getString("MealToEdit_Carbs", ""));
             fat.setText(sp.getString("MealToEdit_Fat", ""));
+
+            Log.d("GetEditName", sp.getString("MealToEdit_Name", "DEFAULT"));
         }
+
+        final Calendar c = Calendar.getInstance();
+        year = c.get(Calendar.YEAR);
+        month = c.get(Calendar.MONTH);
+        day = c.get(Calendar.DAY_OF_MONTH);
+
+        date.setText(" " + (month + 1) + " / " + day + " / " + year + " ");
+
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dateFragment = new DatePickerFragment();
+                dateFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+            }
+        });
 
         setHasOptionsMenu(true);
 
@@ -164,14 +166,7 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
 
         switch (adapterView.getId()) {
             case R.id.n_favorites:
-                if (item.equals("Favorite Meals")) {
-                    name.setText("");
-                    calories.setText("");
-                    protein.setText("");
-                    carbs.setText("");
-                    fat.setText("");
-                }
-                else {
+                if (!item.equals("Favorite Meals")) {
                     for (Nutrition meal : favoritesList) {
                         if (meal.get_name() == item) {
                             int spinnerPosition = adapter.getPosition(meal.get_type());
