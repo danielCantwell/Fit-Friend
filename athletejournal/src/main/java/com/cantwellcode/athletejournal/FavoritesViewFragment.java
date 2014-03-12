@@ -23,6 +23,7 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -139,14 +140,17 @@ public class FavoritesViewFragment extends Fragment {
         if (sortType == SortFavoritesBy.Category) {
             // If user selects "category" sort type
             listHeaders = db.getFavoriteCategories();
+            Collections.sort(listHeaders);
             for (String header : listHeaders) {
                 List<Favorite> favoritesInCategory = new ArrayList<Favorite>();
+                List<String> favoritesNames = new ArrayList<String>();
                 for (Favorite favorite : favorites) {
                     if (favorite.get_category().equals(header)) {
                         favoritesInCategory.add(favorite);
                     }
                 }
-                listData.put(header, favoritesInCategory);
+
+                listData.put(header, sortFavoritesByName(favoritesInCategory));
             }
         }
         else if (sortType == SortFavoritesBy.Type) {
@@ -247,5 +251,27 @@ public class FavoritesViewFragment extends Fragment {
         prepareListData(db);
         mAdapter = new FavoritesExpandableListAdapter(getActivity(), listHeaders, listData, sortType);
         listView.setAdapter(mAdapter);
+    }
+
+    private List<Favorite> sortFavoritesByName(List<Favorite> favoritesUnsorted) {
+        List<Favorite> favoritesSorted = new ArrayList<Favorite>();
+        List<String> favoritesNames = new ArrayList<String>();
+
+        for (Favorite f1 : favoritesUnsorted) {
+            favoritesNames.add(f1.get_name());
+        }
+        Collections.sort(favoritesNames);
+
+        for (String name : favoritesNames) {
+            for (Favorite f2 : favoritesUnsorted) {
+                if (name.equals(f2.get_name())) {
+                    favoritesSorted.add(f2);
+                    favoritesUnsorted.remove(f2);
+                    break;
+                }
+            }
+        }
+
+        return favoritesSorted;
     }
 }

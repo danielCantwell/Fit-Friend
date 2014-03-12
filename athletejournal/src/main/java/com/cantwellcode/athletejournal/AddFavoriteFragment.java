@@ -168,7 +168,7 @@ public class AddFavoriteFragment extends Fragment implements AdapterView.OnItemS
 
         // type is already set
 
-        if (!calories.getText().toString().isEmpty())
+        if (!category.getText().toString().isEmpty())
             _category = category.getText().toString();
         else _category = _type;
 
