@@ -24,20 +24,53 @@
         android:textSize="14sp" />
 
     <TableRow
-        android:id="@+id/row2"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_below="@id/f_name"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:id="@+id/row1">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Category"
+            android:id="@+id/textView"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:textColor="@android:color/secondary_text_dark"/>
+
+        <AutoCompleteTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/f_category"
+            android:layout_weight="1"
+            android:hint="category"
+            android:textColorHint="@android:color/holo_red_light"
+            android:textColor="#FFD700"/>
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/row2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/row1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Type"
+            android:text="Meal Type"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@android:color/secondary_text_dark"
             android:layout_marginLeft="10dp" />

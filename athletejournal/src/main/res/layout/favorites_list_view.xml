@@ -5,10 +5,34 @@
     android:layout_height="match_parent"
     android:background="#101010">
 
-    <ListView
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Sort by Type"
+            android:id="@+id/f_type_button"
+            android:layout_weight="1"
+            android:background="@android:drawable/dialog_holo_light_frame"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Sort by Category"
+            android:id="@+id/f_category_button"
+            android:layout_weight="1"
+            android:background="@android:drawable/dialog_holo_light_frame"/>
+
+    </TableRow>
+
+    <ExpandableListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@android:id/list"
         android:choiceMode="singleChoice"
-        android:dividerHeight="2dp" />
+        android:dividerHeight="0dp" />
 </LinearLayout>

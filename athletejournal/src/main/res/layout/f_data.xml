@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@android:drawable/dialog_holo_light_frame">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:id="@+id/tableNameRow">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/f_data_name"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:hint="Name"
+            android:textColor="@android:color/holo_blue_dark"
+            android:layout_weight="3"
+            android:maxLines="2" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/f_data_type"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/f_data_category"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp" />
+        </RelativeLayout>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tableNameRow"
+        android:layout_alignParentRight="true"
+        android:id="@+id/tableDataRow">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/f_data_calories"
+            android:hint="Calories"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/f_data_protein"
+            android:layout_alignTop="@+id/f_data_calories"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:hint="Protein"
+            android:layout_weight="1"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/f_data_carbs"
+            android:hint="Carbs"
+            android:layout_below="@+id/f_data_calories"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/f_data_fat"
+            android:hint="Fat"
+            android:layout_alignTop="@+id/f_data_carbs"
+            android:layout_alignLeft="@+id/f_data_protein"
+            android:layout_weight="1"
+            android:gravity="center" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tableDataRow"
+        android:layout_alignParentLeft="true">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Calories"
+            android:id="@+id/textView"
+            android:layout_weight="1"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Protein"
+            android:id="@+id/textView2"
+            android:layout_weight="1"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Carbs"
+            android:id="@+id/textView3"
+            android:layout_weight="1"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Fat"
+            android:id="@+id/textView4"
+            android:layout_weight="1"
+            android:gravity="center"/>
+    </TableRow>
+
+</RelativeLayout>

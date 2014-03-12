@@ -16,11 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by Daniel on 3/6/14.
@@ -36,8 +38,10 @@ public class AddFavoriteFragment extends Fragment implements AdapterView.OnItemS
     private EditText protein;
     private EditText carbs;
     private EditText fat;
+    private AutoCompleteTextView category;
 
     private String _name;
+    private String _category;
     private String _type;
     private String _calories;
     private String _protein;
@@ -69,13 +73,20 @@ public class AddFavoriteFragment extends Fragment implements AdapterView.OnItemS
 
         type = (Spinner)  root.findViewById(R.id.f_type);
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+        ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.meal_types, R.layout.spinner_item);
         // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        type.setAdapter(adapter);
+        type.setAdapter(typeAdapter);
         type.setOnItemSelectedListener(this);
+
+        // setup category auto complete
+        category    = (AutoCompleteTextView) root.findViewById(R.id.f_category);
+        List<String> categoryList = db.getFavoriteCategories();
+        ArrayAdapter categoryAdapter = new ArrayAdapter(getActivity(),
+                android.R.layout.simple_dropdown_item_1line, categoryList);
+        category.setAdapter(categoryAdapter);
 
         name        = (EditText) root.findViewById(R.id.f_name);
         calories    = (EditText) root.findViewById(R.id.f_calories);
@@ -86,9 +97,10 @@ public class AddFavoriteFragment extends Fragment implements AdapterView.OnItemS
         if (((InstanceType)(getArguments().getSerializable("InstanceType"))).equals(InstanceType.EditFavorite)) {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-            int spinnerPosition = adapter.getPosition(sp.getString("FavoriteToEdit_Type", "Breakfast"));
+            int spinnerPosition = typeAdapter.getPosition(sp.getString("FavoriteToEdit_Type", "Breakfast"));
 
             name.setText(sp.getString("FavoriteToEdit_Name", ""));
+            category.setText(sp.getString("FavoriteToEdit_Category", ""));
             type.setSelection(spinnerPosition);
             calories.setText(sp.getString("FavoriteToEdit_Calories", ""));
             protein.setText(sp.getString("FavoriteToEdit_Protein", ""));
@@ -157,6 +169,10 @@ public class AddFavoriteFragment extends Fragment implements AdapterView.OnItemS
         // type is already set
 
         if (!calories.getText().toString().isEmpty())
+            _category = category.getText().toString();
+        else _category = _type;
+
+        if (!calories.getText().toString().isEmpty())
             _calories = calories.getText().toString();
         else _calories = "0";
 
@@ -177,14 +193,16 @@ public class AddFavoriteFragment extends Fragment implements AdapterView.OnItemS
         prepareData();
         Toast.makeText(getActivity(), "Saving Meal", Toast.LENGTH_SHORT).show();
         Log.d("Favorite", "Name: " + _name + " Type: " + _type + " Calories: " + _calories);
-        db.addFavorite(new Nutrition(_name, "", _type, _calories, _protein, _carbs, _fat));
+        db.addFavorite(new Favorite(_name, _category, _type, _calories, _protein, _carbs, _fat));
 
         name.setText(null);
+        category.setText(null);
         calories.setText(null);
         protein.setText(null);
         carbs.setText(null);
         fat.setText(null);
         _name       = null;
+        _category   = null;
         _calories   = null;
         _protein    = null;
         _carbs      = null;
@@ -199,14 +217,16 @@ public class AddFavoriteFragment extends Fragment implements AdapterView.OnItemS
         prepareData();
         Toast.makeText(getActivity(), "Updating Meal", Toast.LENGTH_SHORT).show();
         Log.d("Favorite", "Name: " + _name + " Type: " + _type + " Calories: " + _calories);
-        db.updateFavorite(new Nutrition(_id, _name, "", _type, _calories, _protein, _carbs, _fat));
+        db.updateFavorite(new Favorite(_id, _name, _category, _type, _calories, _protein, _carbs, _fat));
 
         name.setText(null);
+        category.setText(null);
         calories.setText(null);
         protein.setText(null);
         carbs.setText(null);
         fat.setText(null);
         _name       = null;
+        _category   = null;
         _calories   = null;
         _protein    = null;
         _carbs      = null;

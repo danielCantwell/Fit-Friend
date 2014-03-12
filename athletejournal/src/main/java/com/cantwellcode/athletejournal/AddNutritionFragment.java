@@ -67,7 +67,7 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
     private Spinner favorites;
 
     private List<String> spinnerFavorites = new ArrayList<String>();
-    private List<Nutrition> favoritesList;
+    private List<Favorite> favoritesList;
 
     public static Fragment newInstance(Context context, InstanceType instanceType) {
         AddNutritionFragment f = new AddNutritionFragment();
@@ -102,7 +102,7 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
         type.setOnItemSelectedListener(this);
 
         favoritesList = db.getAllFavorites();
-        for (Nutrition meal : favoritesList) {
+        for (Favorite meal : favoritesList) {
             spinnerFavorites.add(meal._name);
         }
         Collections.sort(spinnerFavorites);
@@ -167,7 +167,7 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
         switch (adapterView.getId()) {
             case R.id.n_favorites:
                 if (!item.equals("Favorite Meals")) {
-                    for (Nutrition meal : favoritesList) {
+                    for (Favorite meal : favoritesList) {
                         if (meal.get_name() == item) {
                             int spinnerPosition = adapter.getPosition(meal.get_type());
 

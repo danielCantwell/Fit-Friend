@@ -3,11 +3,12 @@ package com.cantwellcode.athletejournal;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,11 +16,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -27,14 +31,22 @@ import java.util.List;
  */
 public class FavoritesViewFragment extends Fragment {
 
-    Context context;
+    public static enum SortFavoritesBy { Type, Category };
+    private SortFavoritesBy sortType = SortFavoritesBy.Category;
+
+    private Context context;
+
+    private Button typeSort;
+    private Button categorySort;
 
     // SQLite Database
     private Database db;
 
-    private ListView listView;
-    private List<Nutrition> meals;
-    private NutritionArrayAdapter mAdapter;
+    private ExpandableListView listView;
+    private List<Favorite> meals;
+    private FavoritesExpandableListAdapter mAdapter;
+    private List<String> listHeaders;
+    private HashMap<String, List<Favorite>> listData;
 
     public static Fragment newInstance(Context context) {
         FavoritesViewFragment f = new FavoritesViewFragment();
@@ -54,23 +66,108 @@ public class FavoritesViewFragment extends Fragment {
             Toast.makeText(getActivity(), "No Favorites Have Been Added", Toast.LENGTH_LONG).show();
         }
 
-        mAdapter = new NutritionArrayAdapter(getActivity(), android.R.id.list, meals);
+        prepareListData(db);
+        mAdapter = new FavoritesExpandableListAdapter(getActivity(), listHeaders, listData, sortType);
 
-        listView = (ListView) root.findViewById(android.R.id.list);
+        listView = (ExpandableListView) root.findViewById(android.R.id.list);
         listView.setAdapter(mAdapter);
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Nutrition meal = mAdapter.getItem(position);
-                showPopup(view, meal);
-                return true;
+                long packedPosition = listView.getExpandableListPosition(position);
+
+                int itemType = ExpandableListView.getPackedPositionType(packedPosition);
+                int groupPosition = ExpandableListView.getPackedPositionGroup(packedPosition);
+                int childPosition = ExpandableListView.getPackedPositionChild(packedPosition);
+
+                if (itemType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+                    Log.d("Favorite LongClick", "Group " + groupPosition + " Item " + childPosition);
+                    Favorite meal = (Favorite) mAdapter.getChild(groupPosition, childPosition);
+                    showPopup(view, meal);
+
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        typeSort = (Button) root.findViewById(R.id.f_type_button);
+        categorySort = (Button) root.findViewById(R.id.f_category_button);
+
+        categorySort.setTextColor(Color.BLUE);
+
+        typeSort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                typeSort.setTextColor(Color.BLUE);
+                categorySort.setTextColor(Color.BLACK);
+
+                sortType = SortFavoritesBy.Type;
+
+                prepareListData(db);
+                mAdapter = new FavoritesExpandableListAdapter(getActivity(), listHeaders, listData, sortType);
+                listView.setAdapter(mAdapter);
+            }
+        });
+
+        categorySort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                categorySort.setTextColor(Color.BLUE);
+                typeSort.setTextColor(Color.BLACK);
+
+                sortType = SortFavoritesBy.Category;
+
+                prepareListData(db);
+                mAdapter = new FavoritesExpandableListAdapter(getActivity(), listHeaders, listData, sortType);
+                listView.setAdapter(mAdapter);
             }
         });
 
         setHasOptionsMenu(true);
 
         return root;
+    }
+
+    private void prepareListData(Database db) {
+        listHeaders = new ArrayList<String>();
+        listData = new HashMap<String, List<Favorite>>();
+
+        List<Favorite> favorites = db.getAllFavorites();
+
+        if (sortType == SortFavoritesBy.Category) {
+            // If user selects "category" sort type
+            listHeaders = db.getFavoriteCategories();
+            for (String header : listHeaders) {
+                List<Favorite> favoritesInCategory = new ArrayList<Favorite>();
+                for (Favorite favorite : favorites) {
+                    if (favorite.get_category().equals(header)) {
+                        favoritesInCategory.add(favorite);
+                    }
+                }
+                listData.put(header, favoritesInCategory);
+            }
+        }
+        else if (sortType == SortFavoritesBy.Type) {
+            // If user selects "meal type" sort type
+            listHeaders.add("Breakfast");
+            listHeaders.add("Lunch");
+            listHeaders.add("Dinner");
+            listHeaders.add("Snack");
+            listHeaders.add("Pre-Workout");
+            listHeaders.add("Post-Workout");
+
+            for (String header : listHeaders) {
+                List<Favorite> favoritesInType = new ArrayList<Favorite>();
+                for (Favorite favorite : favorites) {
+                    if (favorite.get_type().equals(header)) {
+                        favoritesInType.add(favorite);
+                    }
+                }
+                listData.put(header, favoritesInType);
+            }
+        }
     }
 
     @Override
@@ -100,7 +197,7 @@ public class FavoritesViewFragment extends Fragment {
         actionBar.setTitle("Favorite Meals");
     }
 
-    private void showPopup(View v, final Nutrition meal) {
+    private void showPopup(View v, final Favorite meal) {
         PopupMenu popup = new PopupMenu(getActivity(), v);
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -124,15 +221,16 @@ public class FavoritesViewFragment extends Fragment {
         popup.show();
     }
 
-    private void menuClickEdit(Nutrition meal) {
+    private void menuClickEdit(Favorite meal) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        sp.edit().putInt("FavoriteToEdit_ID", meal.get_id()).commit();
-        sp.edit().putString("FavoriteToEdit_Name", meal.get_name()).commit();
-        sp.edit().putString("FavoriteToEdit_Type", meal.get_type()).commit();
-        sp.edit().putString("FavoriteToEdit_Calories", meal.get_calories()).commit();
-        sp.edit().putString("FavoriteToEdit_Protein", meal.get_protein()).commit();
-        sp.edit().putString("FavoriteToEdit_Carbs", meal.get_carbs()).commit();
-        sp.edit().putString("FavoriteToEdit_Fat", meal.get_fat()).commit();
+        sp.edit().putInt("FavoriteToEdit_ID",           meal.get_id()).commit();
+        sp.edit().putString("FavoriteToEdit_Name",      meal.get_name()).commit();
+        sp.edit().putString("FavoriteToEdit_Category",  meal.get_category()).commit();
+        sp.edit().putString("FavoriteToEdit_Type",      meal.get_type()).commit();
+        sp.edit().putString("FavoriteToEdit_Calories",  meal.get_calories()).commit();
+        sp.edit().putString("FavoriteToEdit_Protein",   meal.get_protein()).commit();
+        sp.edit().putString("FavoriteToEdit_Carbs",     meal.get_carbs()).commit();
+        sp.edit().putString("FavoriteToEdit_Fat",       meal.get_fat()).commit();
 
         FragmentManager fm = getFragmentManager();
         fm.beginTransaction()
@@ -140,13 +238,14 @@ public class FavoritesViewFragment extends Fragment {
                 .commit();
     }
 
-    private void menuClickDelete(Nutrition meal) {
+    private void menuClickDelete(Favorite meal) {
         db.deleteFavorite(meal);
         meals = db.getAllFavorites();
         if (meals.isEmpty()) {
             Toast.makeText(getActivity(), "No Favorites Have Been Added", Toast.LENGTH_LONG).show();
         }
-        mAdapter = new NutritionArrayAdapter(getActivity(), android.R.id.list, meals);
+        prepareListData(db);
+        mAdapter = new FavoritesExpandableListAdapter(getActivity(), listHeaders, listData, sortType);
         listView.setAdapter(mAdapter);
     }
 }
