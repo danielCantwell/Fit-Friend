@@ -35,6 +35,15 @@ public class FavoritesViewFragment extends Fragment {
     public static enum SortFavoritesBy { Type, Category };
     private SortFavoritesBy sortType = SortFavoritesBy.Category;
 
+    public static final String F_EDIT_ID        = "FavoriteToEdit_ID";
+    public static final String F_EDIT_NAME      = "FavoriteToEdit_Name";
+    public static final String F_EDIT_CATEGORY  = "FavoriteToEdit_Category";
+    public static final String F_EDIT_TYPE      = "FavoriteToEdit_Type";
+    public static final String F_EDIT_CALORIES  = "FavoriteToEdit_Calories";
+    public static final String F_EDIT_PROTEIN   = "FavoriteToEdit_Protein";
+    public static final String F_EDIT_CARBS     = "FavoriteToEdit_Carbs";
+    public static final String F_EDIT_FAT       = "FavoriteToEdit_Fat";
+
     private Context context;
 
     private Button typeSort;
@@ -109,6 +118,10 @@ public class FavoritesViewFragment extends Fragment {
                 prepareListData(db);
                 mAdapter = new FavoritesExpandableListAdapter(getActivity(), listHeaders, listData, sortType);
                 listView.setAdapter(mAdapter);
+
+                if (listData.isEmpty()) {
+                    Toast.makeText(getActivity(), "No Favorites Added", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -123,6 +136,10 @@ public class FavoritesViewFragment extends Fragment {
                 prepareListData(db);
                 mAdapter = new FavoritesExpandableListAdapter(getActivity(), listHeaders, listData, sortType);
                 listView.setAdapter(mAdapter);
+
+                if (listData.isEmpty()) {
+                    Toast.makeText(getActivity(), "No Favorites Added", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -227,14 +244,14 @@ public class FavoritesViewFragment extends Fragment {
 
     private void menuClickEdit(Favorite meal) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        sp.edit().putInt("FavoriteToEdit_ID",           meal.get_id()).commit();
-        sp.edit().putString("FavoriteToEdit_Name",      meal.get_name()).commit();
-        sp.edit().putString("FavoriteToEdit_Category",  meal.get_category()).commit();
-        sp.edit().putString("FavoriteToEdit_Type",      meal.get_type()).commit();
-        sp.edit().putString("FavoriteToEdit_Calories",  meal.get_calories()).commit();
-        sp.edit().putString("FavoriteToEdit_Protein",   meal.get_protein()).commit();
-        sp.edit().putString("FavoriteToEdit_Carbs",     meal.get_carbs()).commit();
-        sp.edit().putString("FavoriteToEdit_Fat",       meal.get_fat()).commit();
+        sp.edit().putInt(F_EDIT_ID,           meal.get_id()).commit();
+        sp.edit().putString(F_EDIT_NAME,      meal.get_name()).commit();
+        sp.edit().putString(F_EDIT_CATEGORY,  meal.get_category()).commit();
+        sp.edit().putString(F_EDIT_TYPE,      meal.get_type()).commit();
+        sp.edit().putString(F_EDIT_CALORIES,  meal.get_calories()).commit();
+        sp.edit().putString(F_EDIT_PROTEIN,   meal.get_protein()).commit();
+        sp.edit().putString(F_EDIT_CARBS,     meal.get_carbs()).commit();
+        sp.edit().putString(F_EDIT_FAT,       meal.get_fat()).commit();
 
         FragmentManager fm = getFragmentManager();
         fm.beginTransaction()
@@ -246,7 +263,7 @@ public class FavoritesViewFragment extends Fragment {
         db.deleteFavorite(meal);
         meals = db.getAllFavorites();
         if (meals.isEmpty()) {
-            Toast.makeText(getActivity(), "No Favorites Have Been Added", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "No Favorites Added", Toast.LENGTH_LONG).show();
         }
         prepareListData(db);
         mAdapter = new FavoritesExpandableListAdapter(getActivity(), listHeaders, listData, sortType);

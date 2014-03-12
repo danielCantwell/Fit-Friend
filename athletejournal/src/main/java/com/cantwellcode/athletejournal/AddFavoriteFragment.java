@@ -97,15 +97,15 @@ public class AddFavoriteFragment extends Fragment implements AdapterView.OnItemS
         if (((InstanceType)(getArguments().getSerializable("InstanceType"))).equals(InstanceType.EditFavorite)) {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-            int spinnerPosition = typeAdapter.getPosition(sp.getString("FavoriteToEdit_Type", "Breakfast"));
+            int spinnerPosition = typeAdapter.getPosition(sp.getString(FavoritesViewFragment.F_EDIT_TYPE, "Breakfast"));
 
-            name.setText(sp.getString("FavoriteToEdit_Name", ""));
-            category.setText(sp.getString("FavoriteToEdit_Category", ""));
+            name.setText(sp.getString(FavoritesViewFragment.F_EDIT_NAME, ""));
+            category.setText(sp.getString(FavoritesViewFragment.F_EDIT_CATEGORY, ""));
             type.setSelection(spinnerPosition);
-            calories.setText(sp.getString("FavoriteToEdit_Calories", ""));
-            protein.setText(sp.getString("FavoriteToEdit_Protein", ""));
-            carbs.setText(sp.getString("FavoriteToEdit_Carbs", ""));
-            fat.setText(sp.getString("FavoriteToEdit_Fat", ""));
+            calories.setText(sp.getString(FavoritesViewFragment.F_EDIT_CALORIES, ""));
+            protein.setText(sp.getString(FavoritesViewFragment.F_EDIT_PROTEIN, ""));
+            carbs.setText(sp.getString(FavoritesViewFragment.F_EDIT_CARBS, ""));
+            fat.setText(sp.getString(FavoritesViewFragment.F_EDIT_FAT, ""));
         }
 
         setHasOptionsMenu(true);
@@ -162,51 +162,21 @@ public class AddFavoriteFragment extends Fragment implements AdapterView.OnItemS
     }
 
     public void prepareData() {
-        if (!name.getText().toString().isEmpty())
-            _name = name.getText().toString();
-        else _name = _type;
-
         // type is already set
-
-        if (!category.getText().toString().isEmpty())
-            _category = category.getText().toString();
-        else _category = _type;
-
-        if (!calories.getText().toString().isEmpty())
-            _calories = calories.getText().toString();
-        else _calories = "0";
-
-        if (!protein.getText().toString().isEmpty())
-            _protein = protein.getText().toString();
-        else _protein = "0";
-
-        if (!carbs.getText().toString().isEmpty())
-            _carbs = carbs.getText().toString();
-        else _carbs = "0";
-
-        if (!fat.getText().toString().isEmpty())
-            _fat = fat.getText().toString();
-        else _fat = "0";
+        _name       = name.getText().toString().isEmpty()       ? _type : name.getText().toString();
+        _category   = category.getText().toString().isEmpty()   ? _type : category.getText().toString();
+        _calories   = calories.getText().toString().isEmpty()   ? "0"   : calories.getText().toString();
+        _protein    = protein.getText().toString().isEmpty()    ? "0"   : protein.getText().toString();
+        _carbs      = carbs.getText().toString().isEmpty()      ? "0"   : carbs.getText().toString();
+        _fat        = fat.getText().toString().isEmpty()        ? "0"   : fat.getText().toString();
     }
 
     private void saveFavorite() {
         prepareData();
         Toast.makeText(getActivity(), "Saving Meal", Toast.LENGTH_SHORT).show();
-        Log.d("Favorite", "Name: " + _name + " Type: " + _type + " Calories: " + _calories);
         db.addFavorite(new Favorite(_name, _category, _type, _calories, _protein, _carbs, _fat));
 
-        name.setText(null);
-        category.setText(null);
-        calories.setText(null);
-        protein.setText(null);
-        carbs.setText(null);
-        fat.setText(null);
-        _name       = null;
-        _category   = null;
-        _calories   = null;
-        _protein    = null;
-        _carbs      = null;
-        _fat        = null;
+        nullify();
     }
 
     private void editFavorite() {
@@ -216,9 +186,26 @@ public class AddFavoriteFragment extends Fragment implements AdapterView.OnItemS
 
         prepareData();
         Toast.makeText(getActivity(), "Updating Meal", Toast.LENGTH_SHORT).show();
-        Log.d("Favorite", "Name: " + _name + " Type: " + _type + " Calories: " + _calories);
         db.updateFavorite(new Favorite(_id, _name, _category, _type, _calories, _protein, _carbs, _fat));
 
+        nullify();
+    }
+
+    private void restoreActionBar() {
+        ActionBar actionBar = getActivity().getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        actionBar.setDisplayShowTitleEnabled(true);
+
+        InstanceType instanceType = (InstanceType) getArguments().getSerializable("InstanceType");
+
+        if (instanceType.equals(InstanceType.NewFavorite)) {
+            actionBar.setTitle("New Favorite");
+        } else if (instanceType.equals(InstanceType.EditFavorite)) {
+            actionBar.setTitle("Edit Favorite");
+        }
+    }
+
+    private void nullify() {
         name.setText(null);
         category.setText(null);
         calories.setText(null);
@@ -231,12 +218,5 @@ public class AddFavoriteFragment extends Fragment implements AdapterView.OnItemS
         _protein    = null;
         _carbs      = null;
         _fat        = null;
-    }
-
-    private void restoreActionBar() {
-        ActionBar actionBar = getActivity().getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle("New Favorite");
     }
 }
