@@ -203,17 +203,10 @@ public class Database extends SQLiteOpenHelper {
         String dateOptions = " WHERE " + NUTRITION_DATE + "=?";
 
         String[] currentDay     = {month + "/" + day + "/" + year};
-        String[] currentMonth   = {month + "/" + 1 + "/" + year, month + "/" + 2 + "/" + year,
-                month + "/" + 3  + "/" + year, month + "/" + 4 + "/" + year, month + "/" + 5 + "/" + year,
-                month + "/" + 6  + "/" + year, month + "/" + 7 + "/" + year, month + "/" + 8 + "/" + year,
-                month + "/" + 9  + "/" + year, month + "/" + 10 + "/" + year, month + "/" + 11 + "/" + year,
-                month + "/" + 12 + "/" + year, month + "/" + 13 + "/" + year, month + "/" + 14 + "/" + year,
-                month + "/" + 15 + "/" + year, month + "/" + 16 + "/" + year, month + "/" + 17 + "/" + year,
-                month + "/" + 18 + "/" + year, month + "/" + 19 + "/" + year, month + "/" + 20 + "/" + year,
-                month + "/" + 21 + "/" + year, month + "/" + 22 + "/" + year, month + "/" + 23 + "/" + year,
-                month + "/" + 24 + "/" + year, month + "/" + 25 + "/" + year, month + "/" + 26 + "/" + year,
-                month + "/" + 27 + "/" + year, month + "/" + 28 + "/" + year, month + "/" + 29 + "/" + year,
-                month + "/" + 30 + "/" + year, month + "/" + 31 + "/" + year};
+
+        String monthStr = Integer.toString(month);
+
+        String[] currentMonth   = {monthStr + "%"};
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor;
@@ -223,6 +216,7 @@ public class Database extends SQLiteOpenHelper {
                 cursor = db.rawQuery(selectQuery, null);
                 break;
             case Month:
+                dateOptions = " WHERE " + NUTRITION_DATE + " LIKE ?";
                 cursor = db.rawQuery(selectQuery + dateOptions, currentMonth);
                 break;
             case Day:

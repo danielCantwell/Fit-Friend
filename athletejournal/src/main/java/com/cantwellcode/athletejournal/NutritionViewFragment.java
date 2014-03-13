@@ -123,6 +123,27 @@ public class NutritionViewFragment extends ListFragment {
                 menu.getItem(0).setVisible(true);
 
                 currentView = CurrentView.Day;
+
+                //onPrepareOptionsMenu(menu);
+            }
+        });
+
+        monthView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                meals = db.getNutritionList(Database.NutritionListType.Month, month, day, year);
+                mAdapter.clear();
+                mAdapter.addAll(meals);
+                updateTotals();
+
+                dayView.setTextColor(Color.BLACK);
+                weekView.setTextColor(Color.BLACK);
+                monthView.setTextColor(Color.BLUE);
+                totalView.setTextColor(Color.BLACK);
+
+                currentView = CurrentView.Month;
+
+                //onPrepareOptionsMenu(menu);
             }
         });
 
@@ -142,6 +163,8 @@ public class NutritionViewFragment extends ListFragment {
                 menu.getItem(0).setVisible(false);
 
                 currentView = CurrentView.Total;
+
+                //onPrepareOptionsMenu(menu);
             }
         });
 
@@ -272,6 +295,9 @@ public class NutritionViewFragment extends ListFragment {
         switch (currentView) {
             case Day:
                 meals = db.getNutritionList(Database.NutritionListType.Day, month, day, year);
+                break;
+            case Month:
+                meals = db.getNutritionList(Database.NutritionListType.Month, month, day, year);
                 break;
             case Total:
                 meals = db.getNutritionList(Database.NutritionListType.Total, month, day, year);
