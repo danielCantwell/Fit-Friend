@@ -1,6 +1,7 @@
 package com.cantwellcode.athletejournal;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -24,6 +25,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -221,6 +223,9 @@ public class NutritionViewFragment extends ListFragment {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
+                    case R.id.action_addToFavorites:
+                        menuClickAddToFavorites(meal);
+                        return true;
                     case R.id.action_edit:
                         menuClickEdit(meal);
                         return true;
@@ -236,6 +241,11 @@ public class NutritionViewFragment extends ListFragment {
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.n_list_click, popup.getMenu());
         popup.show();
+    }
+
+    private void menuClickAddToFavorites(Nutrition meal) {
+        DialogFragment categoryDialog = new CategoryDialog(meal, db);
+        categoryDialog.show(getFragmentManager(), "categoryDialog");
     }
 
     private void menuClickEdit(Nutrition meal) {
@@ -304,4 +314,5 @@ public class NutritionViewFragment extends ListFragment {
             updateTotals();
         }
     }
+
 }
