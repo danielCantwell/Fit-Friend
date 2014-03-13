@@ -225,10 +225,10 @@ public class FavoritesViewFragment extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
-                    case R.id.action_edit:
+                    case R.id.f_action_edit:
                         menuClickEdit(meal);
                         return true;
-                    case R.id.action_delete:
+                    case R.id.f_action_delete:
                         menuClickDelete(meal);
                         return true;
                     default:
@@ -238,7 +238,7 @@ public class FavoritesViewFragment extends Fragment {
         });
 
         MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.n_list_click, popup.getMenu());
+        inflater.inflate(R.menu.f_list_child_click, popup.getMenu());
         popup.show();
     }
 

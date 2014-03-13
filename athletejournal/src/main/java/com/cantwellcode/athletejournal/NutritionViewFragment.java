@@ -223,13 +223,13 @@ public class NutritionViewFragment extends ListFragment {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
-                    case R.id.action_addToFavorites:
+                    case R.id.n_action_addToFavorites:
                         menuClickAddToFavorites(meal);
                         return true;
-                    case R.id.action_edit:
+                    case R.id.n_action_edit:
                         menuClickEdit(meal);
                         return true;
-                    case R.id.action_delete:
+                    case R.id.n_action_delete:
                         menuClickDelete(meal);
                         return true;
                     default:
