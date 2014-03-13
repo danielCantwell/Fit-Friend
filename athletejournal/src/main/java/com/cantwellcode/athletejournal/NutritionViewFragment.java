@@ -1,7 +1,6 @@
 package com.cantwellcode.athletejournal;
 
 import android.app.ActionBar;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -25,7 +24,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.PopupMenu;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +43,7 @@ public class NutritionViewFragment extends ListFragment {
     int day;
 
     Menu menu;
+    MenuInflater menuInflater;
 
     public static Fragment newInstance(Context context) {
         NutritionViewFragment f = new NutritionViewFragment();
@@ -120,11 +119,9 @@ public class NutritionViewFragment extends ListFragment {
                 monthView.setTextColor(Color.BLACK);
                 totalView.setTextColor(Color.BLACK);
 
-                menu.getItem(0).setVisible(true);
-
                 currentView = CurrentView.Day;
 
-                //onPrepareOptionsMenu(menu);
+                onPrepareOptionsMenu(menu);
             }
         });
 
@@ -143,7 +140,7 @@ public class NutritionViewFragment extends ListFragment {
 
                 currentView = CurrentView.Month;
 
-                //onPrepareOptionsMenu(menu);
+                onPrepareOptionsMenu(menu);
             }
         });
 
@@ -160,11 +157,9 @@ public class NutritionViewFragment extends ListFragment {
                 monthView.setTextColor(Color.BLACK);
                 totalView.setTextColor(Color.BLUE);
 
-                menu.getItem(0).setVisible(false);
-
                 currentView = CurrentView.Total;
 
-                //onPrepareOptionsMenu(menu);
+                onPrepareOptionsMenu(menu);
             }
         });
 
@@ -182,8 +177,9 @@ public class NutritionViewFragment extends ListFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         restoreActionBar();
-        inflater.inflate(R.menu.add_new, menu);
+        inflater.inflate(R.menu.n_view_day, menu);
         this.menu = menu;
+        this.menuInflater = inflater;
     }
 
     @Override
@@ -193,11 +189,26 @@ public class NutritionViewFragment extends ListFragment {
         month = c.get(Calendar.MONTH) + 1;
         day = c.get(Calendar.DAY_OF_MONTH);
 
-        menu.getItem(0).setTitle((month) + " / " + day + " / " + year);
+        menu.clear();
+        restoreActionBar();
+
+        switch (currentView) {
+            case Day:
+                menuInflater.inflate(R.menu.n_view_day, menu);
+                menu.getItem(0).setTitle((month) + " / " + day + " / " + year);
+                break;
+            case Month:
+                menuInflater.inflate(R.menu.n_view_month, menu);
+                break;
+            case Total:
+                menuInflater.inflate(R.menu.n_view_total, menu);
+                break;
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int monthSelect = 0;
         switch (item.getItemId()) {
             case R.id.action_addNew:
                 FragmentManager fm = getFragmentManager();
@@ -207,8 +218,26 @@ public class NutritionViewFragment extends ListFragment {
                 break;
             case R.id.action_changeDate:
                 DialogFragment dateFragment = new DatePickerFragment();
-                dateFragment.show(getActivity().getSupportFragmentManager(), "datPicker");
+                dateFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
                 break;
+            case R.id.action_selectJanuary:     monthSelect = 1;    break;
+            case R.id.action_selectFebruary:    monthSelect = 2;    break;
+            case R.id.action_selectMarch:       monthSelect = 3;    break;
+            case R.id.action_selectApril:       monthSelect = 4;    break;
+            case R.id.action_selectMay:         monthSelect = 5;    break;
+            case R.id.action_selectJune:        monthSelect = 6;    break;
+            case R.id.action_selectJuly:        monthSelect = 7;    break;
+            case R.id.action_selectAugust:      monthSelect = 8;    break;
+            case R.id.action_selectSeptember:   monthSelect = 9;    break;
+            case R.id.action_selectOctober:     monthSelect = 10;   break;
+            case R.id.action_selectNovember:    monthSelect = 11;   break;
+            case R.id.action_selectDecember:    monthSelect = 12;   break;
+        }
+        if (monthSelect != 0) {
+            meals = db.getNutritionList(Database.NutritionListType.Month, monthSelect, day, year);
+            mAdapter.clear();
+            mAdapter.addAll(meals);
+            updateTotals();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -340,5 +369,4 @@ public class NutritionViewFragment extends ListFragment {
             updateTotals();
         }
     }
-
 }
