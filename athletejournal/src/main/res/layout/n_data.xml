@@ -49,31 +49,6 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/n_data_calories"
             android:hint="Calories"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:layout_weight="1"
-            android:gravity="center" />
-
-        <com.cantwellcode.athletejournal.SmallDecimalTextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/n_data_protein"
-            android:layout_alignTop="@+id/n_data_calories"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:hint="Protein"
-            android:layout_weight="1"
-            android:gravity="center" />
-
-        <com.cantwellcode.athletejournal.SmallDecimalTextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/n_data_carbs"
-            android:hint="Carbs"
-            android:layout_below="@+id/n_data_calories"
-            android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:gravity="center" />
 
@@ -83,8 +58,24 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/n_data_fat"
             android:hint="Fat"
-            android:layout_alignTop="@+id/n_data_carbs"
-            android:layout_alignLeft="@+id/n_data_protein"
+            android:layout_weight="1"
+            android:gravity="center" />
+
+        <com.cantwellcode.athletejournal.SmallDecimalTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/n_data_carbs"
+            android:hint="Carbs"
+            android:layout_weight="1"
+            android:gravity="center" />
+
+        <com.cantwellcode.athletejournal.SmallDecimalTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/n_data_protein"
+            android:hint="Protein"
             android:layout_weight="1"
             android:gravity="center" />
     </TableRow>
@@ -108,8 +99,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Protein"
-            android:id="@+id/textView2"
+            android:text="Fat"
+            android:id="@+id/textView4"
             android:layout_weight="1"
             android:gravity="center"/>
 
@@ -126,8 +117,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Fat"
-            android:id="@+id/textView4"
+            android:text="Protein"
+            android:id="@+id/textView2"
             android:layout_weight="1"
             android:gravity="center"/>
     </TableRow>

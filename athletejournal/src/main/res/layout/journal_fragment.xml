@@ -41,8 +41,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Protein: "
-            android:id="@+id/textView3"
+            android:text="Fat: "
+            android:id="@+id/textView5"
             android:textColor="@android:color/secondary_text_dark"/>
 
         <TextView
@@ -57,8 +57,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Fat: "
-            android:id="@+id/textView5"
+            android:text="Protein: "
+            android:id="@+id/textView3"
             android:textColor="@android:color/secondary_text_dark"/>
 
         <com.cantwellcode.athletejournal.SmallDecimalTextView
@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="0"
-            android:id="@+id/n_protein_text"
+            android:id="@+id/n_fat_text"
             android:textColor="#FFD700"/>
 
         <com.cantwellcode.athletejournal.SmallDecimalTextView
@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="0"
-            android:id="@+id/n_fat_text"
+            android:id="@+id/n_protein_text"
             android:textColor="#FFD700"/>
 
         <TextView
@@ -105,8 +105,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="  /  100"
-            android:id="@+id/n_protein_desired_text"
+            android:text="  /  50"
+            android:id="@+id/n_fat_desired_text"
             android:textColor="@android:color/secondary_text_dark"/>
 
         <TextView
@@ -121,8 +121,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="  /  50"
-            android:id="@+id/n_fat_desired_text"
+            android:text="  /  100"
+            android:id="@+id/n_protein_desired_text"
             android:textColor="@android:color/secondary_text_dark"/>
     </GridLayout>
 

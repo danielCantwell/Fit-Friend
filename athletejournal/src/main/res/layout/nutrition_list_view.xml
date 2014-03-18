@@ -61,10 +61,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/n_view_total_protein"
-            android:hint="protein"
-            android:gravity="center"
+            android:id="@+id/n_view_total_fat"
             android:layout_weight="1"
+            android:hint="fat"
+            android:gravity="center"
             android:textColor="#FFD700"/>
 
         <com.cantwellcode.athletejournal.SmallDecimalTextView
@@ -81,10 +81,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/n_view_total_fat"
-            android:layout_weight="1"
-            android:hint="fat"
+            android:id="@+id/n_view_total_protein"
+            android:hint="protein"
             android:gravity="center"
+            android:layout_weight="1"
             android:textColor="#FFD700"/>
     </TableRow>
 
@@ -106,8 +106,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Protein"
-            android:id="@+id/textView2"
+            android:text="Fat"
+            android:id="@+id/textView4"
             android:layout_weight="1"
             android:gravity="center"
             android:textColor="@android:color/secondary_text_dark"/>
@@ -126,8 +126,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Fat"
-            android:id="@+id/textView4"
+            android:text="Protein"
+            android:id="@+id/textView2"
             android:layout_weight="1"
             android:gravity="center"
             android:textColor="@android:color/secondary_text_dark"/>
