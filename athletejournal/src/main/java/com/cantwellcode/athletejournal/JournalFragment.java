@@ -62,16 +62,16 @@ public class JournalFragment extends Fragment {
 
         List<Nutrition> todaysNutrition = db.getNutritionList(Database.NutritionListType.Day, month, day, year);
 
-        int calorieCount = 0;
-        int proteinCount = 0;
-        int carbCount = 0;
-        int fatCount = 0;
+        float calorieCount = 0;
+        float proteinCount = 0;
+        float carbCount = 0;
+        float fatCount = 0;
 
         for (Nutrition n : todaysNutrition) {
-            calorieCount += Integer.parseInt(n.get_calories());
-            proteinCount += Integer.parseInt(n.get_protein());
-            carbCount += Integer.parseInt(n.get_carbs());
-            fatCount += Integer.parseInt(n.get_fat());
+            calorieCount += Float.parseFloat(n.get_calories());
+            proteinCount += Float.parseFloat(n.get_protein());
+            carbCount += Float.parseFloat(n.get_carbs());
+            fatCount += Float.parseFloat(n.get_fat());
         }
 
         calories.setText(calorieCount + "");

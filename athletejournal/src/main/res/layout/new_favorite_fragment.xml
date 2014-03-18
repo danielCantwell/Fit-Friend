@@ -110,10 +110,10 @@
             android:ems="10"
             android:gravity="center"
             android:hint="# cal"
-            android:inputType="number"
             android:selectAllOnFocus="true"
             android:textColorHint="@android:color/holo_red_light"
-            android:textColor="#FFD700"/>
+            android:textColor="#FFD700"
+            android:inputType="numberDecimal" />
 
     </TableRow>
 
@@ -144,10 +144,10 @@
             android:ems="10"
             android:gravity="center"
             android:hint="grams"
-            android:inputType="number"
             android:selectAllOnFocus="true"
             android:textColorHint="@android:color/holo_red_light"
-            android:textColor="#FFD700"/>
+            android:textColor="#FFD700"
+            android:inputType="numberDecimal" />
 
     </TableRow>
 
@@ -178,7 +178,7 @@
             android:ems="10"
             android:gravity="center"
             android:hint="grams"
-            android:inputType="number"
+            android:inputType="number|numberDecimal"
             android:selectAllOnFocus="true"
             android:textColorHint="@android:color/holo_red_light"
             android:textColor="#FFD700"/>
@@ -211,7 +211,7 @@
             android:ems="10"
             android:gravity="center"
             android:hint="grams"
-            android:inputType="number"
+            android:inputType="number|numberDecimal"
             android:selectAllOnFocus="true"
             android:textColorHint="@android:color/holo_red_light"
             android:textColor="#FFD700"/>

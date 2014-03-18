@@ -133,8 +133,6 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
             protein.setText(sp.getString("MealToEdit_Protein", ""));
             carbs.setText(sp.getString("MealToEdit_Carbs", ""));
             fat.setText(sp.getString("MealToEdit_Fat", ""));
-
-            Log.d("GetEditName", sp.getString("MealToEdit_Name", "DEFAULT"));
         }
 
         final Calendar c = Calendar.getInstance();

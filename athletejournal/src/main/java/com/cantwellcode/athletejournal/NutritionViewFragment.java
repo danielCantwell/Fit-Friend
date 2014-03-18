@@ -250,16 +250,16 @@ public class NutritionViewFragment extends ListFragment {
     }
 
     private void updateTotals() {
-        int calories = 0;
-        int protein = 0;
-        int carbs = 0;
-        int fat = 0;
+        float calories = 0;
+        float protein = 0;
+        float carbs = 0;
+        float fat = 0;
 
         for (Nutrition n : meals) {
-            calories += Integer.parseInt(n.get_calories());
-            protein += Integer.parseInt(n.get_protein());
-            carbs += Integer.parseInt(n.get_carbs());
-            fat += Integer.parseInt(n.get_fat());
+            calories += Float.parseFloat(n.get_calories());
+            protein += Float.parseFloat(n.get_protein());
+            carbs += Float.parseFloat(n.get_carbs());
+            fat += Float.parseFloat(n.get_fat());
         }
 
         totalCalories.setText(calories + "");

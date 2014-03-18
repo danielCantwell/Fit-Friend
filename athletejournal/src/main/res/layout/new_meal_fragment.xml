@@ -88,7 +88,6 @@
         <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="number"
             android:ems="10"
             android:id="@+id/n_calories"
             android:hint="# cal"
@@ -96,7 +95,8 @@
             android:textColor="#FFD700"
             android:selectAllOnFocus="true"
             android:layout_weight="1"
-            android:gravity="center" />
+            android:gravity="center"
+            android:inputType="numberDecimal" />
 
     </TableRow>
 
@@ -122,7 +122,6 @@
         <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="number"
             android:ems="10"
             android:id="@+id/n_protein"
             android:hint="grams"
@@ -130,7 +129,8 @@
             android:textColor="#FFD700"
             android:selectAllOnFocus="true"
             android:layout_weight="1"
-            android:gravity="center" />
+            android:gravity="center"
+            android:inputType="numberDecimal" />
 
     </TableRow>
 
@@ -156,7 +156,6 @@
         <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="number"
             android:ems="10"
             android:id="@+id/n_carbs"
             android:hint="grams"
@@ -164,7 +163,8 @@
             android:textColor="#FFD700"
             android:selectAllOnFocus="true"
             android:layout_weight="1"
-            android:gravity="center" />
+            android:gravity="center"
+            android:inputType="numberDecimal" />
     </TableRow>
 
     <TableRow
@@ -189,7 +189,6 @@
         <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="number"
             android:ems="10"
             android:id="@+id/n_fat"
             android:hint="grams"
@@ -197,7 +196,8 @@
             android:textColor="#FFD700"
             android:selectAllOnFocus="true"
             android:layout_weight="1"
-            android:gravity="center" />
+            android:gravity="center"
+            android:inputType="numberDecimal" />
     </TableRow>
 
     <Spinner
