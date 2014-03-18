@@ -23,10 +23,10 @@ public class FavoritesExpandableListAdapter extends BaseExpandableListAdapter {
         TextView name;
         TextView category;
         TextView type;
-        TextView calories;
-        TextView protein;
-        TextView carbs;
-        TextView fat;
+        SmallDecimalTextView calories;
+        SmallDecimalTextView protein;
+        SmallDecimalTextView carbs;
+        SmallDecimalTextView fat;
     }
 
     private final Context context;
@@ -109,10 +109,10 @@ public class FavoritesExpandableListAdapter extends BaseExpandableListAdapter {
             holder.name     = (TextView) convertView.findViewById(R.id.f_data_name);
             holder.category = (TextView) convertView.findViewById(R.id.f_data_category);
             holder.type     = (TextView) convertView.findViewById(R.id.f_data_type);
-            holder.calories = (TextView) convertView.findViewById(R.id.f_data_calories);
-            holder.protein  = (TextView) convertView.findViewById(R.id.f_data_protein);
-            holder.carbs    = (TextView) convertView.findViewById(R.id.f_data_carbs);
-            holder.fat      = (TextView) convertView.findViewById(R.id.f_data_fat);
+            holder.calories = (SmallDecimalTextView) convertView.findViewById(R.id.f_data_calories);
+            holder.protein  = (SmallDecimalTextView) convertView.findViewById(R.id.f_data_protein);
+            holder.carbs    = (SmallDecimalTextView) convertView.findViewById(R.id.f_data_carbs);
+            holder.fat      = (SmallDecimalTextView) convertView.findViewById(R.id.f_data_fat);
             convertView.setTag(holder);
             Log.d("Holder", "holder is created");
         }

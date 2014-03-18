@@ -27,6 +27,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
 
@@ -62,10 +63,10 @@ public class NutritionViewFragment extends ListFragment {
     private Button monthView;
     private Button totalView;
 
-    private TextView totalCalories;
-    private TextView totalProtein;
-    private TextView totalCarbs;
-    private TextView totalFat;
+    private SmallDecimalTextView totalCalories;
+    private SmallDecimalTextView totalProtein;
+    private SmallDecimalTextView totalCarbs;
+    private SmallDecimalTextView totalFat;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -163,10 +164,10 @@ public class NutritionViewFragment extends ListFragment {
             }
         });
 
-        totalCalories = (TextView) root.findViewById(R.id.n_view_total_calories);
-        totalProtein = (TextView) root.findViewById(R.id.n_view_total_protein);
-        totalCarbs = (TextView) root.findViewById(R.id.n_view_total_carbs);
-        totalFat = (TextView) root.findViewById(R.id.n_view_total_fat);
+        totalCalories = (SmallDecimalTextView) root.findViewById(R.id.n_view_total_calories);
+        totalProtein = (SmallDecimalTextView) root.findViewById(R.id.n_view_total_protein);
+        totalCarbs = (SmallDecimalTextView) root.findViewById(R.id.n_view_total_carbs);
+        totalFat = (SmallDecimalTextView) root.findViewById(R.id.n_view_total_fat);
 
         updateTotals();
 
@@ -250,22 +251,22 @@ public class NutritionViewFragment extends ListFragment {
     }
 
     private void updateTotals() {
-        float calories = 0;
-        float protein = 0;
-        float carbs = 0;
-        float fat = 0;
+        BigDecimal calories = new BigDecimal(0);
+        BigDecimal protein = new BigDecimal(0);
+        BigDecimal carbs = new BigDecimal(0);
+        BigDecimal fat = new BigDecimal(0);
 
         for (Nutrition n : meals) {
-            calories += Float.parseFloat(n.get_calories());
-            protein += Float.parseFloat(n.get_protein());
-            carbs += Float.parseFloat(n.get_carbs());
-            fat += Float.parseFloat(n.get_fat());
+            calories = calories.add(BigDecimal.valueOf(Double.parseDouble(n.get_calories())));
+            protein = protein.add(BigDecimal.valueOf(Double.parseDouble(n.get_protein())));
+            carbs = carbs.add(BigDecimal.valueOf(Double.parseDouble(n.get_carbs())));
+            fat = fat.add(BigDecimal.valueOf(Double.parseDouble(n.get_fat())));
         }
 
-        totalCalories.setText(calories + "");
-        totalProtein.setText(protein + "");
-        totalCarbs.setText(carbs + "");
-        totalFat.setText(fat + "");
+        totalCalories.setText(calories.toString());
+        totalProtein.setText(protein.toString());
+        totalCarbs.setText(carbs.toString());
+        totalFat.setText(fat.toString());
     }
 
     private void showPopup(View v, final Nutrition meal) {

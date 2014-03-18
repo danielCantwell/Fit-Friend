@@ -19,10 +19,10 @@ public class NutritionArrayAdapter extends ArrayAdapter<Nutrition> {
         TextView name;
         TextView date;
         TextView type;
-        TextView calories;
-        TextView protein;
-        TextView carbs;
-        TextView fat;
+        SmallDecimalTextView calories;
+        SmallDecimalTextView protein;
+        SmallDecimalTextView carbs;
+        SmallDecimalTextView fat;
     }
 
     private final Context context;
@@ -48,10 +48,10 @@ public class NutritionArrayAdapter extends ArrayAdapter<Nutrition> {
             holder.name = (TextView) convertView.findViewById(R.id.n_data_name);
             holder.date = (TextView) convertView.findViewById(R.id.n_data_date);
             holder.type = (TextView) convertView.findViewById(R.id.n_data_type);
-            holder.calories = (TextView) convertView.findViewById(R.id.n_data_calories);
-            holder.protein = (TextView) convertView.findViewById(R.id.n_data_protein);
-            holder.carbs = (TextView) convertView.findViewById(R.id.n_data_carbs);
-            holder.fat = (TextView) convertView.findViewById(R.id.n_data_fat);
+            holder.calories = (SmallDecimalTextView) convertView.findViewById(R.id.n_data_calories);
+            holder.protein = (SmallDecimalTextView) convertView.findViewById(R.id.n_data_protein);
+            holder.carbs = (SmallDecimalTextView) convertView.findViewById(R.id.n_data_carbs);
+            holder.fat = (SmallDecimalTextView) convertView.findViewById(R.id.n_data_fat);
             convertView.setTag(holder);
         }
         else {

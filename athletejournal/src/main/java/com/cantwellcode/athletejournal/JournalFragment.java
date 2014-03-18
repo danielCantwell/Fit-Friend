@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
 
@@ -20,10 +21,10 @@ public class JournalFragment extends Fragment {
 
     Database db;
 
-    TextView calories;
-    TextView protein;
-    TextView carbs;
-    TextView fat;
+    SmallDecimalTextView calories;
+    SmallDecimalTextView protein;
+    SmallDecimalTextView carbs;
+    SmallDecimalTextView fat;
 
     TextView goalCalories;
     TextView goalProtein;
@@ -45,10 +46,10 @@ public class JournalFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.journal_fragment, null);
 
-        calories = (TextView) root.findViewById(R.id.n_cal_text);
-        protein = (TextView) root.findViewById(R.id.n_protein_text);
-        carbs = (TextView) root.findViewById(R.id.n_carbs_text);
-        fat = (TextView) root.findViewById(R.id.n_fat_text);
+        calories = (SmallDecimalTextView) root.findViewById(R.id.n_cal_text);
+        protein = (SmallDecimalTextView) root.findViewById(R.id.n_protein_text);
+        carbs = (SmallDecimalTextView) root.findViewById(R.id.n_carbs_text);
+        fat = (SmallDecimalTextView) root.findViewById(R.id.n_fat_text);
 
         goalCalories = (TextView) root.findViewById(R.id.n_cal_desired_text);
         goalProtein = (TextView) root.findViewById(R.id.n_protein_desired_text);
@@ -62,16 +63,16 @@ public class JournalFragment extends Fragment {
 
         List<Nutrition> todaysNutrition = db.getNutritionList(Database.NutritionListType.Day, month, day, year);
 
-        float calorieCount = 0;
-        float proteinCount = 0;
-        float carbCount = 0;
-        float fatCount = 0;
+        BigDecimal calorieCount = new BigDecimal(0);
+        BigDecimal proteinCount = new BigDecimal(0);
+        BigDecimal carbCount = new BigDecimal(0);
+        BigDecimal fatCount = new BigDecimal(0);
 
         for (Nutrition n : todaysNutrition) {
-            calorieCount += Float.parseFloat(n.get_calories());
-            proteinCount += Float.parseFloat(n.get_protein());
-            carbCount += Float.parseFloat(n.get_carbs());
-            fatCount += Float.parseFloat(n.get_fat());
+            calorieCount = calorieCount.add(BigDecimal.valueOf(Double.parseDouble(n.get_calories())));
+            proteinCount = proteinCount.add(BigDecimal.valueOf(Double.parseDouble(n.get_protein())));
+            carbCount = carbCount.add(BigDecimal.valueOf(Double.parseDouble(n.get_carbs())));
+            fatCount = fatCount.add(BigDecimal.valueOf(Double.parseDouble(n.get_fat())));
         }
 
         calories.setText(calorieCount + "");

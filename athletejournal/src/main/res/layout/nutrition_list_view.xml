@@ -47,7 +47,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
-        <TextView
+        <com.cantwellcode.athletejournal.SmallDecimalTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -57,7 +57,7 @@
             android:hint="calories"
             android:textColor="#FFD700"/>
 
-        <TextView
+        <com.cantwellcode.athletejournal.SmallDecimalTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -67,7 +67,7 @@
             android:layout_weight="1"
             android:textColor="#FFD700"/>
 
-        <TextView
+        <com.cantwellcode.athletejournal.SmallDecimalTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -77,7 +77,7 @@
             android:gravity="center"
             android:textColor="#FFD700"/>
 
-        <TextView
+        <com.cantwellcode.athletejournal.SmallDecimalTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
