@@ -1,10 +1,12 @@
 package com.cantwellcode.athletejournal;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -39,7 +41,8 @@ public class SmallDecimalTextView extends TextView {
 
         if (decimalIndex != 0) {
             Spannable span = new SpannableString(text);
-            span.setSpan(new RelativeSizeSpan(0.7f), decimalIndex + 1, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            span.setSpan(new RelativeSizeSpan(0.6f), decimalIndex + 1, text.length(), 0);
+            span.setSpan(new StyleSpan(Typeface.ITALIC), decimalIndex + 1, text.length(), 0);
             super.setText(span, type);
         }
 
