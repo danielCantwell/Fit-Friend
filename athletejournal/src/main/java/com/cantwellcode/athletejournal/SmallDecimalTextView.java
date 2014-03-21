@@ -45,7 +45,6 @@ public class SmallDecimalTextView extends TextView {
             span.setSpan(new StyleSpan(Typeface.ITALIC), decimalIndex + 1, text.length(), 0);
             super.setText(span, type);
         }
-
         else {
             super.setText(text, type);
         }

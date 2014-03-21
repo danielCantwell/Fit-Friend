@@ -75,10 +75,29 @@ public class JournalFragment extends Fragment {
             fatCount = fatCount.add(BigDecimal.valueOf(Double.parseDouble(n.get_fat())));
         }
 
-        calories.setText(calorieCount + "");
-        protein.setText(proteinCount + "");
-        carbs.setText(carbCount + "");
-        fat.setText(fatCount + "");
+        if (calorieCount.toString().endsWith(".0")) {
+            calories.setText(calorieCount.toString().substring(0, calorieCount.toString().indexOf(".")));
+        } else {
+            calories.setText(calorieCount.toString());
+        }
+
+        if (proteinCount.toString().endsWith(".0")) {
+            protein.setText(proteinCount.toString().substring(0, proteinCount.toString().indexOf(".")));
+        } else {
+            protein.setText(proteinCount.toString());
+        }
+
+        if (carbCount.toString().endsWith(".0")) {
+            carbs.setText(carbCount.toString().substring(0, carbCount.toString().indexOf(".")));
+        } else {
+            carbs.setText(carbCount.toString());
+        }
+
+        if (fatCount.toString().endsWith(".0")) {
+            fat.setText(fatCount.toString().substring(0, fatCount.toString().indexOf(".")));
+        } else {
+            fat.setText(fatCount.toString());
+        }
 
         return root;
     }

@@ -142,16 +142,6 @@
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="Saved\nIngredients"
-                android:id="@+id/profileIngredients"
-                android:layout_alignTop="@+id/profileUpdate"
-                android:layout_alignRight="@+id/textView6"
-                android:layout_weight="1"
-                android:background="@android:drawable/dialog_holo_light_frame" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
                 android:text="Favorite\nMeals"
                 android:id="@+id/profileFavorites"
                 android:background="@android:drawable/dialog_holo_light_frame"

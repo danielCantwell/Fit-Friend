@@ -3,11 +3,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#101010">
+    android:background="#DDFFEE">
 
     <TableRow
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp">
 
         <Button
             android:layout_width="wrap_content"
@@ -15,23 +16,23 @@
             android:text="Day"
             android:id="@+id/n_day_button"
             android:layout_weight="1"
-            android:background="@android:drawable/dialog_holo_light_frame"/>
+            android:background="@android:drawable/editbox_dropdown_light_frame"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Weekly"
+            android:text="Week"
             android:id="@+id/n_week_button"
             android:layout_weight="1"
-            android:background="@android:drawable/dialog_holo_light_frame"/>
+            android:background="@android:drawable/editbox_dropdown_light_frame"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Monthly"
+            android:text="Month"
             android:id="@+id/n_month_button"
             android:layout_weight="1"
-            android:background="@android:drawable/dialog_holo_light_frame"/>
+            android:background="@android:drawable/editbox_dropdown_light_frame"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -39,7 +40,7 @@
             android:text="Total"
             android:id="@+id/n_total_button"
             android:layout_weight="1"
-            android:background="@android:drawable/dialog_holo_light_frame"/>
+            android:background="@android:drawable/editbox_dropdown_light_frame"/>
 
     </TableRow>
 
@@ -54,8 +55,7 @@
             android:id="@+id/n_view_total_calories"
             android:layout_weight="1"
             android:gravity="center"
-            android:hint="calories"
-            android:textColor="#FFD700"/>
+            android:hint="calories"/>
 
         <com.cantwellcode.athletejournal.SmallDecimalTextView
             android:layout_width="0dp"
@@ -64,8 +64,7 @@
             android:id="@+id/n_view_total_fat"
             android:layout_weight="1"
             android:hint="fat"
-            android:gravity="center"
-            android:textColor="#FFD700"/>
+            android:gravity="center"/>
 
         <com.cantwellcode.athletejournal.SmallDecimalTextView
             android:layout_width="0dp"
@@ -74,8 +73,7 @@
             android:id="@+id/n_view_total_carbs"
             android:layout_weight="1"
             android:hint="carbs"
-            android:gravity="center"
-            android:textColor="#FFD700"/>
+            android:gravity="center"/>
 
         <com.cantwellcode.athletejournal.SmallDecimalTextView
             android:layout_width="0dp"
@@ -84,8 +82,7 @@
             android:id="@+id/n_view_total_protein"
             android:hint="protein"
             android:gravity="center"
-            android:layout_weight="1"
-            android:textColor="#FFD700"/>
+            android:layout_weight="1"/>
     </TableRow>
 
     <TableRow
@@ -100,7 +97,7 @@
             android:id="@+id/textView"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@android:color/secondary_text_dark"/>
+            android:textColor="#888888"/>
 
         <TextView
             android:layout_width="0dp"
@@ -110,7 +107,7 @@
             android:id="@+id/textView4"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@android:color/secondary_text_dark"/>
+            android:textColor="#888888"/>
 
         <TextView
             android:layout_width="0dp"
@@ -120,7 +117,7 @@
             android:id="@+id/textView3"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@android:color/secondary_text_dark"/>
+            android:textColor="#888888"/>
 
         <TextView
             android:layout_width="0dp"
@@ -130,7 +127,7 @@
             android:id="@+id/textView2"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@android:color/secondary_text_dark"/>
+            android:textColor="#888888"/>
     </TableRow>
 
     <ListView

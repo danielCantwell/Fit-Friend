@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#101010">
+    android:background="#DDFFEE">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Today's Efforts"
+        android:id="@+id/textView21"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:textSize="30dp"
+        android:textScaleX="1.25"
+        android:textColor="#11DDFF"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -17,195 +30,149 @@
         android:layout_centerHorizontal="true"
         android:textColor="@android:color/holo_blue_dark"/>
 
-    <GridLayout
-        android:layout_width="wrap_content"
+    <TableRow
+        android:id="@+id/tableNameRow"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:rowCount="4"
-        android:columnCount="3"
-        android:orientation="vertical"
-        android:columnOrderPreserved="false"
-        android:id="@+id/gridLayout"
         android:layout_below="@+id/nutritionView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp">
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Calories:   "
+            android:text="Calories"
             android:id="@+id/textView2"
-            android:textColor="@android:color/secondary_text_dark"/>
+            android:textColor="#888888"
+            android:layout_weight="1"
+            android:gravity="center" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Fat: "
+            android:text="Fat"
             android:id="@+id/textView5"
-            android:textColor="@android:color/secondary_text_dark"/>
+            android:textColor="#888888"
+            android:layout_weight="1"
+            android:gravity="center" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Carbs: "
+            android:text="Carbs"
             android:id="@+id/textView4"
-            android:textColor="@android:color/secondary_text_dark"/>
+            android:textColor="#888888"
+            android:layout_weight="1"
+            android:gravity="center" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Protein: "
+            android:text="Protein"
             android:id="@+id/textView3"
-            android:textColor="@android:color/secondary_text_dark"/>
+            android:textColor="#888888"
+            android:layout_weight="1"
+            android:gravity="center" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableDataRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tableNameRow"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
         <com.cantwellcode.athletejournal.SmallDecimalTextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="0"
             android:id="@+id/n_cal_text"
-            android:textColor="#FFD700"/>
+            android:gravity="center"
+            android:layout_weight="1" />
 
         <com.cantwellcode.athletejournal.SmallDecimalTextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="0"
             android:id="@+id/n_fat_text"
-            android:textColor="#FFD700"/>
+            android:gravity="center"
+            android:layout_weight="1" />
 
         <com.cantwellcode.athletejournal.SmallDecimalTextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="0"
             android:id="@+id/n_carbs_text"
-            android:textColor="#FFD700"/>
+            android:gravity="center"
+            android:layout_weight="1" />
 
         <com.cantwellcode.athletejournal.SmallDecimalTextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="0"
             android:id="@+id/n_protein_text"
-            android:textColor="#FFD700"/>
+            android:gravity="center"
+            android:layout_weight="1" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@+id/tableDataRow">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="  /  2400"
+            android:text="/  2400"
             android:id="@+id/n_cal_desired_text"
-            android:textColor="@android:color/secondary_text_dark"/>
+            android:textColor="#888888"
+            android:layout_weight="1"
+            android:gravity="center" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="  /  50"
+            android:text="/  50"
             android:id="@+id/n_fat_desired_text"
-            android:textColor="@android:color/secondary_text_dark"/>
+            android:textColor="#888888"
+            android:layout_weight="1"
+            android:gravity="center" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="  /  400"
+            android:text=" /  400"
             android:id="@+id/n_carbs_desired_text"
-            android:textColor="@android:color/secondary_text_dark"/>
+            android:textColor="#888888"
+            android:layout_weight="1"
+            android:gravity="center" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="  /  100"
+            android:text="/  100"
             android:id="@+id/n_protein_desired_text"
-            android:textColor="@android:color/secondary_text_dark"/>
-    </GridLayout>
+            android:textColor="#888888"
+            android:layout_weight="1"
+            android:gravity="center" />
+    </TableRow>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text=" Exercise "
-        android:id="@+id/exerciseView"
-        android:layout_centerHorizontal="true"
-        android:layout_alignTop="@+id/gridLayout"
-        android:layout_marginTop="120dp"
-        android:textColor="@android:color/holo_blue_dark"/>
-
-    <GridLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/exerciseView"
-        android:layout_alignParentLeft="false"
-        android:layout_marginTop="60dp"
-        android:rowCount="3"
-        android:columnCount="2"
-        android:orientation="vertical"
-        android:layout_centerHorizontal="true">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Time: "
-            android:id="@+id/textView11"
-            android:textColor="@android:color/secondary_text_dark"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Distance: "
-            android:id="@+id/textView12"
-            android:textColor="@android:color/secondary_text_dark"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Calories Burned:   "
-            android:id="@+id/textView13"
-            android:textColor="@android:color/secondary_text_dark"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="0"
-            android:id="@+id/textView14"
-            android:textColor="#FFD700"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="0"
-            android:id="@+id/textView15"
-            android:textColor="#FFD700"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="0"
-            android:id="@+id/textView16"
-            android:textColor="#FFD700"/>
-    </GridLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Today's Efforts"
-        android:id="@+id/textView21"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:textSize="30dp"
-        android:textColor="@android:color/holo_red_dark"/>
 </RelativeLayout>
