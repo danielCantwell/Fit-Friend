@@ -41,8 +41,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@android:drawable/dialog_holo_light_frame"
-            android:gravity="center" />
+            android:gravity="center"
+            android:background="@android:drawable/editbox_dropdown_light_frame" />
     </TableRow>
 
     <TextView
@@ -141,7 +141,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:layout_gravity="bottom|left"
+            android:layout_gravity="bottom"
             android:layout_marginBottom="10dp" />
     </TableRow>
 

@@ -16,8 +16,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:textSize="30dp"
-        android:textScaleX="1.25"
-        android:textColor="#11DDFF"/>
+        android:textStyle="italic"
+        android:textScaleX="1.25"/>
 
     <TextView
         android:layout_width="wrap_content"

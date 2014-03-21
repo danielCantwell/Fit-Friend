@@ -11,6 +11,5 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="GroupHeader"
         android:id="@+id/favorites_group_header"
-        android:textStyle="bold"
-        android:textColor="@android:color/holo_red_dark"/>
+        android:textScaleX="1.15"/>
 </LinearLayout>
