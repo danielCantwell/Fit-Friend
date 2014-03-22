@@ -1,47 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#101010">
+    android:background="#DDFFEE">
 
 
     <EditText
         android:id="@+id/f_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:layout_marginTop="30dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:hint="Name"
         android:maxLines="2"
         android:selectAllOnFocus="true"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColorHint="@android:color/holo_blue_light"
-        android:textColor="@android:color/holo_blue_bright"
-        android:textSize="14sp" />
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/f_name"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        android:id="@+id/row1">
+        android:layout_marginTop="10dp">
 
-        <TextView
+        <Spinner
+            android:id="@+id/f_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Category"
-            android:id="@+id/textView"
             android:layout_weight="1"
-            android:layout_marginLeft="10dp"
-            android:textColor="@android:color/secondary_text_dark"/>
+            android:gravity="center"
+            android:textAlignment="center" />
 
         <AutoCompleteTextView
             android:layout_width="0dp"
@@ -50,171 +44,91 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/f_category"
             android:layout_weight="1"
-            android:hint="category"
-            android:textColorHint="@android:color/holo_red_light"
-            android:textColor="#FFD700"/>
+            android:hint="Category"/>
     </TableRow>
 
-    <TableRow
-        android:id="@+id/row2"
-        android:layout_width="fill_parent"
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/row1"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="15dp"
+        android:text="Calories"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/f_calories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
+        android:background="@android:drawable/edit_text"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="numberDecimal"
+        android:selectAllOnFocus="true" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Meal Type"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@android:color/secondary_text_dark"
-            android:layout_marginLeft="10dp" />
-
-        <Spinner
-            android:id="@+id/f_type"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center" />
-    </TableRow>
-
-    <TableRow
-        android:id="@+id/row3"
-        android:layout_width="fill_parent"
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/row2"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="5dp"
+        android:text="Fat"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/f_fat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp">
+        android:background="@android:drawable/edit_text"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="numberDecimal"
+        android:selectAllOnFocus="true" />
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Calories"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@android:color/secondary_text_dark"
-            android:layout_marginLeft="10dp" />
-
-        <EditText
-            android:id="@+id/f_calories"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="# cal"
-            android:selectAllOnFocus="true"
-            android:textColorHint="@android:color/holo_red_light"
-            android:textColor="#FFD700"
-            android:inputType="numberDecimal" />
-
-    </TableRow>
-
-    <TableRow
-        android:id="@+id/row6"
-        android:layout_width="fill_parent"
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/row3"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="5dp"
+        android:text="Carbs"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/f_carbs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp">
+        android:background="@android:drawable/edit_text"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="numberDecimal"
+        android:selectAllOnFocus="true" />
 
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Fat"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@android:color/secondary_text_dark"
-            android:layout_marginLeft="10dp" />
-
-        <EditText
-            android:id="@+id/f_fat"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="grams"
-            android:inputType="number|numberDecimal"
-            android:selectAllOnFocus="true"
-            android:textColorHint="@android:color/holo_red_light"
-            android:textColor="#FFD700"/>
-    </TableRow>
-
-    <TableRow
-        android:id="@+id/row5"
-        android:layout_width="fill_parent"
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/row6"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="5dp"
+        android:text="Protein"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/f_protein"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp">
+        android:background="@android:drawable/edit_text"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="numberDecimal"
+        android:selectAllOnFocus="true" />
 
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Carbs"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@android:color/secondary_text_dark"
-            android:layout_marginLeft="10dp" />
-
-        <EditText
-            android:id="@+id/f_carbs"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="grams"
-            android:inputType="number|numberDecimal"
-            android:selectAllOnFocus="true"
-            android:textColorHint="@android:color/holo_red_light"
-            android:textColor="#FFD700"/>
-    </TableRow>
-
-    <TableRow
-        android:id="@+id/row4"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/row5"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp">
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Protein"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@android:color/secondary_text_dark"
-            android:layout_marginLeft="10dp" />
-
-        <EditText
-            android:id="@+id/f_protein"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="grams"
-            android:selectAllOnFocus="true"
-            android:textColorHint="@android:color/holo_red_light"
-            android:textColor="#FFD700"
-            android:inputType="numberDecimal" />
-
-    </TableRow>
-
-</RelativeLayout>
+</LinearLayout>
