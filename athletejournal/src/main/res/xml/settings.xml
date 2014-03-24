@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:title="Favorites"
+        android:key="pref_key_favorites">
+        <intent
+            android:targetPackage="com.cantwellcode.athletejournal"
+            android:targetClass="com.cantwellcode.athletejournal.ProfileFragment"
+            android:action="com.cantwellcode.athletejournal.FAVORITES"
+        />
+    </Preference>
+
+    <PreferenceCategory
+        android:title="Goals"
+        android:key="pref_key_goals">
+
+        <EditTextPreference
+            android:key="pref_key_goal_calories"
+            android:title="Calories"
+            />
+        <EditTextPreference
+            android:key="pref_key_goal_fat"
+            android:title="Fat"
+            />
+        <EditTextPreference
+            android:key="pref_key_goal_carbs"
+            android:title="Carbs"
+            />
+        <EditTextPreference
+            android:key="pref_key_goal_protein"
+            android:title="Protein"
+            />
+    </PreferenceCategory>
+
+</PreferenceScreen>
