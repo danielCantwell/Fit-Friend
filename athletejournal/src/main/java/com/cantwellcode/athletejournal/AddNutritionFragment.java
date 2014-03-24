@@ -20,7 +20,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -43,12 +45,13 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
 
     private DialogFragment dateFragment;
 
-    private EditText name;
+    private AutoCompleteTextView name;
     private Button date;
     private EditText calories;
     private EditText protein;
     private EditText carbs;
     private EditText fat;
+    private CheckBox addToFavorites;
 
     private String _name;
     private String _date;
@@ -64,7 +67,6 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
 
     private Spinner type;
     private ArrayAdapter<CharSequence> adapter;
-    private Spinner favorites;
 
     private List<String> spinnerFavorites = new ArrayList<String>();
     private List<Favorite> favoritesList;
@@ -103,24 +105,22 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
 
         favoritesList = db.getAllFavorites();
         for (Favorite meal : favoritesList) {
-            spinnerFavorites.add(meal._name);
+            spinnerFavorites.add(meal.get_name());
         }
         Collections.sort(spinnerFavorites);
         spinnerFavorites.add(0, "Favorite Meals");
-        /* Favorites Type Spinner */
-        favorites = (Spinner) root.findViewById(R.id.n_favorites);
+
         ArrayAdapter<String> favoritesAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item, spinnerFavorites);
         favoritesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        favorites.setAdapter(favoritesAdapter);
-        favorites.setOnItemSelectedListener(this);
 
-        name        = (EditText) root.findViewById(R.id.n_name);
+        name        = (AutoCompleteTextView) root.findViewById(R.id.n_name);
         date        = (Button)   root.findViewById(R.id.n_date);
         calories    = (EditText) root.findViewById(R.id.n_calories);
         protein     = (EditText) root.findViewById(R.id.n_protein);
         carbs       = (EditText) root.findViewById(R.id.n_carbs);
         fat         = (EditText) root.findViewById(R.id.n_fat);
+        addToFavorites = (CheckBox) root.findViewById(R.id.addFavoriteCheck);
 
         if (((InstanceType)(getArguments().getSerializable("InstanceType"))).equals(InstanceType.EditMeal)) {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -133,6 +133,9 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
             protein.setText(sp.getString("MealToEdit_Protein", ""));
             carbs.setText(sp.getString("MealToEdit_Carbs", ""));
             fat.setText(sp.getString("MealToEdit_Fat", ""));
+
+            addToFavorites.setEnabled(false);
+            addToFavorites.setVisibility(View.GONE);
         }
 
         final Calendar c = Calendar.getInstance();
@@ -150,6 +153,29 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
             }
         });
 
+        name.setAdapter(favoritesAdapter);
+
+        name.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                String item = parent.getItemAtPosition(position).toString();
+
+                for (Favorite meal : favoritesList) {
+                    if (meal.get_name() == item) {
+                        int spinnerPosition = adapter.getPosition(meal.get_type());
+
+                        name.setText(meal.get_name());
+                        type.setSelection(spinnerPosition);
+                        calories.setText(meal.get_calories());
+                        protein.setText(meal.get_protein());
+                        carbs.setText(meal.get_carbs());
+                        fat.setText(meal.get_fat());
+                    }
+                }
+            }
+        });
+
         setHasOptionsMenu(true);
 
         return root;
@@ -163,22 +189,6 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
         String item = adapterView.getSelectedItem().toString();
 
         switch (adapterView.getId()) {
-            case R.id.n_favorites:
-                if (!item.equals("Favorite Meals")) {
-                    for (Favorite meal : favoritesList) {
-                        if (meal.get_name() == item) {
-                            int spinnerPosition = adapter.getPosition(meal.get_type());
-
-                            name.setText(meal.get_name());
-                            type.setSelection(spinnerPosition);
-                            calories.setText(meal.get_calories());
-                            protein.setText(meal.get_protein());
-                            carbs.setText(meal.get_carbs());
-                            fat.setText(meal.get_fat());
-                        }
-                    }
-                }
-                break;
             case R.id.n_type:
                 _type = item;
                 break;
@@ -278,7 +288,15 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
         prepareData();
         Toast.makeText(getActivity(), "Saving Meal", Toast.LENGTH_SHORT).show();
         Log.d("Nutrition", "Name: " + _name + " Date: " + _date + " Type: " + _type + " Calories: " + _calories);
-        db.addNutrition(new Nutrition(_name, _date, _type, _calories, _protein, _carbs, _fat));
+
+        Nutrition meal = new Nutrition(_name, _date, _type, _calories, _protein, _carbs, _fat);
+
+        if (addToFavorites.isChecked()) {
+            DialogFragment categoryDialog = new CategoryDialog(meal, db);
+            categoryDialog.show(getFragmentManager(), "categoryDialog");
+        }
+
+        db.addNutrition(meal);
 
         name.setText(null);
         calories.setText(null);

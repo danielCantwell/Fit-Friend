@@ -6,7 +6,7 @@
     android:background="#DDFFEE"
     android:orientation="vertical">
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/n_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -129,20 +129,14 @@
         android:inputType="numberDecimal"
         android:selectAllOnFocus="true" />
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add to Favorites"
+        android:id="@+id/addFavoriteCheck"
+        android:layout_gravity="center_horizontal"
+        android:checked="false"
+        android:layout_marginTop="10dp" />
 
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
-
-        <Spinner
-            android:id="@+id/n_favorites"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="10dp" />
-    </TableRow>
 
 </LinearLayout>
