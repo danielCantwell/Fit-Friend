@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -92,11 +93,15 @@ public class FavoritesViewFragment extends Fragment {
                 int childPosition = ExpandableListView.getPackedPositionChild(packedPosition);
 
                 if (itemType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-                    Log.d("Favorite LongClick", "Group " + groupPosition + " Item " + childPosition);
                     Favorite meal = (Favorite) mAdapter.getChild(groupPosition, childPosition);
                     showPopup(view, meal);
 
                     return true;
+                }
+
+                if (itemType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+                    String category = mAdapter.getGroup(groupPosition).toString();
+                    showPopup(category);
                 }
                 return false;
             }
@@ -242,6 +247,11 @@ public class FavoritesViewFragment extends Fragment {
         popup.show();
     }
 
+    private void showPopup(String category) {
+        DialogFragment categoryDialog = new CategoryDialog(this, category, db);
+        categoryDialog.show(getFragmentManager(), "categoryDialog");
+    }
+
     private void menuClickEdit(Favorite meal) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         sp.edit().putInt(F_EDIT_ID,           meal.get_id()).commit();
@@ -290,5 +300,12 @@ public class FavoritesViewFragment extends Fragment {
         }
 
         return favoritesSorted;
+    }
+
+    public void reloadList() {
+        prepareListData(db);
+        mAdapter = new FavoritesExpandableListAdapter(getActivity(), listHeaders, listData, sortType);
+
+        listView.setAdapter(mAdapter);
     }
 }

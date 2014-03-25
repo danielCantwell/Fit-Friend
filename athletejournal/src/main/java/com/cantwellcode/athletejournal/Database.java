@@ -339,6 +339,39 @@ public class Database extends SQLiteOpenHelper {
         return favoritesList;
     }
 
+    public List<Favorite> getFavoritesInCategory(String cat) {
+        List<Favorite> favoriteList = new ArrayList<Favorite>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_FAVORITES;
+        String catOptions = " WHERE " + FAVORITES_CATEGORY + "=?";
+
+        String[] selectedCategory = {cat};
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery + catOptions, selectedCategory);
+
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Favorite favorite = new Favorite();
+                favorite.set_id(Integer.parseInt(cursor.getString(0)));
+                favorite.set_name(cursor.getString(1));
+                favorite.set_date(cursor.getString(2));
+                favorite.set_type(cursor.getString(3));
+                favorite.set_calories(cursor.getString(4));
+                favorite.set_protein(cursor.getString(5));
+                favorite.set_carbs(cursor.getString(6));
+                favorite.set_fat(cursor.getString(7));
+                // Adding favorite to list
+                favoriteList.add(favorite);
+            } while (cursor.moveToNext());
+        }
+
+        // return favorites list
+        return favoriteList;
+    }
+
     public List<String> getFavoriteCategories() {
         List<String> categories = new ArrayList<String>();
         // Select All Query

@@ -18,12 +18,28 @@ import java.util.List;
  */
 public class CategoryDialog extends DialogFragment {
 
+    private enum InstanceType {
+        Single, Group
+    };
+
+    private InstanceType type;
     private Nutrition meal;
     private Database db;
+    private String category;
+
+    private FavoritesViewFragment viewFragment;
 
     public CategoryDialog(Nutrition meal, Database db) {
         this.meal = meal;
         this.db = db;
+        type = InstanceType.Single;
+    }
+
+    public CategoryDialog(FavoritesViewFragment viewFragment,String category, Database db) {
+        this.db = db;
+        this.category = category;
+        type = InstanceType.Group;
+        this.viewFragment = viewFragment;
     }
 
     @Override
@@ -42,24 +58,46 @@ public class CategoryDialog extends DialogFragment {
                 android.R.layout.simple_dropdown_item_1line, categoryList);
         categoryText.setAdapter(categoryAdapter);
 
-        builder.setView(root)
-                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
+        if (type == InstanceType.Single) {
+            builder.setView(root)
+                    .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            db.addFavorite(new Favorite(meal.get_name(), categoryText.getText().toString(), meal.get_type(),
+                                    meal.get_calories(), meal.get_protein(), meal.get_carbs(), meal.get_fat()));
+                            Toast.makeText(getActivity(),
+                                    meal.get_name() + " has been added as a favorite under the " +
+                                            categoryText.getText().toString() + " category", Toast.LENGTH_LONG
+                            ).show();
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            CategoryDialog.this.getDialog().cancel();
+                        }
+                    });
+        }
+        else if (type == InstanceType.Group) {
+            categoryText.setHint("New Name for Category: \n" + category);
+            builder.setView(root)
+                    .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
 
+                            List<Favorite> favs = db.getFavoritesInCategory(category);
 
-                        db.addFavorite(new Favorite(meal.get_name(), categoryText.getText().toString(), meal.get_type(),
-                                meal.get_calories(), meal.get_protein(), meal.get_carbs(), meal.get_fat()));
-                        Toast.makeText(getActivity(),
-                                meal.get_name() + " has been added as a favorite under the " +
-                                        categoryText.getText().toString() + " category", Toast.LENGTH_LONG
-                        ).show();
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        CategoryDialog.this.getDialog().cancel();
-                    }
-                });
+                            for (Favorite favorite : favs) {
+                                favorite.set_category(categoryText.getText().toString());
+                                db.updateFavorite(favorite);
+                            }
+
+                            viewFragment.reloadList();
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            CategoryDialog.this.getDialog().cancel();
+                        }
+                    });
+        }
         // Create the AlertDialog object and return it
         return builder.create();
     }

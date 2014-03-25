@@ -58,6 +58,10 @@ public class Favorite {
         return _category;
     }
 
+    public void set_category(String _category) {
+        this._category = _category;
+    }
+
     public void set_date(String category) {
         this._category = category;
     }
