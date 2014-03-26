@@ -94,14 +94,13 @@ public class WidgetProvider extends AppWidgetProvider {
             remoteViews.setTextViewText(R.id.w_carbs_desired_text, sp.getString(ProfileFragment.GOAL_CARBS, "defaultCarb"));
             remoteViews.setTextViewText(R.id.w_fat_desired_text, sp.getString(ProfileFragment.GOAL_FAT, "defaultFat"));
 
+
             // Register an onClickListener
-            Intent intent = new Intent(context, WidgetProvider.class);
+            Intent activityIntent = new Intent(context, MainActivity.class);
+            activityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            activityIntent.putExtra("FROM_NUTRITION_WIDGET", true);
 
-            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
-
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-                    0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, activityIntent, 0);
             remoteViews.setOnClickPendingIntent(R.id.widget_layout_id, pendingIntent);
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
         }

@@ -44,6 +44,10 @@ public class MainActivity extends FragmentActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        if (getIntent().getBooleanExtra("FROM_NUTRITION_WIDGET", false)) {
+            mNavigationDrawerFragment.selectItem(2);
+        }
     }
 
     @Override
