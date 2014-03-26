@@ -19,14 +19,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <receiver android:name="JournalWidgetProvider" >
+
+        <receiver android:name="com.cantwellcode.athletejournal.WidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data android:name="android.appwidget.provider"
-                       android:resource="@xml/widget_journal" />
+                android:resource="@xml/widget_journal" />
         </receiver>
+
     </application>
 
 </manifest>

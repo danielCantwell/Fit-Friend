@@ -3,6 +3,8 @@ package com.cantwellcode.athletejournal;
 import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -362,6 +364,8 @@ public class NutritionViewFragment extends ListFragment {
         } else {
             totalFat.setText(fat.toString());
         }
+
+        updateWidget();
     }
 
     private void showPopup(View v, final Nutrition meal) {
@@ -436,6 +440,7 @@ public class NutritionViewFragment extends ListFragment {
         mAdapter.clear();
         mAdapter.addAll(meals);
         updateTotals();
+
     }
 
     /* Date Picker Fragment */
@@ -464,5 +469,14 @@ public class NutritionViewFragment extends ListFragment {
             mAdapter.addAll(meals);
             updateTotals();
         }
+    }
+
+    private void updateWidget() {
+        Context context = getActivity();
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        ComponentName thisWidget = new ComponentName(context, WidgetProvider.class);
+
+        WidgetProvider w = new WidgetProvider();
+        w.onUpdate(context, appWidgetManager, appWidgetManager.getAppWidgetIds(thisWidget));
     }
 }
