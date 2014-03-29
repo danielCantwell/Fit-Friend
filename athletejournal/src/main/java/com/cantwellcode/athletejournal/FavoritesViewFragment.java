@@ -191,7 +191,7 @@ public class FavoritesViewFragment extends Fragment {
                         favoritesInType.add(favorite);
                     }
                 }
-                listData.put(header, favoritesInType);
+                listData.put(header, sortFavoritesByName(favoritesInType));
             }
         }
     }

@@ -25,7 +25,7 @@
         android:layout_below="@+id/textView21"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="58dp"
-        android:text=" Nutrition "
+        android:text="Nutrition"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@android:color/holo_blue_dark" />
 
@@ -126,6 +126,7 @@
     </TableRow>
 
     <TableRow
+        android:id="@+id/n_desired_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tableDataRow"
@@ -170,6 +171,105 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="100"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#888888" />
+    </TableRow>
+
+
+    <TextView
+        android:id="@+id/workoutView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/n_desired_row"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="58dp"
+        android:text="Workout"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@android:color/holo_blue_dark" />
+
+    <TableRow
+        android:id="@+id/tableWorkoutNameRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/workoutView"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:id="@+id/textView2w"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Time"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#888888" />
+
+        <TextView
+            android:id="@+id/textView5w"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Calories"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#888888" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableWorkoutDataRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tableWorkoutNameRow"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp">
+
+        <com.cantwellcode.athletejournal.SmallDecimalTextView
+            android:id="@+id/w_time_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="0"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <com.cantwellcode.athletejournal.SmallDecimalTextView
+            android:id="@+id/w_distance_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="0"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tableWorkoutDataRow"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/w_time_desired_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="2:00:00"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#888888" />
+
+        <TextView
+            android:id="@+id/w_cal_desired_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="800"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#888888" />
     </TableRow>

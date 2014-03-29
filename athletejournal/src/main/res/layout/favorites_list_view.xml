@@ -34,5 +34,6 @@
         android:layout_height="wrap_content"
         android:id="@android:id/list"
         android:choiceMode="singleChoice"
-        android:dividerHeight="0dp" />
+        android:dividerHeight="1dp"
+        android:divider="#00000000"/>
 </LinearLayout>
