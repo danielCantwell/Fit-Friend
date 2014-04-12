@@ -45,37 +45,29 @@ public class MainActivity extends FragmentActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        if (getIntent().getBooleanExtra("FROM_NUTRITION_WIDGET", false)) {
-            mNavigationDrawerFragment.selectItem(2);
-        }
+        mNavigationDrawerFragment.selectItem(1);
+
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         switch (position) {
-            case 0:
-                FragmentManager fm1 = getSupportFragmentManager();
-                fm1.beginTransaction()
-                        .replace(R.id.container, journalFragment)
-                        .commit();
-                mTitle = getString(R.string.title_section1);
-                break;
             case 1:
-                FragmentManager fm2 = getSupportFragmentManager();
-                fm2.beginTransaction()
-                        .replace(R.id.container, workoutFragment)
-                        .commit();
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 2:
                 FragmentManager fm3 = getSupportFragmentManager();
                 fm3.beginTransaction()
                         .replace(R.id.container, NutritionViewFragment.newInstance(this))
                         .commit();
                 mTitle = getString(R.string.title_section3);
                 break;
-            case 3:
+            case 5:
+                FragmentManager fm2 = getSupportFragmentManager();
+                fm2.beginTransaction()
+                        .replace(R.id.container, workoutFragment)
+                        .commit();
+                mTitle = getString(R.string.title_section2);
+                break;
+            case 12:
                 FragmentManager fm4 = getSupportFragmentManager();
                 fm4.beginTransaction()
                         .replace(R.id.container, profileFragment)

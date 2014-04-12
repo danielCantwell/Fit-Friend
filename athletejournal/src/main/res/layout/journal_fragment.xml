@@ -3,7 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    android:background="#DDFFEE">
+    android:background="#ecf0f1">
 
     <TextView
         android:id="@+id/textView21"
@@ -16,7 +16,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textScaleX="1.25"
         android:textSize="30dp"
-        android:textStyle="italic" />
+        android:textStyle="italic"
+        android:textColor="#f1c40f"/>
 
     <TextView
         android:id="@+id/nutritionView"
@@ -27,7 +28,7 @@
         android:layout_marginTop="58dp"
         android:text="Nutrition"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@android:color/holo_blue_dark" />
+        android:textColor="#c0392b" />
 
     <TableRow
         android:id="@+id/tableNameRow"
@@ -175,7 +176,6 @@
             android:textColor="#888888" />
     </TableRow>
 
-
     <TextView
         android:id="@+id/workoutView"
         android:layout_width="wrap_content"
@@ -185,7 +185,7 @@
         android:layout_marginTop="58dp"
         android:text="Workout"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@android:color/holo_blue_dark" />
+        android:textColor="#c0392b" />
 
     <TableRow
         android:id="@+id/tableWorkoutNameRow"

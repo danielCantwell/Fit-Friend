@@ -2,7 +2,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <TextView
         android:layout_width="wrap_content"
@@ -10,15 +10,16 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Deadlifts"
         android:id="@+id/gym_set_name"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp" />
 
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="7dp">
+        android:layout_marginRight="100dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="100dp">
 
         <TextView
             android:layout_width="0dp"
@@ -59,8 +60,8 @@
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
         android:layout_marginTop="2dp">
 
         <TextView

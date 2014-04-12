@@ -22,6 +22,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
@@ -57,6 +60,8 @@ public class NavigationDrawerFragment extends Fragment {
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
+
+    private NavigationDrawerAdapter adapter;
 
     public NavigationDrawerFragment() {
     }
@@ -97,16 +102,27 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                new String[]{
-                        getString(R.string.title_section1),
-                        getString(R.string.title_section2),
-                        getString(R.string.title_section3),
-                        getString(R.string.title_section4),
-                }));
+
+        List<DrawerItem> items = new ArrayList<DrawerItem>();
+        items.add(new DrawerItem("Nutrition", true));
+        items.add(new DrawerItem("Log", R.drawable.ic_launcher));
+        items.add(new DrawerItem("Plan", R.drawable.ic_launcher));
+        items.add(new DrawerItem("Statistics", R.drawable.ic_launcher));
+        items.add(new DrawerItem("Exercise", true));
+        items.add(new DrawerItem("Log", R.drawable.ic_launcher));
+        items.add(new DrawerItem("Plan", R.drawable.ic_launcher));
+        items.add(new DrawerItem("Statistics", R.drawable.ic_launcher));
+        items.add(new DrawerItem("Connect",true));
+        items.add(new DrawerItem("Friends", R.drawable.ic_launcher));
+        items.add(new DrawerItem("Explore", R.drawable.ic_launcher));
+        items.add(new DrawerItem("Profile", true));
+        items.add(new DrawerItem("Personal", R.drawable.ic_launcher));
+        items.add(new DrawerItem("Social", R.drawable.ic_launcher));
+
+        adapter = new NavigationDrawerAdapter(
+                getActivity(), android.R.layout.simple_list_item_activated_1, items);
+
+        mDrawerListView.setAdapter(adapter);
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
     }
@@ -193,6 +209,7 @@ public class NavigationDrawerFragment extends Fragment {
         mCurrentSelectedPosition = position;
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);
+            adapter.selection = position;
         }
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);

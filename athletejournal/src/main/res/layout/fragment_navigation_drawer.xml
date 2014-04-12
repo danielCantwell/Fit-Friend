@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:choiceMode="singleChoice"
-    android:divider="@android:color/transparent"
-    android:dividerHeight="0dp"
-    android:background="#cccc"
-    tools:context="com.cantwellcode.athletejournal.NavigationDrawerFragment" />
+    android:divider="#555555"
+    android:background="#222222"
+    tools:context="com.cantwellcode.athletejournal.NavigationDrawerFragment"
+    android:dividerHeight="1dp"
+    android:headerDividersEnabled="false" />
