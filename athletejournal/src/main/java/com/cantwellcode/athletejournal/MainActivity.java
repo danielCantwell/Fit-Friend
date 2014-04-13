@@ -4,16 +4,16 @@ import android.app.ActionBar;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.Toast;
+import android.view.Menu;
+import android.view.MotionEvent;
 
 public class MainActivity extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     Database db;
 
+    NutritionLog nutritionLog = (NutritionLog) NutritionLog.newInstance(this);
     JournalFragment journalFragment = (JournalFragment) JournalFragment.newInstance(this);
     WorkoutFragment workoutFragment = (WorkoutFragment) WorkoutFragment.newInstance(this);
     ProfileFragment profileFragment = (ProfileFragment) ProfileFragment.newInstance(this);
@@ -56,7 +56,7 @@ public class MainActivity extends FragmentActivity
             case 1:
                 FragmentManager fm3 = getSupportFragmentManager();
                 fm3.beginTransaction()
-                        .replace(R.id.container, NutritionViewFragment.newInstance(this))
+                        .replace(R.id.container, nutritionLog)
                         .commit();
                 mTitle = getString(R.string.title_section3);
                 break;
@@ -86,4 +86,15 @@ public class MainActivity extends FragmentActivity
 
     @Override
     public void onBackPressed() {super.onBackPressed();}
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (getActionBar().getTitle() == "Nutrition Log") {
+            super.dispatchTouchEvent(ev);
+            return nutritionLog.mDetector.onTouchEvent(ev);
+        }
+        else {
+            return super.dispatchTouchEvent(ev);
+        }
+    }
 }

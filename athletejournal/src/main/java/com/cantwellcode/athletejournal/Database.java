@@ -404,6 +404,22 @@ public class Database extends SQLiteOpenHelper {
         return cursor.getCount();
     }
 
+    public int getTodaysNutritionCount(Calendar c) {
+        // Select All Query
+        String countQuery = "SELECT  * FROM " + TABLE_NUTRITION;
+        String dateOptions = " WHERE " + NUTRITION_DATE + "=?";
+
+        String[] currentDay = {c.get(Calendar.MONTH) + "/" + c.get(Calendar.DAY_OF_MONTH) + "/" + c.get(Calendar.YEAR)};
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(countQuery + dateOptions, currentDay);
+
+        int count = cursor.getCount();
+        cursor.close();
+
+        return count;
+    }
+
     public int getFavoritesCount() {
         String countQuery = "SELECT  * FROM " + TABLE_FAVORITES;
         SQLiteDatabase db = this.getReadableDatabase();

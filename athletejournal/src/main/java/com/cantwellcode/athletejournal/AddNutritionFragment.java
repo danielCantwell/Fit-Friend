@@ -3,9 +3,6 @@ package com.cantwellcode.athletejournal;
 import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
@@ -14,7 +11,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,9 +24,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RemoteViews;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -226,13 +220,13 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
                 }
                 FragmentManager fm1 = getFragmentManager();
                 fm1.beginTransaction()
-                        .replace(R.id.container, NutritionViewFragment.newInstance(getActivity()))
+                        .replace(R.id.container, NutritionLog.newInstance(getActivity()))
                         .commit();
                 break;
             case R.id.action_cancelNutrition:
                 FragmentManager fm2 = getFragmentManager();
                 fm2.beginTransaction()
-                        .replace(R.id.container, NutritionViewFragment.newInstance(getActivity()))
+                        .replace(R.id.container, NutritionLog.newInstance(getActivity()))
                         .commit();
                 break;
         }

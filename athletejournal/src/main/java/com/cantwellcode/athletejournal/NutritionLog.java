@@ -14,11 +14,14 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
+import android.support.v4.view.GestureDetectorCompat;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -30,28 +33,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
 /**
  * Created by Daniel on 2/12/14.
  */
-public class NutritionViewFragment extends ListFragment {
-
-    private enum CurrentView {Day, Week, Month, Total}
-
-    ;
-    private CurrentView currentView = CurrentView.Day;
-
-    int year;
-    int month;
-    int day;
+public class NutritionLog extends ListFragment {
 
     Menu menu;
     MenuInflater menuInflater;
 
     public static Fragment newInstance(Context context) {
-        NutritionViewFragment f = new NutritionViewFragment();
+        NutritionLog f = new NutritionLog();
         return f;
     }
 
@@ -62,21 +57,42 @@ public class NutritionViewFragment extends ListFragment {
     private List<Nutrition> meals;
     private NutritionArrayAdapter mAdapter;
 
-    private Button dayView;
-    private Button weekView;
-    private Button monthView;
-    private Button totalView;
+    private Button previous;
+    private Button date;
+    private Button next;
 
     private SmallDecimalTextView totalCalories;
     private SmallDecimalTextView totalProtein;
     private SmallDecimalTextView totalCarbs;
     private SmallDecimalTextView totalFat;
 
+    private TextView goalCalories;
+    private TextView goalFat;
+    private TextView goalCarbs;
+    private TextView goalProtein;
+
+    Calendar c;
+    int year;
+    int month;
+    int day;
+
+    public GestureDetectorCompat mDetector;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.nutrition_list_view, null);
 
-        final Calendar c = Calendar.getInstance();
+        mDetector = new GestureDetectorCompat(getActivity(), new SwipeListener());
+
+        root.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                mDetector.onTouchEvent(event);
+                return true;
+            }
+        });
+
+        c = Calendar.getInstance();
         year = c.get(Calendar.YEAR);
         month = c.get(Calendar.MONTH) + 1;
         day = c.get(Calendar.DAY_OF_MONTH);
@@ -104,67 +120,41 @@ public class NutritionViewFragment extends ListFragment {
 
         setHasOptionsMenu(true);
 
-        dayView = (Button) root.findViewById(R.id.n_day_button);
-        weekView = (Button) root.findViewById(R.id.n_week_button);
-        monthView = (Button) root.findViewById(R.id.n_month_button);
-        totalView = (Button) root.findViewById(R.id.n_total_button);
+        previous = (Button) root.findViewById(R.id.n_previous);
+        date = (Button) root.findViewById(R.id.n_date);
+        next = (Button) root.findViewById(R.id.n_next);
 
-        dayView.setTextColor(Color.BLUE);
+        next.setEnabled(false);
 
-        dayView.setOnClickListener(new View.OnClickListener() {
+        date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                meals = db.getNutritionList(Database.NutritionListType.Day, month, day, year);
-                mAdapter.clear();
-                mAdapter.addAll(meals);
-                updateTotals();
-
-                dayView.setTextColor(Color.BLUE);
-                weekView.setTextColor(Color.BLACK);
-                monthView.setTextColor(Color.BLACK);
-                totalView.setTextColor(Color.BLACK);
-
-                currentView = CurrentView.Day;
-
-                onPrepareOptionsMenu(menu);
+                DialogFragment dateFragment = new DatePickerFragment();
+                dateFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
             }
         });
 
-        monthView.setOnClickListener(new View.OnClickListener() {
+        previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                meals = db.getNutritionList(Database.NutritionListType.Month, month, day, year);
-                mAdapter.clear();
-                mAdapter.addAll(meals);
-                updateTotals();
+                c.add(Calendar.DATE, -1);
+                year = c.get(Calendar.YEAR);
+                month = c.get(Calendar.MONTH) + 1;
+                day = c.get(Calendar.DAY_OF_MONTH);
 
-                dayView.setTextColor(Color.BLACK);
-                weekView.setTextColor(Color.BLACK);
-                monthView.setTextColor(Color.BLUE);
-                totalView.setTextColor(Color.BLACK);
-
-                currentView = CurrentView.Month;
-
-                onPrepareOptionsMenu(menu);
+                updateList();
             }
         });
 
-        totalView.setOnClickListener(new View.OnClickListener() {
+        next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                meals = db.getNutritionList(Database.NutritionListType.Total, month, day, year);
-                mAdapter.clear();
-                mAdapter.addAll(meals);
-                updateTotals();
+                c.add(Calendar.DATE, 1);
+                year = c.get(Calendar.YEAR);
+                month = c.get(Calendar.MONTH) + 1;
+                day = c.get(Calendar.DAY_OF_MONTH);
 
-                dayView.setTextColor(Color.BLACK);
-                weekView.setTextColor(Color.BLACK);
-                monthView.setTextColor(Color.BLACK);
-                totalView.setTextColor(Color.BLUE);
-
-                currentView = CurrentView.Total;
-
-                onPrepareOptionsMenu(menu);
+                updateList();
             }
         });
 
@@ -173,85 +163,43 @@ public class NutritionViewFragment extends ListFragment {
         totalCarbs = (SmallDecimalTextView) root.findViewById(R.id.n_view_total_carbs);
         totalFat = (SmallDecimalTextView) root.findViewById(R.id.n_view_total_fat);
 
+        goalCalories = (TextView) root.findViewById(R.id.n_goal_calories);
+        goalFat = (TextView) root.findViewById(R.id.n_goal_fat);
+        goalCarbs = (TextView) root.findViewById(R.id.n_goal_carbs);
+        goalProtein = (TextView) root.findViewById(R.id.n_goal_protein);
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        goalCalories.setText(sp.getString(ProfileFragment.GOAL_CALORIES, "defaultCal"));
+        goalProtein.setText(sp.getString(ProfileFragment.GOAL_PROTEIN, "defaultPro"));
+        goalCarbs.setText(sp.getString(ProfileFragment.GOAL_CARBS, "defaultCarb"));
+        goalFat.setText(sp.getString(ProfileFragment.GOAL_FAT, "defaultFat"));
+
         updateTotals();
 
         return root;
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        goalCalories.setText(sp.getString(ProfileFragment.GOAL_CALORIES, "defaultCal") + " cal");
+        goalFat.setText(sp.getString(ProfileFragment.GOAL_FAT, "defaultFat") + " fat");
+        goalCarbs.setText(sp.getString(ProfileFragment.GOAL_CARBS, "defaultCarb") + " carbs");
+        goalProtein.setText(sp.getString(ProfileFragment.GOAL_PROTEIN, "defaultPro") + " prot");
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         restoreActionBar();
-        inflater.inflate(R.menu.n_view_day, menu);
+        inflater.inflate(R.menu.add_new, menu);
         this.menu = menu;
         this.menuInflater = inflater;
     }
 
     @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        final Calendar c = Calendar.getInstance();
-        year = c.get(Calendar.YEAR);
-        month = c.get(Calendar.MONTH) + 1;
-        day = c.get(Calendar.DAY_OF_MONTH);
-
-        menu.clear();
-        restoreActionBar();
-
-        switch (currentView) {
-            case Day:
-                menuInflater.inflate(R.menu.n_view_day, menu);
-                menu.getItem(0).setTitle((month) + " / " + day + " / " + year);
-                break;
-            case Month:
-                menuInflater.inflate(R.menu.n_view_month, menu);
-                switch (month) {
-                    case 1:
-                        menu.getItem(0).setTitle("January");
-                        break;
-                    case 2:
-                        menu.getItem(0).setTitle("February");
-                        break;
-                    case 3:
-                        menu.getItem(0).setTitle("March");
-                        break;
-                    case 4:
-                        menu.getItem(0).setTitle("April");
-                        break;
-                    case 5:
-                        menu.getItem(0).setTitle("May");
-                        break;
-                    case 6:
-                        menu.getItem(0).setTitle("June");
-                        break;
-                    case 7:
-                        menu.getItem(0).setTitle("July");
-                        break;
-                    case 8:
-                        menu.getItem(0).setTitle("August");
-                        break;
-                    case 9:
-                        menu.getItem(0).setTitle("September");
-                        break;
-                    case 10:
-                        menu.getItem(0).setTitle("October");
-                        break;
-                    case 11:
-                        menu.getItem(0).setTitle("November");
-                        break;
-                    case 12:
-                        menu.getItem(0).setTitle("December");
-                        break;
-                }
-                break;
-            case Total:
-                menuInflater.inflate(R.menu.n_view_total, menu);
-                break;
-        }
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int monthSelect = 0;
         switch (item.getItemId()) {
             case R.id.action_addNew:
                 FragmentManager fm = getFragmentManager();
@@ -259,64 +207,6 @@ public class NutritionViewFragment extends ListFragment {
                         .replace(R.id.container, AddNutritionFragment.newInstance(getActivity(), AddNutritionFragment.InstanceType.NewMeal))
                         .commit();
                 break;
-            case R.id.action_changeDate:
-                DialogFragment dateFragment = new DatePickerFragment();
-                dateFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
-                break;
-            case R.id.action_selectJanuary:
-                monthSelect = 1;
-                menu.getItem(0).setTitle("January");
-                break;
-            case R.id.action_selectFebruary:
-                monthSelect = 2;
-                menu.getItem(0).setTitle("February");
-                break;
-            case R.id.action_selectMarch:
-                monthSelect = 3;
-                menu.getItem(0).setTitle("March");
-                break;
-            case R.id.action_selectApril:
-                monthSelect = 4;
-                menu.getItem(0).setTitle("April");
-                break;
-            case R.id.action_selectMay:
-                monthSelect = 5;
-                menu.getItem(0).setTitle("May");
-                break;
-            case R.id.action_selectJune:
-                monthSelect = 6;
-                menu.getItem(0).setTitle("June");
-                break;
-            case R.id.action_selectJuly:
-                monthSelect = 7;
-                menu.getItem(0).setTitle("July");
-                break;
-            case R.id.action_selectAugust:
-                monthSelect = 8;
-                menu.getItem(0).setTitle("August");
-                break;
-            case R.id.action_selectSeptember:
-                monthSelect = 9;
-                menu.getItem(0).setTitle("September");
-                break;
-            case R.id.action_selectOctober:
-                monthSelect = 10;
-                menu.getItem(0).setTitle("October");
-                break;
-            case R.id.action_selectNovember:
-                monthSelect = 11;
-                menu.getItem(0).setTitle("November");
-                break;
-            case R.id.action_selectDecember:
-                monthSelect = 12;
-                menu.getItem(0).setTitle("December");
-                break;
-        }
-        if (monthSelect != 0) {
-            meals = db.getNutritionList(Database.NutritionListType.Month, monthSelect, day, year);
-            mAdapter.clear();
-            mAdapter.addAll(meals);
-            updateTotals();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -326,6 +216,7 @@ public class NutritionViewFragment extends ListFragment {
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle("Nutrition Log");
+
     }
 
     private void updateTotals() {
@@ -421,17 +312,7 @@ public class NutritionViewFragment extends ListFragment {
     private void menuClickDelete(Nutrition meal) {
         db.deleteNutrition(meal);
 
-        switch (currentView) {
-            case Day:
-                meals = db.getNutritionList(Database.NutritionListType.Day, month, day, year);
-                break;
-            case Month:
-                meals = db.getNutritionList(Database.NutritionListType.Month, month, day, year);
-                break;
-            case Total:
-                meals = db.getNutritionList(Database.NutritionListType.Total, month, day, year);
-                break;
-        }
+        meals = db.getNutritionList(Database.NutritionListType.Day, month, day, year);
 
         if (meals.isEmpty()) {
             Toast.makeText(getActivity(), "No Meals Have Been Added", Toast.LENGTH_LONG).show();
@@ -460,14 +341,56 @@ public class NutritionViewFragment extends ListFragment {
         @Override
         public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
             year = i;
-            month = i2 + 1;
+            month = i2;
             day = i3;
-            menu.getItem(0).setTitle(" " + (month) + " / " + day + " / " + year + " ");
 
-            meals = db.getNutritionList(Database.NutritionListType.Day, month, day, year);
+            c.set(Calendar.YEAR, year);
+            c.set(Calendar.MONTH, month);
+            c.set(Calendar.DAY_OF_MONTH, day);
+
+            meals = db.getNutritionList(Database.NutritionListType.Day, month + 1, day, year);
             mAdapter.clear();
             mAdapter.addAll(meals);
             updateTotals();
+
+            final Calendar cal = Calendar.getInstance();
+            int y = cal.get(Calendar.YEAR);
+            int m = cal.get(Calendar.MONTH);
+            int d = cal.get(Calendar.DAY_OF_MONTH);
+
+            if (y == year && m == month && d == day) {
+                date.setText("Today");
+            } else {
+                SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+                String formattedDate = df.format(c.getTime());
+                date.setText(formattedDate);
+            }
+        }
+    }
+
+    private void updateList() {
+        meals = db.getNutritionList(Database.NutritionListType.Day, month, day, year);
+        mAdapter.clear();
+        mAdapter.addAll(meals);
+        updateTotals();
+
+        final Calendar cal = Calendar.getInstance();
+        int y = cal.get(Calendar.YEAR);
+        int m = cal.get(Calendar.MONTH) + 1;
+        int d = cal.get(Calendar.DAY_OF_MONTH);
+
+        if (y == year && m == month && d == day) {
+            date.setText("Today");
+            next.setEnabled(false);
+            next.setTextColor(Color.GRAY);
+        } else {
+            SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+            String formattedDate = df.format(c.getTime());
+            date.setText(formattedDate);
+            if (!next.isEnabled()) {
+                next.setEnabled(true);
+                next.setTextColor(Color.BLACK);
+            }
         }
     }
 
@@ -478,5 +401,24 @@ public class NutritionViewFragment extends ListFragment {
 
         WidgetProvider w = new WidgetProvider();
         w.onUpdate(context, appWidgetManager, appWidgetManager.getAppWidgetIds(thisWidget));
+    }
+
+    private class SwipeListener extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+
+            if (velocityX * velocityX <= velocityY * velocityY) return false;
+
+            if (e2.getX() > e1.getX()) {
+                previous.callOnClick();
+            }
+            else if (e2.getX() < e1.getX()) {
+                if (next.isEnabled())
+                    next.callOnClick();
+            }
+
+            return true;
+        }
     }
 }

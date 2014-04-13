@@ -1,140 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ecf0f1">
+    android:background="#ecf0f1"
+    android:orientation="vertical">
 
     <TableRow
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Day"
-            android:id="@+id/n_day_button"
-            android:layout_weight="1"
-            android:background="@android:drawable/editbox_dropdown_light_frame"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Week"
-            android:id="@+id/n_week_button"
-            android:layout_weight="1"
-            android:background="@android:drawable/editbox_dropdown_light_frame"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Month"
-            android:id="@+id/n_month_button"
-            android:layout_weight="1"
-            android:background="@android:drawable/editbox_dropdown_light_frame"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Total"
-            android:id="@+id/n_total_button"
-            android:layout_weight="1"
-            android:background="@android:drawable/editbox_dropdown_light_frame"/>
-
-    </TableRow>
-
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:background="#f1c40f"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/tableRow1"
+        android:layout_alignParentTop="true">
 
         <com.cantwellcode.athletejournal.SmallDecimalTextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/n_view_total_calories"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:hint="calories"/>
-
-        <com.cantwellcode.athletejournal.SmallDecimalTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:hint="calories"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <com.cantwellcode.athletejournal.SmallDecimalTextView
             android:id="@+id/n_view_total_fat"
-            android:layout_weight="1"
-            android:hint="fat"
-            android:gravity="center"/>
-
-        <com.cantwellcode.athletejournal.SmallDecimalTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/n_view_total_carbs"
             android:layout_weight="1"
-            android:hint="carbs"
-            android:gravity="center"/>
-
-        <com.cantwellcode.athletejournal.SmallDecimalTextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/n_view_total_protein"
-            android:hint="protein"
             android:gravity="center"
-            android:layout_weight="1"/>
+            android:hint="fat"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <com.cantwellcode.athletejournal.SmallDecimalTextView
+            android:id="@+id/n_view_total_carbs"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:hint="carbs"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <com.cantwellcode.athletejournal.SmallDecimalTextView
+            android:id="@+id/n_view_total_protein"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:hint="protein"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
     </TableRow>
 
     <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f1c40f"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/tableRow2"
+        android:layout_below="@+id/tableRow1">
 
         <TextView
+            android:id="@+id/n_goal_calories"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="Calories"
-            android:id="@+id/textView"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textColor="#888888"/>
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#888888" />
 
         <TextView
+            android:id="@+id/n_goal_fat"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="Fat"
-            android:id="@+id/textView4"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textColor="#888888"/>
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#888888" />
 
         <TextView
+            android:id="@+id/n_goal_carbs"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="Carbs"
-            android:id="@+id/textView3"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textColor="#888888"/>
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#888888" />
 
         <TextView
+            android:id="@+id/n_goal_protein"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Protein"
-            android:id="@+id/textView2"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="#888888"/>
+            android:text="Protein"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#888888" />
+
     </TableRow>
 
     <ListView
+        android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@android:id/list"
         android:choiceMode="singleChoice"
-        android:dividerHeight="2dp" />
+        android:dividerHeight="3dp"
+        android:layout_below="@+id/tableRow2"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/tableRow" />
 
-</LinearLayout>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f1c40f"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentTop="false"
+        android:layout_marginTop="0dp"
+        android:id="@+id/tableRow"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/n_previous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:text="@string/previous" />
+
+        <Button
+            android:id="@+id/n_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:background="#00000000"
+            android:text="Today" />
+
+        <Button
+            android:id="@+id/n_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:text="@string/next" />
+
+    </TableRow>
+
+</RelativeLayout>

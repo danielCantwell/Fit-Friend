@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@android:drawable/editbox_dropdown_light_frame">
+    android:background="#FFFFFF">
 
     <TextView
         android:layout_width="wrap_content"
@@ -15,7 +15,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="10dp"
         android:hint="Name"
-        android:textColor="@android:color/holo_blue_dark"/>
+        android:textColor="#c0392b"/>
 
     <TextView
         android:layout_width="wrap_content"
