@@ -2,7 +2,6 @@ package com.cantwellcode.athletejournal;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -43,7 +42,7 @@ public class NutritionArrayAdapter extends ArrayAdapter<Nutrition> {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.n_data, null);
+            convertView = inflater.inflate(R.layout.nutrition_data, null);
             holder = new ViewHolder();
             holder.name = (TextView) convertView.findViewById(R.id.n_data_name);
             holder.date = (TextView) convertView.findViewById(R.id.n_data_date);

@@ -4,10 +4,8 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
@@ -85,7 +83,7 @@ public class FavoritesExpandableListAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.favorites_list_group, null);
+            convertView = inflater.inflate(R.layout.nutrition_favorites_header, null);
         }
 
         TextView header = (TextView) convertView.findViewById(R.id.favorites_group_header);
@@ -104,7 +102,7 @@ public class FavoritesExpandableListAdapter extends BaseExpandableListAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.f_data, null);
+            convertView = inflater.inflate(R.layout.nutrition_favorite_data, null);
             holder = new ViewHolder();
             holder.name     = (TextView) convertView.findViewById(R.id.f_data_name);
             holder.category = (TextView) convertView.findViewById(R.id.f_data_category);

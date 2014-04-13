@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,7 +20,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -67,7 +65,7 @@ public class AddFavoriteFragment extends Fragment implements AdapterView.OnItemS
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.new_favorite_fragment, null);
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.nutrition_new_favorite, null);
 
         db = new Database(getActivity(), Database.DATABASE_NAME, null, Database.DATABASE_VERSION);
 

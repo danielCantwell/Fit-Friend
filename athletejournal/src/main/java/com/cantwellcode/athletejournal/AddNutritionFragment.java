@@ -86,7 +86,7 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.new_meal_fragment, null);
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.nutrition_new, null);
 
         db = new Database(getActivity(), Database.DATABASE_NAME, null, Database.DATABASE_VERSION);
 
