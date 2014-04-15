@@ -32,10 +32,10 @@ public class FavoritesExpandableListAdapter extends BaseExpandableListAdapter {
     private List<String> headerData;
     private HashMap<String, List<Favorite>> childData;
 
-    FavoritesViewFragment.SortFavoritesBy sortType;
+    NutritionFavoritesView.SortFavoritesBy sortType;
 
     public FavoritesExpandableListAdapter(Context context, List<String> headerData,
-                          HashMap<String, List<Favorite>> childData, FavoritesViewFragment.SortFavoritesBy sortType) {
+                          HashMap<String, List<Favorite>> childData, NutritionFavoritesView.SortFavoritesBy sortType) {
         this.context = context;
         this.headerData = headerData;
         this.childData = childData;
@@ -123,10 +123,10 @@ public class FavoritesExpandableListAdapter extends BaseExpandableListAdapter {
         Log.d("Holder Name", holder.name.getText().toString());
 
         holder.name.setText(childFavorite.get_name());
-        if (sortType.equals(FavoritesViewFragment.SortFavoritesBy.Type)) {
+        if (sortType.equals(NutritionFavoritesView.SortFavoritesBy.Type)) {
             holder.category.setText(childFavorite.get_category());
             holder.type.setText("");
-        } else if (sortType.equals(FavoritesViewFragment.SortFavoritesBy.Category)) {
+        } else if (sortType.equals(NutritionFavoritesView.SortFavoritesBy.Category)) {
             holder.category.setText("");
             holder.type.setText(childFavorite.get_type());
         }

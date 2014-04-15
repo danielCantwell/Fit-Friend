@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Created by Daniel on 3/6/14.
  */
-public class AddFavoriteFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class NutritionAddFavorite extends Fragment implements AdapterView.OnItemSelectedListener {
 
     public static enum InstanceType { NewFavorite, EditFavorite };
 
@@ -49,7 +49,7 @@ public class AddFavoriteFragment extends Fragment implements AdapterView.OnItemS
     private Spinner type;
 
     public static Fragment newInstance(Context context, InstanceType instanceType) {
-        AddFavoriteFragment f = new AddFavoriteFragment();
+        NutritionAddFavorite f = new NutritionAddFavorite();
 
         Bundle args = new Bundle();
         args.putSerializable("InstanceType", instanceType);
@@ -95,15 +95,15 @@ public class AddFavoriteFragment extends Fragment implements AdapterView.OnItemS
         if (((InstanceType)(getArguments().getSerializable("InstanceType"))).equals(InstanceType.EditFavorite)) {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-            int spinnerPosition = typeAdapter.getPosition(sp.getString(FavoritesViewFragment.F_EDIT_TYPE, "Breakfast"));
+            int spinnerPosition = typeAdapter.getPosition(sp.getString(NutritionFavoritesView.F_EDIT_TYPE, "Breakfast"));
 
-            name.setText(sp.getString(FavoritesViewFragment.F_EDIT_NAME, ""));
-            category.setText(sp.getString(FavoritesViewFragment.F_EDIT_CATEGORY, ""));
+            name.setText(sp.getString(NutritionFavoritesView.F_EDIT_NAME, ""));
+            category.setText(sp.getString(NutritionFavoritesView.F_EDIT_CATEGORY, ""));
             type.setSelection(spinnerPosition);
-            calories.setText(sp.getString(FavoritesViewFragment.F_EDIT_CALORIES, ""));
-            protein.setText(sp.getString(FavoritesViewFragment.F_EDIT_PROTEIN, ""));
-            carbs.setText(sp.getString(FavoritesViewFragment.F_EDIT_CARBS, ""));
-            fat.setText(sp.getString(FavoritesViewFragment.F_EDIT_FAT, ""));
+            calories.setText(sp.getString(NutritionFavoritesView.F_EDIT_CALORIES, ""));
+            protein.setText(sp.getString(NutritionFavoritesView.F_EDIT_PROTEIN, ""));
+            carbs.setText(sp.getString(NutritionFavoritesView.F_EDIT_CARBS, ""));
+            fat.setText(sp.getString(NutritionFavoritesView.F_EDIT_FAT, ""));
         }
 
         setHasOptionsMenu(true);
@@ -146,13 +146,13 @@ public class AddFavoriteFragment extends Fragment implements AdapterView.OnItemS
                 }
                 FragmentManager fm1 = getFragmentManager();
                 fm1.beginTransaction()
-                        .replace(R.id.container, FavoritesViewFragment.newInstance(getActivity()))
+                        .replace(R.id.container, NutritionFavoritesView.newInstance(getActivity()))
                         .commit();
                 break;
             case R.id.action_cancelNutrition:
                 FragmentManager fm2 = getFragmentManager();
                 fm2.beginTransaction()
-                        .replace(R.id.container, FavoritesViewFragment.newInstance(getActivity()))
+                        .replace(R.id.container, NutritionFavoritesView.newInstance(getActivity()))
                         .commit();
                 break;
         }

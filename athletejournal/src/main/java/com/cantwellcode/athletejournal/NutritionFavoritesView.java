@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * Created by Daniel on 3/6/14.
  */
-public class FavoritesViewFragment extends Fragment {
+public class NutritionFavoritesView extends Fragment {
 
     public static enum SortFavoritesBy { Type, Category };
     private SortFavoritesBy sortType = SortFavoritesBy.Category;
@@ -58,7 +58,7 @@ public class FavoritesViewFragment extends Fragment {
     private HashMap<String, List<Favorite>> listData;
 
     public static Fragment newInstance(Context context) {
-        FavoritesViewFragment f = new FavoritesViewFragment();
+        NutritionFavoritesView f = new NutritionFavoritesView();
         return f;
     }
 
@@ -207,7 +207,7 @@ public class FavoritesViewFragment extends Fragment {
             case R.id.action_addNew:
                 FragmentManager fm = getFragmentManager();
                 fm.beginTransaction()
-                        .replace(R.id.container, AddFavoriteFragment.newInstance(getActivity(), AddFavoriteFragment.InstanceType.NewFavorite))
+                        .replace(R.id.container, NutritionAddFavorite.newInstance(getActivity(), NutritionAddFavorite.InstanceType.NewFavorite))
                         .commit();
                 break;
         }
@@ -263,7 +263,7 @@ public class FavoritesViewFragment extends Fragment {
 
         FragmentManager fm = getFragmentManager();
         fm.beginTransaction()
-                .replace(R.id.container, AddFavoriteFragment.newInstance(getActivity(), AddFavoriteFragment.InstanceType.EditFavorite))
+                .replace(R.id.container, NutritionAddFavorite.newInstance(getActivity(), NutritionAddFavorite.InstanceType.EditFavorite))
                 .commit();
     }
 

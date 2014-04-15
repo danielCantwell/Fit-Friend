@@ -1,14 +1,15 @@
 package com.cantwellcode.athletejournal;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,9 +36,11 @@ import java.util.List;
 /**
  * Created by Daniel on 2/8/14.
  */
-public class AddNutritionFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class NutritionAddMeal extends Fragment implements AdapterView.OnItemSelectedListener {
 
     public static enum InstanceType { NewMeal, EditMeal };
+
+    private Activity activity;
 
     private Database db;
 
@@ -69,8 +72,8 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
     private List<String> spinnerFavorites = new ArrayList<String>();
     private List<Favorite> favoritesList;
 
-    public static Fragment newInstance(Context context, InstanceType instanceType) {
-        AddNutritionFragment f = new AddNutritionFragment();
+    public static Fragment newInstance(InstanceType instanceType) {
+        NutritionAddMeal f = new NutritionAddMeal();
 
         Bundle args = new Bundle();
         args.putSerializable("InstanceType", instanceType);
@@ -88,12 +91,12 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.nutrition_new, null);
 
-        db = new Database(getActivity(), Database.DATABASE_NAME, null, Database.DATABASE_VERSION);
+        db = new Database(activity, Database.DATABASE_NAME, null, Database.DATABASE_VERSION);
 
         /* Meal Type Spinner */
         type = (Spinner) root.findViewById(R.id.n_type);
         // Create an ArrayAdapter using the string array and a default spinner layout
-        adapter = ArrayAdapter.createFromResource(getActivity(),
+        adapter = ArrayAdapter.createFromResource(activity,
                 R.array.meal_types, R.layout.spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -108,7 +111,7 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
         Collections.sort(spinnerFavorites);
         spinnerFavorites.add(0, "Favorite Meals");
 
-        ArrayAdapter<String> favoritesAdapter = new ArrayAdapter<String>(getActivity(),
+        ArrayAdapter<String> favoritesAdapter = new ArrayAdapter<String>(activity,
                 android.R.layout.simple_spinner_item, spinnerFavorites);
         favoritesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -121,7 +124,7 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
         addToFavorites = (CheckBox) root.findViewById(R.id.addFavoriteCheck);
 
         if (((InstanceType)(getArguments().getSerializable("InstanceType"))).equals(InstanceType.EditMeal)) {
-            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
 
             int spinnerPosition = adapter.getPosition(sp.getString("MealToEdit_Type", "Breakfast"));
 
@@ -147,7 +150,7 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
             @Override
             public void onClick(View view) {
                 dateFragment = new DatePickerFragment();
-                dateFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+                dateFragment.show(((FragmentActivity)activity).getSupportFragmentManager(), "datePicker");
             }
         });
 
@@ -220,13 +223,13 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
                 }
                 FragmentManager fm1 = getFragmentManager();
                 fm1.beginTransaction()
-                        .replace(R.id.container, NutritionLog.newInstance(getActivity()))
+                        .replace(R.id.container, NutritionLog.newInstance())
                         .commit();
                 break;
             case R.id.action_cancelNutrition:
                 FragmentManager fm2 = getFragmentManager();
                 fm2.beginTransaction()
-                        .replace(R.id.container, NutritionLog.newInstance(getActivity()))
+                        .replace(R.id.container, NutritionLog.newInstance())
                         .commit();
                 break;
         }
@@ -244,7 +247,7 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
             int m = c.get(Calendar.MONTH);
             int d = c.get(Calendar.DAY_OF_MONTH);
 
-            return new DatePickerDialog(getActivity(), this, y, m, d);
+            return new DatePickerDialog(activity, this, y, m, d);
         }
 
         @Override
@@ -284,7 +287,7 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
 
     public void saveNutrition() {
         prepareData();
-        Toast.makeText(getActivity(), "Saving Meal", Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, "Saving Meal", Toast.LENGTH_SHORT).show();
         Log.d("Nutrition", "Name: " + _name + " Date: " + _date + " Type: " + _type + " Calories: " + _calories);
 
         Nutrition meal = new Nutrition(_name, _date, _type, _calories, _protein, _carbs, _fat);
@@ -310,11 +313,11 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
 
     public void editNutrition() {
 
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
         int _id = sp.getInt("MealToEdit_ID", 0);
 
         prepareData();
-        Toast.makeText(getActivity(), "Saving Meal", Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, "Saving Meal", Toast.LENGTH_SHORT).show();
         Log.d("Nutrition", "Name: " + _name + " Date: " + _date + " Type: " + _type + " Calories: " + _calories);
         db.updateNutrition(new Nutrition(_id, _name, _date, _type, _calories, _protein, _carbs, _fat));
 
@@ -331,10 +334,16 @@ public class AddNutritionFragment extends Fragment implements AdapterView.OnItem
     }
 
     private void restoreActionBar() {
-        ActionBar actionBar = getActivity().getActionBar();
+        ActionBar actionBar = activity.getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle("New Meal");
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = activity;
     }
 }
 

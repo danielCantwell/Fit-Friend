@@ -17,7 +17,7 @@ import java.util.List;
 public class Database extends SQLiteOpenHelper {
 
     // enums
-    public static enum NutritionListType { Day, Week, Month, Total };
+    public static enum ListType { Day, Week, Month, Total };
 
     // Database Name
     public static final String DATABASE_NAME = "journalData";
@@ -195,7 +195,63 @@ public class Database extends SQLiteOpenHelper {
         return favorite;
     }
 
-    public List<Nutrition> getNutritionList(NutritionListType type, int month, int day, int year) {
+    public List<Workout> getWorkoutList(ListType type, int month, int day, int year) {
+        List<Workout> workoutList = new ArrayList<Workout>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_WORKOUTS;
+        String dateOptions = " WHERE " + WORKOUT_DATE + "=?";
+
+        String[] currentDay     = {month + "/" + day + "/" + year};
+
+        String monthStr = Integer.toString(month);
+
+        String[] currentMonth   = {monthStr + "%"};
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor;
+
+        switch (type) {
+            case Total:
+                cursor = db.rawQuery(selectQuery, null);
+                break;
+            case Month:
+                dateOptions = " WHERE " + WORKOUT_DATE + " LIKE ?";
+                cursor = db.rawQuery(selectQuery + dateOptions, currentMonth);
+                break;
+            case Day:
+                cursor = db.rawQuery(selectQuery + dateOptions, currentDay);
+                break;
+            default:
+                cursor = db.rawQuery(selectQuery, null);
+                break;
+        }
+
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Workout workout = new Workout();
+                workout.set_id(Integer.parseInt(cursor.getString(0)));
+                workout.set_name(cursor.getString(1));
+                workout.set_date(cursor.getString(2));
+                workout.set_type(cursor.getString(3));
+                workout.set_time(cursor.getString(4));
+                workout.set_distance(cursor.getString(5));
+                workout.set_speed(cursor.getString(6));
+                workout.set_calories(cursor.getString(7));
+                workout.set_heartRate(cursor.getString(8));
+                workout.set_notes(cursor.getString(9));
+                // Adding workout to list
+                workoutList.add(workout);
+            } while (cursor.moveToNext());
+        }
+
+        Collections.reverse(workoutList);
+        // return workout list
+        return workoutList;
+    }
+
+    public List<Nutrition> getNutritionList(ListType type, int month, int day, int year) {
 
         List<Nutrition> nutritionList = new ArrayList<Nutrition>();
         // Select All Query
@@ -393,6 +449,22 @@ public class Database extends SQLiteOpenHelper {
 
         // return count
         return cursor.getCount();
+    }
+
+    public int getTodaysWorkoutCount(Calendar c) {
+        // Select All Query
+        String countQuery = "SELECT  * FROM " + TABLE_WORKOUTS;
+        String dateOptions = " WHERE " + WORKOUT_DATE + "=?";
+
+        String[] currentDay = {c.get(Calendar.MONTH) + "/" + c.get(Calendar.DAY_OF_MONTH) + "/" + c.get(Calendar.YEAR)};
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(countQuery + dateOptions, currentDay);
+
+        int count = cursor.getCount();
+        cursor.close();
+
+        return count;
     }
 
     public int getNutritionCount() {

@@ -1,11 +1,11 @@
 package com.cantwellcode.athletejournal;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -42,13 +42,12 @@ import java.util.List;
  */
 public class NutritionLog extends ListFragment {
 
-    Menu menu;
-    MenuInflater menuInflater;
-
-    public static Fragment newInstance(Context context) {
+    public static Fragment newInstance() {
         NutritionLog f = new NutritionLog();
         return f;
     }
+
+    private Activity activity;
 
     // SQLite Database
     private Database db;
@@ -80,31 +79,23 @@ public class NutritionLog extends ListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.nutrition_list_view, null);
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.nutrition_log, null);
 
-        mDetector = new GestureDetectorCompat(getActivity(), new SwipeListener());
-
-        root.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                mDetector.onTouchEvent(event);
-                return true;
-            }
-        });
+        mDetector = new GestureDetectorCompat(activity, new SwipeListener());
 
         c = Calendar.getInstance();
         year = c.get(Calendar.YEAR);
         month = c.get(Calendar.MONTH) + 1;
         day = c.get(Calendar.DAY_OF_MONTH);
 
-        db = new Database(getActivity(), Database.DATABASE_NAME, null, Database.DATABASE_VERSION);
-        meals = db.getNutritionList(Database.NutritionListType.Day, month, day, year);
+        db = new Database(activity, Database.DATABASE_NAME, null, Database.DATABASE_VERSION);
+        meals = db.getNutritionList(Database.ListType.Day, month, day, year);
 
         if (meals.isEmpty()) {
-            Toast.makeText(getActivity(), "No Meals Have Been Added Today", Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, "No Meals Have Been Added Today", Toast.LENGTH_LONG).show();
         }
 
-        mAdapter = new NutritionArrayAdapter(getActivity(), android.R.id.list, meals);
+        mAdapter = new NutritionArrayAdapter(activity, android.R.id.list, meals);
 
         listView = (ListView) root.findViewById(android.R.id.list);
         listView.setAdapter(mAdapter);
@@ -168,7 +159,7 @@ public class NutritionLog extends ListFragment {
         goalCarbs = (TextView) root.findViewById(R.id.n_goal_carbs);
         goalProtein = (TextView) root.findViewById(R.id.n_goal_protein);
 
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
         goalCalories.setText(sp.getString(ProfileFragment.GOAL_CALORIES, "defaultCal"));
         goalProtein.setText(sp.getString(ProfileFragment.GOAL_PROTEIN, "defaultPro"));
         goalCarbs.setText(sp.getString(ProfileFragment.GOAL_CARBS, "defaultCarb"));
@@ -182,7 +173,7 @@ public class NutritionLog extends ListFragment {
     @Override
     public void onResume() {
         super.onResume();
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
         goalCalories.setText(sp.getString(ProfileFragment.GOAL_CALORIES, "defaultCal") + " cal");
         goalFat.setText(sp.getString(ProfileFragment.GOAL_FAT, "defaultFat") + " fat");
         goalCarbs.setText(sp.getString(ProfileFragment.GOAL_CARBS, "defaultCarb") + " carbs");
@@ -194,8 +185,6 @@ public class NutritionLog extends ListFragment {
         menu.clear();
         restoreActionBar();
         inflater.inflate(R.menu.add_new, menu);
-        this.menu = menu;
-        this.menuInflater = inflater;
     }
 
     @Override
@@ -204,7 +193,7 @@ public class NutritionLog extends ListFragment {
             case R.id.action_addNew:
                 FragmentManager fm = getFragmentManager();
                 fm.beginTransaction()
-                        .replace(R.id.container, AddNutritionFragment.newInstance(getActivity(), AddNutritionFragment.InstanceType.NewMeal))
+                        .replace(R.id.container, NutritionAddMeal.newInstance(NutritionAddMeal.InstanceType.NewMeal))
                         .commit();
                 break;
         }
@@ -216,7 +205,6 @@ public class NutritionLog extends ListFragment {
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle("Nutrition Log");
-
     }
 
     private void updateTotals() {
@@ -260,7 +248,7 @@ public class NutritionLog extends ListFragment {
     }
 
     private void showPopup(View v, final Nutrition meal) {
-        PopupMenu popup = new PopupMenu(getActivity(), v);
+        PopupMenu popup = new PopupMenu(activity, v);
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -292,7 +280,7 @@ public class NutritionLog extends ListFragment {
     }
 
     private void menuClickEdit(Nutrition meal) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
         sp.edit().putInt("MealToEdit_ID", meal.get_id()).commit();
         sp.edit().putString("MealToEdit_Name", meal.get_name()).commit();
         sp.edit().putString("MealToEdit_Type", meal.get_type()).commit();
@@ -305,17 +293,17 @@ public class NutritionLog extends ListFragment {
 
         FragmentManager fm = getFragmentManager();
         fm.beginTransaction()
-                .replace(R.id.container, AddNutritionFragment.newInstance(getActivity(), AddNutritionFragment.InstanceType.EditMeal))
+                .replace(R.id.container, NutritionAddMeal.newInstance(NutritionAddMeal.InstanceType.EditMeal))
                 .commit();
     }
 
     private void menuClickDelete(Nutrition meal) {
         db.deleteNutrition(meal);
 
-        meals = db.getNutritionList(Database.NutritionListType.Day, month, day, year);
+        meals = db.getNutritionList(Database.ListType.Day, month, day, year);
 
         if (meals.isEmpty()) {
-            Toast.makeText(getActivity(), "No Meals Have Been Added", Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, "No Meals Have Been Added", Toast.LENGTH_LONG).show();
         }
 
         mAdapter.clear();
@@ -335,7 +323,7 @@ public class NutritionLog extends ListFragment {
             int m = c.get(Calendar.MONTH);
             int d = c.get(Calendar.DAY_OF_MONTH);
 
-            return new DatePickerDialog(getActivity(), this, y, m, d);
+            return new DatePickerDialog(activity, this, y, m, d);
         }
 
         @Override
@@ -348,7 +336,7 @@ public class NutritionLog extends ListFragment {
             c.set(Calendar.MONTH, month);
             c.set(Calendar.DAY_OF_MONTH, day);
 
-            meals = db.getNutritionList(Database.NutritionListType.Day, month + 1, day, year);
+            meals = db.getNutritionList(Database.ListType.Day, month + 1, day, year);
             mAdapter.clear();
             mAdapter.addAll(meals);
             updateTotals();
@@ -369,7 +357,7 @@ public class NutritionLog extends ListFragment {
     }
 
     private void updateList() {
-        meals = db.getNutritionList(Database.NutritionListType.Day, month, day, year);
+        meals = db.getNutritionList(Database.ListType.Day, month, day, year);
         mAdapter.clear();
         mAdapter.addAll(meals);
         updateTotals();
@@ -395,12 +383,11 @@ public class NutritionLog extends ListFragment {
     }
 
     private void updateWidget() {
-        Context context = getActivity();
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        ComponentName thisWidget = new ComponentName(context, WidgetProvider.class);
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(activity);
+        ComponentName thisWidget = new ComponentName(activity, WidgetProvider.class);
 
         WidgetProvider w = new WidgetProvider();
-        w.onUpdate(context, appWidgetManager, appWidgetManager.getAppWidgetIds(thisWidget));
+        w.onUpdate(activity, appWidgetManager, appWidgetManager.getAppWidgetIds(thisWidget));
     }
 
     private class SwipeListener extends GestureDetector.SimpleOnGestureListener {
@@ -420,5 +407,11 @@ public class NutritionLog extends ListFragment {
 
             return true;
         }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = activity;
     }
 }

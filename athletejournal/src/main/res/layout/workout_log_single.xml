@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/workoutView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/workout_run_view" />
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#c0392b"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="false"
+        android:id="@+id/tableRow"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/w_previous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:text="@string/previous" />
+
+        <Button
+            android:id="@+id/w_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:background="#00000000"
+            android:text="Today" />
+
+        <Button
+            android:id="@+id/w_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:text="@string/next" />
+
+    </TableRow>
+
+</RelativeLayout>

@@ -27,7 +27,7 @@ public class CategoryDialog extends DialogFragment {
     private Database db;
     private String category;
 
-    private FavoritesViewFragment viewFragment;
+    private NutritionFavoritesView viewFragment;
 
     public CategoryDialog(Nutrition meal, Database db) {
         this.meal = meal;
@@ -35,7 +35,7 @@ public class CategoryDialog extends DialogFragment {
         type = InstanceType.Single;
     }
 
-    public CategoryDialog(FavoritesViewFragment viewFragment,String category, Database db) {
+    public CategoryDialog(NutritionFavoritesView viewFragment,String category, Database db) {
         this.db = db;
         this.category = category;
         type = InstanceType.Group;

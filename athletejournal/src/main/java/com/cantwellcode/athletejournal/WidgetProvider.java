@@ -44,7 +44,7 @@ public class WidgetProvider extends AppWidgetProvider {
             int month = c.get(Calendar.MONTH) + 1;
             int day = c.get(Calendar.DAY_OF_MONTH);
 
-            List<Nutrition> todaysNutrition = db.getNutritionList(Database.NutritionListType.Day, month, day, year);
+            List<Nutrition> todaysNutrition = db.getNutritionList(Database.ListType.Day, month, day, year);
 
             BigDecimal calorieCount = new BigDecimal(0);
             BigDecimal proteinCount = new BigDecimal(0);

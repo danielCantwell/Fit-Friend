@@ -7,18 +7,12 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 /**
  * Created by Daniel on 2/8/14.
@@ -38,7 +32,7 @@ public class ProfileFragment extends Fragment {
     private Button updateProfile;
     private Button favorites;
 
-    public static Fragment newInstance(Context context) {
+    public static Fragment newInstance() {
         ProfileFragment f = new ProfileFragment();
         return f;
     }
@@ -74,7 +68,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 FragmentManager fm = getFragmentManager();
                 fm.beginTransaction()
-                        .replace(R.id.container, FavoritesViewFragment.newInstance(getActivity()))
+                        .replace(R.id.container, NutritionFavoritesView.newInstance(getActivity()))
                         .commit();
             }
         });
