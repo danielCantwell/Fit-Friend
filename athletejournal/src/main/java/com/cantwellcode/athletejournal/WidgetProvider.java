@@ -89,10 +89,10 @@ public class WidgetProvider extends AppWidgetProvider {
 
             // goal texts
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-            remoteViews.setTextViewText(R.id.w_cal_desired_text, sp.getString(ProfileFragment.GOAL_CALORIES, "defaultCal"));
-            remoteViews.setTextViewText(R.id.w_protein_desired_text, sp.getString(ProfileFragment.GOAL_PROTEIN, "defaultPro"));
-            remoteViews.setTextViewText(R.id.w_carbs_desired_text, sp.getString(ProfileFragment.GOAL_CARBS, "defaultCarb"));
-            remoteViews.setTextViewText(R.id.w_fat_desired_text, sp.getString(ProfileFragment.GOAL_FAT, "defaultFat"));
+            remoteViews.setTextViewText(R.id.w_cal_desired_text, sp.getString(ProfilePersonal.GOAL_CALORIES, "defaultCal"));
+            remoteViews.setTextViewText(R.id.w_protein_desired_text, sp.getString(ProfilePersonal.GOAL_PROTEIN, "defaultPro"));
+            remoteViews.setTextViewText(R.id.w_carbs_desired_text, sp.getString(ProfilePersonal.GOAL_CARBS, "defaultCarb"));
+            remoteViews.setTextViewText(R.id.w_fat_desired_text, sp.getString(ProfilePersonal.GOAL_FAT, "defaultFat"));
 
 
             // Register an onClickListener

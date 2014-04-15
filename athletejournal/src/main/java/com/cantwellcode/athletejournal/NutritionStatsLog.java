@@ -1,11 +1,28 @@
 package com.cantwellcode.athletejournal;
 
+import android.support.v4.app.Fragment;
+import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * Created by Daniel on 4/12/2014.
  */
-public class NutritionStatsLog {
+public class NutritionStatsLog extends Fragment {
+
+    public static Fragment newInstance() {
+        NutritionStatsLog f = new NutritionStatsLog();
+        return f;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.nutrition_stats_log, null);
+
+        return root;
+    }
 //
 //    private enum CurrentView {Day, Week, Month, Total};
 //    private CurrentView currentView = CurrentView.Day;

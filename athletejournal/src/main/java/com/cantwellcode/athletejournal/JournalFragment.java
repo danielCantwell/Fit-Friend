@@ -106,10 +106,10 @@ public class JournalFragment extends Fragment {
     public void onResume() {
         super.onResume();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        goalCalories.setText(sp.getString(ProfileFragment.GOAL_CALORIES, "defaultCal"));
-        goalProtein.setText(sp.getString(ProfileFragment.GOAL_PROTEIN, "defaultPro"));
-        goalCarbs.setText(sp.getString(ProfileFragment.GOAL_CARBS, "defaultCarb"));
-        goalFat.setText(sp.getString(ProfileFragment.GOAL_FAT, "defaultFat"));
+        goalCalories.setText(sp.getString(ProfilePersonal.GOAL_CALORIES, "defaultCal"));
+        goalProtein.setText(sp.getString(ProfilePersonal.GOAL_PROTEIN, "defaultPro"));
+        goalCarbs.setText(sp.getString(ProfilePersonal.GOAL_CARBS, "defaultCarb"));
+        goalFat.setText(sp.getString(ProfilePersonal.GOAL_FAT, "defaultFat"));
     }
 
     public void setDb(Database d) {

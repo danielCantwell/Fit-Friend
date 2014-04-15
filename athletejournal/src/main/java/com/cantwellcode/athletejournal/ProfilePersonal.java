@@ -1,7 +1,6 @@
 package com.cantwellcode.athletejournal;
 
 import android.app.ActionBar;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -17,7 +16,7 @@ import android.widget.Toast;
 /**
  * Created by Daniel on 2/8/14.
  */
-public class ProfileFragment extends Fragment {
+public class ProfilePersonal extends Fragment {
 
     public static final String GOAL_CALORIES = "goalCalories";
     public static final String GOAL_PROTEIN  = "goalProtein";
@@ -33,13 +32,13 @@ public class ProfileFragment extends Fragment {
     private Button favorites;
 
     public static Fragment newInstance() {
-        ProfileFragment f = new ProfileFragment();
+        ProfilePersonal f = new ProfilePersonal();
         return f;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.profile_fragment, null);
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.profile_personal, null);
 
         goalCalories = (EditText) root.findViewById(R.id.profileGoalCalories);
         goalProtein  = (EditText) root.findViewById(R.id.profileGoalProtein);

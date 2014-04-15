@@ -160,10 +160,10 @@ public class NutritionLog extends ListFragment {
         goalProtein = (TextView) root.findViewById(R.id.n_goal_protein);
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
-        goalCalories.setText(sp.getString(ProfileFragment.GOAL_CALORIES, "defaultCal"));
-        goalProtein.setText(sp.getString(ProfileFragment.GOAL_PROTEIN, "defaultPro"));
-        goalCarbs.setText(sp.getString(ProfileFragment.GOAL_CARBS, "defaultCarb"));
-        goalFat.setText(sp.getString(ProfileFragment.GOAL_FAT, "defaultFat"));
+        goalCalories.setText(sp.getString(ProfilePersonal.GOAL_CALORIES, "defaultCal"));
+        goalProtein.setText(sp.getString(ProfilePersonal.GOAL_PROTEIN, "defaultPro"));
+        goalCarbs.setText(sp.getString(ProfilePersonal.GOAL_CARBS, "defaultCarb"));
+        goalFat.setText(sp.getString(ProfilePersonal.GOAL_FAT, "defaultFat"));
 
         updateTotals();
 
@@ -174,10 +174,10 @@ public class NutritionLog extends ListFragment {
     public void onResume() {
         super.onResume();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
-        goalCalories.setText(sp.getString(ProfileFragment.GOAL_CALORIES, "defaultCal") + " cal");
-        goalFat.setText(sp.getString(ProfileFragment.GOAL_FAT, "defaultFat") + " fat");
-        goalCarbs.setText(sp.getString(ProfileFragment.GOAL_CARBS, "defaultCarb") + " carbs");
-        goalProtein.setText(sp.getString(ProfileFragment.GOAL_PROTEIN, "defaultPro") + " prot");
+        goalCalories.setText(sp.getString(ProfilePersonal.GOAL_CALORIES, "defaultCal") + " cal");
+        goalFat.setText(sp.getString(ProfilePersonal.GOAL_FAT, "defaultFat") + " fat");
+        goalCarbs.setText(sp.getString(ProfilePersonal.GOAL_CARBS, "defaultCarb") + " carbs");
+        goalProtein.setText(sp.getString(ProfilePersonal.GOAL_PROTEIN, "defaultPro") + " prot");
     }
 
     @Override
