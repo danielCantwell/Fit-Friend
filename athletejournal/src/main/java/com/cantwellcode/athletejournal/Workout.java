@@ -7,50 +7,54 @@ import java.io.Serializable;
  */
 public class Workout implements Serializable {
 
-    String _name        = "";
-    String _date        = "";
-    String _type        = "";
-    String _notes       = "";
+    protected String name;
+    protected String date;
+    protected String type;
+    protected String notes;
 
     public Workout() {
+        name = "";
+        date = "";
+        type = "";
+        notes = "";
     }
 
     public Workout(String name, String date, String type, String notes) {
-        this._name = name;
-        this._date = date;
-        this._type = type;
-        this._notes = notes;
+        this.name = name;
+        this.date = date;
+        this.type = type;
+        this.notes = notes;
     }
 
     public String get_name() {
-        return _name;
+        return name;
     }
 
     public void set_name(String name) {
-        this._name = name;
+        this.name = name;
     }
 
     public String get_date() {
-        return _date;
+        return date;
     }
 
     public void set_date(String date) {
-        this._date = date;
+        this.date = date;
     }
 
     public String get_type() {
-        return _type;
+        return type;
     }
 
     public void set_type(String type) {
-        this._type = type;
+        this.type = type;
     }
 
     public String get_notes() {
-        return _notes;
+        return notes;
     }
 
     public void set_notes(String notes) {
-        this._notes = notes;
+        this.notes = notes;
     }
 }
