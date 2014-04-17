@@ -29,7 +29,7 @@
         android:layout_marginTop="10dp">
 
         <Spinner
-            android:id="@+id/n_type"
+            android:id="@+id/w_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -37,7 +37,7 @@
             android:textAlignment="center" />
 
         <Button
-            android:id="@+id/n_date"
+            android:id="@+id/w_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

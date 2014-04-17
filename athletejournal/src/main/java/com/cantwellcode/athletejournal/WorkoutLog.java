@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -33,6 +34,8 @@ public class WorkoutLog extends Fragment {
     DBHelper db;
     List<Workout> workouts = new ArrayList<Workout>();
     Calendar c;
+
+    ViewStub workoutView;
 
     private Button previous, date, next;
 
@@ -71,6 +74,24 @@ public class WorkoutLog extends Fragment {
         //} else {
         //    root = (ViewGroup) inflater.inflate(R.layout.workout_log_multiple, null);
         //}
+
+        workoutView = (ViewStub) root.findViewById(R.id.workoutView);
+
+
+//        if (workouts.get(0) instanceof WorkoutSwim) {
+//            workoutView.setLayoutResource(R.layout.workout_swim_view);
+//        }
+//        else if (workouts.get(0) instanceof WorkoutBike) {
+//            workoutView.setLayoutResource(R.layout.workout_bike_view);
+//        }
+//        else if (workouts.get(0) instanceof WorkoutRun) {
+//            workoutView.setLayoutResource(R.layout.workout_run_view);
+//        }
+//        else {
+            workoutView.setLayoutResource(R.layout.workout_run_view);
+//        }
+
+        workoutView.inflate();
 
         setHasOptionsMenu(true);
 
