@@ -54,7 +54,6 @@
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="false"
         android:layout_alignParentLeft="true"
         android:id="@+id/tableRow2"
         android:layout_below="@+id/tableRow1"
@@ -102,17 +101,22 @@
 
     </TableRow>
 
+    <ImageView
+        android:id="@+id/imageDivide"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/tableRow2"
+        android:background="#c0392b"/>
+
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:choiceMode="singleChoice"
         android:dividerHeight="3dp"
-        android:layout_below="@+id/tableRow2"
+        android:layout_below="@+id/imageDivide"
         android:layout_alignParentLeft="true"
-        android:layout_above="@+id/tableRow"
-        android:layout_marginTop="3dp"
-        android:layout_marginBottom="3dp" />
+        android:layout_above="@+id/tableRow" />
 
     <TableRow
         android:layout_width="match_parent"
