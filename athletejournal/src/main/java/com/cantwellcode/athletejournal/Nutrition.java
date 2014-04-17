@@ -1,11 +1,12 @@
 package com.cantwellcode.athletejournal;
 
+import java.io.Serializable;
+
 /**
  * Created by Daniel on 2/7/14.
  */
-public class Nutrition {
+public class Nutrition implements Serializable{
 
-    int _id;
     String _name;
     String _date;
     String _type;
@@ -17,17 +18,16 @@ public class Nutrition {
     public Nutrition() {
     }
 
-    public Nutrition(int id, String name, String date, String type, String calories, String protein, String carbs, String fat) {
-        this._id = id;
-        this._name = name;
-        this._date = date;
-        this._type = type;
-        this._calories = calories;
-        this._protein = protein;
-        this._carbs = carbs;
-        this._fat = fat;
-    }
-
+    /**
+     *
+     * @param name - name of the meal
+     * @param date - in simple date format DD MMMM YYYY
+     * @param type - type of meal
+     * @param calories - how many calories in the meal
+     * @param protein - how much protein in the meal
+     * @param carbs - how many carbs in the meal
+     * @param fat - how much fat in the meal
+     */
     public Nutrition(String name, String date, String type, String calories, String protein, String carbs, String fat) {
         this._name = name;
         this._date = date;
@@ -36,14 +36,6 @@ public class Nutrition {
         this._protein = protein;
         this._carbs = carbs;
         this._fat = fat;
-    }
-
-    public int get_id() {
-        return _id;
-    }
-
-    public void set_id(int id) {
-        this._id = id;
     }
 
     public String get_name() {

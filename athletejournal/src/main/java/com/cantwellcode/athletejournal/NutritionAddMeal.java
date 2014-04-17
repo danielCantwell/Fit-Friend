@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -42,7 +43,7 @@ public class NutritionAddMeal extends Fragment implements AdapterView.OnItemSele
 
     private Activity activity;
 
-    private Database db;
+    private DBHelper db;
 
     private DialogFragment dateFragment;
 
@@ -72,11 +73,24 @@ public class NutritionAddMeal extends Fragment implements AdapterView.OnItemSele
     private List<String> spinnerFavorites = new ArrayList<String>();
     private List<Favorite> favoritesList;
 
+    private Nutrition mealToEdit = null;
+
     public static Fragment newInstance(InstanceType instanceType) {
         NutritionAddMeal f = new NutritionAddMeal();
 
         Bundle args = new Bundle();
         args.putSerializable("InstanceType", instanceType);
+        f.setArguments(args);
+
+        return f;
+    }
+
+    public static Fragment newInstance(InstanceType instanceType, Nutrition meal) {
+        NutritionAddMeal f = new NutritionAddMeal();
+
+        Bundle args = new Bundle();
+        args.putSerializable("InstanceType", instanceType);
+        args.putSerializable("Meal", meal);
         f.setArguments(args);
 
         return f;
@@ -91,7 +105,8 @@ public class NutritionAddMeal extends Fragment implements AdapterView.OnItemSele
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.nutrition_new, null);
 
-        db = new Database(activity, Database.DATABASE_NAME, null, Database.DATABASE_VERSION);
+        //db = new Database(activity, Database.DATABASE_NAME, null, Database.DATABASE_VERSION);
+        db = new DBHelper(getActivity());
 
         /* Meal Type Spinner */
         type = (Spinner) root.findViewById(R.id.n_type);
@@ -124,16 +139,16 @@ public class NutritionAddMeal extends Fragment implements AdapterView.OnItemSele
         addToFavorites = (CheckBox) root.findViewById(R.id.addFavoriteCheck);
 
         if (((InstanceType)(getArguments().getSerializable("InstanceType"))).equals(InstanceType.EditMeal)) {
-            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
+            mealToEdit = (Nutrition) getArguments().getSerializable("Meal");
 
-            int spinnerPosition = adapter.getPosition(sp.getString("MealToEdit_Type", "Breakfast"));
+            int spinnerPosition = adapter.getPosition(mealToEdit.get_type());
 
-            name.setText(sp.getString("MealToEdit_Name", ""));
+            name.setText(mealToEdit.get_name());
             type.setSelection(spinnerPosition);
-            calories.setText(sp.getString("MealToEdit_Calories", ""));
-            protein.setText(sp.getString("MealToEdit_Protein", ""));
-            carbs.setText(sp.getString("MealToEdit_Carbs", ""));
-            fat.setText(sp.getString("MealToEdit_Fat", ""));
+            calories.setText(mealToEdit.get_calories());
+            fat.setText(mealToEdit.get_fat());
+            carbs.setText(mealToEdit.get_carbs());
+            protein.setText(mealToEdit.get_protein());
 
             addToFavorites.setEnabled(false);
             addToFavorites.setVisibility(View.GONE);
@@ -144,7 +159,10 @@ public class NutritionAddMeal extends Fragment implements AdapterView.OnItemSele
         month = c.get(Calendar.MONTH);
         day = c.get(Calendar.DAY_OF_MONTH);
 
-        date.setText(" " + (month + 1) + " / " + day + " / " + year + " ");
+        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+        String formattedDate = df.format(c.getTime());
+
+        date.setText(formattedDate);
 
         date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -255,7 +273,16 @@ public class NutritionAddMeal extends Fragment implements AdapterView.OnItemSele
             year = i;
             month = i2;
             day = i3;
-            date.setText(" " + (month + 1) + " / " + day + " / " + year + " ");
+
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.YEAR, year);
+            cal.set(Calendar.MONTH, month);
+            cal.set(Calendar.DAY_OF_MONTH, day);
+
+            SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+            String formattedDate = df.format(cal.getTime());
+
+            date.setText(formattedDate);
         }
     }
 
@@ -264,7 +291,15 @@ public class NutritionAddMeal extends Fragment implements AdapterView.OnItemSele
             _name = name.getText().toString();
         else _name = _type;
 
-        _date = (month + 1) + "/" + day + "/" + year;
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.DAY_OF_MONTH, day);
+
+        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+        String formattedDate = df.format(cal.getTime());
+
+        _date = formattedDate;
 
         // type is already set
 
@@ -297,7 +332,7 @@ public class NutritionAddMeal extends Fragment implements AdapterView.OnItemSele
             categoryDialog.show(getFragmentManager(), "categoryDialog");
         }
 
-        db.addNutrition(meal);
+        db.storeMeal(meal);
 
         name.setText(null);
         calories.setText(null);
@@ -314,12 +349,12 @@ public class NutritionAddMeal extends Fragment implements AdapterView.OnItemSele
     public void editNutrition() {
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
-        int _id = sp.getInt("MealToEdit_ID", 0);
 
         prepareData();
         Toast.makeText(activity, "Saving Meal", Toast.LENGTH_SHORT).show();
         Log.d("Nutrition", "Name: " + _name + " Date: " + _date + " Type: " + _type + " Calories: " + _calories);
-        db.updateNutrition(new Nutrition(_id, _name, _date, _type, _calories, _protein, _carbs, _fat));
+
+        db.updateMeal(mealToEdit, new Nutrition(_name, _date, _type, _calories, _protein, _carbs, _fat));
 
         name.setText(null);
         calories.setText(null);

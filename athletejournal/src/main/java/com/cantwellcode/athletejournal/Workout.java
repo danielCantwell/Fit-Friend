@@ -1,11 +1,12 @@
 package com.cantwellcode.athletejournal;
 
+import java.io.Serializable;
+
 /**
  * Created by Daniel on 2/7/14.
  */
-public class Workout {
+public class Workout implements Serializable {
 
-    int _id             = 0;
     String _name        = "";
     String _date        = "";
     String _type        = "";
@@ -19,9 +20,8 @@ public class Workout {
     public Workout() {
     }
 
-    public Workout(int id, String name, String date, String type, String time,
+    public Workout(String name, String date, String type, String time,
                    String distance, String speed, String calories, String heartRate, String notes) {
-        this._id = id;
         this._name = name;
         this._date = date;
         this._type = type;
@@ -31,14 +31,6 @@ public class Workout {
 //        this._calories = calories;
 //        this._heartRate = heartRate;
         this._notes = notes;
-    }
-
-    public int get_id() {
-        return _id;
-    }
-
-    public void set_id(int id) {
-        this._id = id;
     }
 
     public String get_name() {

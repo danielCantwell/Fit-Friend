@@ -1,11 +1,12 @@
 package com.cantwellcode.athletejournal;
 
+import java.io.Serializable;
+
 /**
  * Created by Daniel on 2/7/14.
  */
-public class Favorite {
+public class Favorite implements Serializable{
 
-    int _id;
     String _name;
     String _category;
     String _type;
@@ -17,17 +18,6 @@ public class Favorite {
     public Favorite() {
     }
 
-    public Favorite(int id, String name, String category, String type, String calories, String protein, String carbs, String fat) {
-        this._id = id;
-        this._name = name;
-        this._category = category;
-        this._type = type;
-        this._calories = calories;
-        this._protein = protein;
-        this._carbs = carbs;
-        this._fat = fat;
-    }
-
     public Favorite(String name, String category, String type, String calories, String protein, String carbs, String fat) {
         this._name = name;
         this._category = category;
@@ -36,14 +26,6 @@ public class Favorite {
         this._protein = protein;
         this._carbs = carbs;
         this._fat = fat;
-    }
-
-    public int get_id() {
-        return _id;
-    }
-
-    public void set_id(int id) {
-        this._id = id;
     }
 
     public String get_name() {

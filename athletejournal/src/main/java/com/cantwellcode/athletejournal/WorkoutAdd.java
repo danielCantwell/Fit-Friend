@@ -25,14 +25,14 @@ public class WorkoutAdd extends Fragment {
         return f;
     }
 
-    private Database db;
+    private DBHelper db;
     private Calendar c;
     private int year, month, day;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        db = new Database(getActivity(), Database.DATABASE_NAME, null, Database.DATABASE_VERSION);
+        db = new DBHelper(getActivity());
 
         c = Calendar.getInstance();
         year = c.get(Calendar.YEAR);

@@ -34,22 +34,11 @@ public class NutritionFavoritesView extends Fragment {
     public static enum SortFavoritesBy { Type, Category };
     private SortFavoritesBy sortType = SortFavoritesBy.Category;
 
-    public static final String F_EDIT_ID        = "FavoriteToEdit_ID";
-    public static final String F_EDIT_NAME      = "FavoriteToEdit_Name";
-    public static final String F_EDIT_CATEGORY  = "FavoriteToEdit_Category";
-    public static final String F_EDIT_TYPE      = "FavoriteToEdit_Type";
-    public static final String F_EDIT_CALORIES  = "FavoriteToEdit_Calories";
-    public static final String F_EDIT_PROTEIN   = "FavoriteToEdit_Protein";
-    public static final String F_EDIT_CARBS     = "FavoriteToEdit_Carbs";
-    public static final String F_EDIT_FAT       = "FavoriteToEdit_Fat";
-
-    private Context context;
-
     private Button typeSort;
     private Button categorySort;
 
     // SQLite Database
-    private Database db;
+    private DBHelper db;
 
     private ExpandableListView listView;
     private List<Favorite> meals;
@@ -66,9 +55,7 @@ public class NutritionFavoritesView extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.nutrition_favorites_view, null);
 
-        context = getActivity();
-
-        db = new Database(getActivity(), Database.DATABASE_NAME, null, Database.DATABASE_VERSION);
+        db = new DBHelper(getActivity());
         meals = db.getAllFavorites();
 
         if (meals.isEmpty()) {
@@ -151,7 +138,7 @@ public class NutritionFavoritesView extends Fragment {
         return root;
     }
 
-    private void prepareListData(Database db) {
+    private void prepareListData(DBHelper db) {
         listHeaders = new ArrayList<String>();
         listData = new HashMap<String, List<Favorite>>();
 
@@ -159,7 +146,7 @@ public class NutritionFavoritesView extends Fragment {
 
         if (sortType == SortFavoritesBy.Category) {
             // If user selects "category" sort type
-            listHeaders = db.getFavoriteCategories();
+            listHeaders = db.getFavoritesCategories();
             Collections.sort(listHeaders);
             for (String header : listHeaders) {
                 List<Favorite> favoritesInCategory = new ArrayList<Favorite>();
@@ -207,7 +194,7 @@ public class NutritionFavoritesView extends Fragment {
             case R.id.action_addNew:
                 FragmentManager fm = getFragmentManager();
                 fm.beginTransaction()
-                        .replace(R.id.container, NutritionAddFavorite.newInstance(getActivity(), NutritionAddFavorite.InstanceType.NewFavorite))
+                        .replace(R.id.container, NutritionAddFavorite.newInstance(NutritionAddFavorite.InstanceType.NewFavorite))
                         .commit();
                 break;
         }
@@ -251,19 +238,10 @@ public class NutritionFavoritesView extends Fragment {
     }
 
     private void menuClickEdit(Favorite meal) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        sp.edit().putInt(F_EDIT_ID,           meal.get_id()).commit();
-        sp.edit().putString(F_EDIT_NAME,      meal.get_name()).commit();
-        sp.edit().putString(F_EDIT_CATEGORY,  meal.get_category()).commit();
-        sp.edit().putString(F_EDIT_TYPE,      meal.get_type()).commit();
-        sp.edit().putString(F_EDIT_CALORIES,  meal.get_calories()).commit();
-        sp.edit().putString(F_EDIT_PROTEIN,   meal.get_protein()).commit();
-        sp.edit().putString(F_EDIT_CARBS,     meal.get_carbs()).commit();
-        sp.edit().putString(F_EDIT_FAT,       meal.get_fat()).commit();
 
         FragmentManager fm = getFragmentManager();
         fm.beginTransaction()
-                .replace(R.id.container, NutritionAddFavorite.newInstance(getActivity(), NutritionAddFavorite.InstanceType.EditFavorite))
+                .replace(R.id.container, NutritionAddFavorite.newInstance(NutritionAddFavorite.InstanceType.EditFavorite, meal))
                 .commit();
     }
 

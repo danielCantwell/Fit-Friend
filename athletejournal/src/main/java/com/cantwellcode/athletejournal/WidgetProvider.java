@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -19,12 +20,12 @@ import java.util.List;
  */
 public class WidgetProvider extends AppWidgetProvider {
 
-    Database db;
+    DBHelper db;
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
-        db = new Database(context, Database.DATABASE_NAME, null, Database.DATABASE_VERSION);
+        db = new DBHelper(context);
 
         // Get all ids
         ComponentName thisWidget = new ComponentName(context,
@@ -44,7 +45,10 @@ public class WidgetProvider extends AppWidgetProvider {
             int month = c.get(Calendar.MONTH) + 1;
             int day = c.get(Calendar.DAY_OF_MONTH);
 
-            List<Nutrition> todaysNutrition = db.getNutritionList(Database.ListType.Day, month, day, year);
+            SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+            String formattedDate = df.format(c.getTime());
+
+            List<Nutrition> todaysNutrition = db.getMealList(new Nutrition(null, formattedDate, null, null, null, null, null));
 
             BigDecimal calorieCount = new BigDecimal(0);
             BigDecimal proteinCount = new BigDecimal(0);

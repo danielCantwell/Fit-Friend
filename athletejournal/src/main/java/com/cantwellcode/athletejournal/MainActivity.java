@@ -9,7 +9,6 @@ import android.support.v4.widget.DrawerLayout;
 public class MainActivity extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    Database db;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */

@@ -30,7 +30,7 @@ import java.util.List;
  */
 public class WorkoutLog extends Fragment {
 
-    Database db;
+    DBHelper db;
     List<Workout> workouts = new ArrayList<Workout>();
     Calendar c;
 
@@ -50,14 +50,19 @@ public class WorkoutLog extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        db = new Database(getActivity(), Database.DATABASE_NAME, null, Database.DATABASE_VERSION);
+
+        db = new DBHelper(getActivity());
 
         c = Calendar.getInstance();
         year = c.get(Calendar.YEAR);
         month = c.get(Calendar.MONTH) + 1;
         day = c.get(Calendar.DAY_OF_MONTH);
 
-        workouts = db.getWorkoutList(Database.ListType.Day, month, day, year);
+        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+        String formattedDate = df.format(c.getTime());
+
+        //workouts = db.getWorkoutList(Database.ListType.Day, month, day, year);
+        workouts = db.getWorkoutList(new Workout(null, formattedDate, null, null, null, null, null, null, null));
 
         ViewGroup root;
 

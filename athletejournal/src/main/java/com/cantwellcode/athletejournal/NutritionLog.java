@@ -50,7 +50,7 @@ public class NutritionLog extends ListFragment {
     private Activity activity;
 
     // SQLite Database
-    private Database db;
+    private DBHelper db;
 
     private ListView listView;
     private List<Nutrition> meals;
@@ -88,8 +88,11 @@ public class NutritionLog extends ListFragment {
         month = c.get(Calendar.MONTH) + 1;
         day = c.get(Calendar.DAY_OF_MONTH);
 
-        db = new Database(activity, Database.DATABASE_NAME, null, Database.DATABASE_VERSION);
-        meals = db.getNutritionList(Database.ListType.Day, month, day, year);
+        db = new DBHelper(getActivity());
+
+        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+        String formattedDate = df.format(c.getTime());
+        meals = db.getMealList(new Nutrition(null, formattedDate, null, null, null, null, null));
 
         if (meals.isEmpty()) {
             Toast.makeText(activity, "No Meals Have Been Added Today", Toast.LENGTH_LONG).show();
@@ -160,10 +163,10 @@ public class NutritionLog extends ListFragment {
         goalProtein = (TextView) root.findViewById(R.id.n_goal_protein);
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
-        goalCalories.setText(sp.getString(ProfilePersonal.GOAL_CALORIES, "defaultCal"));
-        goalProtein.setText(sp.getString(ProfilePersonal.GOAL_PROTEIN, "defaultPro"));
-        goalCarbs.setText(sp.getString(ProfilePersonal.GOAL_CARBS, "defaultCarb"));
-        goalFat.setText(sp.getString(ProfilePersonal.GOAL_FAT, "defaultFat"));
+        goalCalories.setText(sp.getString(ProfilePersonal.GOAL_CALORIES, "goal cal"));
+        goalProtein.setText(sp.getString(ProfilePersonal.GOAL_PROTEIN, "goal prot"));
+        goalCarbs.setText(sp.getString(ProfilePersonal.GOAL_CARBS, "goal carbs"));
+        goalFat.setText(sp.getString(ProfilePersonal.GOAL_FAT, "goal fat"));
 
         updateTotals();
 
@@ -174,10 +177,10 @@ public class NutritionLog extends ListFragment {
     public void onResume() {
         super.onResume();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
-        goalCalories.setText(sp.getString(ProfilePersonal.GOAL_CALORIES, "defaultCal") + " cal");
-        goalFat.setText(sp.getString(ProfilePersonal.GOAL_FAT, "defaultFat") + " fat");
-        goalCarbs.setText(sp.getString(ProfilePersonal.GOAL_CARBS, "defaultCarb") + " carbs");
-        goalProtein.setText(sp.getString(ProfilePersonal.GOAL_PROTEIN, "defaultPro") + " prot");
+        goalCalories.setText(sp.getString(ProfilePersonal.GOAL_CALORIES, "goal") + " cal");
+        goalFat.setText(sp.getString(ProfilePersonal.GOAL_FAT, "goal") + " fat");
+        goalCarbs.setText(sp.getString(ProfilePersonal.GOAL_CARBS, "goal") + " carbs");
+        goalProtein.setText(sp.getString(ProfilePersonal.GOAL_PROTEIN, "goal") + " prot");
     }
 
     @Override
@@ -281,26 +284,19 @@ public class NutritionLog extends ListFragment {
 
     private void menuClickEdit(Nutrition meal) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
-        sp.edit().putInt("MealToEdit_ID", meal.get_id()).commit();
-        sp.edit().putString("MealToEdit_Name", meal.get_name()).commit();
-        sp.edit().putString("MealToEdit_Type", meal.get_type()).commit();
-        sp.edit().putString("MealToEdit_Calories", meal.get_calories()).commit();
-        sp.edit().putString("MealToEdit_Protein", meal.get_protein()).commit();
-        sp.edit().putString("MealToEdit_Carbs", meal.get_carbs()).commit();
-        sp.edit().putString("MealToEdit_Fat", meal.get_fat()).commit();
-
-        Log.d("PutEditName", sp.getString("MealToEdit_Name", "default"));
 
         FragmentManager fm = getFragmentManager();
         fm.beginTransaction()
-                .replace(R.id.container, NutritionAddMeal.newInstance(NutritionAddMeal.InstanceType.EditMeal))
+                .replace(R.id.container, NutritionAddMeal.newInstance(NutritionAddMeal.InstanceType.EditMeal, meal))
                 .commit();
     }
 
     private void menuClickDelete(Nutrition meal) {
-        db.deleteNutrition(meal);
+        db.deleteMeal(meal);
 
-        meals = db.getNutritionList(Database.ListType.Day, month, day, year);
+        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+        String formattedDate = df.format(c.getTime());
+        meals = db.getMealList(new Nutrition(null, formattedDate, null, null, null, null, null));
 
         if (meals.isEmpty()) {
             Toast.makeText(activity, "No Meals Have Been Added", Toast.LENGTH_LONG).show();
@@ -336,7 +332,10 @@ public class NutritionLog extends ListFragment {
             c.set(Calendar.MONTH, month);
             c.set(Calendar.DAY_OF_MONTH, day);
 
-            meals = db.getNutritionList(Database.ListType.Day, month + 1, day, year);
+            SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+            String formattedDate = df.format(c.getTime());
+            meals = db.getMealList(new Nutrition(null, formattedDate, null, null, null, null, null));
+
             mAdapter.clear();
             mAdapter.addAll(meals);
             updateTotals();
@@ -349,15 +348,16 @@ public class NutritionLog extends ListFragment {
             if (y == year && m == month && d == day) {
                 date.setText("Today");
             } else {
-                SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
-                String formattedDate = df.format(c.getTime());
                 date.setText(formattedDate);
             }
         }
     }
 
     private void updateList() {
-        meals = db.getNutritionList(Database.ListType.Day, month, day, year);
+        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+        String formattedDate = df.format(c.getTime());
+
+        meals = db.getMealList(new Nutrition(null, formattedDate, null, null, null, null, null));
         mAdapter.clear();
         mAdapter.addAll(meals);
         updateTotals();
@@ -372,8 +372,6 @@ public class NutritionLog extends ListFragment {
             next.setEnabled(false);
             next.setTextColor(Color.GRAY);
         } else {
-            SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
-            String formattedDate = df.format(c.getTime());
             date.setText(formattedDate);
             if (!next.isEnabled()) {
                 next.setEnabled(true);

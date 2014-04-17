@@ -24,18 +24,18 @@ public class CategoryDialog extends DialogFragment {
 
     private InstanceType type;
     private Nutrition meal;
-    private Database db;
+    private DBHelper db;
     private String category;
 
     private NutritionFavoritesView viewFragment;
 
-    public CategoryDialog(Nutrition meal, Database db) {
+    public CategoryDialog(Nutrition meal, DBHelper db) {
         this.meal = meal;
         this.db = db;
         type = InstanceType.Single;
     }
 
-    public CategoryDialog(NutritionFavoritesView viewFragment,String category, Database db) {
+    public CategoryDialog(NutritionFavoritesView viewFragment,String category, DBHelper db) {
         this.db = db;
         this.category = category;
         type = InstanceType.Group;
@@ -53,7 +53,7 @@ public class CategoryDialog extends DialogFragment {
 
         final AutoCompleteTextView categoryText = (AutoCompleteTextView) root.findViewById(R.id.categoryAutoComplete);
 
-        List<String> categoryList = db.getFavoriteCategories();
+        List<String> categoryList = db.getFavoritesCategories();
         ArrayAdapter categoryAdapter = new ArrayAdapter(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, categoryList);
         categoryText.setAdapter(categoryAdapter);
@@ -62,7 +62,7 @@ public class CategoryDialog extends DialogFragment {
             builder.setView(root)
                     .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            db.addFavorite(new Favorite(meal.get_name(), categoryText.getText().toString(), meal.get_type(),
+                            db.storeFavorite(new Favorite(meal.get_name(), categoryText.getText().toString(), meal.get_type(),
                                     meal.get_calories(), meal.get_protein(), meal.get_carbs(), meal.get_fat()));
                             Toast.makeText(getActivity(),
                                     meal.get_name() + " has been added as a favorite under the " +
@@ -82,11 +82,13 @@ public class CategoryDialog extends DialogFragment {
                     .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
 
-                            List<Favorite> favs = db.getFavoritesInCategory(category);
+                            Favorite f = new Favorite(null, category, null, null, null, null, null);
+                            List<Favorite> favs = db.getFavoriteMealList(f);
 
                             for (Favorite favorite : favs) {
-                                favorite.set_category(categoryText.getText().toString());
-                                db.updateFavorite(favorite);
+                                Favorite newFav = favorite;
+                                newFav.set_category(categoryText.getText().toString());
+                                db.updateFavorite(favorite, newFav);
                             }
 
                             viewFragment.reloadList();
