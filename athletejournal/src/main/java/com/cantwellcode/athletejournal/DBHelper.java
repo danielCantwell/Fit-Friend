@@ -5,7 +5,6 @@ import android.content.Context;
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
-import com.db4o.internal.Null;
 
 import java.util.ArrayList;
 
@@ -20,16 +19,16 @@ public class DBHelper {
 
     public DBHelper(Context context) {
         this.context = context;
-        dbPath = context.getFilesDir() + "/android.db4o";
+        dbPath = context.getFilesDir() + "/android.athleteJournal";
     }
 
     public static String DB_NAME_NUTRITION = "Nutrition_Database";
-    public static String DB_NAME_FAVORITES = "Favorite_Database";
+    public static String DB_NAME_FAVORITES = "Favorites_Database";
     public static String DB_NAME_WORKOUTS = "Workout_Database";
 
     private boolean openDb(String name) {
         if (name != null) {
-            db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), dbPath);
+            db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), dbPath + "." + name);
             return true;
         }
         return false;
@@ -570,7 +569,7 @@ public class DBHelper {
     boolean deleteMeal(Nutrition p) {
         Nutrition found = null;
 
-        openDb(DB_NAME_FAVORITES);
+        openDb(DB_NAME_NUTRITION);
         ObjectSet<Nutrition> result = db.queryByExample(p);
 
         if (result.hasNext()) {

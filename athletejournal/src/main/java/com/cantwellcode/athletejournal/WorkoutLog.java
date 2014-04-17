@@ -62,7 +62,7 @@ public class WorkoutLog extends Fragment {
         String formattedDate = df.format(c.getTime());
 
         //workouts = db.getWorkoutList(Database.ListType.Day, month, day, year);
-        workouts = db.getWorkoutList(new Workout(null, formattedDate, null, null, null, null, null, null, null));
+        workouts = db.getWorkoutList(new Workout(null, formattedDate, null, null));
 
         ViewGroup root;
 
