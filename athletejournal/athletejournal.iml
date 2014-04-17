@@ -70,6 +70,7 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 19 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="db4o-8.0.249.16098-all-java5" level="project" />
     <orderEntry type="library" exported="" name="support-v4-19.1.0" level="project" />
   </component>
 </module>

@@ -101,11 +101,11 @@ public class Database extends SQLiteOpenHelper {
         values.put(WORKOUT_NAME, workout.get_name());
         values.put(WORKOUT_DATE, workout.get_date());
         values.put(WORKOUT_TYPE, workout.get_type());
-        values.put(WORKOUT_TIME, workout.get_time());
-        values.put(WORKOUT_DISTANCE, workout.get_distance());
-        values.put(WORKOUT_SPEED, workout.get_speed());
-        values.put(WORKOUT_CALORIES, workout.get_calories());
-        values.put(WORKOUT_HEART_RATE, workout.get_heartRate());
+//        values.put(WORKOUT_TIME, workout.get_time());
+//        values.put(WORKOUT_DISTANCE, workout.get_distance());
+//        values.put(WORKOUT_SPEED, workout.get_speed());
+//        values.put(WORKOUT_CALORIES, workout.get_calories());
+//        values.put(WORKOUT_HEART_RATE, workout.get_heartRate());
         values.put(WORKOUT_NOTES, workout.get_notes());
 
         // Insert Row
@@ -235,11 +235,11 @@ public class Database extends SQLiteOpenHelper {
                 workout.set_name(cursor.getString(1));
                 workout.set_date(cursor.getString(2));
                 workout.set_type(cursor.getString(3));
-                workout.set_time(cursor.getString(4));
-                workout.set_distance(cursor.getString(5));
-                workout.set_speed(cursor.getString(6));
-                workout.set_calories(cursor.getString(7));
-                workout.set_heartRate(cursor.getString(8));
+//                workout.set_time(cursor.getString(4));
+//                workout.set_distance(cursor.getString(5));
+//                workout.set_speed(cursor.getString(6));
+//                workout.set_calories(cursor.getString(7));
+//                workout.set_heartRate(cursor.getString(8));
                 workout.set_notes(cursor.getString(9));
                 // Adding workout to list
                 workoutList.add(workout);
@@ -322,11 +322,11 @@ public class Database extends SQLiteOpenHelper {
                 workout.set_name(cursor.getString(1));
                 workout.set_date(cursor.getString(2));
                 workout.set_type(cursor.getString(3));
-                workout.set_time(cursor.getString(4));
-                workout.set_distance(cursor.getString(5));
-                workout.set_speed(cursor.getString(6));
-                workout.set_calories(cursor.getString(7));
-                workout.set_heartRate(cursor.getString(8));
+//                workout.set_time(cursor.getString(4));
+//                workout.set_distance(cursor.getString(5));
+//                workout.set_speed(cursor.getString(6));
+//                workout.set_calories(cursor.getString(7));
+//                workout.set_heartRate(cursor.getString(8));
                 workout.set_notes(cursor.getString(9));
                 // Adding workout to list
                 workoutList.add(workout);
@@ -508,11 +508,11 @@ public class Database extends SQLiteOpenHelper {
         values.put(WORKOUT_NAME, workout.get_name());
         values.put(WORKOUT_DATE, workout.get_date());
         values.put(WORKOUT_TYPE, workout.get_type());
-        values.put(WORKOUT_TIME, workout.get_time());
-        values.put(WORKOUT_DISTANCE, workout.get_distance());
-        values.put(WORKOUT_SPEED, workout.get_speed());
-        values.put(WORKOUT_CALORIES, workout.get_calories());
-        values.put(WORKOUT_HEART_RATE, workout.get_heartRate());
+//        values.put(WORKOUT_TIME, workout.get_time());
+//        values.put(WORKOUT_DISTANCE, workout.get_distance());
+//        values.put(WORKOUT_SPEED, workout.get_speed());
+//        values.put(WORKOUT_CALORIES, workout.get_calories());
+//        values.put(WORKOUT_HEART_RATE, workout.get_heartRate());
         values.put(WORKOUT_NOTES, workout.get_notes());
 
         // updating row

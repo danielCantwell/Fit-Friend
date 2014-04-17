@@ -2,10 +2,17 @@
 <resources>
 
     <string name="app_name">Athlete Journal</string>
-    <string name="title_section1">Journal</string>
-    <string name="title_section2">Workout Log</string>
-    <string name="title_section3">Nutrition Log</string>
-    <string name="title_section4">User Profile</string>
+    <string name="title_section1">Nutrition Log</string>
+    <string name="title_section2">Meal Plan</string>
+    <string name="title_section3">Nutrition Stats</string>
+    <string name="title_section5">Workout Log</string>
+    <string name="title_section6">Exercise Plan</string>
+    <string name="title_section7">Workout Statistics</string>
+    <string name="title_section9">Friends</string>
+    <string name="title_section10">Explore</string>
+    <string name="title_section11">Trainer</string>
+    <string name="title_section13">Personal Profile</string>
+    <string name="title_section14">Social Profile</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>

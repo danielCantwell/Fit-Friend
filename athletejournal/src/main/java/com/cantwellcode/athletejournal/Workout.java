@@ -9,11 +9,11 @@ public class Workout {
     String _name        = "";
     String _date        = "";
     String _type        = "";
-    String _time        = "";
-    String _distance    = "";
-    String _speed       = "";
-    String _calories    = "";
-    String _heartRate   = "";
+    //String _time        = "";
+    //String _distance    = "";
+    //String _speed       = "";
+    //String _calories    = "";
+    //String _heartRate   = "";
     String _notes       = "";
 
     public Workout() {
@@ -25,11 +25,11 @@ public class Workout {
         this._name = name;
         this._date = date;
         this._type = type;
-        this._time = time;
-        this._distance = distance;
-        this._speed = speed;
-        this._calories = calories;
-        this._heartRate = heartRate;
+//        this._time = time;
+//        this._distance = distance;
+//        this._speed = speed;
+//        this._calories = calories;
+//        this._heartRate = heartRate;
         this._notes = notes;
     }
 
@@ -65,45 +65,45 @@ public class Workout {
         this._type = type;
     }
 
-    public String get_time() {
-        return _time;
-    }
-
-    public void set_time(String time) {
-        this._time = time;
-    }
-
-    public String get_distance() {
-        return _distance;
-    }
-
-    public void set_distance(String distance) {
-        this._distance = distance;
-    }
-
-    public String get_speed() {
-        return _speed;
-    }
-
-    public void set_speed(String speed) {
-        this._speed = speed;
-    }
-
-    public String get_calories() {
-        return _calories;
-    }
-
-    public void set_calories(String calories) {
-        this._calories = calories;
-    }
-
-    public String get_heartRate() {
-        return _heartRate;
-    }
-
-    public void set_heartRate(String heartRate) {
-        this._heartRate = heartRate;
-    }
+//    public String get_time() {
+//        return _time;
+//    }
+//
+//    public void set_time(String time) {
+//        this._time = time;
+//    }
+//
+//    public String get_distance() {
+//        return _distance;
+//    }
+//
+//    public void set_distance(String distance) {
+//        this._distance = distance;
+//    }
+//
+//    public String get_speed() {
+//        return _speed;
+//    }
+//
+//    public void set_speed(String speed) {
+//        this._speed = speed;
+//    }
+//
+//    public String get_calories() {
+//        return _calories;
+//    }
+//
+//    public void set_calories(String calories) {
+//        this._calories = calories;
+//    }
+//
+//    public String get_heartRate() {
+//        return _heartRate;
+//    }
+//
+//    public void set_heartRate(String heartRate) {
+//        this._heartRate = heartRate;
+//    }
 
     public String get_notes() {
         return _notes;
