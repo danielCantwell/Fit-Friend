@@ -1,130 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="#FFFFFF">
 
     <TextView
+        android:id="@+id/n_data_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/n_data_name"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:layout_marginLeft="10dp"
         android:hint="Name"
-        android:textColor="#c0392b"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/n_data_date"
-        android:layout_below="@+id/n_data_name"
-        android:layout_alignLeft="@+id/n_data_name"
-        android:textColor="#555555"/>
+        android:textColor="?android:attr/textColorPrimary" />
 
     <TextView
+        android:id="@+id/n_data_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/n_data_type"
-        android:hint="Type"
+        android:layout_alignLeft="@+id/n_data_name"
         android:layout_alignTop="@+id/n_data_date"
+        android:hint="Type"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="?android:attr/textColorSecondary"
+        android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/n_data_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_below="@+id/n_data_name"
         android:layout_marginRight="10dp"
-        android:textColor="#555555"/>
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="?android:attr/textColorSecondary" />
 
     <TableRow
+        android:id="@+id/tableRow"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/n_data_type"
         android:layout_alignParentRight="false"
-        android:id="@+id/tableRow">
+        android:layout_below="@+id/n_data_type">
 
         <com.cantwellcode.athletejournal.SmallDecimalTextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/n_data_calories"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:hint="Calories"
-            android:layout_weight="1"
-            android:gravity="center" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textStyle="bold" />
 
         <com.cantwellcode.athletejournal.SmallDecimalTextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/n_data_fat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:hint="Fat"
-            android:layout_weight="1"
-            android:gravity="center" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textStyle="bold" />
 
         <com.cantwellcode.athletejournal.SmallDecimalTextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/n_data_carbs"
-            android:hint="Carbs"
-            android:layout_weight="1"
-            android:gravity="center" />
-
-        <com.cantwellcode.athletejournal.SmallDecimalTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/n_data_protein"
-            android:hint="Protein"
             android:layout_weight="1"
-            android:gravity="center" />
+            android:gravity="center"
+            android:hint="Carbs"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textStyle="bold" />
+
+        <com.cantwellcode.athletejournal.SmallDecimalTextView
+            android:id="@+id/n_data_protein"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:hint="Protein"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textStyle="bold" />
     </TableRow>
 
     <TableRow
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tableRow"
-        android:layout_alignParentLeft="false">
+        android:layout_alignParentLeft="false"
+        android:layout_below="@+id/tableRow">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Calories"
             android:id="@+id/textView"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textColor="#888888" />
-
-        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Fat"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Calories"
+            android:textColor="?android:attr/textColorSecondaryInverse"
+            android:textSize="12sp" />
+
+        <TextView
             android:id="@+id/textView4"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textColor="#888888" />
-
-        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Carbs"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Fat"
+            android:textColor="?android:attr/textColorSecondaryInverse"
+            android:textSize="12sp" />
+
+        <TextView
             android:id="@+id/textView3"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textColor="#888888" />
-
-        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Protein"
-            android:id="@+id/textView2"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="#888888" />
+            android:text="Carbs"
+            android:textColor="?android:attr/textColorSecondaryInverse"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Protein"
+            android:textColor="?android:attr/textColorSecondaryInverse"
+            android:textSize="12sp" />
     </TableRow>
 </RelativeLayout>

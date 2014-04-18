@@ -21,6 +21,7 @@
     <string name="action_save">Save</string>
     <string name="action_addNew">New</string>
     <string name="action_cancel">Cancel</string>
+    <string name="action_lap">Laps</string>
     <string name="previous"><![CDATA[<<]]></string>
     <string name="next"><![CDATA[>>]]></string>
 

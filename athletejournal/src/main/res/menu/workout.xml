@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_addLap"
+        android:title="@string/action_lap"
+        android:showAsAction="withText|ifRoom" />
     <item android:id="@+id/action_saveWorkout"
-        android:title="@string/action_saveWorkout"
+        android:title="@string/action_save"
         android:showAsAction="withText|ifRoom" />
 </menu>

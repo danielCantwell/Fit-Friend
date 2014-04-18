@@ -7,10 +7,10 @@
     android:orientation="vertical">
 
     <TableRow
+        android:id="@+id/tableRow1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:id="@+id/tableRow1"
         android:layout_alignParentTop="true"
         android:background="#FFFFFF">
 
@@ -52,10 +52,10 @@
     </TableRow>
 
     <TableRow
+        android:id="@+id/tableRow2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:id="@+id/tableRow2"
         android:layout_below="@+id/tableRow1"
         android:background="#FFFFFF">
 
@@ -67,7 +67,7 @@
             android:gravity="center"
             android:text="Calories"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#888888" />
+            android:textColor="#c0392b" />
 
         <TextView
             android:id="@+id/n_goal_fat"
@@ -77,7 +77,7 @@
             android:gravity="center"
             android:text="Fat"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#888888" />
+            android:textColor="#c0392b" />
 
         <TextView
             android:id="@+id/n_goal_carbs"
@@ -87,7 +87,7 @@
             android:gravity="center"
             android:text="Carbs"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#888888" />
+            android:textColor="#c0392b" />
 
         <TextView
             android:id="@+id/n_goal_protein"
@@ -97,35 +97,38 @@
             android:gravity="center"
             android:text="Protein"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#888888" />
+            android:textColor="#c0392b" />
 
     </TableRow>
 
     <ImageView
-        android:id="@+id/imageDivide"
+        android:id="@+id/dividerImage"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/tableRow2"
-        android:background="#c0392b"/>
+        android:layout_height="2dp"
+        android:layout_below="@id/tableRow2"
+        android:background="#c0392b" />
 
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/tableRow"
+        android:layout_below="@+id/dividerImage"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:background="#ecf0f1"
         android:choiceMode="singleChoice"
-        android:dividerHeight="3dp"
-        android:layout_below="@+id/imageDivide"
-        android:layout_alignParentLeft="true"
-        android:layout_above="@+id/tableRow" />
+        android:divider="#c0392b"
+        android:dividerHeight="2dp" />
 
     <TableRow
+        android:id="@+id/tableRow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#c0392b"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="false"
-        android:id="@+id/tableRow"
-        android:layout_alignParentBottom="true">
+        android:background="#c0392b">
 
         <Button
             android:id="@+id/n_previous"

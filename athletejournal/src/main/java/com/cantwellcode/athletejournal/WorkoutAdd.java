@@ -2,7 +2,11 @@ package com.cantwellcode.athletejournal;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -61,7 +65,41 @@ public class WorkoutAdd extends Fragment {
                 break;
         }
 
+        setHasOptionsMenu(true);
 
         return root;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+//        restoreActionBar();
+        inflater.inflate(R.menu.workout, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.action_saveWorkout:
+//                InstanceType instanceType = (InstanceType) getArguments().getSerializable("InstanceType");
+//                if (instanceType == InstanceType.NewWorkout) {
+//                    saveWorkout();
+//                }
+//                else if (instanceType == InstanceType.EditWorkout) {
+//                    editWorkout();
+//                }
+//                FragmentManager fm1 = getFragmentManager();
+//                fm1.beginTransaction()
+//                        .replace(R.id.container, NutritionLog.newInstance())
+//                        .commit();
+//                break;
+//            case R.id.action_addLap:
+//                FragmentManager fm2 = getFragmentManager();
+//                fm2.beginTransaction()
+//                        .replace(R.id.container, NutritionLog.newInstance())
+//                        .commit();
+//                break;
+//        }
+        return super.onOptionsItemSelected(item);
     }
 }
