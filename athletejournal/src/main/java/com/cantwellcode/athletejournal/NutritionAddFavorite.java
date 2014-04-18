@@ -186,7 +186,7 @@ public class NutritionAddFavorite extends Fragment implements AdapterView.OnItem
     private void saveFavorite() {
         prepareData();
         Toast.makeText(getActivity(), "Saving Meal", Toast.LENGTH_SHORT).show();
-        db.storeFavorite(new Favorite(_name, _category, _type, _calories, _protein, _carbs, _fat));
+        db.store(new Favorite(_name, _category, _type, _calories, _protein, _carbs, _fat));
 
         nullify();
     }

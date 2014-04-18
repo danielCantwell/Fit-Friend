@@ -292,7 +292,7 @@ public class NutritionLog extends ListFragment {
     }
 
     private void menuClickDelete(Nutrition meal) {
-        db.deleteMeal(meal);
+        db.delete(meal);
 
         SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
         String formattedDate = df.format(c.getTime());

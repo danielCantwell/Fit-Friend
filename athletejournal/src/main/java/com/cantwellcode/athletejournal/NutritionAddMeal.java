@@ -332,7 +332,7 @@ public class NutritionAddMeal extends Fragment implements AdapterView.OnItemSele
             categoryDialog.show(getFragmentManager(), "categoryDialog");
         }
 
-        db.storeMeal(meal);
+        db.store(meal);
 
         name.setText(null);
         calories.setText(null);

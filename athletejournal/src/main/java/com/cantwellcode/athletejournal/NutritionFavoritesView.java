@@ -246,7 +246,7 @@ public class NutritionFavoritesView extends Fragment {
     }
 
     private void menuClickDelete(Favorite meal) {
-        db.deleteFavorite(meal);
+        db.delete(meal);
         meals = db.getAllFavorites();
         if (meals.isEmpty()) {
             Toast.makeText(getActivity(), "No Favorites Added", Toast.LENGTH_LONG).show();

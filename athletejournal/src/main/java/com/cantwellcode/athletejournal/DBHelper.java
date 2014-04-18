@@ -45,59 +45,14 @@ public class DBHelper {
     /**
     Store a meal
      */
-    void storeMeal(Nutrition meal) {
-        openDb(DB_NAME_NUTRITION);
-        db.store(meal);
-        db.commit();
-        closeDb();
-    }
-
-    /**
-    Store a favorite meal
-     */
-    void storeFavorite(Favorite meal) {
-        openDb(DB_NAME_FAVORITES);
-        db.store(meal);
-        db.commit();
-        closeDb();
-    }
-
-    /**
-    Store a swim workout
-     */
-    void storeSwim(WorkoutSwim swim) {
-        openDb(DB_NAME_WORKOUTS);
-        db.store(swim);
-        db.commit();
-        closeDb();
-    }
-
-    /**
-    Store a bike workout
-     */
-    void storeBike(WorkoutBike bike) {
-        openDb(DB_NAME_WORKOUTS);
-        db.store(bike);
-        db.commit();
-        closeDb();
-    }
-
-    /**
-    Store a run workout
-     */
-    void storeRun(WorkoutRun run) {
-        openDb(DB_NAME_WORKOUTS);
-        db.store(run);
-        db.commit();
-        closeDb();
-    }
-
-    /**
-    Store a gym workout
-     */
-    void storeGym(WorkoutGym gym) {
-        openDb(DB_NAME_WORKOUTS);
-        db.store(gym);
+    void store(Object object) {
+        if (object instanceof Nutrition)
+            openDb(DB_NAME_NUTRITION);
+        else if (object instanceof Favorite)
+            openDb(DB_NAME_FAVORITES);
+        else if (object instanceof Workout)
+            openDb(DB_NAME_WORKOUTS);
+        db.store(object);
         db.commit();
         closeDb();
     }
@@ -109,99 +64,21 @@ public class DBHelper {
     /**
     get a meal from the database
      */
-    Nutrition getMeal(Nutrition object) {
+    Object get(Object object) {
 
-        openDb(DB_NAME_NUTRITION);
+        if (object instanceof Nutrition)
+            openDb(DB_NAME_NUTRITION);
+        else if (object instanceof Favorite)
+            openDb(DB_NAME_FAVORITES);
+        else if (object instanceof Workout)
+            openDb(DB_NAME_WORKOUTS);
+
         ObjectSet result = db.queryByExample(object);
 
         if (result.hasNext()) {
-            Nutrition n = (Nutrition) result.next();
+            Object o = result.next();
             closeDb();
-            return n;
-        }
-        closeDb();
-        return null;
-    }
-
-    /**
-    get a favorite meal from the database
-     */
-    Favorite getFavorite(Favorite object) {
-
-        openDb(DB_NAME_FAVORITES);
-        ObjectSet result = db.queryByExample(object);
-
-        if (result.hasNext()) {
-            Favorite f = (Favorite) result.next();
-            closeDb();
-            return f;
-        }
-        closeDb();
-        return null;
-    }
-
-    /**
-    get a swim workout from the database
-     */
-    WorkoutSwim getSwim(WorkoutSwim object) {
-
-        openDb(DB_NAME_WORKOUTS);
-        ObjectSet result = db.queryByExample(object);
-
-        if (result.hasNext()) {
-            WorkoutSwim swim = (WorkoutSwim) result.next();
-            closeDb();
-            return swim;
-        }
-        return null;
-    }
-
-    /**
-    get a bike workout from the database
-     */
-    WorkoutBike getBike(WorkoutBike object) {
-
-        openDb(DB_NAME_WORKOUTS);
-        ObjectSet result = db.queryByExample(object);
-
-        if (result.hasNext()) {
-            WorkoutBike bike = (WorkoutBike) result.next();
-            closeDb();
-            return bike;
-        }
-        closeDb();
-        return null;
-    }
-
-    /**
-    get a run workout from the database
-     */
-    WorkoutRun getRun(WorkoutRun object) {
-
-        openDb(DB_NAME_WORKOUTS);
-        ObjectSet result = db.queryByExample(object);
-
-        if (result.hasNext()) {
-            WorkoutRun run = (WorkoutRun) result.next();
-            closeDb();
-            return run;
-        }
-        closeDb();
-        return null;
-    }
-
-    /**
-    get a gym workout from the database
-     */
-    WorkoutGym getGym(WorkoutGym object) {
-
-        openDb(DB_NAME_WORKOUTS);
-        ObjectSet result = db.queryByExample(object);
-
-        if (result.hasNext()) {
-            WorkoutGym gym = (WorkoutGym) result.next();
-            closeDb();
-            return gym;
+            return o;
         }
         closeDb();
         return null;
@@ -566,11 +443,16 @@ public class DBHelper {
     /**
     deal a meal in the database
      */
-    boolean deleteMeal(Nutrition p) {
-        Nutrition found = null;
+    boolean delete(Object object) {
+        Object found = null;
 
-        openDb(DB_NAME_NUTRITION);
-        ObjectSet<Nutrition> result = db.queryByExample(p);
+        if (object instanceof Nutrition)
+            openDb(DB_NAME_NUTRITION);
+        else if (object instanceof Favorite)
+            openDb(DB_NAME_FAVORITES);
+        else if (object instanceof Workout)
+            openDb(DB_NAME_WORKOUTS);
+        ObjectSet<Object> result = db.queryByExample(object);
 
         if (result.hasNext()) {
 
@@ -583,27 +465,5 @@ public class DBHelper {
             return false;
         }
 
-    }
-
-    /**
-    delete a favorite meal in the database
-     */
-    boolean deleteFavorite(Favorite f) {
-        Favorite found = null;
-
-        openDb(DB_NAME_FAVORITES);
-        ObjectSet<Favorite> result = db.queryByExample(f);
-
-        if (result.hasNext()) {
-
-            found = result.next();
-            db.delete(found);
-
-            closeDb();
-            return true;
-        } else {
-            closeDb();
-            return false;
-        }
     }
 }

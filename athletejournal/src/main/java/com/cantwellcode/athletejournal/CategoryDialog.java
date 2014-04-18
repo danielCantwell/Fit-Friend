@@ -62,7 +62,7 @@ public class CategoryDialog extends DialogFragment {
             builder.setView(root)
                     .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            db.storeFavorite(new Favorite(meal.get_name(), categoryText.getText().toString(), meal.get_type(),
+                            db.store(new Favorite(meal.get_name(), categoryText.getText().toString(), meal.get_type(),
                                     meal.get_calories(), meal.get_protein(), meal.get_carbs(), meal.get_fat()));
                             Toast.makeText(getActivity(),
                                     meal.get_name() + " has been added as a favorite under the " +
