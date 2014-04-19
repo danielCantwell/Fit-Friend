@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <NumberPicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/time_minute"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text=" : "
+        android:id="@+id/colon_minute"
+        android:layout_toRightOf="@+id/time_minute"
+        android:layout_marginTop="50dp" />
+
+    <NumberPicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/time_second"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/colon_minute" />
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/time_second"
+        android:layout_below="@+id/time_second">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:id="@+id/time_cancel"
+            android:layout_below="@+id/time_hour"
+            android:layout_alignParentLeft="true"
+            android:layout_weight="1" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:id="@+id/time_save"
+            android:layout_below="@+id/time_minute"
+            android:layout_alignRight="@+id/time_second"
+            android:layout_weight="1" />
+    </TableRow>
+
+</RelativeLayout>

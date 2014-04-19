@@ -5,12 +5,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/workoutView"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/tableRow"
-        android:orientation="vertical"/>
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/workoutView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/tableRow"
+            android:orientation="vertical"/>
+        </ScrollView>
 
     <TableRow
         android:id="@+id/tableRow"

@@ -29,46 +29,10 @@ public class Run implements Serializable {
      * Default Constructor
      */
     public Run() {
-        name = "";
-        date = "";
-        type = "";
-        notes = "";
-        distance = "";
-        time = "";
-        avgPace = "";
-        maxPace = "";
-        avgHR = "";
-        maxHR = "";
-        calBurned = "";
-        elevation = "";
-
-        numLaps = 0;
-        laps = new ArrayList<Run>();
     }
 
-    /**
-     * Constructor containing only basic information
-     * @param name
-     * @param date
-     * @param type
-     * @param notes
-     */
-    public Run(String name, String date, String type, String notes) {
-        this.name = name;
+    public Run(String date) {
         this.date = date;
-        this.type = type;
-        this.notes = notes;
-        distance = "";
-        time = "";
-        avgPace = "";
-        maxPace = "";
-        avgHR = "";
-        maxHR = "";
-        calBurned = "";
-        elevation = "";
-
-        numLaps = 0;
-        laps = new ArrayList<Run>();
     }
 
     /**

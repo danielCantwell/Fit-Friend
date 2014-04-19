@@ -31,50 +31,10 @@ public class Bike implements Serializable {
      * Default Constructor
      */
     public Bike() {
-        name = "";
-        date = "";
-        type = "";
-        notes = "";
-        distance = "";
-        time = "";
-        avgPace = "";
-        maxPace = "";
-        avgCadence = "";
-        maxCadence = "";
-        avgHR = "";
-        maxHR = "";
-        calBurned = "";
-        elevation = "";
-
-        numLaps = 0;
-        laps = new ArrayList<Bike>();
     }
 
-    /**
-     * Constructor containing only basic information
-     * @param name
-     * @param date
-     * @param type
-     * @param notes
-     */
-    public Bike(String name, String date, String type, String notes) {
-        this.name = name;
+    public Bike(String date) {
         this.date = date;
-        this.type = type;
-        this.notes = notes;
-        distance = "";
-        time = "";
-        avgPace = "";
-        maxPace = "";
-        avgCadence = "";
-        maxCadence = "";
-        avgHR = "";
-        maxHR = "";
-        calBurned = "";
-        elevation = "";
-
-        numLaps = 0;
-        laps = new ArrayList<Bike>();
     }
 
     /**
@@ -114,7 +74,6 @@ public class Bike implements Serializable {
         this.elevation = elevation;
 
         numLaps = 0;
-        laps = new ArrayList<Bike>();
     }
 
     /**

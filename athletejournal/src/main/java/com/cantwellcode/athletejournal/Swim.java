@@ -1,5 +1,7 @@
 package com.cantwellcode.athletejournal;
 
+import android.text.format.Time;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -109,6 +111,7 @@ public class Swim implements Serializable {
         this.maxPace = maxPace;
         this.calBurned = calBurned;
         this.strokeRate = strokeRate;
+
 //
 //        numLaps = 0;
 //        laps = new ArrayList<Swim>();

@@ -22,8 +22,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,7 +35,11 @@ import java.util.List;
 /**
  * Created by Daniel on 4/15/2014.
  */
-public class WorkoutAddSwim extends Fragment {
+public class WorkoutAddSwim extends Fragment{
+
+    private final int TIME = 0;
+    private final int AVG = 1;
+    private final int MAX = 2;
 
     public static Fragment newInstance() {
         WorkoutAddSwim f = new WorkoutAddSwim();
@@ -57,9 +64,9 @@ public class WorkoutAddSwim extends Fragment {
     private Spinner type;
     private Button date;
     private EditText distance;
-    private EditText time;
-    private EditText avgPace;
-    private EditText maxPace;
+    private Button time;
+    private Button avgPace;
+    private Button maxPace;
     private EditText strokeRate;
     private EditText caloriesBurned;
     private EditText notes;
@@ -102,9 +109,9 @@ public class WorkoutAddSwim extends Fragment {
         type = (Spinner) root.findViewById(R.id.w_type);
         date = (Button) root.findViewById(R.id.w_date);
         distance = (EditText) root.findViewById(R.id.w_distance);
-        time = (EditText) root.findViewById(R.id.w_time);
-        avgPace = (EditText) root.findViewById(R.id.w_avgPace);
-        maxPace = (EditText) root.findViewById(R.id.w_maxPace);
+        time = (Button) root.findViewById(R.id.w_time);
+        avgPace = (Button) root.findViewById(R.id.w_avgPace);
+        maxPace = (Button) root.findViewById(R.id.w_maxPace);
         strokeRate = (EditText) root.findViewById(R.id.w_strokeRate);
         caloriesBurned = (EditText) root.findViewById(R.id.w_calories);
         notes = (EditText) root.findViewById(R.id.w_notes);
@@ -165,6 +172,13 @@ public class WorkoutAddSwim extends Fragment {
             }
         });
         type.setSelection(0);
+
+        time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimeDialog(TIME);
+            }
+        });
 
         setHasOptionsMenu(true);
 
@@ -299,6 +313,31 @@ public class WorkoutAddSwim extends Fragment {
         stringBuilder.append(type);
         stringBuilder.append(",");
         sp.edit().putString("SwimTypes", stringBuilder.toString());
+    }
+
+    private void showTimeDialog(int type) {
+        FragmentManager fm = getFragmentManager();
+        TimePickerDialog timePickerDialog = new TimePickerDialog();
+        timePickerDialog.setDialogListener(new DialogListener() {
+            @Override
+            public void onDialogOK(Bundle bundle) {
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.HOUR_OF_DAY, bundle.getInt("hour"));
+                cal.set(Calendar.MINUTE, bundle.getInt("minute"));
+                cal.set(Calendar.SECOND, bundle.getInt("second"));
+
+                SimpleDateFormat df = new SimpleDateFormat("H : mm : ss");
+                String formattedTime = df.format(cal.getTime());
+
+                time.setText(formattedTime);
+            }
+
+            @Override
+            public void onDialogCancel() {
+
+            }
+        });
+        timePickerDialog.show(fm, "timeFragment");
     }
 
     /* Date Picker Fragment */

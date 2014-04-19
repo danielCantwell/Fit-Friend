@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="25dp"
             android:layout_weight="1"
-            android:text="Distance" />
+            android:text="Distance (m)" />
 
         <TextView
             android:id="@+id/textViewTime"
@@ -88,15 +88,12 @@
             android:selectAllOnFocus="true"
             android:layout_weight="1"/>
 
-        <EditText
+        <Button
             android:id="@+id/w_time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:background="@android:drawable/edit_text"
-            android:ems="10"
-            android:inputType="numberDecimal"
-            android:selectAllOnFocus="true"
+            android:background="@android:drawable/editbox_dropdown_light_frame"
             android:layout_weight="1"/>
 
     </TableRow>
@@ -114,7 +111,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="25dp"
             android:layout_weight="1"
-            android:text="Avg Pace" />
+            android:text="Avg Pace (100m)" />
 
         <TextView
             android:id="@+id/textViewMaxPace"
@@ -122,7 +119,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="35dp"
             android:layout_weight="1"
-            android:text="Max Pace" />
+            android:text="Max Pace (100m)" />
 
     </TableRow>
 
@@ -133,26 +130,20 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp">
 
-        <EditText
+        <Button
             android:id="@+id/w_avgPace"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:background="@android:drawable/edit_text"
-            android:ems="10"
-            android:inputType="number"
-            android:selectAllOnFocus="true"
+            android:background="@android:drawable/editbox_dropdown_light_frame"
             android:layout_weight="1"/>
 
-        <EditText
+        <Button
             android:id="@+id/w_maxPace"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:background="@android:drawable/edit_text"
-            android:ems="10"
-            android:inputType="number"
-            android:selectAllOnFocus="true"
+            android:background="@android:drawable/editbox_dropdown_light_frame"
             android:layout_weight="1"/>
 
     </TableRow>
@@ -178,7 +169,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="35dp"
             android:layout_weight="1"
-            android:text="Stroke Rate" />
+            android:text="Stroke Rate (25m)" />
 
     </TableRow>
 
