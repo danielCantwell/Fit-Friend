@@ -1,12 +1,17 @@
 package com.cantwellcode.athletejournal;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Daniel on 4/17/2014.
  */
-public class WorkoutSwim extends Workout {
+public class Swim implements Serializable {
 
+    private String name;
+    private String date;
+    private String type;
+    private String notes;
     private String distance;
     private String time;
     private String avgPace;
@@ -15,23 +20,42 @@ public class WorkoutSwim extends Workout {
     private String strokeRate;
     private int numLaps;
 
-    private ArrayList<WorkoutSwim> laps;
+    private ArrayList<Swim> laps;
 
     /**
      * Default Constructor
      */
-    public WorkoutSwim() {
-        super();
+    public Swim() {
 
-        distance = "";
-        time = "";
-        avgPace = "";
-        maxPace = "";
-        calBurned = "";
-        strokeRate = "";
+//        distance = "";
+//        time = "";
+//        avgPace = "";
+//        maxPace = "";
+//        calBurned = "";
+//        strokeRate = "";
+//
+//        numLaps = 0;
+//        laps = new ArrayList<Swim>();
+    }
 
-        numLaps = 0;
-        laps = new ArrayList<WorkoutSwim>();
+    /**
+     * used for retrieving objects with a specified date
+     * @param date
+     */
+    public Swim(String date) {
+//        name = "";
+        this.date = date;
+//        type = "";
+//        notes = "";
+//        distance = "";
+//        time = "";
+//        avgPace = "";
+//        maxPace = "";
+//        calBurned = "";
+//        strokeRate = "";
+//
+//        numLaps = 0;
+//        laps = new ArrayList<Swim>();
     }
 
     /**
@@ -41,18 +65,20 @@ public class WorkoutSwim extends Workout {
      * @param type
      * @param notes
      */
-    public WorkoutSwim(String name, String date, String type, String notes) {
-        super(name, date, type, notes);
-
-        distance = "";
-        time = "";
-        avgPace = "";
-        maxPace = "";
-        calBurned = "";
-        strokeRate = "";
-
-        numLaps = 0;
-        laps = new ArrayList<WorkoutSwim>();
+    public Swim(String name, String date, String type, String notes) {
+        this.name = name;
+        this.date = date;
+        this.type = type;
+        this.notes = notes;
+//        distance = "";
+//        time = "";
+//        avgPace = "";
+//        maxPace = "";
+//        calBurned = "";
+//        strokeRate = "";
+//
+//        numLaps = 0;
+//        laps = new ArrayList<Swim>();
     }
 
     /**
@@ -70,20 +96,22 @@ public class WorkoutSwim extends Workout {
      * @param calBurned
      * @param strokeRate
      */
-    public WorkoutSwim(String name, String date, String type, String notes,
-                      String distance, String time, String avgPace, String maxPace,
-                      String calBurned, String strokeRate) {
-        super(name, date, type, notes);
-
+    public Swim(String name, String date, String type, String notes,
+                String distance, String time, String avgPace, String maxPace,
+                String calBurned, String strokeRate) {
+        this.name = name;
+        this.date = date;
+        this.type = type;
+        this.notes = notes;
         this.distance = distance;
         this.time = time;
         this.avgPace = avgPace;
         this.maxPace = maxPace;
         this.calBurned = calBurned;
         this.strokeRate = strokeRate;
-
-        numLaps = 0;
-        laps = new ArrayList<WorkoutSwim>();
+//
+//        numLaps = 0;
+//        laps = new ArrayList<Swim>();
     }
 
     /**
@@ -101,11 +129,13 @@ public class WorkoutSwim extends Workout {
      * @param strokeRate
      * @param numLaps
      */
-    public WorkoutSwim(String name, String date, String type, String notes,
-                      String distance, String time, String avgPace, String maxPace,
-                      String calBurned, String strokeRate, int numLaps) {
-        super(name, date, type, notes);
-
+    public Swim(String name, String date, String type, String notes,
+                String distance, String time, String avgPace, String maxPace,
+                String calBurned, String strokeRate, int numLaps) {
+        this.name = name;
+        this.date = date;
+        this.type = type;
+        this.notes = notes;
         this.distance = distance;
         this.time = time;
         this.avgPace = avgPace;
@@ -114,7 +144,7 @@ public class WorkoutSwim extends Workout {
         this.strokeRate = strokeRate;
 
         this.numLaps = numLaps;
-        laps = new ArrayList<WorkoutSwim>();
+//        laps = new ArrayList<Swim>();
     }
 
     /**
@@ -133,12 +163,14 @@ public class WorkoutSwim extends Workout {
      * @param numLaps
      * @param laps
      */
-    public WorkoutSwim(String name, String date, String type, String notes,
-                      String distance, String time, String avgPace, String maxPace,
-                      String calBurned, String strokeRate,
-                      int numLaps, ArrayList<WorkoutSwim> laps) {
-        super(name, date, type, notes);
-
+    public Swim(String name, String date, String type, String notes,
+                String distance, String time, String avgPace, String maxPace,
+                String calBurned, String strokeRate,
+                int numLaps, ArrayList<Swim> laps) {
+        this.name = name;
+        this.date = date;
+        this.type = type;
+        this.notes = notes;
         this.distance = distance;
         this.time = time;
         this.avgPace = avgPace;
@@ -148,6 +180,38 @@ public class WorkoutSwim extends Workout {
 
         this.numLaps = numLaps;
         this.laps = laps;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public String getDistance() {
@@ -206,19 +270,19 @@ public class WorkoutSwim extends Workout {
         this.numLaps = numLaps;
     }
 
-    public ArrayList<WorkoutSwim> getLaps() {
+    public ArrayList<Swim> getLaps() {
         return laps;
     }
 
-    public void setLaps(ArrayList<WorkoutSwim> laps) {
+    public void setLaps(ArrayList<Swim> laps) {
         this.laps = laps;
     }
 
-    public void addLap(WorkoutSwim lap) {
+    public void addLap(Swim lap) {
         this.laps.add(lap);
     }
 
-    public void removeLap(WorkoutSwim lap) {
+    public void removeLap(Swim lap) {
         this.laps.remove(lap);
     }
 }

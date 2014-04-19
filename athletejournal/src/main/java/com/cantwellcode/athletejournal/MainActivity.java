@@ -9,6 +9,8 @@ import android.support.v4.widget.DrawerLayout;
 public class MainActivity extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
+    public static final String PREFS = "JournalPreferences";
+
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */

@@ -3,9 +3,7 @@ package com.cantwellcode.athletejournal;
 import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,11 +13,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.ViewFlipper;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,10 +30,10 @@ import java.util.List;
 public class WorkoutLog extends Fragment {
 
     DBHelper db;
-    List<Workout> workouts = new ArrayList<Workout>();
+    List<Swim> workouts = new ArrayList<Swim>();
     Calendar c;
 
-    ViewStub workoutView;
+    LinearLayout workoutView;
 
     private Button previous, date, next;
 
@@ -64,9 +62,6 @@ public class WorkoutLog extends Fragment {
         SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
         String formattedDate = df.format(c.getTime());
 
-        //workouts = db.getWorkoutList(Database.ListType.Day, month, day, year);
-        workouts = db.getWorkoutList(new Workout(null, formattedDate, null, null));
-
         ViewGroup root;
 
         //if (workoutCount <= 1) {
@@ -75,23 +70,29 @@ public class WorkoutLog extends Fragment {
         //    root = (ViewGroup) inflater.inflate(R.layout.workout_log_multiple, null);
         //}
 
-        workoutView = (ViewStub) root.findViewById(R.id.workoutView);
+        workoutView = (LinearLayout) root.findViewById(R.id.workoutView);
 
 
-//        if (workouts.get(0) instanceof WorkoutSwim) {
+//        if (workouts.get(0) instanceof Swim) {
 //            workoutView.setLayoutResource(R.layout.workout_swim_view);
 //        }
-//        else if (workouts.get(0) instanceof WorkoutBike) {
+//        else if (workouts.get(0) instanceof Bike) {
 //            workoutView.setLayoutResource(R.layout.workout_bike_view);
 //        }
-//        else if (workouts.get(0) instanceof WorkoutRun) {
+//        else if (workouts.get(0) instanceof Run) {
 //            workoutView.setLayoutResource(R.layout.workout_run_view);
 //        }
 //        else {
-            workoutView.setLayoutResource(R.layout.workout_run_view);
-//        }
 
-        workoutView.inflate();
+        workouts = db.getSwimList(new Swim(formattedDate));
+        List<Nutrition> n = db.getAllMeals();
+
+        Toast.makeText(getActivity(), "meals " + workouts.size(), Toast.LENGTH_LONG).show();
+
+        if (!workouts.isEmpty())
+            loadSwimData(inflater, workouts.get(0));
+
+//        }
 
         setHasOptionsMenu(true);
 
@@ -149,30 +150,58 @@ public class WorkoutLog extends Fragment {
             case R.id.action_selectSwim:
                 FragmentManager fm1 = getFragmentManager();
                 fm1.beginTransaction()
-                        .replace(R.id.container, WorkoutAdd.newInstance(WorkoutAdd.WorkoutType.Swim))
+                        .replace(R.id.container, WorkoutAddSwim.newInstance())
                         .commit();
                 return true;
-            case R.id.action_selectBike:
-                FragmentManager fm2 = getFragmentManager();
-                fm2.beginTransaction()
-                        .replace(R.id.container, WorkoutAdd.newInstance(WorkoutAdd.WorkoutType.Bike))
-                        .commit();
-                return true;
-            case R.id.action_selectRun:
-                FragmentManager fm3 = getFragmentManager();
-                fm3.beginTransaction()
-                        .replace(R.id.container, WorkoutAdd.newInstance(WorkoutAdd.WorkoutType.Run))
-                        .commit();
-                return true;
-            case R.id.action_selectGym:
-                FragmentManager fm4 = getFragmentManager();
-                fm4.beginTransaction()
-                        .replace(R.id.container, WorkoutAdd.newInstance(WorkoutAdd.WorkoutType.Gym))
-                        .commit();
-                return true;
+//            case R.id.action_selectBike:
+//                FragmentManager fm2 = getFragmentManager();
+//                fm2.beginTransaction()
+//                        .replace(R.id.container, WorkoutAddSwim.newInstance(WorkoutAddSwim.WorkoutType.Bike))
+//                        .commit();
+//                return true;
+//            case R.id.action_selectRun:
+//                FragmentManager fm3 = getFragmentManager();
+//                fm3.beginTransaction()
+//                        .replace(R.id.container, WorkoutAddSwim.newInstance(WorkoutAddSwim.WorkoutType.Run))
+//                        .commit();
+//                return true;
+//            case R.id.action_selectGym:
+//                FragmentManager fm4 = getFragmentManager();
+//                fm4.beginTransaction()
+//                        .replace(R.id.container, WorkoutAddSwim.newInstance(WorkoutAddSwim.WorkoutType.Gym))
+//                        .commit();
+//                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void loadSwimData(LayoutInflater inflater, Swim swim) {
+        View v = inflater.inflate(R.layout.workout_swim_view, null);
+
+        TextView name = (TextView) v.findViewById(R.id.swimview_name);
+        TextView type = (TextView) v.findViewById(R.id.swimview_type);
+        TextView date = (TextView) v.findViewById(R.id.swimview_date);
+        TextView distance = (TextView) v.findViewById(R.id.swimview_distance);
+        TextView time = (TextView) v.findViewById(R.id.swimview_time);
+        TextView avgPace = (TextView) v.findViewById(R.id.swimview_avg_pace);
+        TextView maxPace = (TextView) v.findViewById(R.id.swimview_max_pace);
+        TextView strokeRate = (TextView) v.findViewById(R.id.swimview_strokeRate);
+        TextView caloriesBurned = (TextView) v.findViewById(R.id.swimview_cal);
+        TextView notes = (TextView) v.findViewById(R.id.swimview_notes);
+
+        name.setText(swim.getName());
+        type.setText(swim.getType());
+        date.setText(swim.getDate());
+        time.setText(swim.getTime());
+        avgPace.setText(swim.getAvgPace());
+        maxPace.setText(swim.getMaxPace());
+        distance.setText(swim.getDistance());
+        strokeRate.setText(swim.getStrokeRate());
+        caloriesBurned.setText(swim.getCalBurned());
+        notes.setText(swim.getNotes());
+
+        workoutView.addView(v);
     }
 
     /* Date Picker Fragment */

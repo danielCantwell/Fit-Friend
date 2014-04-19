@@ -19,7 +19,7 @@ public class DBHelper {
 
     public DBHelper(Context context) {
         this.context = context;
-        dbPath = context.getFilesDir() + "/android.athleteJournal";
+        dbPath = context.getFilesDir() + "/android.athletejournal";
     }
 
     public static String DB_NAME_NUTRITION = "Nutrition_Database";
@@ -50,7 +50,7 @@ public class DBHelper {
             openDb(DB_NAME_NUTRITION);
         else if (object instanceof Favorite)
             openDb(DB_NAME_FAVORITES);
-        else if (object instanceof Workout)
+        else
             openDb(DB_NAME_WORKOUTS);
         db.store(object);
         db.commit();
@@ -70,7 +70,7 @@ public class DBHelper {
             openDb(DB_NAME_NUTRITION);
         else if (object instanceof Favorite)
             openDb(DB_NAME_FAVORITES);
-        else if (object instanceof Workout)
+        else
             openDb(DB_NAME_WORKOUTS);
 
         ObjectSet result = db.queryByExample(object);
@@ -127,34 +127,15 @@ public class DBHelper {
     }
 
     /**
-    return all workouts
-     */
-    ArrayList<Workout> getAllWorkouts() {
-
-        ArrayList<Workout> list = new ArrayList<Workout>();
-        Workout workout = new Workout();
-
-        openDb(DB_NAME_WORKOUTS);
-        ObjectSet<Workout> result = db.queryByExample(workout);
-
-        while (result.hasNext()) {
-            list.add(result.next());
-        }
-
-        closeDb();
-        return list;
-    }
-
-    /**
     return all swim workouts
      */
-    ArrayList<WorkoutSwim> getAllSwimWorkouts() {
+    ArrayList<Swim> getAllSwimWorkouts() {
 
-        ArrayList<WorkoutSwim> list = new ArrayList<WorkoutSwim>();
-        WorkoutSwim workout = new WorkoutSwim();
+        ArrayList<Swim> list = new ArrayList<Swim>();
+        Swim workout = new Swim();
 
         openDb(DB_NAME_WORKOUTS);
-        ObjectSet<WorkoutSwim> result = db.queryByExample(workout);
+        ObjectSet<Swim> result = db.queryByExample(workout);
 
         while (result.hasNext()) {
             list.add(result.next());
@@ -167,13 +148,13 @@ public class DBHelper {
     /**
     return all bike workouts
      */
-    ArrayList<WorkoutBike> getAllBikeWorkouts() {
+    ArrayList<Bike> getAllBikeWorkouts() {
 
-        ArrayList<WorkoutBike> list = new ArrayList<WorkoutBike>();
-        WorkoutBike workout = new WorkoutBike();
+        ArrayList<Bike> list = new ArrayList<Bike>();
+        Bike workout = new Bike();
 
         openDb(DB_NAME_WORKOUTS);
-        ObjectSet<WorkoutBike> result = db.queryByExample(workout);
+        ObjectSet<Bike> result = db.queryByExample(workout);
 
         while (result.hasNext()) {
             list.add(result.next());
@@ -186,13 +167,13 @@ public class DBHelper {
     /**
     return all run workouts
      */
-    ArrayList<WorkoutRun> getAllRunWorkouts() {
+    ArrayList<Run> getAllRunWorkouts() {
 
-        ArrayList<WorkoutRun> list = new ArrayList<WorkoutRun>();
-        WorkoutRun workout = new WorkoutRun();
+        ArrayList<Run> list = new ArrayList<Run>();
+        Run workout = new Run();
 
         openDb(DB_NAME_WORKOUTS);
-        ObjectSet<WorkoutRun> result = db.queryByExample(workout);
+        ObjectSet<Run> result = db.queryByExample(workout);
 
         while (result.hasNext()) {
             list.add(result.next());
@@ -205,13 +186,13 @@ public class DBHelper {
     /**
     return all gym workouts
      */
-    ArrayList<WorkoutGym> getAllGymWorkouts() {
+    ArrayList<Gym> getAllGymWorkouts() {
 
-        ArrayList<WorkoutGym> list = new ArrayList<WorkoutGym>();
-        WorkoutGym workout = new WorkoutGym();
+        ArrayList<Gym> list = new ArrayList<Gym>();
+        Gym workout = new Gym();
 
         openDb(DB_NAME_WORKOUTS);
-        ObjectSet<WorkoutGym> result = db.queryByExample(workout);
+        ObjectSet<Gym> result = db.queryByExample(workout);
 
         while (result.hasNext()) {
             list.add(result.next());
@@ -279,32 +260,14 @@ public class DBHelper {
     }
 
     /**
-    return a list of workouts
-     */
-    ArrayList<Workout> getWorkoutList(Workout workout) {
-
-        ArrayList<Workout> list = new ArrayList<Workout>();
-
-        openDb(DB_NAME_WORKOUTS);
-        ObjectSet<Workout> result = db.queryByExample(workout);
-
-        while (result.hasNext()) {
-            list.add(result.next());
-        }
-
-        closeDb();
-        return list;
-    }
-
-    /**
     return a list of swim workouts
      */
-    ArrayList<WorkoutSwim> getSwimList(WorkoutSwim workout) {
+    ArrayList<Swim> getSwimList(Swim workout) {
 
-        ArrayList<WorkoutSwim> list = new ArrayList<WorkoutSwim>();
+        ArrayList<Swim> list = new ArrayList<Swim>();
 
         openDb(DB_NAME_WORKOUTS);
-        ObjectSet<WorkoutSwim> result = db.queryByExample(workout);
+        ObjectSet<Swim> result = db.queryByExample(workout);
 
         while (result.hasNext()) {
             list.add(result.next());
@@ -317,12 +280,12 @@ public class DBHelper {
     /**
     return a list of bike workouts
      */
-    ArrayList<WorkoutBike> getBikeList(WorkoutBike workout) {
+    ArrayList<Bike> getBikeList(Bike workout) {
 
-        ArrayList<WorkoutBike> list = new ArrayList<WorkoutBike>();
+        ArrayList<Bike> list = new ArrayList<Bike>();
 
         openDb(DB_NAME_WORKOUTS);
-        ObjectSet<WorkoutBike> result = db.queryByExample(workout);
+        ObjectSet<Bike> result = db.queryByExample(workout);
 
         while (result.hasNext()) {
             list.add(result.next());
@@ -335,12 +298,12 @@ public class DBHelper {
     /**
     return a list of run workouts
      */
-    ArrayList<WorkoutRun> getRunList(WorkoutRun workout) {
+    ArrayList<Run> getRunList(Run workout) {
 
-        ArrayList<WorkoutRun> list = new ArrayList<WorkoutRun>();
+        ArrayList<Run> list = new ArrayList<Run>();
 
         openDb(DB_NAME_WORKOUTS);
-        ObjectSet<WorkoutRun> result = db.queryByExample(workout);
+        ObjectSet<Run> result = db.queryByExample(workout);
 
         while (result.hasNext()) {
             list.add(result.next());
@@ -353,12 +316,12 @@ public class DBHelper {
     /**
     return a list of gym workouts
      */
-    ArrayList<WorkoutGym> getGymList(WorkoutGym workout) {
+    ArrayList<Gym> getGymList(Gym workout) {
 
-        ArrayList<WorkoutGym> list = new ArrayList<WorkoutGym>();
+        ArrayList<Gym> list = new ArrayList<Gym>();
 
         openDb(DB_NAME_WORKOUTS);
-        ObjectSet<WorkoutGym> result = db.queryByExample(workout);
+        ObjectSet<Gym> result = db.queryByExample(workout);
 
         while (result.hasNext()) {
             list.add(result.next());
@@ -436,6 +399,41 @@ public class DBHelper {
         return false;
     }
 
+    /**
+     update a favorite meal in the database
+     */
+    boolean updateSwim(Swim ObjTo, Swim ObjFrom) {
+        Swim found = null;
+
+        openDb(DB_NAME_WORKOUTS);
+        ObjectSet<Swim> result = db.queryByExample(ObjTo);
+
+        if (result.hasNext()) { // if found
+
+            found = result.next();
+
+            found.setName(ObjFrom.getName());
+            found.setDate(ObjFrom.getDate());
+            found.setType(ObjFrom.getType());
+            found.setNotes(ObjFrom.getNotes());
+            found.setAvgPace(ObjFrom.getAvgPace());
+            found.setMaxPace(ObjFrom.getMaxPace());
+            found.setDistance(ObjFrom.getDistance());
+            found.setTime(ObjFrom.getTime());
+            found.setStrokeRate(ObjFrom.getStrokeRate());
+            found.setCalBurned(ObjFrom.getCalBurned());
+
+            db.store(found);
+            db.commit();
+
+            closeDb();
+            return true;
+        }
+
+        closeDb();
+        return false;
+    }
+
     /***********************************************************************
      ****                     D e l e t e   D a t a                     ****
      ***********************************************************************/
@@ -450,7 +448,7 @@ public class DBHelper {
             openDb(DB_NAME_NUTRITION);
         else if (object instanceof Favorite)
             openDb(DB_NAME_FAVORITES);
-        else if (object instanceof Workout)
+        else
             openDb(DB_NAME_WORKOUTS);
         ObjectSet<Object> result = db.queryByExample(object);
 

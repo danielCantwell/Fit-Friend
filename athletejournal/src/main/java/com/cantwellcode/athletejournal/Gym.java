@@ -1,7 +1,9 @@
 package com.cantwellcode.athletejournal;
 
+import java.io.Serializable;
+
 /**
  * Created by Daniel on 4/17/2014.
  */
-public class WorkoutGym extends Workout {
+public class Gym implements Serializable {
 }

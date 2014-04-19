@@ -34,4 +34,10 @@
         <item>Post-Workout</item>
     </string-array>
 
+    <string-array name="workout_types">
+        <item>Training</item>
+        <item>Recovery</item>
+        <item>Competition</item>
+    </string-array>
+
 </resources>

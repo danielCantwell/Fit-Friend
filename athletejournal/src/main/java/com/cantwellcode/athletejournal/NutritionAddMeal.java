@@ -348,8 +348,6 @@ public class NutritionAddMeal extends Fragment implements AdapterView.OnItemSele
 
     public void editNutrition() {
 
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
-
         prepareData();
         Toast.makeText(activity, "Saving Meal", Toast.LENGTH_SHORT).show();
         Log.d("Nutrition", "Name: " + _name + " Date: " + _date + " Type: " + _type + " Calories: " + _calories);

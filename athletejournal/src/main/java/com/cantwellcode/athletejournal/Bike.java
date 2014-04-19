@@ -1,16 +1,23 @@
 package com.cantwellcode.athletejournal;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Created by Daniel on 4/15/2014.
+ * Created by Daniel on 4/17/2014.
  */
-public class WorkoutRun extends Workout {
+public class Bike implements Serializable {
 
+    private String name;
+    private String type;
+    private String date;
+    private String notes;
     private String distance;
     private String time;
     private String avgPace;
     private String maxPace;
+    private String avgCadence;
+    private String maxCadence;
     private String avgHR;
     private String maxHR;
     private String calBurned;
@@ -18,25 +25,29 @@ public class WorkoutRun extends Workout {
 
     private int numLaps;
 
-    private ArrayList<WorkoutRun> laps;
+    private ArrayList<Bike> laps;
 
     /**
      * Default Constructor
      */
-    public WorkoutRun() {
-        super();
-
+    public Bike() {
+        name = "";
+        date = "";
+        type = "";
+        notes = "";
         distance = "";
         time = "";
         avgPace = "";
         maxPace = "";
+        avgCadence = "";
+        maxCadence = "";
         avgHR = "";
         maxHR = "";
         calBurned = "";
         elevation = "";
 
         numLaps = 0;
-        laps = new ArrayList<WorkoutRun>();
+        laps = new ArrayList<Bike>();
     }
 
     /**
@@ -46,20 +57,24 @@ public class WorkoutRun extends Workout {
      * @param type
      * @param notes
      */
-    public WorkoutRun(String name, String date, String type, String notes) {
-        super(name, date, type, notes);
-
+    public Bike(String name, String date, String type, String notes) {
+        this.name = name;
+        this.date = date;
+        this.type = type;
+        this.notes = notes;
         distance = "";
         time = "";
         avgPace = "";
         maxPace = "";
+        avgCadence = "";
+        maxCadence = "";
         avgHR = "";
         maxHR = "";
         calBurned = "";
         elevation = "";
 
         numLaps = 0;
-        laps = new ArrayList<WorkoutRun>();
+        laps = new ArrayList<Bike>();
     }
 
     /**
@@ -79,22 +94,27 @@ public class WorkoutRun extends Workout {
      * @param calBurned
      * @param elevation
      */
-    public WorkoutRun(String name, String date, String type, String notes,
-                      String distance, String time, String avgPace, String maxPace,
-                      String avgHR, String maxHR, String calBurned, String elevation) {
-        super(name, date, type, notes);
-
+    public Bike(String name, String date, String type, String notes,
+                String distance, String time, String avgPace, String maxPace,
+                String avgCadence, String maxCadence, String avgHR, String maxHR,
+                String calBurned, String elevation) {
+        this.name = name;
+        this.date = date;
+        this.type = type;
+        this.notes = notes;
         this.distance = distance;
         this.time = time;
         this.avgPace = avgPace;
         this.maxPace = maxPace;
+        this.avgCadence = avgCadence;
+        this.maxCadence = maxCadence;
         this.avgHR = avgHR;
         this.maxHR = maxHR;
         this.calBurned = calBurned;
         this.elevation = elevation;
 
         numLaps = 0;
-        laps = new ArrayList<WorkoutRun>();
+        laps = new ArrayList<Bike>();
     }
 
     /**
@@ -114,22 +134,27 @@ public class WorkoutRun extends Workout {
      * @param elevation
      * @param numLaps
      */
-    public WorkoutRun(String name, String date, String type, String notes,
-                      String distance, String time, String avgPace, String maxPace,
-                      String avgHR, String maxHR, String calBurned, String elevation, int numLaps) {
-        super(name, date, type, notes);
-
+    public Bike(String name, String date, String type, String notes,
+                String distance, String time, String avgPace, String maxPace,
+                String avgCadence, String maxCadence, String avgHR, String maxHR,
+                String calBurned, String elevation, int numLaps) {
+        this.name = name;
+        this.date = date;
+        this.type = type;
+        this.notes = notes;
         this.distance = distance;
         this.time = time;
         this.avgPace = avgPace;
         this.maxPace = maxPace;
+        this.avgCadence = avgCadence;
+        this.maxCadence = maxCadence;
         this.avgHR = avgHR;
         this.maxHR = maxHR;
         this.calBurned = calBurned;
         this.elevation = elevation;
 
         this.numLaps = numLaps;
-        laps = new ArrayList<WorkoutRun>();
+        laps = new ArrayList<Bike>();
     }
 
     /**
@@ -150,16 +175,21 @@ public class WorkoutRun extends Workout {
      * @param numLaps
      * @param laps
      */
-    public WorkoutRun(String name, String date, String type, String notes,
-                      String distance, String time, String avgPace, String maxPace,
-                      String avgHR, String maxHR, String calBurned, String elevation,
-                      int numLaps, ArrayList<WorkoutRun> laps) {
-        super(name, date, type, notes);
-
+    public Bike(String name, String date, String type, String notes,
+                String distance, String time, String avgPace, String maxPace,
+                String avgCadence, String maxCadence, String avgHR, String maxHR,
+                String calBurned, String elevation,
+                int numLaps, ArrayList<Bike> laps) {
+        this.name = name;
+        this.date = date;
+        this.type = type;
+        this.notes = notes;
         this.distance = distance;
         this.time = time;
         this.avgPace = avgPace;
         this.maxPace = maxPace;
+        this.avgCadence = avgCadence;
+        this.maxCadence = maxCadence;
         this.avgHR = avgHR;
         this.maxHR = maxHR;
         this.calBurned = calBurned;
@@ -167,6 +197,38 @@ public class WorkoutRun extends Workout {
 
         this.numLaps = numLaps;
         this.laps = laps;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public String getDistance() {
@@ -199,6 +261,22 @@ public class WorkoutRun extends Workout {
 
     public void setMaxPace(String maxPace) {
         this.maxPace = maxPace;
+    }
+
+    public String getAvgCadence() {
+        return avgCadence;
+    }
+
+    public void setAvgCadence(String avgCadence) {
+        this.avgCadence = avgCadence;
+    }
+
+    public String getMaxCadence() {
+        return maxCadence;
+    }
+
+    public void setMaxCadence(String maxCadence) {
+        this.maxCadence = maxCadence;
     }
 
     public String getAvgHR() {
@@ -241,19 +319,19 @@ public class WorkoutRun extends Workout {
         this.numLaps = numLaps;
     }
 
-    public ArrayList<WorkoutRun> getLaps() {
+    public ArrayList<Bike> getLaps() {
         return laps;
     }
 
-    public void setLaps(ArrayList<WorkoutRun> laps) {
+    public void setLaps(ArrayList<Bike> laps) {
         this.laps = laps;
     }
 
-    public void addLap(WorkoutRun lap) {
+    public void addLap(Bike lap) {
         this.laps.add(lap);
     }
 
-    public void removeLap(WorkoutRun lap) {
+    public void removeLap(Bike lap) {
         this.laps.remove(lap);
     }
 }
