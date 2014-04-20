@@ -74,8 +74,8 @@ public class WorkoutAddBike extends Fragment {
     private String _date;
     private String _distance;
     private String _time;
-    private String _avgPace;
-    private String _maxPace;
+    private String _avgSpeed;
+    private String _maxSpeed;
     private String _avgHR;
     private String _maxHR;
     private String _avgCadence;
@@ -144,7 +144,7 @@ public class WorkoutAddBike extends Fragment {
             type.setSelection(spinnerPosition);
             date.setText(bike.getDate());
             distance.setText(bike.getDistance());
-            time.setText(bike.getType());
+            time.setText(bike.getTime());
             avgSpeed.setText(bike.getAvgSpeed());
             maxSpeed.setText(bike.getMaxSpeed());
             avgHR.setText(bike.getAvgHR());
@@ -250,13 +250,13 @@ public class WorkoutAddBike extends Fragment {
 
     private void saveWorkout() {
         prepareData();
-        bike = new Bike(_name, _date, _type, _notes, _distance, _time, _avgPace, _maxPace, _avgCadence, _maxCadence, _avgHR, _maxHR, _caloriesBurned, _elevation);
+        bike = new Bike(_name, _date, _type, _notes, _distance, _time, _avgSpeed, _maxSpeed, _avgCadence, _maxCadence, _avgHR, _maxHR, _caloriesBurned, _elevation);
         db.store(bike);
     }
 
     private void editWorkout() {
         prepareData();
-        bike = new Bike(_name, _date, _type, _notes, _distance, _time, _avgPace, _maxPace, _avgCadence, _maxCadence, _avgHR, _maxHR, _caloriesBurned, _elevation);
+        bike = new Bike(_name, _date, _type, _notes, _distance, _time, _avgSpeed, _maxSpeed, _avgCadence, _maxCadence, _avgHR, _maxHR, _caloriesBurned, _elevation);
         db.updateBike(oldBike, bike);
     }
 
@@ -286,12 +286,20 @@ public class WorkoutAddBike extends Fragment {
         else _time = "0";
 
         if (!avgSpeed.getText().toString().isEmpty())
-            _avgPace = avgSpeed.getText().toString();
-        else _avgPace = "0";
+            _avgSpeed = avgSpeed.getText().toString();
+        else _avgSpeed = "0";
 
         if (!maxSpeed.getText().toString().isEmpty())
-            _maxPace = maxSpeed.getText().toString();
-        else _maxPace = "0";
+            _maxSpeed = maxSpeed.getText().toString();
+        else _maxSpeed = "0";
+
+        if (!avgCadence.getText().toString().isEmpty())
+            _avgCadence = avgCadence.getText().toString();
+        else _avgCadence = "0";
+
+        if (!maxSpeed.getText().toString().isEmpty())
+            _maxCadence = maxCadence.getText().toString();
+        else _maxCadence = "0";
 
         if (!avgHR.getText().toString().isEmpty())
             _avgHR = avgHR.getText().toString();

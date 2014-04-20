@@ -139,7 +139,7 @@ public class WorkoutAddSwim extends Fragment{
             type.setSelection(spinnerPosition);
             date.setText(swim.getDate());
             distance.setText(swim.getDistance());
-            time.setText(swim.getType());
+            time.setText(swim.getTime());
             avgPace.setText(swim.getAvgPace());
             maxPace.setText(swim.getMaxPace());
             strokeRate.setText(swim.getStrokeRate());

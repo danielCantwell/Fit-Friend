@@ -3,8 +3,10 @@ package com.cantwellcode.athletejournal;
 import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.Space;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -187,8 +190,67 @@ public class WorkoutLog extends Fragment {
         }
     }
 
+    private void showPopup(View v, final Workout workout) {
+        PopupMenu popup = new PopupMenu(getActivity(), v);
+
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.n_action_addToFavorites:
+                        menuClickAddToFavorites(workout);
+                        return true;
+                    case R.id.n_action_edit:
+                        menuClickEdit(workout);
+                        return true;
+                    case R.id.n_action_delete:
+                        menuClickDelete(workout);
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.n_list_click, popup.getMenu());
+        popup.show();
+    }
+
+    private void menuClickAddToFavorites(Workout workout) {
+//        DialogFragment categoryDialog = new CategoryDialog(workout, db);
+//        categoryDialog.show(getFragmentManager(), "categoryDialog");
+    }
+
+    private void menuClickEdit(Workout workout) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        FragmentManager fm = getFragmentManager();
+
+        if (workout instanceof Swim) {
+            fm.beginTransaction()
+                    .replace(R.id.container, WorkoutAddSwim.newInstance((Swim) workout))
+                            .commit();
+        }
+        if (workout instanceof Bike) {
+            fm.beginTransaction()
+                    .replace(R.id.container, WorkoutAddBike.newInstance((Bike) workout))
+                    .commit();
+        }
+        if (workout instanceof Run) {
+            fm.beginTransaction()
+                    .replace(R.id.container, WorkoutAddRun.newInstance((Run) workout))
+                    .commit();
+        }
+    }
+
+    private void menuClickDelete(Workout workout) {
+        db.delete(workout);
+
+        updateWorkouts();
+    }
+
     private void loadSwimData(LayoutInflater inflater, List<Swim> swims) {
-        for(Swim swim : swims) {
+        for (final Swim swim : swims) {
             View v = inflater.inflate(R.layout.workout_swim_view, null);
 
             TextView name = (TextView) v.findViewById(R.id.swimview_name);
@@ -213,12 +275,20 @@ public class WorkoutLog extends Fragment {
             caloriesBurned.setText(swim.getCalBurned());
             notes.setText(swim.getNotes());
 
+            v.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    showPopup(v, swim);
+                    return true;
+                }
+            });
+
             workoutView.addView(v);
         }
     }
 
     private void loadRunData(LayoutInflater inflater, List<Run> runs) {
-        for(Run run : runs) {
+        for (final Run run : runs) {
             View v = inflater.inflate(R.layout.workout_run_view, null);
 
             TextView name = (TextView) v.findViewById(R.id.runview_name);
@@ -247,12 +317,20 @@ public class WorkoutLog extends Fragment {
             caloriesBurned.setText(run.getCalBurned());
             notes.setText(run.getNotes());
 
+            v.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    showPopup(v, run);
+                    return true;
+                }
+            });
+
             workoutView.addView(v);
         }
     }
 
     private void loadBikeData(LayoutInflater inflater, List<Bike> bikes) {
-        for(Bike bike : bikes) {
+        for (final Bike bike : bikes) {
             View v = inflater.inflate(R.layout.workout_bike_view, null);
 
             TextView name = (TextView) v.findViewById(R.id.bikeview_name);
@@ -262,6 +340,8 @@ public class WorkoutLog extends Fragment {
             TextView time = (TextView) v.findViewById(R.id.bikeview_time);
             TextView avgSpeed = (TextView) v.findViewById(R.id.bikeview_avg_speed);
             TextView maxSpeed = (TextView) v.findViewById(R.id.bikeview_max_speed);
+            TextView avgCadence = (TextView) v.findViewById(R.id.bikeview_avg_cadence);
+            TextView maxCadence = (TextView) v.findViewById(R.id.bikeview_max_cadence);
             TextView avgHR = (TextView) v.findViewById(R.id.bikeview_avg_hr);
             TextView maxHR = (TextView) v.findViewById(R.id.bikeview_max_hr);
             TextView elevation = (TextView) v.findViewById(R.id.bikeview_climb);
@@ -274,6 +354,8 @@ public class WorkoutLog extends Fragment {
             time.setText(bike.getTime());
             avgSpeed.setText(bike.getAvgSpeed() + " mph");
             maxSpeed.setText(bike.getMaxSpeed() + " mph");
+            avgCadence.setText(bike.getAvgCadence());
+            maxCadence.setText(bike.getMaxCadence());
             avgHR.setText(bike.getAvgHR());
             maxHR.setText(bike.getMaxHR());
             distance.setText(bike.getDistance() + " miles");
@@ -281,10 +363,17 @@ public class WorkoutLog extends Fragment {
             caloriesBurned.setText(bike.getCalBurned());
             notes.setText(bike.getNotes());
 
+            v.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    showPopup(v, bike);
+                    return true;
+                }
+            });
+
             workoutView.addView(v);
         }
     }
-
 
 
     private void updateWorkouts() {
@@ -300,11 +389,11 @@ public class WorkoutLog extends Fragment {
         if (!swims.isEmpty()) {
             loadSwimData(inflater, swims);
         }
-        if (!runs.isEmpty()) {
-            loadRunData(inflater, runs);
-        }
         if (!bikes.isEmpty()) {
             loadBikeData(inflater, bikes);
+        }
+        if (!runs.isEmpty()) {
+            loadRunData(inflater, runs);
         }
 
         final Calendar cal = Calendar.getInstance();

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Created by Daniel on 4/17/2014.
  */
-public class Bike implements Serializable {
+public class Bike extends Workout implements Serializable {
 
     private String name;
     private String type;

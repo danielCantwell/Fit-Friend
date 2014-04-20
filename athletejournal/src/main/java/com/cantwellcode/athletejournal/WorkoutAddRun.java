@@ -139,7 +139,7 @@ public class WorkoutAddRun extends Fragment {
             type.setSelection(spinnerPosition);
             date.setText(run.getDate());
             distance.setText(run.getDistance());
-            time.setText(run.getType());
+            time.setText(run.getTime());
             avgPace.setText(run.getAvgPace());
             maxPace.setText(run.getMaxPace());
             avgHR.setText(run.getAvgHR());
