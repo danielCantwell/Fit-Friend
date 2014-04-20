@@ -82,12 +82,12 @@ public class WorkoutLog extends Fragment {
         if (!swims.isEmpty()) {
             loadSwimData(inflater, swims);
         }
-//        if (!bikes.isEmpty()) {
-//            loadBikeData(inflater, bikes);
-//        }
-//        if (!runs.isEmpty()) {
-//            loadRunData(inflater, runs);
-//        }
+        if (!bikes.isEmpty()) {
+            loadBikeData(inflater, bikes);
+        }
+        if (!runs.isEmpty()) {
+            loadRunData(inflater, runs);
+        }
 
 
         setHasOptionsMenu(true);
@@ -101,7 +101,22 @@ public class WorkoutLog extends Fragment {
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFragment dateFragment = new DatePickerFragment();
+                DatePickerFragment dateFragment = new DatePickerFragment();
+                dateFragment.setDialogListener(new DialogListener() {
+                    @Override
+                    public void onDialogOK(Bundle bundle) {
+                        year = bundle.getInt("year");
+                        month = bundle.getInt("month");
+                        day = bundle.getInt("day");
+
+                        updateWorkouts();
+                    }
+
+                    @Override
+                    public void onDialogCancel() {
+
+                    }
+                });
                 dateFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
             }
         });
@@ -149,18 +164,18 @@ public class WorkoutLog extends Fragment {
                         .replace(R.id.container, WorkoutAddSwim.newInstance())
                         .commit();
                 return true;
-//            case R.id.action_selectBike:
-//                FragmentManager fm2 = getFragmentManager();
-//                fm2.beginTransaction()
-//                        .replace(R.id.container, WorkoutAddSwim.newInstance(WorkoutAddSwim.WorkoutType.Bike))
-//                        .commit();
-//                return true;
-//            case R.id.action_selectRun:
-//                FragmentManager fm3 = getFragmentManager();
-//                fm3.beginTransaction()
-//                        .replace(R.id.container, WorkoutAddSwim.newInstance(WorkoutAddSwim.WorkoutType.Run))
-//                        .commit();
-//                return true;
+            case R.id.action_selectBike:
+                FragmentManager fm2 = getFragmentManager();
+                fm2.beginTransaction()
+                        .replace(R.id.container, WorkoutAddBike.newInstance())
+                        .commit();
+                return true;
+            case R.id.action_selectRun:
+                FragmentManager fm3 = getFragmentManager();
+                fm3.beginTransaction()
+                        .replace(R.id.container, WorkoutAddRun.newInstance())
+                        .commit();
+                return true;
 //            case R.id.action_selectGym:
 //                FragmentManager fm4 = getFragmentManager();
 //                fm4.beginTransaction()
@@ -193,7 +208,7 @@ public class WorkoutLog extends Fragment {
             time.setText(swim.getTime());
             avgPace.setText(swim.getAvgPace());
             maxPace.setText(swim.getMaxPace());
-            distance.setText(swim.getDistance());
+            distance.setText(swim.getDistance() + "m");
             strokeRate.setText(swim.getStrokeRate());
             caloriesBurned.setText(swim.getCalBurned());
             notes.setText(swim.getNotes());
@@ -202,8 +217,79 @@ public class WorkoutLog extends Fragment {
         }
     }
 
+    private void loadRunData(LayoutInflater inflater, List<Run> runs) {
+        for(Run run : runs) {
+            View v = inflater.inflate(R.layout.workout_run_view, null);
+
+            TextView name = (TextView) v.findViewById(R.id.runview_name);
+            TextView type = (TextView) v.findViewById(R.id.runview_type);
+            TextView date = (TextView) v.findViewById(R.id.runview_date);
+            TextView distance = (TextView) v.findViewById(R.id.runview_distance);
+            TextView time = (TextView) v.findViewById(R.id.runview_time);
+            TextView avgPace = (TextView) v.findViewById(R.id.runview_avg_pace);
+            TextView maxPace = (TextView) v.findViewById(R.id.runview_max_pace);
+            TextView avgHR = (TextView) v.findViewById(R.id.runview_avg_hr);
+            TextView maxHR = (TextView) v.findViewById(R.id.runview_max_hr);
+            TextView elevation = (TextView) v.findViewById(R.id.runview_climb);
+            TextView caloriesBurned = (TextView) v.findViewById(R.id.runview_cal);
+            TextView notes = (TextView) v.findViewById(R.id.runview_notes);
+
+            name.setText(run.getName());
+            type.setText(run.getType());
+            date.setText(run.getDate());
+            time.setText(run.getTime());
+            avgPace.setText(run.getAvgPace());
+            maxPace.setText(run.getMaxPace());
+            avgHR.setText(run.getAvgHR());
+            maxHR.setText(run.getMaxHR());
+            distance.setText(run.getDistance() + " miles");
+            elevation.setText(run.getElevation());
+            caloriesBurned.setText(run.getCalBurned());
+            notes.setText(run.getNotes());
+
+            workoutView.addView(v);
+        }
+    }
+
+    private void loadBikeData(LayoutInflater inflater, List<Bike> bikes) {
+        for(Bike bike : bikes) {
+            View v = inflater.inflate(R.layout.workout_bike_view, null);
+
+            TextView name = (TextView) v.findViewById(R.id.bikeview_name);
+            TextView type = (TextView) v.findViewById(R.id.bikeview_type);
+            TextView date = (TextView) v.findViewById(R.id.bikeview_date);
+            TextView distance = (TextView) v.findViewById(R.id.bikeview_distance);
+            TextView time = (TextView) v.findViewById(R.id.bikeview_time);
+            TextView avgSpeed = (TextView) v.findViewById(R.id.bikeview_avg_speed);
+            TextView maxSpeed = (TextView) v.findViewById(R.id.bikeview_max_speed);
+            TextView avgHR = (TextView) v.findViewById(R.id.bikeview_avg_hr);
+            TextView maxHR = (TextView) v.findViewById(R.id.bikeview_max_hr);
+            TextView elevation = (TextView) v.findViewById(R.id.bikeview_climb);
+            TextView caloriesBurned = (TextView) v.findViewById(R.id.bikeview_cal);
+            TextView notes = (TextView) v.findViewById(R.id.bikeview_notes);
+
+            name.setText(bike.getName());
+            type.setText(bike.getType());
+            date.setText(bike.getDate());
+            time.setText(bike.getTime());
+            avgSpeed.setText(bike.getAvgSpeed() + " mph");
+            maxSpeed.setText(bike.getMaxSpeed() + " mph");
+            avgHR.setText(bike.getAvgHR());
+            maxHR.setText(bike.getMaxHR());
+            distance.setText(bike.getDistance() + " miles");
+            elevation.setText(bike.getElevation());
+            caloriesBurned.setText(bike.getCalBurned());
+            notes.setText(bike.getNotes());
+
+            workoutView.addView(v);
+        }
+    }
+
+
+
     private void updateWorkouts() {
         workoutView.removeAllViews();
+
         SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
         String formattedDate = df.format(c.getTime());
 
@@ -214,7 +300,13 @@ public class WorkoutLog extends Fragment {
         if (!swims.isEmpty()) {
             loadSwimData(inflater, swims);
         }
-        
+        if (!runs.isEmpty()) {
+            loadRunData(inflater, runs);
+        }
+        if (!bikes.isEmpty()) {
+            loadBikeData(inflater, bikes);
+        }
+
         final Calendar cal = Calendar.getInstance();
         int y = cal.get(Calendar.YEAR);
         int m = cal.get(Calendar.MONTH) + 1;
@@ -233,47 +325,6 @@ public class WorkoutLog extends Fragment {
         }
     }
 
-    /* Date Picker Fragment */
-
-    private class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final Calendar c = Calendar.getInstance();
-            int y = c.get(Calendar.YEAR);
-            int m = c.get(Calendar.MONTH);
-            int d = c.get(Calendar.DAY_OF_MONTH);
-
-            return new DatePickerDialog(getActivity(), this, y, m, d);
-        }
-
-        @Override
-        public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
-            year = i;
-            month = i2;
-            day = i3;
-
-            c.set(Calendar.YEAR, year);
-            c.set(Calendar.MONTH, month);
-            c.set(Calendar.DAY_OF_MONTH, day);
-
-            //workouts = db.getNutritionList(Database.NutritionListType.Day, month + 1, day, year);
-            //updateWorkouts();
-
-            final Calendar cal = Calendar.getInstance();
-            int y = cal.get(Calendar.YEAR);
-            int m = cal.get(Calendar.MONTH);
-            int d = cal.get(Calendar.DAY_OF_MONTH);
-
-            if (y == year && m == month && d == day) {
-                date.setText("Today");
-            } else {
-                SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
-                String formattedDate = df.format(c.getTime());
-                date.setText(formattedDate);
-            }
-        }
-    }
 
     private void restoreActionBar() {
         ActionBar actionBar = getActivity().getActionBar();

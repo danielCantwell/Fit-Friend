@@ -14,8 +14,8 @@ public class Bike implements Serializable {
     private String notes;
     private String distance;
     private String time;
-    private String avgPace;
-    private String maxPace;
+    private String avgSpeed;
+    private String maxSpeed;
     private String avgCadence;
     private String maxCadence;
     private String avgHR;
@@ -47,15 +47,15 @@ public class Bike implements Serializable {
      * @param notes
      * @param distance
      * @param time
-     * @param avgPace
-     * @param maxPace
+     * @param avgSpeed
+     * @param maxSpeed
      * @param avgHR
      * @param maxHR
      * @param calBurned
      * @param elevation
      */
     public Bike(String name, String date, String type, String notes,
-                String distance, String time, String avgPace, String maxPace,
+                String distance, String time, String avgSpeed, String maxSpeed,
                 String avgCadence, String maxCadence, String avgHR, String maxHR,
                 String calBurned, String elevation) {
         this.name = name;
@@ -64,8 +64,8 @@ public class Bike implements Serializable {
         this.notes = notes;
         this.distance = distance;
         this.time = time;
-        this.avgPace = avgPace;
-        this.maxPace = maxPace;
+        this.avgSpeed = avgSpeed;
+        this.maxSpeed = maxSpeed;
         this.avgCadence = avgCadence;
         this.maxCadence = maxCadence;
         this.avgHR = avgHR;
@@ -85,8 +85,8 @@ public class Bike implements Serializable {
      * @param notes
      * @param distance
      * @param time
-     * @param avgPace
-     * @param maxPace
+     * @param avgSpeed
+     * @param maxSpeed
      * @param avgHR
      * @param maxHR
      * @param calBurned
@@ -94,7 +94,7 @@ public class Bike implements Serializable {
      * @param numLaps
      */
     public Bike(String name, String date, String type, String notes,
-                String distance, String time, String avgPace, String maxPace,
+                String distance, String time, String avgSpeed, String maxSpeed,
                 String avgCadence, String maxCadence, String avgHR, String maxHR,
                 String calBurned, String elevation, int numLaps) {
         this.name = name;
@@ -103,8 +103,8 @@ public class Bike implements Serializable {
         this.notes = notes;
         this.distance = distance;
         this.time = time;
-        this.avgPace = avgPace;
-        this.maxPace = maxPace;
+        this.avgSpeed = avgSpeed;
+        this.maxSpeed = maxSpeed;
         this.avgCadence = avgCadence;
         this.maxCadence = maxCadence;
         this.avgHR = avgHR;
@@ -125,8 +125,8 @@ public class Bike implements Serializable {
      * @param notes
      * @param distance
      * @param time
-     * @param avgPace
-     * @param maxPace
+     * @param avgSpeed
+     * @param maxSpeed
      * @param avgHR
      * @param maxHR
      * @param calBurned
@@ -135,7 +135,7 @@ public class Bike implements Serializable {
      * @param laps
      */
     public Bike(String name, String date, String type, String notes,
-                String distance, String time, String avgPace, String maxPace,
+                String distance, String time, String avgSpeed, String maxSpeed,
                 String avgCadence, String maxCadence, String avgHR, String maxHR,
                 String calBurned, String elevation,
                 int numLaps, ArrayList<Bike> laps) {
@@ -145,8 +145,8 @@ public class Bike implements Serializable {
         this.notes = notes;
         this.distance = distance;
         this.time = time;
-        this.avgPace = avgPace;
-        this.maxPace = maxPace;
+        this.avgSpeed = avgSpeed;
+        this.maxSpeed = maxSpeed;
         this.avgCadence = avgCadence;
         this.maxCadence = maxCadence;
         this.avgHR = avgHR;
@@ -206,20 +206,20 @@ public class Bike implements Serializable {
         this.time = time;
     }
 
-    public String getAvgPace() {
-        return avgPace;
+    public String getAvgSpeed() {
+        return avgSpeed;
     }
 
-    public void setAvgPace(String avgPace) {
-        this.avgPace = avgPace;
+    public void setAvgSpeed(String avgSpeed) {
+        this.avgSpeed = avgSpeed;
     }
 
-    public String getMaxPace() {
-        return maxPace;
+    public String getMaxSpeed() {
+        return maxSpeed;
     }
 
-    public void setMaxPace(String maxPace) {
-        this.maxPace = maxPace;
+    public void setMaxSpeed(String maxSpeed) {
+        this.maxSpeed = maxSpeed;
     }
 
     public String getAvgCadence() {

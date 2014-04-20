@@ -37,9 +37,9 @@ import java.util.List;
  */
 public class WorkoutAddSwim extends Fragment{
 
-    private final int TIME = 0;
-    private final int AVG = 1;
-    private final int MAX = 2;
+    private static enum Type {
+        AVG, MAX
+    }
 
     public static Fragment newInstance() {
         WorkoutAddSwim f = new WorkoutAddSwim();
@@ -86,7 +86,6 @@ public class WorkoutAddSwim extends Fragment{
     private DBHelper db;
     private Calendar c;
     private int year, month, day;
-    private DialogFragment dateFragment;
 
     private ArrayAdapter<CharSequence> adapter;
 
@@ -154,8 +153,31 @@ public class WorkoutAddSwim extends Fragment{
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dateFragment = new DatePickerFragment();
-                dateFragment.show(((FragmentActivity)getActivity()).getSupportFragmentManager(), "datePicker");
+                DatePickerFragment dateFragment = new DatePickerFragment();
+                dateFragment.setDialogListener(new DialogListener() {
+                    @Override
+                    public void onDialogOK(Bundle bundle) {
+                        year = bundle.getInt("year");
+                        month = bundle.getInt("month");
+                        day = bundle.getInt("day");
+
+                        Calendar cal = Calendar.getInstance();
+                        cal.set(Calendar.YEAR, year);
+                        cal.set(Calendar.MONTH, month);
+                        cal.set(Calendar.DAY_OF_MONTH, day);
+
+                        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+                        String formattedDate = df.format(cal.getTime());
+
+                        date.setText(formattedDate);
+                    }
+
+                    @Override
+                    public void onDialogCancel() {
+
+                    }
+                });
+                dateFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
             }
         });
 
@@ -176,7 +198,19 @@ public class WorkoutAddSwim extends Fragment{
         time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showTimeDialog(TIME);
+                showTimeDialog();
+            }
+        });
+        avgPace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPaceDialog(Type.AVG);
+            }
+        });
+        maxPace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPaceDialog(Type.MAX);
             }
         });
 
@@ -315,7 +349,7 @@ public class WorkoutAddSwim extends Fragment{
         sp.edit().putString("SwimTypes", stringBuilder.toString());
     }
 
-    private void showTimeDialog(int type) {
+    private void showTimeDialog() {
         FragmentManager fm = getFragmentManager();
         TimePickerDialog timePickerDialog = new TimePickerDialog();
         timePickerDialog.setDialogListener(new DialogListener() {
@@ -340,36 +374,31 @@ public class WorkoutAddSwim extends Fragment{
         timePickerDialog.show(fm, "timeFragment");
     }
 
-    /* Date Picker Fragment */
+    private void showPaceDialog(final Type type) {
+        FragmentManager fm = getFragmentManager();
+        PacePickerDialog pacePickerDialog = new PacePickerDialog();
+        pacePickerDialog.setDialogListener(new DialogListener() {
+            @Override
+            public void onDialogOK(Bundle bundle) {
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.MINUTE, bundle.getInt("minute"));
+                cal.set(Calendar.SECOND, bundle.getInt("second"));
 
-    private class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener{
+                SimpleDateFormat df = new SimpleDateFormat("m : ss");
+                String formattedTime = df.format(cal.getTime());
 
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final Calendar c = Calendar.getInstance();
-            int y = c.get(Calendar.YEAR);
-            int m = c.get(Calendar.MONTH);
-            int d = c.get(Calendar.DAY_OF_MONTH);
+                if (type == Type.AVG)
+                    avgPace.setText(formattedTime);
+                else if (type == Type.MAX)
+                    maxPace.setText(formattedTime);
+            }
 
-            return new DatePickerDialog(getActivity(), this, y, m, d);
-        }
+            @Override
+            public void onDialogCancel() {
 
-        @Override
-        public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
-            year = i;
-            month = i2;
-            day = i3;
-
-            Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.YEAR, year);
-            cal.set(Calendar.MONTH, month);
-            cal.set(Calendar.DAY_OF_MONTH, day);
-
-            SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
-            String formattedDate = df.format(cal.getTime());
-
-            date.setText(formattedDate);
-        }
+            }
+        });
+        pacePickerDialog.show(fm, "paceFragment");
     }
 
     private void restoreActionBar() {

@@ -15,7 +15,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
 import android.support.v4.view.GestureDetectorCompat;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -123,7 +122,43 @@ public class NutritionLog extends ListFragment {
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFragment dateFragment = new DatePickerFragment();
+                DatePickerFragment dateFragment = new DatePickerFragment();
+                dateFragment.setDialogListener(new DialogListener() {
+                    @Override
+                    public void onDialogOK(Bundle bundle) {
+                        year = bundle.getInt("year");
+                        month = bundle.getInt("month");
+                        day = bundle.getInt("day");
+
+                        c.set(Calendar.YEAR, year);
+                        c.set(Calendar.MONTH, month);
+                        c.set(Calendar.DAY_OF_MONTH, day);
+
+                        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+                        String formattedDate = df.format(c.getTime());
+                        meals = db.getMealList(new Nutrition(null, formattedDate, null, null, null, null, null));
+
+                        mAdapter.clear();
+                        mAdapter.addAll(meals);
+                        updateTotals();
+
+                        final Calendar cal = Calendar.getInstance();
+                        int y = cal.get(Calendar.YEAR);
+                        int m = cal.get(Calendar.MONTH);
+                        int d = cal.get(Calendar.DAY_OF_MONTH);
+
+                        if (y == year && m == month && d == day) {
+                            date.setText("Today");
+                        } else {
+                            date.setText(formattedDate);
+                        }
+                    }
+
+                    @Override
+                    public void onDialogCancel() {
+
+                    }
+                });
                 dateFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
             }
         });
@@ -308,50 +343,50 @@ public class NutritionLog extends ListFragment {
 
     }
 
-    /* Date Picker Fragment */
-
-    private class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final Calendar c = Calendar.getInstance();
-            int y = c.get(Calendar.YEAR);
-            int m = c.get(Calendar.MONTH);
-            int d = c.get(Calendar.DAY_OF_MONTH);
-
-            return new DatePickerDialog(activity, this, y, m, d);
-        }
-
-        @Override
-        public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
-            year = i;
-            month = i2;
-            day = i3;
-
-            c.set(Calendar.YEAR, year);
-            c.set(Calendar.MONTH, month);
-            c.set(Calendar.DAY_OF_MONTH, day);
-
-            SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
-            String formattedDate = df.format(c.getTime());
-            meals = db.getMealList(new Nutrition(null, formattedDate, null, null, null, null, null));
-
-            mAdapter.clear();
-            mAdapter.addAll(meals);
-            updateTotals();
-
-            final Calendar cal = Calendar.getInstance();
-            int y = cal.get(Calendar.YEAR);
-            int m = cal.get(Calendar.MONTH);
-            int d = cal.get(Calendar.DAY_OF_MONTH);
-
-            if (y == year && m == month && d == day) {
-                date.setText("Today");
-            } else {
-                date.setText(formattedDate);
-            }
-        }
-    }
+//    /* Date Picker Fragment */
+//
+//    private class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+//
+//        @Override
+//        public Dialog onCreateDialog(Bundle savedInstanceState) {
+//            final Calendar c = Calendar.getInstance();
+//            int y = c.get(Calendar.YEAR);
+//            int m = c.get(Calendar.MONTH);
+//            int d = c.get(Calendar.DAY_OF_MONTH);
+//
+//            return new DatePickerDialog(activity, this, y, m, d);
+//        }
+//
+//        @Override
+//        public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
+//            year = i;
+//            month = i2;
+//            day = i3;
+//
+//            c.set(Calendar.YEAR, year);
+//            c.set(Calendar.MONTH, month);
+//            c.set(Calendar.DAY_OF_MONTH, day);
+//
+//            SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+//            String formattedDate = df.format(c.getTime());
+//            meals = db.getMealList(new Nutrition(null, formattedDate, null, null, null, null, null));
+//
+//            mAdapter.clear();
+//            mAdapter.addAll(meals);
+//            updateTotals();
+//
+//            final Calendar cal = Calendar.getInstance();
+//            int y = cal.get(Calendar.YEAR);
+//            int m = cal.get(Calendar.MONTH);
+//            int d = cal.get(Calendar.DAY_OF_MONTH);
+//
+//            if (y == year && m == month && d == day) {
+//                date.setText("Today");
+//            } else {
+//                date.setText(formattedDate);
+//            }
+//        }
+//    }
 
     private void updateList() {
         SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
@@ -397,8 +432,7 @@ public class NutritionLog extends ListFragment {
 
             if (e2.getX() > e1.getX()) {
                 previous.callOnClick();
-            }
-            else if (e2.getX() < e1.getX()) {
+            } else if (e2.getX() < e1.getX()) {
                 if (next.isEnabled())
                     next.callOnClick();
             }

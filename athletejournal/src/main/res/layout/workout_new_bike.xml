@@ -1,338 +1,354 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#ecf0f1"
-    android:orientation="vertical">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <AutoCompleteTextView
-        android:id="@+id/w_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:hint="Name"
-        android:maxLines="2"
-        android:selectAllOnFocus="true"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#ecf0f1"
+        android:orientation="vertical">
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="6dp">
-
-        <Spinner
-            android:id="@+id/w_type"
-            android:layout_width="0dp"
+        <AutoCompleteTextView
+            android:id="@+id/w_name"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
             android:gravity="center"
-            android:textAlignment="center" />
+            android:hint="Name"
+            android:maxLines="2"
+            android:selectAllOnFocus="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/w_date"
-            android:layout_width="0dp"
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@android:drawable/editbox_dropdown_light_frame"
-            android:gravity="center" />
-    </TableRow>
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="6dp">
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="6dp">
+            <Spinner
+                android:id="@+id/w_type"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textAlignment="center" />
 
-        <TextView
-            android:id="@+id/textViewDistance"
-            android:layout_width="0dp"
+            <Button
+                android:id="@+id/w_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:drawable/editbox_dropdown_light_frame"
+                android:gravity="center" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_weight="1"
-            android:text="Distance" />
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="6dp">
 
-        <TextView
-            android:id="@+id/textViewTime"
-            android:layout_width="0dp"
+            <TextView
+                android:id="@+id/textViewDistance"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_weight="1"
+                android:text="Distance" />
+
+            <TextView
+                android:id="@+id/textViewTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:layout_weight="1"
+                android:text="Time" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="35dp"
-            android:layout_weight="1"
-            android:text="Time" />
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="6dp">
 
-    </TableRow>
+            <EditText
+                android:id="@+id/w_distance"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@android:drawable/edit_text"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:selectAllOnFocus="true" />
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="6dp">
+            <Button
+                android:id="@+id/w_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@android:drawable/editbox_dropdown_light_frame" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="6dp">
+
+            <TextView
+                android:id="@+id/textViewAvgSpeed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_weight="1"
+                android:text="Avg Speed" />
+
+            <TextView
+                android:id="@+id/textViewMaxSpeed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:layout_weight="1"
+                android:text="Max Speed" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="6dp">
+
+            <EditText
+                android:id="@+id/w_avgSpeed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@android:drawable/edit_text"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:selectAllOnFocus="true" />
+
+            <EditText
+                android:id="@+id/w_maxSpeed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@android:drawable/edit_text"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:selectAllOnFocus="true" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="6dp">
+
+            <TextView
+                android:id="@+id/textViewAvgHr"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_weight="1"
+                android:text="Avg Heart Rate" />
+
+            <TextView
+                android:id="@+id/textViewMaxHr"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:layout_weight="1"
+                android:text="Max Heart Rate" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="6dp">
+
+            <EditText
+                android:id="@+id/w_avgHR"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@android:drawable/edit_text"
+                android:ems="10"
+                android:inputType="number"
+                android:selectAllOnFocus="true" />
+
+            <EditText
+                android:id="@+id/w_maxHR"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@android:drawable/edit_text"
+                android:ems="10"
+                android:inputType="number"
+                android:selectAllOnFocus="true" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="6dp">
+
+            <TextView
+                android:id="@+id/textViewAvgCadence"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_weight="1"
+                android:text="Avg Cadence" />
+
+            <TextView
+                android:id="@+id/textViewMaxCadence"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:layout_weight="1"
+                android:text="Max Cadence" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="6dp">
+
+            <EditText
+                android:id="@+id/w_avgCadence"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@android:drawable/edit_text"
+                android:ems="10"
+                android:inputType="number"
+                android:selectAllOnFocus="true" />
+
+            <EditText
+                android:id="@+id/w_maxCadence"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@android:drawable/edit_text"
+                android:ems="10"
+                android:inputType="number"
+                android:selectAllOnFocus="true" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="6dp">
+
+            <TextView
+                android:id="@+id/textViewCalories"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_weight="1"
+                android:text="Calories Burned" />
+
+            <TextView
+                android:id="@+id/textViewElevation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:layout_weight="1"
+                android:text="Elevation Climbed" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="6dp">
+
+            <EditText
+                android:id="@+id/w_calories"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@android:drawable/edit_text"
+                android:ems="10"
+                android:inputType="number"
+                android:selectAllOnFocus="true" />
+
+            <EditText
+                android:id="@+id/w_elevation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@android:drawable/edit_text"
+                android:ems="10"
+                android:inputType="number"
+                android:selectAllOnFocus="true" />
+
+        </TableRow>
 
         <EditText
-            android:id="@+id/w_distance"
-            android:layout_width="0dp"
+            android:id="@+id/w_notes"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="6dp"
             android:background="@android:drawable/edit_text"
             android:ems="10"
-            android:inputType="numberDecimal"
-            android:selectAllOnFocus="true"
-            android:layout_weight="1"/>
+            android:hint="Add Notes Here"
+            android:inputType="textMultiLine"
+            android:maxLines="2" />
 
-        <EditText
-            android:id="@+id/w_time"
-            android:layout_width="0dp"
+        <CheckBox
+            android:id="@+id/addFavoriteCheck"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:background="@android:drawable/edit_text"
-            android:ems="10"
-            android:inputType="numberDecimal"
-            android:selectAllOnFocus="true"
-            android:layout_weight="1"/>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="6dp"
+            android:checked="false"
+            android:text="Add to Favorites" />
 
-    </TableRow>
+    </LinearLayout>
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="6dp">
+</ScrollView>
 
-        <TextView
-            android:id="@+id/textViewAvgPace"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_weight="1"
-            android:text="Avg Pace" />
-
-        <TextView
-            android:id="@+id/textViewMaxPace"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="35dp"
-            android:layout_weight="1"
-            android:text="Max Pace" />
-
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="6dp">
-
-        <EditText
-            android:id="@+id/w_avgPace"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:background="@android:drawable/edit_text"
-            android:ems="10"
-            android:inputType="number"
-            android:selectAllOnFocus="true"
-            android:layout_weight="1"/>
-
-        <EditText
-            android:id="@+id/w_maxPace"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:background="@android:drawable/edit_text"
-            android:ems="10"
-            android:inputType="number"
-            android:selectAllOnFocus="true"
-            android:layout_weight="1"/>
-
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="6dp">
-
-        <TextView
-            android:id="@+id/textViewAvgCadence"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_weight="1"
-            android:text="Avg Cadence" />
-
-        <TextView
-            android:id="@+id/textViewMaxCadence"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="35dp"
-            android:layout_weight="1"
-            android:text="Max Cadence" />
-
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="6dp">
-
-        <EditText
-            android:id="@+id/w_avgCadence"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:background="@android:drawable/edit_text"
-            android:ems="10"
-            android:inputType="number"
-            android:selectAllOnFocus="true"
-            android:layout_weight="1"/>
-
-        <EditText
-            android:id="@+id/w_maxCadence"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:background="@android:drawable/edit_text"
-            android:ems="10"
-            android:inputType="number"
-            android:selectAllOnFocus="true"
-            android:layout_weight="1"/>
-
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="6dp">
-
-        <TextView
-            android:id="@+id/textViewAvgHr"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_weight="1"
-            android:text="Avg Heart Rate" />
-
-        <TextView
-            android:id="@+id/textViewMaxHr"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="35dp"
-            android:layout_weight="1"
-            android:text="Max Heart Rate" />
-
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="6dp">
-
-        <EditText
-            android:id="@+id/w_avgHR"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:background="@android:drawable/edit_text"
-            android:ems="10"
-            android:inputType="number"
-            android:selectAllOnFocus="true"
-            android:layout_weight="1"/>
-
-        <EditText
-            android:id="@+id/w_maxHR"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:background="@android:drawable/edit_text"
-            android:ems="10"
-            android:inputType="number"
-            android:selectAllOnFocus="true"
-            android:layout_weight="1"/>
-
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="6dp">
-
-        <TextView
-            android:id="@+id/textViewCalories"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_weight="1"
-            android:text="Calories Burned" />
-
-        <TextView
-            android:id="@+id/textViewElevation"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="35dp"
-            android:layout_weight="1"
-            android:text="Elevation Climbed" />
-
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="6dp">
-
-        <EditText
-            android:id="@+id/w_calories"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:background="@android:drawable/edit_text"
-            android:ems="10"
-            android:inputType="number"
-            android:selectAllOnFocus="true"
-            android:layout_weight="1"/>
-
-        <EditText
-            android:id="@+id/w_elevation"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:background="@android:drawable/edit_text"
-            android:ems="10"
-            android:inputType="number"
-            android:selectAllOnFocus="true"
-            android:layout_weight="1"/>
-
-    </TableRow>
-
-    <CheckBox
-        android:id="@+id/addFavoriteCheck"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="6dp"
-        android:checked="false"
-        android:text="Add to Favorites" />
-
-
-</LinearLayout>

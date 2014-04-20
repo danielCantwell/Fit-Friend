@@ -400,7 +400,7 @@ public class DBHelper {
     }
 
     /**
-     update a favorite meal in the database
+     update a swim in the database
      */
     boolean updateSwim(Swim ObjTo, Swim ObjFrom) {
         Swim found = null;
@@ -421,6 +421,82 @@ public class DBHelper {
             found.setDistance(ObjFrom.getDistance());
             found.setTime(ObjFrom.getTime());
             found.setStrokeRate(ObjFrom.getStrokeRate());
+            found.setCalBurned(ObjFrom.getCalBurned());
+
+            db.store(found);
+            db.commit();
+
+            closeDb();
+            return true;
+        }
+
+        closeDb();
+        return false;
+    }
+
+    /**
+     update a run in the database
+     */
+    boolean updateRun(Run ObjTo, Run ObjFrom) {
+        Run found = null;
+
+        openDb(DB_NAME_WORKOUTS);
+        ObjectSet<Run> result = db.queryByExample(ObjTo);
+
+        if (result.hasNext()) { // if found
+
+            found = result.next();
+
+            found.setName(ObjFrom.getName());
+            found.setDate(ObjFrom.getDate());
+            found.setType(ObjFrom.getType());
+            found.setNotes(ObjFrom.getNotes());
+            found.setAvgPace(ObjFrom.getAvgPace());
+            found.setMaxPace(ObjFrom.getMaxPace());
+            found.setAvgHR(ObjFrom.getAvgHR());
+            found.setMaxHR(ObjFrom.getMaxHR());
+            found.setDistance(ObjFrom.getDistance());
+            found.setTime(ObjFrom.getTime());
+            found.setElevation(ObjFrom.getElevation());
+            found.setCalBurned(ObjFrom.getCalBurned());
+
+            db.store(found);
+            db.commit();
+
+            closeDb();
+            return true;
+        }
+
+        closeDb();
+        return false;
+    }
+
+    /**
+     update a bike in the database
+     */
+    boolean updateBike(Bike ObjTo, Bike ObjFrom) {
+        Bike found = null;
+
+        openDb(DB_NAME_WORKOUTS);
+        ObjectSet<Bike> result = db.queryByExample(ObjTo);
+
+        if (result.hasNext()) { // if found
+
+            found = result.next();
+
+            found.setName(ObjFrom.getName());
+            found.setDate(ObjFrom.getDate());
+            found.setType(ObjFrom.getType());
+            found.setNotes(ObjFrom.getNotes());
+            found.setAvgSpeed(ObjFrom.getAvgSpeed());
+            found.setMaxSpeed(ObjFrom.getMaxSpeed());
+            found.setAvgCadence(ObjFrom.getAvgCadence());
+            found.setMaxCadence(ObjFrom.getMaxCadence());
+            found.setAvgHR(ObjFrom.getAvgHR());
+            found.setMaxHR(ObjFrom.getMaxHR());
+            found.setDistance(ObjFrom.getDistance());
+            found.setTime(ObjFrom.getTime());
+            found.setElevation(ObjFrom.getElevation());
             found.setCalBurned(ObjFrom.getCalBurned());
 
             db.store(found);

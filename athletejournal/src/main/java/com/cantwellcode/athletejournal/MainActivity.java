@@ -1,6 +1,8 @@
 package com.cantwellcode.athletejournal;
 
 import android.app.ActionBar;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
@@ -34,9 +36,6 @@ public class MainActivity extends FragmentActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-
-        mNavigationDrawerFragment.selectItem(1);
-
     }
 
     @Override
