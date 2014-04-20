@@ -360,7 +360,7 @@ public class WorkoutAddSwim extends Fragment{
                 cal.set(Calendar.MINUTE, bundle.getInt("minute"));
                 cal.set(Calendar.SECOND, bundle.getInt("second"));
 
-                SimpleDateFormat df = new SimpleDateFormat("H : mm : ss");
+                SimpleDateFormat df = new SimpleDateFormat("H:mm:ss");
                 String formattedTime = df.format(cal.getTime());
 
                 time.setText(formattedTime);
@@ -384,7 +384,7 @@ public class WorkoutAddSwim extends Fragment{
                 cal.set(Calendar.MINUTE, bundle.getInt("minute"));
                 cal.set(Calendar.SECOND, bundle.getInt("second"));
 
-                SimpleDateFormat df = new SimpleDateFormat("m : ss");
+                SimpleDateFormat df = new SimpleDateFormat("m:ss");
                 String formattedTime = df.format(cal.getTime());
 
                 if (type == Type.AVG)

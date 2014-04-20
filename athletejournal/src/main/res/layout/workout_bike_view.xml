@@ -21,7 +21,8 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/imageView"
         android:text="Bonelli Loop"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold" />
 
     <TableRow
         android:id="@+id/row_date_and_type"
@@ -65,7 +66,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="1:44:35"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/bikeview_distance"
@@ -74,7 +76,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="31 miles"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
     </TableRow>
 
     <ImageView
@@ -89,12 +92,33 @@
         android:src="#BBBBBB" />
 
     <TableRow
+        android:id="@+id/tableRow0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageView2"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Averages"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Maximums"/>
+    </TableRow>
+
+    <TableRow
         android:id="@+id/row_speed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/imageView2"
+        android:layout_below="@+id/tableRow0"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
@@ -102,50 +126,48 @@
             android:id="@+id/bikeview_avg_speed"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="18 mph"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:layout_weight="2"
+            android:gravity="right"
+            android:text="18"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/bikeview_max_speed"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
-            android:text="41 mph"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-    </TableRow>
-
-    <TableRow
-        android:id="@+id/row_speed_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/row_speed"
-        android:orientation="horizontal">
+            android:gravity="left"
+            android:text=" mph"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:gravity="center"
-            android:text="avg speed"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#888888" />
+            android:text="SPEED"
+            android:textColor="#888888"
+            android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/bikeview_max_speed"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:gravity="center"
-            android:text="max speed"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#888888" />
+            android:gravity="right"
+            android:text="41"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="left"
+            android:text=" mph"
+            android:textSize="12sp" />
     </TableRow>
 
     <TableRow
@@ -154,7 +176,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/row_speed_text"
+        android:layout_below="@+id/row_speed"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
@@ -162,49 +184,47 @@
             android:id="@+id/bikeview_avg_cadence"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
+            android:layout_weight="2"
+            android:gravity="right"
             android:text="86"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text=" rpm"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="CADENCE"
+            android:textColor="#888888"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/bikeview_max_cadence"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="right"
             android:text="109"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-    </TableRow>
-
-    <TableRow
-        android:id="@+id/row_cadence_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/row_cadence"
-        android:orientation="horizontal">
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView7"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="avg cadence"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#888888" />
-
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="max cadence"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#888888" />
+            android:layout_weight="2"
+            android:gravity="left"
+            android:text=" rpm"
+            android:textSize="12sp" />
     </TableRow>
 
     <TableRow
@@ -213,7 +233,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/row_cadence_text"
+        android:layout_below="@+id/row_cadence"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
@@ -221,49 +241,47 @@
             android:id="@+id/bikeview_avg_hr"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
+            android:layout_weight="2"
+            android:gravity="right"
             android:text="146"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text=" bpm"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="HEART RATE"
+            android:textColor="#888888"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/bikeview_max_hr"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="right"
             android:text="173"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-    </TableRow>
-
-    <TableRow
-        android:id="@+id/row_hr_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/row_hr"
-        android:orientation="horizontal">
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="avg heart rate"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#888888" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="max heart rate"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#888888" />
+            android:layout_weight="2"
+            android:gravity="left"
+            android:text=" bpm"
+            android:textSize="12sp" />
     </TableRow>
 
     <TableRow
@@ -272,7 +290,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/row_hr_text"
+        android:layout_below="@+id/row_hr"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
@@ -280,19 +298,29 @@
             android:id="@+id/bikeview_cal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="10"
             android:gravity="center"
             android:text="935"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/bikeview_climb"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="2314 ft"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:layout_weight="5"
+            android:gravity="right"
+            android:text="2314"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4.5"
+            android:gravity="left"
+            android:text=" ft"
+            android:textSize="12sp" />
     </TableRow>
 
     <TableRow
@@ -309,9 +337,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="calories burned"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#888888" />
+            android:text="CALORIES"
+            android:textColor="#888888"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/textView6"
@@ -319,9 +347,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="elevation climbed"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#888888" />
+            android:text="ELEVATION GAIN"
+            android:textColor="#888888"
+            android:textSize="12sp" />
     </TableRow>
 
     <TextView
@@ -340,6 +368,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/bikeview_laps"
         android:layout_centerHorizontal="true"
+        android:gravity="center"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="15dp"

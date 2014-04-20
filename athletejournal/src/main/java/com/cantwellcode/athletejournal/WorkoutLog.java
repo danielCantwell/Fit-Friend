@@ -352,8 +352,8 @@ public class WorkoutLog extends Fragment {
             type.setText(bike.getType());
             date.setText(bike.getDate());
             time.setText(bike.getTime());
-            avgSpeed.setText(bike.getAvgSpeed() + " mph");
-            maxSpeed.setText(bike.getMaxSpeed() + " mph");
+            avgSpeed.setText(bike.getAvgSpeed());
+            maxSpeed.setText(bike.getMaxSpeed());
             avgCadence.setText(bike.getAvgCadence());
             maxCadence.setText(bike.getMaxCadence());
             avgHR.setText(bike.getAvgHR());

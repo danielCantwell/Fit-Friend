@@ -373,7 +373,7 @@ public class WorkoutAddBike extends Fragment {
                 cal.set(Calendar.MINUTE, bundle.getInt("minute"));
                 cal.set(Calendar.SECOND, bundle.getInt("second"));
 
-                SimpleDateFormat df = new SimpleDateFormat("H : mm : ss");
+                SimpleDateFormat df = new SimpleDateFormat("H:mm:ss");
                 String formattedTime = df.format(cal.getTime());
 
                 time.setText(formattedTime);
