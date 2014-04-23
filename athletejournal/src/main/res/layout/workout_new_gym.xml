@@ -51,16 +51,16 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:text="+   Add Routine   +"
-        android:background="@android:drawable/editbox_dropdown_light_frame"/>
+        android:background="@android:drawable/editbox_dropdown_light_frame"
+        android:text="+   Add Routine   +" />
 
     <ListView
+        android:id="@+id/routineList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/listView"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp" />
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp" />
 
 </LinearLayout>

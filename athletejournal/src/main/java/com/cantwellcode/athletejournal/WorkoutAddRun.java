@@ -155,7 +155,7 @@ public class WorkoutAddRun extends Fragment {
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                com.cantwellcode.athletejournal.DatePickerFragment dateFragment = new com.cantwellcode.athletejournal.DatePickerFragment();
+                DatePickerFragment dateFragment = new DatePickerFragment();
                 dateFragment.setDialogListener(new DialogListener() {
                     @Override
                     public void onDialogOK(Bundle bundle) {
@@ -186,8 +186,7 @@ public class WorkoutAddRun extends Fragment {
         type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getSelectedItem().toString();
-                _type = item;
+                _type = parent.getSelectedItem().toString();
             }
 
             @Override

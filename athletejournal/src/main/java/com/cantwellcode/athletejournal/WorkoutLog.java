@@ -81,6 +81,7 @@ public class WorkoutLog extends Fragment {
         swims = db.getSwimList(new Swim(formattedDate));
         bikes = db.getBikeList(new Bike(formattedDate));
         runs = db.getRunList(new Run(formattedDate));
+        gyms = db.getGymList(new Gym(formattedDate));
 
         if (!swims.isEmpty()) {
             loadSwimData(inflater, swims);
@@ -91,7 +92,9 @@ public class WorkoutLog extends Fragment {
         if (!runs.isEmpty()) {
             loadRunData(inflater, runs);
         }
-
+        if (!gyms.isEmpty()) {
+            loadGymData(inflater, gyms);
+        }
 
         setHasOptionsMenu(true);
 
@@ -179,12 +182,12 @@ public class WorkoutLog extends Fragment {
                         .replace(R.id.container, WorkoutAddRun.newInstance())
                         .commit();
                 return true;
-//            case R.id.action_selectGym:
-//                FragmentManager fm4 = getFragmentManager();
-//                fm4.beginTransaction()
-//                        .replace(R.id.container, WorkoutAddSwim.newInstance(WorkoutAddSwim.WorkoutType.Gym))
-//                        .commit();
-//                return true;
+            case R.id.action_selectGym:
+                FragmentManager fm4 = getFragmentManager();
+                fm4.beginTransaction()
+                        .replace(R.id.container, WorkoutAddGym.newInstance())
+                        .commit();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -245,7 +248,6 @@ public class WorkoutLog extends Fragment {
 
     private void menuClickDelete(Workout workout) {
         db.delete(workout);
-
         updateWorkouts();
     }
 
@@ -375,6 +377,9 @@ public class WorkoutLog extends Fragment {
         }
     }
 
+    private void loadGymData(LayoutInflater inflater, List<Gym> gyms) {
+        Toast.makeText(getActivity(), gyms.get(0).getName(), Toast.LENGTH_LONG).show();
+    }
 
     private void updateWorkouts() {
         workoutView.removeAllViews();
@@ -385,6 +390,7 @@ public class WorkoutLog extends Fragment {
         swims = db.getSwimList(new Swim(formattedDate));
         bikes = db.getBikeList(new Bike(formattedDate));
         runs = db.getRunList(new Run(formattedDate));
+        gyms = db.getGymList(new Gym(formattedDate));
 
         if (!swims.isEmpty()) {
             loadSwimData(inflater, swims);
@@ -394,6 +400,9 @@ public class WorkoutLog extends Fragment {
         }
         if (!runs.isEmpty()) {
             loadRunData(inflater, runs);
+        }
+        if (!gyms.isEmpty()) {
+            loadGymData(inflater, gyms);
         }
 
         final Calendar cal = Calendar.getInstance();

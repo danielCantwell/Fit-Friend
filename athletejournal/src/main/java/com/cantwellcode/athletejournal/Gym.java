@@ -18,6 +18,10 @@ public class Gym implements Serializable {
 
     }
 
+    public Gym(String date) {
+        this.date = date;
+    }
+
     public Gym(String name, String date, String type, List<GymRoutine> routines) {
         this.name = name;
         this.date = date;
