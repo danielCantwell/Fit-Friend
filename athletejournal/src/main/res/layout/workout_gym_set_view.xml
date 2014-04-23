@@ -8,23 +8,25 @@
     <TextView
         android:id="@+id/gym_set_name"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="20dp"
-        android:background="#c0392b"
+        android:background="#FFFFFF"
         android:gravity="center_vertical"
-        android:paddingLeft="20dp"
+        android:paddingLeft="15dp"
         android:text="Deadlifts"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#FFFFFF"
+        android:textColor="#c0392b"
         android:textStyle="bold" />
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/gym_set_name"
-        android:weightSum="3">
+        android:weightSum="3"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp">
 
         <TableRow
             android:id="@+id/row_sets"

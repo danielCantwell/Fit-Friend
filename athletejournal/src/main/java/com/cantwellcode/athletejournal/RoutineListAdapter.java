@@ -58,9 +58,9 @@ public class RoutineListAdapter extends ArrayAdapter<GymRoutine> {
 
                 setNum.setTextSize(12);
                 setNum.setTextColor(Color.LTGRAY);
-                setNum.setText(" " + count + " ");
-                reps.setText(" " + set.reps + " ");
-                weight.setText(" " + set.weight + " ");
+                setNum.setText(" " + count + "  ");
+                reps.setText(" " + set.reps + "  ");
+                weight.setText(" " + set.weight + "  ");
 
                 holder.rowSets.addView(setNum);
                 holder.rowReps.addView(reps);
