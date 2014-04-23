@@ -60,4 +60,11 @@
         android:layout_marginTop="5dp"
         android:src="#BBBBBB" />
 
+    <ListView
+        android:id="@+id/routineList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/imageView2"
+        android:layout_centerHorizontal="true"/>
+
 </RelativeLayout>

@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by Daniel on 4/17/2014.
  */
-public class Gym implements Serializable {
+public class Gym extends Workout implements Serializable {
 
     private String name;
     private String date;

@@ -62,7 +62,7 @@ public class WorkoutAddGym extends Fragment{
     private String _type;
 
     private ArrayAdapter<CharSequence> spinnerAdapter;
-    private RoutineListAdapter listAdapter;
+    private NewRoutineListAdapter listAdapter;
 
     private List<GymRoutine> routines;
 
@@ -100,7 +100,7 @@ public class WorkoutAddGym extends Fragment{
         routines = new ArrayList<GymRoutine>();
 
         /* Setup Routine List Adapter */
-        listAdapter = new RoutineListAdapter(getActivity(), R.id.routineList, routines);
+        listAdapter = new NewRoutineListAdapter(getActivity(), R.id.routineList, routines);
         /* Set Routien List Adapter */
         routineList.setAdapter(listAdapter);
 
@@ -284,6 +284,9 @@ public class WorkoutAddGym extends Fragment{
             builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    if (name.getText().toString().equals("")) {
+                        name.setText("Routine " + sets.size());
+                    }
                     routines.add(new GymRoutine(name.getText().toString(), sets));
                     updateRoutineList();
                 }

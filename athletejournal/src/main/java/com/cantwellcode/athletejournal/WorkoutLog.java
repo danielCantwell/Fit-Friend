@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Space;
 import android.widget.TextView;
@@ -378,7 +379,31 @@ public class WorkoutLog extends Fragment {
     }
 
     private void loadGymData(LayoutInflater inflater, List<Gym> gyms) {
-        Toast.makeText(getActivity(), gyms.get(0).getName(), Toast.LENGTH_LONG).show();
+        for (final Gym gym : gyms) {
+            View v = inflater.inflate(R.layout.workout_gym_view, null);
+
+            TextView name = (TextView) v.findViewById(R.id.gymview_name);
+            TextView date = (TextView) v.findViewById(R.id.gymview_date);
+            TextView type = (TextView) v.findViewById(R.id.gymview_type);
+
+            RoutineListAdapter adapter = new RoutineListAdapter(getActivity(), R.id.routineList, gym.getRoutines());
+            ListView routineList = (ListView) v.findViewById(R.id.routineList);
+            routineList.setAdapter(adapter);
+
+            name.setText(gym.getName());
+            date.setText(gym.getDate());
+            type.setText(gym.getType());
+
+            v.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    showPopup(v, gym);
+                    return true;
+                }
+            });
+
+            workoutView.addView(v);
+        }
     }
 
     private void updateWorkouts() {
