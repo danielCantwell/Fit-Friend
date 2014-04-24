@@ -510,6 +510,35 @@ public class DBHelper {
         return false;
     }
 
+    /**
+     update a gym in the database
+     */
+    boolean updateGym(Gym ObjTo, Gym ObjFrom) {
+        Gym found = null;
+
+        openDb(DB_NAME_WORKOUTS);
+        ObjectSet<Gym> result = db.queryByExample(ObjTo);
+
+        if (result.hasNext()) { // if found
+
+            found = result.next();
+
+            found.setName(ObjFrom.getName());
+            found.setDate(ObjFrom.getDate());
+            found.setType(ObjFrom.getType());
+            found.setRoutines(ObjFrom.getRoutines());
+
+            db.store(found);
+            db.commit();
+
+            closeDb();
+            return true;
+        }
+
+        closeDb();
+        return false;
+    }
+
     /***********************************************************************
      ****                     D e l e t e   D a t a                     ****
      ***********************************************************************/

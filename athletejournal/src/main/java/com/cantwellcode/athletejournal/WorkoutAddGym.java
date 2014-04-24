@@ -166,6 +166,32 @@ public class WorkoutAddGym extends Fragment{
             }
         });
 
+        /* Handle Routine List Item Clicks */
+        routineList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                GymRoutine routine = listAdapter.getItem(position);
+                routines.remove(routine);
+                listAdapter.notifyDataSetChanged();
+                return true;
+            }
+        });
+
+        /* Check if workout is new or for edit */
+        if (getArguments().containsKey("EditGym")) {
+            gym = (Gym) getArguments().getSerializable("EditGym");
+            oldGym = gym;
+
+            int spinnerPosition = spinnerAdapter.getPosition(gym.getType());
+
+            name.setText(gym.getName());
+            date.setText(gym.getDate());
+            type.setSelection(spinnerPosition);
+            routines = gym.getRoutines();
+            listAdapter.addAll(routines);
+            updateRoutineList();
+        }
+
         /* Enable Options Menu */
         setHasOptionsMenu(true);
 
@@ -181,15 +207,13 @@ public class WorkoutAddGym extends Fragment{
             _name = name.getText().toString();
         else _name = _type;
 
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, year);
-        cal.set(Calendar.MONTH, month);
-        cal.set(Calendar.DAY_OF_MONTH, day);
+        _date = date.getText().toString();
+    }
 
-        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
-        String formattedDate = df.format(cal.getTime());
-
-        _date = formattedDate;
+    private void editWorkout() {
+        prepareData();
+        gym = new Gym(_name, _date, _type, routines);
+        db.updateGym(oldGym, gym);
     }
 
     private void saveWorkout() {
@@ -216,13 +240,12 @@ public class WorkoutAddGym extends Fragment{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_saveWorkout:
-                saveWorkout();
-//                if (gym == null) {
-//                    saveWorkout();
-//                }
-//                else {
-//                    editWorkout();
-//                }
+                if (gym == null) {
+                    saveWorkout();
+                }
+                else {
+                    editWorkout();
+                }
                 FragmentManager fm1 = getFragmentManager();
                 fm1.beginTransaction()
                         .replace(R.id.container, WorkoutLog.newInstance())
@@ -264,6 +287,15 @@ public class WorkoutAddGym extends Fragment{
 
             setsListAdapter = new RoutineSetsListAdapter(getActivity(), R.id.setList, sets);
             setList.setAdapter(setsListAdapter);
+
+            setList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    GymSet set = setsListAdapter.getItem(position);
+                    sets.remove(set);
+                    setsListAdapter.notifyDataSetChanged();
+                }
+            });
 
             addSet.setOnClickListener(new View.OnClickListener() {
                 @Override

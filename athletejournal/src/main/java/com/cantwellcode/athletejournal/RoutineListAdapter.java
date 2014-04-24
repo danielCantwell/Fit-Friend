@@ -69,6 +69,14 @@ public class RoutineListAdapter extends ArrayAdapter<GymRoutine> {
         }
         else {
             holder = (ViewHolder) convertView.getTag();
+
+//            int count = 0;
+//            for (GymSet set : routine.getSets()) {
+//                count++;
+//                ((TextView) holder.rowSets.getChildAt(count)).setText(count);
+//                ((TextView) holder.rowReps.getChildAt(count)).setText(set.reps);
+//                ((TextView) holder.rowWeight.getChildAt(count)).setText(set.weight);
+//            }
         }
 
         return convertView;

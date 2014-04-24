@@ -1,8 +1,10 @@
 package com.cantwellcode.athletejournal;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -79,23 +81,23 @@ public class WorkoutLog extends Fragment {
 
         workoutView = (LinearLayout) root.findViewById(R.id.workoutView);
 
-        swims = db.getSwimList(new Swim(formattedDate));
-        bikes = db.getBikeList(new Bike(formattedDate));
-        runs = db.getRunList(new Run(formattedDate));
-        gyms = db.getGymList(new Gym(formattedDate));
-
-        if (!swims.isEmpty()) {
-            loadSwimData(inflater, swims);
-        }
-        if (!bikes.isEmpty()) {
-            loadBikeData(inflater, bikes);
-        }
-        if (!runs.isEmpty()) {
-            loadRunData(inflater, runs);
-        }
-        if (!gyms.isEmpty()) {
-            loadGymData(inflater, gyms);
-        }
+//        swims = db.getSwimList(new Swim(formattedDate));
+//        bikes = db.getBikeList(new Bike(formattedDate));
+//        runs = db.getRunList(new Run(formattedDate));
+//        gyms = db.getGymList(new Gym(formattedDate));
+//
+//        if (!swims.isEmpty()) {
+//            loadSwimData(inflater, swims);
+//        }
+//        if (!bikes.isEmpty()) {
+//            loadBikeData(inflater, bikes);
+//        }
+//        if (!runs.isEmpty()) {
+//            loadRunData(inflater, runs);
+//        }
+//        if (!gyms.isEmpty()) {
+//            loadGymData(inflater, gyms);
+//        }
 
         setHasOptionsMenu(true);
 
@@ -152,6 +154,8 @@ public class WorkoutLog extends Fragment {
             }
         });
 
+        updateWorkouts();
+
         return root;
     }
 
@@ -194,33 +198,6 @@ public class WorkoutLog extends Fragment {
         }
     }
 
-    private void showPopup(View v, final Workout workout) {
-        PopupMenu popup = new PopupMenu(getActivity(), v);
-
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.n_action_addToFavorites:
-                        menuClickAddToFavorites(workout);
-                        return true;
-                    case R.id.n_action_edit:
-                        menuClickEdit(workout);
-                        return true;
-                    case R.id.n_action_delete:
-                        menuClickDelete(workout);
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-        });
-
-        MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.n_list_click, popup.getMenu());
-        popup.show();
-    }
-
     private void menuClickAddToFavorites(Workout workout) {
 //        DialogFragment categoryDialog = new CategoryDialog(workout, db);
 //        categoryDialog.show(getFragmentManager(), "categoryDialog");
@@ -245,6 +222,11 @@ public class WorkoutLog extends Fragment {
                     .replace(R.id.container, WorkoutAddRun.newInstance((Run) workout))
                     .commit();
         }
+//        if (workout instanceof Gym) {
+//            fm.beginTransaction()
+//                    .replace(R.id.container, WorkoutAddGym.newInstance((Gym) workout))
+//                    .commit();
+//        }
     }
 
     private void menuClickDelete(Workout workout) {
@@ -281,7 +263,9 @@ public class WorkoutLog extends Fragment {
             v.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    showPopup(v, swim);
+                    OptionsDialog dialog = new OptionsDialog();
+                    dialog.setWorkout(swim);
+                    dialog.show(getActivity().getSupportFragmentManager(), "optionsDialog");
                     return true;
                 }
             });
@@ -323,7 +307,9 @@ public class WorkoutLog extends Fragment {
             v.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    showPopup(v, run);
+                    OptionsDialog dialog = new OptionsDialog();
+                    dialog.setWorkout(run);
+                    dialog.show(getActivity().getSupportFragmentManager(), "optionsDialog");
                     return true;
                 }
             });
@@ -369,7 +355,9 @@ public class WorkoutLog extends Fragment {
             v.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    showPopup(v, bike);
+                    OptionsDialog dialog = new OptionsDialog();
+                    dialog.setWorkout(bike);
+                    dialog.show(getActivity().getSupportFragmentManager(), "optionsDialog");
                     return true;
                 }
             });
@@ -397,7 +385,9 @@ public class WorkoutLog extends Fragment {
             v.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    showPopup(v, gym);
+                    OptionsDialog dialog = new OptionsDialog();
+                    dialog.setWorkout(gym);
+                    dialog.show(getActivity().getSupportFragmentManager(), "optionsDialog");
                     return true;
                 }
             });
@@ -448,11 +438,39 @@ public class WorkoutLog extends Fragment {
         }
     }
 
-
     private void restoreActionBar() {
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle("Workout Log");
+    }
+
+    private class OptionsDialog extends DialogFragment {
+
+        private Workout workout;
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            setCancelable(true);
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Workout Options")
+                    .setItems(R.array.workout_options, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case 0:
+                                    menuClickEdit(workout);
+                                    break;
+                                case 1:
+                                    menuClickDelete(workout);
+                                    break;
+                            }
+                        }
+                    });
+            return builder.create();
+        }
+
+        public void setWorkout(Workout workout) {
+            this.workout = workout;
+        }
     }
 }
