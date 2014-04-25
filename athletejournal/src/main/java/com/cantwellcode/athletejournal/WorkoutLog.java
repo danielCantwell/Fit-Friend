@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
@@ -268,7 +269,7 @@ public class WorkoutLog extends Fragment implements TabHost.OnTabChangeListener{
             });
 
             final TabHost.TabSpec tabSpec = tabHost.newTabSpec(SWIM + count);
-            tabSpec.setIndicator(SWIM);
+            tabSpec.setIndicator("", getResources().getDrawable(R.drawable.swim_icon_black));
             tabSpec.setContent(new TabHost.TabContentFactory() {
                 @Override
                 public View createTabContent(String tag) {
@@ -325,7 +326,7 @@ public class WorkoutLog extends Fragment implements TabHost.OnTabChangeListener{
             });
 
             final TabHost.TabSpec tabSpec = tabHost.newTabSpec(RUN + count);
-            tabSpec.setIndicator(RUN);
+            tabSpec.setIndicator("", getResources().getDrawable(R.drawable.run_icon_black));
             tabSpec.setContent(new TabHost.TabContentFactory() {
                 @Override
                 public View createTabContent(String tag) {
@@ -386,7 +387,7 @@ public class WorkoutLog extends Fragment implements TabHost.OnTabChangeListener{
             });
 
             final TabHost.TabSpec tabSpec = tabHost.newTabSpec(BIKE + count);
-            tabSpec.setIndicator(BIKE);
+            tabSpec.setIndicator("", getResources().getDrawable(R.drawable.bike_icon_black));
             tabSpec.setContent(new TabHost.TabContentFactory() {
                 @Override
                 public View createTabContent(String tag) {
@@ -429,7 +430,7 @@ public class WorkoutLog extends Fragment implements TabHost.OnTabChangeListener{
             });
 
             final TabHost.TabSpec tabSpec = tabHost.newTabSpec(GYM + count);
-            tabSpec.setIndicator(GYM);
+            tabSpec.setIndicator("", getResources().getDrawable(R.drawable.gym_icon_black));
             tabSpec.setContent(new TabHost.TabContentFactory() {
                 @Override
                 public View createTabContent(String tag) {
@@ -494,7 +495,11 @@ public class WorkoutLog extends Fragment implements TabHost.OnTabChangeListener{
 
     @Override
     public void onTabChanged(String tabId) {
-
+        for(int i=0;i<tabHost.getTabWidget().getChildCount();i++)
+        {
+            tabHost.getTabWidget().getChildAt(i).setBackgroundColor(Color.parseColor("#ecf0f1"));
+        }
+        tabHost.getCurrentTabView().setBackgroundColor(Color.parseColor("#c0392b"));
     }
 
     private class OptionsDialog extends DialogFragment {

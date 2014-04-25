@@ -4,40 +4,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ecf0f1"
-    android:orientation="vertical">
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/gym_icon" />
+    android:orientation="vertical"
+    android:paddingTop="10dp">
 
     <TextView
         android:id="@+id/gymview_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/imageView"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20dp"
         android:text="Leg Day"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold"/>
 
     <TableRow
         android:id="@+id/row_date_and_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/gymview_name"
-        android:layout_toRightOf="@+id/imageView">
-
-        <TextView
-            android:id="@+id/gymview_date"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="3/28/14"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#555555" />
+        android:layout_marginLeft="20dp">
 
         <TextView
             android:id="@+id/gymview_type"
@@ -47,6 +33,17 @@
             android:text="Training"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#555555" />
+
+        <TextView
+            android:id="@+id/gymview_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:text="3/28/14"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#555555"
+            android:gravity="right"/>
     </TableRow>
 
     <ImageView
