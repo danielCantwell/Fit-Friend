@@ -5,17 +5,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ScrollView
+    <TabHost
+        android:id="@+id/tabHost"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/tableRow">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
 
         <LinearLayout
-            android:id="@+id/workoutView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"></TabWidget>
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
 
     <TableRow
         android:id="@+id/tableRow"

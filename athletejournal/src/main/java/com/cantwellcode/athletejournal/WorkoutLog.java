@@ -20,10 +20,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Space;
+import android.widget.TabHost;
+import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,23 +38,30 @@ import java.util.List;
 /**
  * Created by Daniel on 2/8/14.
  */
-public class WorkoutLog extends Fragment {
+public class WorkoutLog extends Fragment implements TabHost.OnTabChangeListener{
 
-    DBHelper db;
-    Calendar c;
+    private static final String SWIM = "Swim";
+    private static final String BIKE = "Bike";
+    private static final String RUN = "Run";
+    private static final String GYM = "Gym";
 
-    List<Swim> swims = new ArrayList<Swim>();
-    List<Bike> bikes = new ArrayList<Bike>();
-    List<Run> runs = new ArrayList<Run>();
-    List<Gym> gyms = new ArrayList<Gym>();
+    private DBHelper db;
+    private Calendar c;
 
-    LinearLayout workoutView;
+    private List<Swim> swims = new ArrayList<Swim>();
+    private List<Bike> bikes = new ArrayList<Bike>();
+    private List<Run> runs = new ArrayList<Run>();
+    private List<Gym> gyms = new ArrayList<Gym>();
 
-    LayoutInflater inflater;
+    private LayoutInflater inflater;
 
     private Button previous, date, next;
 
     private int year, month, day;
+
+    private TabHost tabHost;
+    private TabWidget tabs;
+    private FrameLayout tabContent;
 
     public static Fragment newInstance() {
         WorkoutLog f = new WorkoutLog();
@@ -78,26 +88,6 @@ public class WorkoutLog extends Fragment {
         String formattedDate = df.format(c.getTime());
 
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.workout_log, null);
-
-        workoutView = (LinearLayout) root.findViewById(R.id.workoutView);
-
-//        swims = db.getSwimList(new Swim(formattedDate));
-//        bikes = db.getBikeList(new Bike(formattedDate));
-//        runs = db.getRunList(new Run(formattedDate));
-//        gyms = db.getGymList(new Gym(formattedDate));
-//
-//        if (!swims.isEmpty()) {
-//            loadSwimData(inflater, swims);
-//        }
-//        if (!bikes.isEmpty()) {
-//            loadBikeData(inflater, bikes);
-//        }
-//        if (!runs.isEmpty()) {
-//            loadRunData(inflater, runs);
-//        }
-//        if (!gyms.isEmpty()) {
-//            loadGymData(inflater, gyms);
-//        }
 
         setHasOptionsMenu(true);
 
@@ -153,6 +143,11 @@ public class WorkoutLog extends Fragment {
                 updateWorkouts();
             }
         });
+
+        tabHost = (TabHost) root.findViewById(R.id.tabHost);
+        tabHost.setup();
+
+        tabHost.setOnTabChangedListener(this);
 
         updateWorkouts();
 
@@ -235,8 +230,10 @@ public class WorkoutLog extends Fragment {
     }
 
     private void loadSwimData(LayoutInflater inflater, List<Swim> swims) {
+
+        int count = 0;
         for (final Swim swim : swims) {
-            View v = inflater.inflate(R.layout.workout_swim_view, null);
+            final View v = inflater.inflate(R.layout.workout_swim_view, null);
 
             TextView name = (TextView) v.findViewById(R.id.swimview_name);
             TextView type = (TextView) v.findViewById(R.id.swimview_type);
@@ -270,13 +267,26 @@ public class WorkoutLog extends Fragment {
                 }
             });
 
-            workoutView.addView(v);
+            final TabHost.TabSpec tabSpec = tabHost.newTabSpec(SWIM + count);
+            tabSpec.setIndicator(SWIM);
+            tabSpec.setContent(new TabHost.TabContentFactory() {
+                @Override
+                public View createTabContent(String tag) {
+                    return v;
+                }
+            });
+
+            tabHost.addTab(tabSpec);
+
+            count++;
         }
     }
 
     private void loadRunData(LayoutInflater inflater, List<Run> runs) {
+
+        int count = 0;
         for (final Run run : runs) {
-            View v = inflater.inflate(R.layout.workout_run_view, null);
+            final View v = inflater.inflate(R.layout.workout_run_view, null);
 
             TextView name = (TextView) v.findViewById(R.id.runview_name);
             TextView type = (TextView) v.findViewById(R.id.runview_type);
@@ -314,13 +324,26 @@ public class WorkoutLog extends Fragment {
                 }
             });
 
-            workoutView.addView(v);
+            final TabHost.TabSpec tabSpec = tabHost.newTabSpec(RUN + count);
+            tabSpec.setIndicator(RUN);
+            tabSpec.setContent(new TabHost.TabContentFactory() {
+                @Override
+                public View createTabContent(String tag) {
+                    return v;
+                }
+            });
+
+            tabHost.addTab(tabSpec);
+
+            count++;
         }
     }
 
     private void loadBikeData(LayoutInflater inflater, List<Bike> bikes) {
+
+        int count = 0;
         for (final Bike bike : bikes) {
-            View v = inflater.inflate(R.layout.workout_bike_view, null);
+            final View v = inflater.inflate(R.layout.workout_bike_view, null);
 
             TextView name = (TextView) v.findViewById(R.id.bikeview_name);
             TextView type = (TextView) v.findViewById(R.id.bikeview_type);
@@ -362,13 +385,26 @@ public class WorkoutLog extends Fragment {
                 }
             });
 
-            workoutView.addView(v);
+            final TabHost.TabSpec tabSpec = tabHost.newTabSpec(BIKE + count);
+            tabSpec.setIndicator(BIKE);
+            tabSpec.setContent(new TabHost.TabContentFactory() {
+                @Override
+                public View createTabContent(String tag) {
+                    return v;
+                }
+            });
+
+            tabHost.addTab(tabSpec);
+
+            count++;
         }
     }
 
     private void loadGymData(LayoutInflater inflater, List<Gym> gyms) {
+
+        int count = 0;
         for (final Gym gym : gyms) {
-            View v = inflater.inflate(R.layout.workout_gym_view, null);
+            final View v = inflater.inflate(R.layout.workout_gym_view, null);
 
             TextView name = (TextView) v.findViewById(R.id.gymview_name);
             TextView date = (TextView) v.findViewById(R.id.gymview_date);
@@ -392,12 +428,23 @@ public class WorkoutLog extends Fragment {
                 }
             });
 
-            workoutView.addView(v);
+            final TabHost.TabSpec tabSpec = tabHost.newTabSpec(GYM + count);
+            tabSpec.setIndicator(GYM);
+            tabSpec.setContent(new TabHost.TabContentFactory() {
+                @Override
+                public View createTabContent(String tag) {
+                    return v;
+                }
+            });
+
+            tabHost.addTab(tabSpec);
+
+            count++;
         }
     }
 
     private void updateWorkouts() {
-        workoutView.removeAllViews();
+        tabHost.clearAllTabs();
 
         SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
         String formattedDate = df.format(c.getTime());
@@ -443,6 +490,11 @@ public class WorkoutLog extends Fragment {
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle("Workout Log");
+    }
+
+    @Override
+    public void onTabChanged(String tabId) {
+
     }
 
     private class OptionsDialog extends DialogFragment {
