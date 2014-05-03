@@ -25,12 +25,10 @@ public class NutritionArrayAdapter extends ArrayAdapter<Nutrition> {
     }
 
     private final Context context;
-    private final int res;
 
     public NutritionArrayAdapter(Context context, int resource, List<Nutrition> objects) {
         super(context, resource, objects);
         this.context = context;
-        this.res = resource;
     }
 
     @Override

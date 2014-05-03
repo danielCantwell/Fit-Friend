@@ -113,7 +113,6 @@ public class NavigationDrawerFragment extends Fragment {
         items.add(new DrawerItem("Statistics", R.drawable.ic_launcher));
         items.add(new DrawerItem("Connect",true));
         items.add(new DrawerItem("Friends", R.drawable.ic_launcher));
-        items.add(new DrawerItem("Explore", R.drawable.ic_launcher));
         items.add(new DrawerItem("Trainer", R.drawable.ic_launcher));
         items.add(new DrawerItem("Profile", true));
         items.add(new DrawerItem("Personal", R.drawable.ic_launcher));

@@ -1,8 +1,6 @@
 package com.cantwellcode.athletejournal;
 
 import android.app.ActionBar;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
@@ -92,27 +90,20 @@ public class MainActivity extends FragmentActivity
                 mTitle = getString(R.string.title_section9);
                 break;
             case 10:
-                FragmentManager fm10 = getSupportFragmentManager();
-                fm10.beginTransaction()
-                        .replace(R.id.container, ConnectExplore.newInstance())
-                        .commit();
-                mTitle = getString(R.string.title_section10);
-                break;
-            case 11:
                 FragmentManager fm11 = getSupportFragmentManager();
                 fm11.beginTransaction()
                         .replace(R.id.container, ConnectTrainer.newInstance())
                         .commit();
                 mTitle = getString(R.string.title_section11);
                 break;
-            case 13:
+            case 12:
                 FragmentManager fm13 = getSupportFragmentManager();
                 fm13.beginTransaction()
                         .replace(R.id.container, ProfilePersonal.newInstance())
                         .commit();
                 mTitle = getString(R.string.title_section13);
                 break;
-            case 14:
+            case 13:
                 FragmentManager fm14 = getSupportFragmentManager();
                 fm14.beginTransaction()
                         .replace(R.id.container, ProfileSocial.newInstance())

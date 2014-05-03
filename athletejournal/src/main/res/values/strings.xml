@@ -33,16 +33,18 @@
         <item>Pre-Workout</item>
         <item>Post-Workout</item>
     </string-array>
-
     <string-array name="workout_types">
         <item>Training</item>
         <item>Recovery</item>
         <item>Competition</item>
     </string-array>
-
     <string-array name="workout_options">
         <item>Edit</item>
         <item>Delete</item>
     </string-array>
+
+    <string name="title_activity_connect_friends">Connect</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

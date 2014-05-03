@@ -1,17 +1,22 @@
 package com.cantwellcode.athletejournal;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.parse.ParseUser;
 
 /**
  * Created by Daniel on 2/8/14.
@@ -28,8 +33,10 @@ public class ProfilePersonal extends Fragment {
     private EditText goalCarbs;
     private EditText goalFat;
 
-    private Button updateProfile;
     private Button favorites;
+    private Button logOut;
+
+    SharedPreferences sp;
 
     public static Fragment newInstance() {
         ProfilePersonal f = new ProfilePersonal();
@@ -45,22 +52,15 @@ public class ProfilePersonal extends Fragment {
         goalCarbs    = (EditText) root.findViewById(R.id.profileGoalCarbs);
         goalFat      = (EditText) root.findViewById(R.id.profileGoalFat);
 
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         goalCalories.setText(sp.getString(GOAL_CALORIES, "2400"));
         goalProtein.setText(sp.getString(GOAL_PROTEIN, "100"));
         goalCarbs.setText(sp.getString(GOAL_CARBS, "300"));
         goalFat.setText(sp.getString(GOAL_FAT, "50"));
 
-        updateProfile   = (Button) root.findViewById(R.id.profileUpdate);
-        favorites       = (Button) root.findViewById(R.id.profileFavorites);
-
-        updateProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateGoals();
-            }
-        });
+        favorites = (Button) root.findViewById(R.id.profileFavorites);
+        logOut = (Button) root.findViewById(R.id.logOut);
 
         favorites.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,18 +72,87 @@ public class ProfilePersonal extends Fragment {
             }
         });
 
+        logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseUser.logOut();
+                Intent intent = new Intent(getActivity(), DispatchActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                getActivity().startActivity(intent);
+            }
+        });
+
+        goalCalories.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                sp.edit().putString(GOAL_CALORIES, goalCalories.getText().toString()).commit();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        goalFat.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                sp.edit().putString(GOAL_FAT, goalFat.getText().toString()).commit();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        goalCarbs.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                sp.edit().putString(GOAL_CARBS, goalCarbs.getText().toString()).commit();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        goalProtein.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                sp.edit().putString(GOAL_PROTEIN, goalProtein.getText().toString()).commit();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         restoreActionBar();
 
         return root;
-    }
-
-    private void updateGoals() {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        sp.edit().putString(GOAL_CALORIES, goalCalories.getText().toString()).commit();
-        sp.edit().putString(GOAL_PROTEIN, goalProtein.getText().toString()).commit();
-        sp.edit().putString(GOAL_CARBS, goalCarbs.getText().toString()).commit();
-        sp.edit().putString(GOAL_FAT, goalFat.getText().toString()).commit();
-        Toast.makeText(getActivity(), "Nutrition Goals Updated", Toast.LENGTH_SHORT).show();
     }
 
     private void restoreActionBar() {

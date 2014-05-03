@@ -19,6 +19,9 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:+'
+    compile files('libs/Parse-1.4.3.jar')
     compile files('libs/db4o-8.0.249.16098-all-java5.jar')
+    compile 'com.android.support:support-v4:+'
+    compile 'com.android.support:appcompat-v7:+'
+    compile 'com.android.support:support-v13:19.+'
 }

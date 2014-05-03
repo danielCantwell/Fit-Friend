@@ -1,141 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    android:orientation="vertical"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#DDFFEE">
+    android:background="#ecf0f1">
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+    <TextView
+        android:id="@+id/calorieText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Calories"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Calorie Intake"
-            android:id="@+id/textView3"
-            android:layout_marginTop="40dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="44dp"/>
+    <EditText
+        android:id="@+id/profileGoalCalories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/calorieText"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="20dp"
+        android:layout_toRightOf="@+id/calorieText"
+        android:ems="10"
+        android:gravity="center_horizontal"
+        android:hint="goal #"
+        android:inputType="number"
+        android:selectAllOnFocus="true"
+        android:text="2800" />
 
-        <EditText
-            android:layout_width="75dp"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:id="@+id/profileGoalCalories"
-            android:layout_alignBottom="@+id/textView3"
-            android:layout_toRightOf="@+id/textView3"
-            android:layout_marginLeft="60dp"
-            android:gravity="center_horizontal"
-            android:hint="goal #"
-            android:text="2400"
-            android:selectAllOnFocus="true"/>
+    <TextView
+        android:id="@+id/fatText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/calorieText"
+        android:layout_below="@+id/calorieText"
+        android:layout_marginTop="10dp"
+        android:text="Fat"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Protein Intake"
-            android:id="@+id/textView4"
-            android:layout_below="@+id/textView3"
-            android:layout_alignLeft="@+id/textView3"
-            android:layout_marginTop="35dp"/>
+    <EditText
+        android:id="@+id/profileGoalFat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/fatText"
+        android:layout_alignLeft="@+id/profileGoalCalories"
+        android:layout_alignRight="@+id/profileGoalCalories"
+        android:ems="10"
+        android:gravity="center_horizontal"
+        android:hint="goal #"
+        android:inputType="number"
+        android:selectAllOnFocus="true"
+        android:text="60" />
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:id="@+id/profileGoalProtein"
-            android:layout_alignBottom="@+id/textView4"
-            android:layout_alignLeft="@+id/profileGoalCalories"
-            android:layout_alignRight="@+id/profileGoalCalories"
-            android:gravity="center_horizontal"
-            android:hint="goal #"
-            android:text="100"
-            android:selectAllOnFocus="true"/>
+    <TextView
+        android:id="@+id/carbText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/fatText"
+        android:layout_below="@+id/fatText"
+        android:layout_marginTop="10dp"
+        android:text="Carbs"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Carb Intake"
-            android:id="@+id/textView5"
-            android:layout_below="@+id/textView4"
-            android:layout_alignLeft="@+id/textView4"
-            android:layout_marginTop="35dp"/>
+    <TextView
+        android:id="@+id/proteinText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/carbText"
+        android:layout_below="@+id/carbText"
+        android:layout_marginTop="10dp"
+        android:text="Protein"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Fat Intake"
-            android:id="@+id/textView6"
-            android:layout_below="@+id/textView5"
-            android:layout_alignLeft="@+id/textView5"
-            android:layout_marginTop="35dp"/>
+    <EditText
+        android:id="@+id/profileGoalCarbs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/carbText"
+        android:layout_alignLeft="@+id/profileGoalFat"
+        android:layout_alignParentEnd="false"
+        android:layout_alignRight="@+id/profileGoalFat"
+        android:ems="10"
+        android:gravity="center_horizontal"
+        android:hint="goal #"
+        android:inputType="number"
+        android:selectAllOnFocus="true"
+        android:text="400" />
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:id="@+id/profileGoalCarbs"
-            android:layout_alignBottom="@+id/textView5"
-            android:layout_alignLeft="@+id/profileGoalProtein"
-            android:layout_alignRight="@+id/profileGoalProtein"
-            android:gravity="center_horizontal"
-            android:layout_alignParentEnd="false"
-            android:hint="goal #"
-            android:text="400"
-            android:selectAllOnFocus="true"/>
+    <EditText
+        android:id="@+id/profileGoalProtein"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/proteinText"
+        android:layout_alignLeft="@+id/profileGoalCarbs"
+        android:layout_alignRight="@+id/profileGoalCarbs"
+        android:ems="10"
+        android:gravity="center_horizontal"
+        android:hint="goal #"
+        android:inputType="number"
+        android:selectAllOnFocus="true"
+        android:text="140" />
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:id="@+id/profileGoalFat"
-            android:layout_alignBottom="@+id/textView6"
-            android:layout_alignLeft="@+id/profileGoalCarbs"
-            android:layout_alignRight="@+id/profileGoalCarbs"
-            android:gravity="center_horizontal"
-            android:hint="goal #"
-            android:text="50"
-            android:selectAllOnFocus="true"/>
+    <Button
+        android:id="@+id/profileFavorites"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/proteinText"
+        android:layout_marginTop="20dp"
+        android:text="Favorite Meals" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" Update Goals "
-            android:id="@+id/profileUpdate"
-            android:layout_marginTop="48dp"
-            android:layout_below="@+id/textView6"
-            android:layout_centerHorizontal="true"
-            android:background="@android:drawable/dialog_holo_light_frame"/>
+    <Button
+        android:id="@+id/logOut"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="38dp"
+        android:text="L o g   O u t" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true">
+    <TextView
+        android:id="@+id/editEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/logOut"
+        android:layout_alignLeft="@+id/proteinText"
+        android:text="email: "
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="Favorite\nMeals"
-                android:id="@+id/profileFavorites"
-                android:background="@android:drawable/dialog_holo_light_frame"
-                android:layout_below="@+id/profileUpdate"
-                android:layout_alignRight="@+id/profileGoalFat"
-                android:layout_weight="1" />
-        </TableRow>
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/logOut"
+        android:layout_alignLeft="@+id/profileGoalProtein"
+        android:layout_alignRight="@+id/profileGoalProtein"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="optional email"
+        android:inputType="textEmailAddress" />
 
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>
