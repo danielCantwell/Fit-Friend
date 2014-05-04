@@ -2,168 +2,135 @@ package com.cantwellcode.athletejournal;
 
 import android.accounts.Account;
 
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+
 import java.util.List;
 import java.util.Map;
 
 /**
  * Created by Daniel on 4/27/2014.
  */
-public class User {
-
-    private String name;
-    private String birthday;
-    private String age;
-    private String location;
-    private String mainSport;
-    private boolean isPrivate;
-
-    private List<Swim> swims;
-    private List<Bike> bikes;
-    private List<Run> runs;
-    private List<Gym> gyms;
-
-    private int numForumPosts;
-    private int numExercisePosts;
-    private int numNutritionPosts;
-
-    private List<User> friends;
-    private Map<User, List<String>> messages;
-    private Map<String, List<User>> groups;
-    private List<Post> posts;
+public class User extends ParseObject {
 
     public String getName() {
-        return name;
+        return getString("name");
     }
 
     public void setName(String name) {
-        this.name = name;
+        put("name", name);
     }
 
-    public String getBirthday() {
-        return birthday;
+    public int getAge() {
+        return getInt("age");
     }
 
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getAge() {
-        return age;
-    }
-
-    public void setAge(String age) {
-        this.age = age;
+    public void setAge(int age) {
+        put("age", age);
     }
 
     public String getLocation() {
-        return location;
+        return getString("location");
     }
 
     public void setLocation(String location) {
-        this.location = location;
+        put("location", location);
     }
 
     public String getMainSport() {
-        return mainSport;
+        return getString("mainSport");
     }
 
     public void setMainSport(String mainSport) {
-        this.mainSport = mainSport;
+        put("mainSport", mainSport);
     }
 
     public boolean isPrivate() {
-        return isPrivate;
+        return getBoolean("isPrivate");
     }
 
     public void setPrivate(boolean isPrivate) {
-        this.isPrivate = isPrivate;
-    }
-
-    public List<Swim> getSwims() {
-        return swims;
-    }
-
-    public void setSwims(List<Swim> swims) {
-        this.swims = swims;
-    }
-
-    public List<Bike> getBikes() {
-        return bikes;
-    }
-
-    public void setBikes(List<Bike> bikes) {
-        this.bikes = bikes;
-    }
-
-    public List<Run> getRuns() {
-        return runs;
-    }
-
-    public void setRuns(List<Run> runs) {
-        this.runs = runs;
-    }
-
-    public List<Gym> getGyms() {
-        return gyms;
-    }
-
-    public void setGyms(List<Gym> gyms) {
-        this.gyms = gyms;
-    }
-
-    public int getNumForumPosts() {
-        return numForumPosts;
-    }
-
-    public void setNumForumPosts(int numForumPosts) {
-        this.numForumPosts = numForumPosts;
-    }
-
-    public int getNumExercisePosts() {
-        return numExercisePosts;
-    }
-
-    public void setNumExercisePosts(int numExercisePosts) {
-        this.numExercisePosts = numExercisePosts;
-    }
-
-    public int getNumNutritionPosts() {
-        return numNutritionPosts;
-    }
-
-    public void setNumNutritionPosts(int numNutritionPosts) {
-        this.numNutritionPosts = numNutritionPosts;
+        put("isPrivate", isPrivate);
     }
 
     public List<User> getFriends() {
-        return friends;
+        return getList("friends");
     }
 
     public void setFriends(List<User> friends) {
-        this.friends = friends;
+        put("friends", friends);
     }
 
-    public Map<User, List<String>> getMessages() {
-        return messages;
+    public void addFriend(User friend) {
+        List<User> friends = getFriends();
+        friends.add(friend);
+        setFriends(friends);
     }
 
-    public void setMessages(Map<User, List<String>> messages) {
-        this.messages = messages;
+    public void removeFriend(User friend) {
+        List<User> friends = getFriends();
+        friends.remove(friend);
+        setFriends(friends);
     }
 
-    public Map<String, List<User>> getGroups() {
-        return groups;
+    public List<ForumPost> getForumPosts() {
+        return getList("forumPosts");
     }
 
-    public void setGroups(Map<String, List<User>> groups) {
-        this.groups = groups;
+    public void setForumPosts(List<ForumPost> forumPosts) {
+        put("forumPosts", forumPosts);
     }
 
-    public List<Post> getPosts() {
-        return posts;
+    public void addForumPost(ForumPost forumPost) {
+        List<ForumPost> forumPosts = getForumPosts();
+        forumPosts.add(forumPost);
+        setForumPosts(forumPosts);
     }
 
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
+    public void removeForumPost(ForumPost forumPost) {
+        List<ForumPost> forumPosts = getForumPosts();
+        forumPosts.remove(forumPost);
+        setForumPosts(forumPosts);
+    }
+
+    public List<ExercisePost> getExercisePosts() {
+        return getList("exercisePosts");
+    }
+
+    public void setExercisePosts(List<ExercisePost> exercisePost) {
+        put("exercisePosts", exercisePost);
+    }
+
+    public void addExercisePost(ExercisePost exercisePost) {
+        List<ExercisePost> exercisePosts = getExercisePosts();
+        exercisePosts.add(exercisePost);
+        setExercisePosts(exercisePosts);
+    }
+
+    public void removeExercisePost(ExercisePost exercisePost) {
+        List<ExercisePost> exercisePosts = getExercisePosts();
+        exercisePosts.add(exercisePost);
+        setExercisePosts(exercisePosts);
+    }
+
+    public List<NutritionPost> getNutritionPosts() {
+        return getList("nutritionPosts");
+    }
+
+    public void setNutritionPosts(List<NutritionPost> nutritionPosts) {
+        put("nutritionPosts", nutritionPosts);
+    }
+
+    public void addNutritionPost(NutritionPost nutritionPost) {
+        List<NutritionPost> nutritionPosts = getNutritionPosts();
+        nutritionPosts.add(nutritionPost);
+        setNutritionPosts(nutritionPosts);
+    }
+
+    public void removeNutritionPost(NutritionPost nutritionPost) {
+        List<NutritionPost> nutritionPosts = getNutritionPosts();
+        nutritionPosts.remove(nutritionPost);
+        setNutritionPosts(nutritionPosts);
     }
 }

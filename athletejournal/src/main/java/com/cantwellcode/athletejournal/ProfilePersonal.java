@@ -33,10 +33,18 @@ public class ProfilePersonal extends Fragment {
     private EditText goalCarbs;
     private EditText goalFat;
 
+    private EditText name;
+    private EditText age;
+    private EditText location;
+    private EditText mainSport;
+    private EditText email;
+
     private Button favorites;
     private Button logOut;
 
     SharedPreferences sp;
+
+    ParseUser user;
 
     public static Fragment newInstance() {
         ProfilePersonal f = new ProfilePersonal();
@@ -47,17 +55,25 @@ public class ProfilePersonal extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.profile_personal, null);
 
+        user = ParseUser.getCurrentUser();
+
         goalCalories = (EditText) root.findViewById(R.id.profileGoalCalories);
         goalProtein  = (EditText) root.findViewById(R.id.profileGoalProtein);
         goalCarbs    = (EditText) root.findViewById(R.id.profileGoalCarbs);
         goalFat      = (EditText) root.findViewById(R.id.profileGoalFat);
 
+        name        = (EditText) root.findViewById(R.id.name);
+        age         = (EditText) root.findViewById(R.id.age);
+        location    = (EditText) root.findViewById(R.id.location);
+        mainSport   = (EditText) root.findViewById(R.id.mainSport);
+        email       = (EditText) root.findViewById(R.id.email);
+
         sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        goalCalories.setText(sp.getString(GOAL_CALORIES, "2400"));
-        goalProtein.setText(sp.getString(GOAL_PROTEIN, "100"));
-        goalCarbs.setText(sp.getString(GOAL_CARBS, "300"));
-        goalFat.setText(sp.getString(GOAL_FAT, "50"));
+        goalCalories.setText(sp.getString(GOAL_CALORIES, ""));
+        goalProtein.setText(sp.getString(GOAL_PROTEIN, ""));
+        goalCarbs.setText(sp.getString(GOAL_CARBS, ""));
+        goalFat.setText(sp.getString(GOAL_FAT, ""));
 
         favorites = (Button) root.findViewById(R.id.profileFavorites);
         logOut = (Button) root.findViewById(R.id.logOut);
@@ -142,6 +158,107 @@ public class ProfilePersonal extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 sp.edit().putString(GOAL_PROTEIN, goalProtein.getText().toString()).commit();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        if (user.containsKey("name")) {
+            name.setText(user.getString("name"));
+        }
+        if (user.containsKey("age")) {
+            age.setText(Integer.toString(user.getInt("age")));
+        }
+        if (user.containsKey("location")) {
+            location.setText(user.getString("location"));
+        }
+        if (user.containsKey("mainSport")) {
+            mainSport.setText(user.getString("mainSport"));
+        }
+        email.setText(user.getEmail());
+
+        name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                user.put("name", s.toString());
+                user.saveInBackground();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        age.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                user.put("age", Integer.parseInt(s.toString()));
+                user.saveInBackground();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        location.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                user.put("location", s.toString());
+                user.saveInBackground();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        mainSport.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                user.put("mainSport", s.toString());
+                user.saveInBackground();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                user.setEmail(s.toString());
+                user.saveInBackground();
             }
 
             @Override

@@ -59,11 +59,11 @@ public class ForumArrayAdapter extends ArrayAdapter<ForumPost> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.name.setText(post.getAuthor().getName());
-        holder.date.setText(post.getDateTime());
-        holder.content.setText(post.getContent());
-        holder.numComments.setText(post.getDiscussionCount());
-        holder.numHighFives.setText(post.getHighFiveCount());
+//        holder.name.setText(post.getAuthor().getName());
+//        holder.date.setText(post.getDateTime());
+//        holder.content.setText(post.getContent());
+//        holder.numComments.setText(post.getDiscussionCount());
+//        holder.numHighFives.setText(post.getHighFiveCount());
 
         return convertView;
     }
