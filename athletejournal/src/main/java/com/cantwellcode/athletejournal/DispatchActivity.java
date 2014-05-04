@@ -7,6 +7,8 @@ import android.widget.Toast;
 
 import com.parse.ParseUser;
 
+import EDU.purdue.cs.bloat.decorate.Main;
+
 /**
  * Created by Daniel on 5/3/2014.
  *
@@ -24,10 +26,16 @@ public class DispatchActivity extends Activity {
         if (ParseUser.getCurrentUser() != null) {
             // Start an intent for the logged in activity
             Toast.makeText(this, "logged in as " + ParseUser.getCurrentUser().getUsername(), Toast.LENGTH_LONG).show();
-            startActivity(new Intent(this, MainActivity.class));
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
         } else {
             // Start and intent for the logged out activity
-            startActivity(new Intent(this, LogInActivity.class));
+            Intent intent = new Intent(this, LogInActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
         }
     }
 }

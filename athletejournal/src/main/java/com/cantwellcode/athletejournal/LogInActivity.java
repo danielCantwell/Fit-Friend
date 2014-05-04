@@ -80,6 +80,8 @@ public class LogInActivity extends FragmentActivity {
             passwordView = (EditText) view.findViewById(R.id.password);
             passwordAgainView = (EditText) view.findViewById(R.id.passwordConfirm);
 
+            builder.setTitle("Sign Up");
+
             // Inflate and set the layout for the dialog
             // Pass null as the parent view because its going in the dialog layout
             builder.setView(view)
@@ -142,7 +144,9 @@ public class LogInActivity extends FragmentActivity {
                                                 // Start an intent for the dispatch activity
                                                 Intent intent = new Intent(LogInActivity.this, DispatchActivity.class);
                                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                 mActivity.startActivity(intent);
+                                                mActivity.finish();
                                             }
                                         }
                                     });
@@ -181,6 +185,8 @@ public class LogInActivity extends FragmentActivity {
             // Set up the login form.
             usernameView = (EditText) view.findViewById(R.id.username);
             passwordView = (EditText) view.findViewById(R.id.password);
+
+            builder.setTitle("Log In");
 
             // Inflate and set the layout for the dialog
             // Pass null as the parent view because its going in the dialog layout
@@ -232,7 +238,9 @@ public class LogInActivity extends FragmentActivity {
                                         // Start an intent for the dispatch activity
                                         Intent intent = new Intent(LogInActivity.this, DispatchActivity.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         mActivity.startActivity(intent);
+                                        mActivity.finish();
                                     }
                                 }
                             });
@@ -262,5 +270,10 @@ public class LogInActivity extends FragmentActivity {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }
