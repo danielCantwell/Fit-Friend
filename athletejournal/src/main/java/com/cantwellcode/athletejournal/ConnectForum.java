@@ -44,6 +44,7 @@ public class ConnectForum extends ListFragment {
 
     private ParseUser user;
 
+    private View.OnClickListener mOnClickListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class ConnectForum extends ListFragment {
 //        setListAdapter(adapter);
 
         // Set up a customized query
-        ParseQueryAdapter.QueryFactory<ForumPost> factory =
+        final ParseQueryAdapter.QueryFactory<ForumPost> factory =
                 new ParseQueryAdapter.QueryFactory<ForumPost>() {
                     public ParseQuery<ForumPost> create() {
                         // Query for friends the current user is following
@@ -74,6 +75,24 @@ public class ConnectForum extends ListFragment {
         posts = new ParseQueryAdapter<ForumPost>(getActivity(), factory) {
             @Override
             public View getItemView(final ForumPost post, View view, ViewGroup parent) {
+
+                mOnClickListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        switch (v.getId()) {
+                            case R.id.highFive:
+                                post.addHighFive();
+                                post.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        loadObjects();
+                                    }
+                                });
+                                break;
+                        }
+                    }
+                };
+
                 if (view == null) {
                     view = view.inflate(getActivity(), R.layout.forum_item, null);
                 }
@@ -92,6 +111,8 @@ public class ConnectForum extends ListFragment {
                     numComments.setText(String.valueOf(post.getComments().size()));
                 }
 
+                highFive.setOnClickListener(mOnClickListener);
+
                 DateFormat df = new SimpleDateFormat("d MMM yyyy");
                 Date dateTime = post.getCreatedAt();
                 String dateText = df.format(dateTime);
@@ -103,11 +124,9 @@ public class ConnectForum extends ListFragment {
         };
 
         setListAdapter(posts);
-
         posts.setAutoload(true);
 
         setHasOptionsMenu(true);
-
         return root;
     }
 
