@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -55,6 +56,9 @@ public class ConnectFriends extends Fragment implements TabHost.OnTabChangeListe
 
         mTabHost.setOnTabChangedListener(this);
 
+        mTabHost.setBackgroundColor(Color.parseColor("#95a5a6"));
+        mTabHost.getTabWidget().setBackgroundColor(Color.parseColor("#ecf0f1"));
+
         setHasOptionsMenu(true);
 
         return mTabHost;
@@ -89,6 +93,5 @@ public class ConnectFriends extends Fragment implements TabHost.OnTabChangeListe
     public void onTabChanged(String tabId) {
 
     }
-
 
 }

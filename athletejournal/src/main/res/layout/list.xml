@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="7dp"
-    android:dividerHeight="7dp"
+    android:dividerHeight="8dp"
     android:divider="#00000000">
 
 </ListView>

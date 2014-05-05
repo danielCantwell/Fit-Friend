@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.DataSetObserver;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -14,10 +15,14 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +35,7 @@ import com.parse.SaveCallback;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -38,7 +44,7 @@ import java.util.List;
  */
 public class ConnectForum extends ListFragment {
 
-    private static final int MAX_POST_SEARCH_RESULTS = 20;
+    private static final int MAX_POST_SEARCH_RESULTS = 50;
 
     private ParseQueryAdapter<ForumPost> posts;
 
@@ -51,10 +57,6 @@ public class ConnectForum extends ListFragment {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.list, container, false);
 
         user = ParseUser.getCurrentUser();
-
-
-//        ForumArrayAdapter adapter = new ForumArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, posts);
-//        setListAdapter(adapter);
 
         // Set up a customized query
         final ParseQueryAdapter.QueryFactory<ForumPost> factory =
@@ -82,13 +84,13 @@ public class ConnectForum extends ListFragment {
                         switch (v.getId()) {
                             case R.id.highFive:
                                 post.addHighFive();
-                                post.saveInBackground(new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException e) {
-                                        loadObjects();
-                                    }
-                                });
+                                post.saveInBackground();
+                                posts.notifyDataSetChanged();
                                 break;
+                            case R.id.discusson:
+                                FragmentManager fm = getFragmentManager();
+                                DiscussionDialog discussionDialog = new DiscussionDialog(post);
+                                discussionDialog.show(fm, "DiscussionDialog");
                         }
                     }
                 };
@@ -112,6 +114,7 @@ public class ConnectForum extends ListFragment {
                 }
 
                 highFive.setOnClickListener(mOnClickListener);
+                comment.setOnClickListener(mOnClickListener);
 
                 DateFormat df = new SimpleDateFormat("d MMM yyyy");
                 Date dateTime = post.getCreatedAt();
@@ -201,6 +204,66 @@ public class ConnectForum extends ListFragment {
                 public void onClick(DialogInterface dialog, int which) {
                 }
             });
+
+            return builder.create();
+        }
+    }
+
+    private class DiscussionDialog extends DialogFragment {
+
+        private ForumPost post;
+
+        public DiscussionDialog(ForumPost post) {
+            this.post = post;
+        }
+
+        private TextView content;
+        private TextView name;
+        private ListView listView;
+        private Button postComment;
+        private EditText createComment;
+        private View view;
+
+        AlertDialog.Builder builder;
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            builder = new AlertDialog.Builder(getActivity());
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+
+            view = inflater.inflate(R.layout.forum_discussion_dialog, null);
+
+            content = (TextView) view.findViewById(R.id.content);
+            name = (TextView) view.findViewById(R.id.name);
+            listView = (ListView) view.findViewById(R.id.comments);
+            postComment = (Button) view.findViewById(R.id.postComment);
+            createComment = (EditText) view.findViewById(R.id.createComment);
+
+            content.setText(post.getContent());
+            name.setText(post.getUser().getString("name"));
+
+            ArrayAdapter adapter;
+            if (post.has("comments")) {
+                adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, post.getComments());
+            }
+            else {
+                List<String> comments = new ArrayList<String>();
+                comments.add("NO COMMENTS HAVE BEEN ADDED");
+                adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, comments);
+            }
+            listView.setAdapter(adapter);
+
+            postComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    post.addComment(createComment.getText().toString());
+                    posts.notifyDataSetChanged();
+                    post.saveInBackground();
+                    DiscussionDialog.this.dismiss();
+                }
+            });
+
+            builder.setView(view);
 
             return builder.create();
         }

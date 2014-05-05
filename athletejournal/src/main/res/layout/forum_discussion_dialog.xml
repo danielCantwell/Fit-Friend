@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_margin="8dp"
+        android:hint="title"
+        android:minHeight="35dp" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="12dp"
+        android:hint="name" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/name"
+        android:background="#444444" />
+
+    <include
+        android:id="@+id/comments"
+        layout="@layout/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/createComment"
+        android:layout_below="@+id/imageView" />
+
+    <EditText
+        android:id="@+id/createComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="4dp"
+        android:layout_toLeftOf="@+id/postComment"
+        android:hint="Create Comment"/>
+
+    <Button
+        android:id="@+id/postComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="Post" />
+
+</RelativeLayout>
