@@ -46,13 +46,13 @@ public class ForumArrayAdapter extends ArrayAdapter<ForumPost> {
             convertView = inflater.inflate(R.layout.nutrition_data, null);
             holder = new ViewHolder();
             holder.name = (TextView) convertView.findViewById(R.id.name);
-            holder.date = (TextView) convertView.findViewById(R.id.date);
+            //holder.date = (TextView) convertView.findViewById(R.id.date);
             holder.content = (TextView) convertView.findViewById(R.id.content);
-            holder.options = (Button) convertView.findViewById(R.id.options);
-            holder.numComments = (Button) convertView.findViewById(R.id.numComments);
-            holder.discussion = (Button) convertView.findViewById(R.id.discusson);
-            holder.numHighFives = (Button) convertView.findViewById(R.id.numHighFives);
-            holder.highFive = (Button) convertView.findViewById(R.id.highFive);
+            //holder.options = (Button) convertView.findViewById(R.id.options);
+            //holder.numComments = (Button) convertView.findViewById(R.id.numComments);
+            //holder.discussion = (Button) convertView.findViewById(R.id.discusson);
+            //holder.numHighFives = (Button) convertView.findViewById(R.id.numHighFives);
+            //holder.highFive = (Button) convertView.findViewById(R.id.highFive);
             convertView.setTag(holder);
         }
         else {
@@ -64,6 +64,9 @@ public class ForumArrayAdapter extends ArrayAdapter<ForumPost> {
 //        holder.content.setText(post.getContent());
 //        holder.numComments.setText(post.getDiscussionCount());
 //        holder.numHighFives.setText(post.getHighFiveCount());
+
+        holder.name.setText(post.getUser().getString("name"));
+        holder.content.setText(post.getContent());
 
         return convertView;
     }

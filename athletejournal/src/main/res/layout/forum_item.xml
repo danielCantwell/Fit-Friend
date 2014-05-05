@@ -3,14 +3,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     android:orientation="vertical">
 
     <TableRow
         android:id="@+id/tableRow1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="#FFFFFF">
+        android:background="#c0392b">
 
         <TextView
             android:id="@+id/name"
@@ -18,9 +18,19 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_weight="9"
-            android:hint="first lastname"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textStyle="bold" />
+            android:hint="display name"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="4"
+            android:gravity="center_vertical"
+            android:hint="date"
+            android:textColor="#FFFFFF" />
 
         <Button
             android:id="@+id/options"
@@ -31,47 +41,44 @@
             android:layout_marginRight="4dp"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:text=". . ." />
+            android:text=". . ."
+            android:textStyle="bold" />
 
     </TableRow>
-
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="8dp"
-        android:gravity="center_vertical"
-        android:hint="date"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="40dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:hint="content"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#44c0392b"/>
 
     <TableRow
         android:id="@+id/tableRow2"
         android:layout_width="match_parent"
-        android:layout_height="28dp"
-        android:layout_marginTop="10dp"
-        android:background="#c0392b">
+        android:layout_height="24dp">
 
-        <Button
+        <TextView
             android:id="@+id/numComments"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:gravity="center"
+            android:gravity="right"
             android:text="0"
-            android:textColor="#FFFFFF" />
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/discusson"
@@ -80,17 +87,18 @@
             android:layout_weight="4"
             android:background="@android:color/transparent"
             android:gravity="center"
-            android:text="Discussion" />
+            android:text="Discussion"
+            android:textSize="14sp" />
 
-        <Button
+        <TextView
             android:id="@+id/numHighFives"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:gravity="center"
+            android:gravity="right"
             android:text="0"
-            android:textColor="#FFFFFF" />
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/highFive"
@@ -99,7 +107,8 @@
             android:layout_weight="4"
             android:background="@android:color/transparent"
             android:gravity="center"
-            android:text="High Five" />
+            android:text="High Five"
+            android:textSize="14sp" />
     </TableRow>
 
 </LinearLayout>

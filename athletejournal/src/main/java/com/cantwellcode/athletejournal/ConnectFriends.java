@@ -1,21 +1,37 @@
 package com.cantwellcode.athletejournal;
 
+import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import com.parse.Parse;
-import com.parse.ParseAnalytics;
-import com.parse.ParseException;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TabHost;
+import android.widget.TabHost.TabSpec;
+import android.widget.Toast;
+
 import com.parse.ParseUser;
-import com.parse.SignUpCallback;
 
 /**
  * Created by Daniel on 4/27/2014.
  */
-public class ConnectFriends extends Fragment {
+public class ConnectFriends extends Fragment implements TabHost.OnTabChangeListener {
+
+    private MenuInflater inflater;
+    private FragmentTabHost mTabHost;
 
     public static Fragment newInstance() {
         ConnectFriends f = new ConnectFriends();
@@ -25,37 +41,54 @@ public class ConnectFriends extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Parse.initialize(getActivity(), "6ndNVpRctpv0EB5awdLtiT1nEwg5WidUBSNyKRwo", "QeU6X4k0S1zJDtlMZhiZPoe59DKhhGJONMdhZEBN");
-//
-//        ParseUser user = new ParseUser();
-//        user.setUsername("test");
-//        user.setPassword("passTest");
-//        user.setEmail("test@test.com");
-//
-//        // other fields can be set just like with ParseObject
-//        user.put("phone", "650-555-0000");
-//
-//        user.signUpInBackground(new SignUpCallback() {
-//            public void done(ParseException e) {
-//                if (e == null) {
-//                    // Hooray! Let them use the app now.
-//                } else {
-//                    // Sign up didn't succeed. Look at the ParseException
-//                    // to figure out what went wrong
-//                }
-//            }
-//        });
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.connect_friends, null);
 
-        return root;
+        mTabHost = new FragmentTabHost(getActivity());
+        mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.tabHost);
+
+        mTabHost.addTab(mTabHost.newTabSpec("Forum").setIndicator("Forum"), ConnectForum.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec("Exercise").setIndicator("Exercise"), ConnectForum.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec("Nutrition").setIndicator("Nutrition"), ConnectForum.class, null);
+
+        mTabHost.setOnTabChangedListener(this);
+
+        setHasOptionsMenu(true);
+
+        return mTabHost;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mTabHost = null;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        this.inflater = inflater;
     }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
+        menu.clear();
+        restoreActionBar();
+        inflater.inflate(R.menu.connect_friends, menu);
     }
+
+    private void restoreActionBar() {
+        ActionBar actionBar = getActivity().getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setTitle("Connect");
+    }
+
+    @Override
+    public void onTabChanged(String tabId) {
+
+    }
+
+
 }

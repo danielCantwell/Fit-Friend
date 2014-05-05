@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=". . ."
+        android:id="@+id/options"
+        android:layout_gravity="right"
+        android:gravity="center_horizontal|top"
+        android:textStyle="bold"
+        android:background="#00FFFFFF"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Public"
+        android:id="@+id/publiclyAvailable"
+        android:layout_gravity="center_horizontal"
+        android:checked="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/options" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/group"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/publiclyAvailable"
+        android:layout_alignBottom="@+id/options" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/imageView"
+        android:layout_below="@+id/group"
+        android:layout_centerHorizontal="true"
+        android:background="#444444"
+        android:layout_marginTop="5dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/content"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:hint="T i t l e"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
+        android:ems="10"
+        android:id="@+id/comment"
+        android:layout_below="@+id/content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:hint="C o m m e n t"
+        android:gravity="left|top" />
+
+</RelativeLayout>
