@@ -59,7 +59,7 @@ public class ConnectForum extends ListFragment {
         user = ParseUser.getCurrentUser();
 
         // Set up a customized query
-        final ParseQueryAdapter.QueryFactory<ForumPost> factory =
+        ParseQueryAdapter.QueryFactory<ForumPost> factory =
                 new ParseQueryAdapter.QueryFactory<ForumPost>() {
                     public ParseQuery<ForumPost> create() {
                         // Query for friends the current user is following

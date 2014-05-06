@@ -93,9 +93,9 @@ public class NutritionLog extends ListFragment {
         String formattedDate = df.format(c.getTime());
         meals = db.getMealList(new Nutrition(null, formattedDate, null, null, null, null, null));
 
-        if (meals.isEmpty()) {
-            Toast.makeText(activity, "No Meals Have Been Added Today", Toast.LENGTH_LONG).show();
-        }
+//        if (meals.isEmpty()) {
+//            Toast.makeText(activity, "No Meals Have Been Added Today", Toast.LENGTH_SHORT).show();
+//        }
 
         mAdapter = new NutritionArrayAdapter(activity, android.R.id.list, meals);
 
