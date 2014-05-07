@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/profileSocial"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#FFFFFF">
+    android:background="#FFFFFF"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/name"
@@ -56,59 +57,52 @@
         android:background="#44000000" />
 
     <Button
-        android:id="@+id/findFriend"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView"
-        android:text="Find Friends" />
-
-    <SearchView
-        android:id="@+id/search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/findFriend"></SearchView>
-
-    <ListView
-        android:id="@+id/friendsList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/friendRequest"
-        android:layout_below="@+id/search"></ListView>
-
-    <Button
-        android:id="@+id/friendRequest"
+        android:id="@+id/logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:hint="Friend Request: "
-        android:visibility="gone"/>
+        android:layout_centerHorizontal="true"
+        android:text="L o g   O u t" />
 
-    <!--<TabHost-->
-        <!--android:id="@+id/tabHost"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_alignParentLeft="false"-->
-        <!--android:layout_below="@+id/imageView">-->
 
-        <!--<LinearLayout-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="fill_parent"-->
-            <!--android:orientation="vertical">-->
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/imageView"
+        android:layout_weight="1">
 
-            <!--<TabWidget-->
-                <!--android:id="@android:id/tabs"-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="wrap_content"></TabWidget>-->
+        <Button
+            android:id="@+id/chat"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:background="@drawable/chat_black" />
 
-            <!--<FrameLayout-->
-                <!--android:id="@android:id/tabcontent"-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="fill_parent">-->
+        <Button
+            android:id="@+id/events"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:background="@drawable/event_black" />
 
-                <!--&lt;!&ndash;Tab Layouts Here&ndash;&gt;-->
+        <Button
+            android:id="@+id/posts"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:background="@drawable/posts_black" />
 
-            <!--</FrameLayout>-->
-        <!--</LinearLayout>-->
-    <!--</TabHost>-->
+        <Button
+            android:id="@+id/friends"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:background="@drawable/group_black" />
+    </TableRow>
 
 </RelativeLayout>
