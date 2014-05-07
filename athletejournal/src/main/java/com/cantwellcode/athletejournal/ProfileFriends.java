@@ -7,10 +7,10 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -34,11 +34,21 @@ public class ProfileFriends extends Fragment {
 
     private ListView friendsList;
     private Button findFriends;
+    private Button friendRequests;
+    private Button friends;
+    private Button groups;
+    private EditText searchIdentifier;
+    private Button search;
 
     private Button friendRequest;
 
     private ParseUser user;
     private ParseQueryAdapter<ParseObject> friendship;
+
+    private int previous = 0;
+    private int current = 2;
+
+    private ViewGroup root;
 
     public static Fragment newInstance() {
         ProfileFriends f = new ProfileFriends();
@@ -47,22 +57,137 @@ public class ProfileFriends extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final ViewGroup root = (ViewGroup) inflater.inflate(R.layout.profile_friends, null);
+        root = (ViewGroup) inflater.inflate(R.layout.profile_friends, null);
 
         user = ParseUser.getCurrentUser();
 
-        findFriends = (Button) root.findViewById(R.id.findFriend);
+        findFriends = (Button) root.findViewById(R.id.findFriends);
+        friendRequests = (Button) root.findViewById(R.id.friendRequests);
+        friends = (Button) root.findViewById(R.id.friends);
+        groups = (Button) root.findViewById(R.id.groups);
         friendsList = (ListView) root.findViewById(R.id.friendsList);
+        searchIdentifier = (EditText) root.findViewById(R.id.searchIdentifier);
+        search = (Button) root.findViewById(R.id.search);
 
         findFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fm = getFragmentManager();
-                FindFriendDialog dialog = new FindFriendDialog();
-                dialog.show(fm, "FindFriendDialog");
+                current = 0;
+                handleLayout();
             }
         });
 
+        friendRequests.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                current = 1;
+                handleLayout();
+            }
+        });
+
+        friends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                current = 2;
+                handleLayout();
+            }
+        });
+
+        groups.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                current = 3;
+                handleLayout();
+            }
+        });
+
+        handleLayout();
+
+        return root;
+    }
+
+    private boolean isEmpty(EditText etText) {
+        if (etText.getText().toString().trim().length() > 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private void handleLayout() {
+        if (current == previous) {
+            return;
+        }
+
+        /* deal with previous selection */
+        switch (previous) {
+            case 0:
+                findFriends.setBackground(getResources().getDrawable(R.drawable.ic_search_black));
+                break;
+            case 1:
+                friendRequests.setBackground(getResources().getDrawable(R.drawable.ic_add_person_black));
+                searchIdentifier.setVisibility(View.VISIBLE);
+                search.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                friends.setBackground(getResources().getDrawable(R.drawable.ic_friends_black));
+                break;
+            case 3:
+                groups.setBackground(getResources().getDrawable(R.drawable.ic_group_black));
+                break;
+        }
+
+        /* handle current selection */
+        switch (current) {
+            case 0:
+                findFriends.setBackground(getResources().getDrawable(R.drawable.ic_search_red));
+                handleSearch();
+                previous = 0;
+                break;
+            case 1:
+                friendRequests.setBackground(getResources().getDrawable(R.drawable.ic_add_person_red));
+                searchIdentifier.setVisibility(View.GONE);
+                search.setVisibility(View.GONE);
+                handleFriendRequests();
+                previous = 1;
+                break;
+            case 2:
+                friends.setBackground(getResources().getDrawable(R.drawable.ic_friends_red));
+                handleFriends();
+                previous = 2;
+                break;
+            case 3:
+                groups.setBackground(getResources().getDrawable(R.drawable.ic_group_red));
+                handleGroups();
+                previous = 3;
+                break;
+        }
+    }
+
+    private void handleSearch() {
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager inputManager = (InputMethodManager)
+                        getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+                if (isEmpty(searchIdentifier)) {
+                    Toast.makeText(getActivity(), "Search cannot be empty", Toast.LENGTH_LONG).show();
+                } else {
+                    String identifier = searchIdentifier.getText().toString();
+                    String type = "username";
+                    if (identifier.contains("@") && identifier.contains(".")) {
+                        type = "email";
+                    }
+                    SocialEvent.requestFriend(getActivity(), "username", identifier);
+                }
+            }
+        });
+    }
+
+    private void handleFriendRequests() {
         /* Check for pending friend requests */
 
         // Create query
@@ -93,7 +218,9 @@ public class ProfileFriends extends Fragment {
                 }
             }
         });
+    }
 
+    private void handleFriends() {
         /* Query for current friends */
 
         final ParseQueryAdapter.QueryFactory<ParseObject> factory =
@@ -154,59 +281,9 @@ public class ProfileFriends extends Fragment {
 
         friendsList.setAdapter(friendship);
         friendship.setAutoload(true);
-
-        return root;
     }
 
-    private class FindFriendDialog extends DialogFragment {
+    private void handleGroups() {
 
-        private EditText friendUsername;
-        private View view;
-
-        private AlertDialog.Builder builder;
-
-        private Context context;
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            builder = new AlertDialog.Builder(getActivity());
-            LayoutInflater inflater = getActivity().getLayoutInflater();
-
-            this.context = getActivity();
-
-            view = inflater.inflate(R.layout.find_friend_dialog, null);
-
-            friendUsername = (EditText) view.findViewById(R.id.friendUsername);
-
-            builder.setView(view);
-            builder.setTitle("Find Friend");
-
-            builder.setPositiveButton("Send Request", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (isEmpty(friendUsername)) {
-                        Toast.makeText(context, "Please enter a name", Toast.LENGTH_LONG).show();
-                    } else {
-                        SocialEvent.requestFriend(getActivity(), "username", friendUsername.getText().toString());
-                    }
-                }
-            });
-
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                }
-            });
-
-            return builder.create();
-        }
-    }
-
-    private boolean isEmpty(EditText etText) {
-        if (etText.getText().toString().trim().length() > 0) {
-            return false;
-        } else {
-            return true;
-        }
     }
 }

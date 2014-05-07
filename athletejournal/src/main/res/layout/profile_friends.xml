@@ -1,35 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <Button
-        android:id="@+id/findFriend"
-        android:layout_width="match_parent"
+    <TableRow
+        android:id="@+id/tableRow"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView"
-        android:text="Find Friends" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal">
 
-    <SearchView
-        android:id="@+id/search"
-        android:layout_width="match_parent"
+        <Button
+            android:id="@+id/findFriends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/ic_search_black" />
+
+        <Button
+            android:id="@+id/friendRequests"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/ic_add_person_black" />
+
+        <Button
+            android:id="@+id/friends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/ic_friends_black" />
+
+        <Button
+            android:id="@+id/groups"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/ic_group_black"/>
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/findFriend"></SearchView>
+        android:layout_alignLeft="@+id/tableRow"
+        android:layout_alignRight="@+id/tableRow"
+        android:layout_below="@+id/tableRow"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="-8dp">
 
-    <ListView
-        android:id="@+id/friendsList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/friendRequest"
-        android:layout_below="@+id/search"></ListView>
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center|center_horizontal"
+            android:text="Find New"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Requests"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/text3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Friends"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/text4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Groups"
+            android:textSize="10sp" />
+
+    </TableRow>
 
     <Button
         android:id="@+id/friendRequest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
         android:hint="Friend Request: "
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
-</LinearLayout>
+    <EditText
+        android:id="@+id/searchIdentifier"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tableRow2"
+        android:layout_margin="5dp"
+        android:layout_toLeftOf="@+id/search"
+        android:hint="search for a friend" />
+
+    <Button
+        android:id="@+id/search"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/searchIdentifier"
+        android:text="Search"
+        android:layout_alignBottom="@+id/searchIdentifier"
+        android:layout_marginRight="5dp" />
+
+    <ListView
+        android:id="@+id/friendsList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/searchIdentifier"></ListView>
+
+</RelativeLayout>
