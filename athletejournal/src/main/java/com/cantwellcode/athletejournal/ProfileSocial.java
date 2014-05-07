@@ -116,6 +116,7 @@ public class ProfileSocial extends Fragment {
                         public void onClick(View v) {
                             SocialEvent.confirmFriend(parseObject);
                             friendRequest.setVisibility(View.GONE);
+                            friendship.loadObjects();
                         }
                     });
                 }
