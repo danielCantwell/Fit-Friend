@@ -92,26 +92,29 @@ public class ProfileSocial extends Fragment {
             }
         });
 
+        /* Check for pending friend requests */
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Friend");
-        query.whereContainedIn("users", Arrays.asList(user));
+        // Create query
+        final ParseQuery<ParseObject> query = ParseQuery.getQuery("Friend");
+        query.whereEqualTo("to", user);
         query.whereEqualTo("confirmed", false);
-        query.whereNotEqualTo("createdBy", user);
+        query.include("from");
 
+        // Query for friend table
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
-            public void done(ParseObject parseObject, ParseException e) {
+            public void done(final ParseObject parseObject, ParseException e) {
                 if (e == null) {
                     Toast.makeText(getActivity(), "New Friend Request", Toast.LENGTH_SHORT).show();
-                    friendRequests = parseObject;
+                    //friendRequests = parseObject;
                     friendRequest = (Button) root.findViewById(R.id.friendRequest);
                     friendRequest.setVisibility(View.VISIBLE);
-                    friendRequest.setText(friendRequests.getString("createdBy"));
+                    ParseUser friend = parseObject.getParseUser("from");
+                    friendRequest.setText(friend.getString("name"));
                     friendRequest.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            friendRequests.put("confirmed", true);
-                            friendRequests.saveEventually();
+                            SocialEvent.confirmFriend(parseObject);
                             friendRequest.setVisibility(View.GONE);
                         }
                     });
@@ -119,22 +122,34 @@ public class ProfileSocial extends Fragment {
             }
         });
 
-        // Set up a customized query
+        /* Query for current friends */
+
         final ParseQueryAdapter.QueryFactory<ParseObject> factory =
                 new ParseQueryAdapter.QueryFactory<ParseObject>() {
                     public ParseQuery<ParseObject> create() {
-                        ParseQuery<ParseObject> query = ParseQuery.getQuery("Friend");
-                        query.whereContainedIn("users", Arrays.asList(user));
-                        query.whereEqualTo("confirmed", true);
-                        query.include("users");
-                        return query;
+
+                        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Friend");
+                        query1.whereEqualTo("from", user);
+                        query1.whereEqualTo("confirmed", true);
+                        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Friend");
+                        query2.whereEqualTo("to", user);
+                        query2.whereEqualTo("confirmed", true);
+
+                        List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
+                        queries.add(query1);
+                        queries.add(query2);
+
+                        ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
+                        mainQuery.include("from");
+                        mainQuery.include("to");
+
+                        return mainQuery;
                     }
                 };
 
         friendship = new ParseQueryAdapter<ParseObject>(getActivity(), factory) {
             @Override
             public View getItemView(final ParseObject friendshipObject, View view, ViewGroup parent) {
-
 //                mOnClickListener = new View.OnClickListener() {
 //                    @Override
 //                    public void onClick(View v) {
@@ -145,18 +160,18 @@ public class ProfileSocial extends Fragment {
 //                        }
 //                    }
 //                };
-
                 if (view == null) {
                     view = view.inflate(getActivity(), R.layout.friend_list_item, null);
                 }
                 TextView name = (TextView) view.findViewById(R.id.name);
 
-                List<ParseUser> users = friendshipObject.getList("users");
+                ParseUser from = friendshipObject.getParseUser("from");
+
                 ParseUser friend;
-                if (users.get(0).hasSameId(user)) {
-                    friend = users.get(1);
+                if (from.hasSameId(user)) {
+                    friend = friendshipObject.getParseUser("to");
                 } else {
-                    friend = users.get(0);
+                    friend = from;
                 }
 
                 name.setText(friend.getString("name"));
@@ -198,37 +213,9 @@ public class ProfileSocial extends Fragment {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (isEmpty(friendUsername)) {
-                        Toast.makeText(context, "Request not sent.\nUsername required.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Please enter a name", Toast.LENGTH_LONG).show();
                     } else {
-                        /* Check that username exists */
-                        ParseQuery<ParseUser> query = ParseUser.getQuery();
-                        query.whereEqualTo("username", friendUsername.getText().toString());
-                        /* Check that user is not already a confirmed / requested friend */
-                        final ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Friend");
-                        query1.whereNotContainedIn("users", Arrays.asList(user));
-
-                        query.getFirstInBackground(new GetCallback<ParseUser>() {
-                            @Override
-                            public void done(final ParseUser parseUser, ParseException e) {
-                                /* Send friend request */
-                                if (e == null) {
-                                    query1.findInBackground(new FindCallback<ParseObject>() {
-                                        @Override
-                                        public void done(List<ParseObject> parseObjects, ParseException e) {
-                                            if (parseObjects == null) {
-                                                SocialEvent.requestFriend(parseUser);
-                                                Toast.makeText(context, "Request sent to\n" + friendUsername.getText().toString(), Toast.LENGTH_SHORT).show();
-                                            } else {
-                                                Toast.makeText(context, "cannot send duplicate request", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
-                                } else {
-                                    /* No user found with that username */
-                                    Toast.makeText(context, "request not sent\n" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+                        SocialEvent.requestFriend(getActivity(), "username", friendUsername.getText().toString());
                     }
                 }
             });

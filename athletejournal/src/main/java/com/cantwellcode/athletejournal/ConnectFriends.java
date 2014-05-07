@@ -52,7 +52,9 @@ public class ConnectFriends extends Fragment implements TabHost.OnTabChangeListe
 
         mTabHost.addTab(mTabHost.newTabSpec("Forum").setIndicator("Forum"), ConnectForum.class, null);
         mTabHost.addTab(mTabHost.newTabSpec("Exercise").setIndicator("Exercise"), ConnectExercise.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("Nutrition").setIndicator("Nutrition"), ConnectNutrition.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec("Nutrition").setIndicator("Food"), ConnectNutrition.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec("Profile")
+                        .setIndicator("", getResources().getDrawable(android.R.drawable.ic_menu_more)), ProfileSocial.class, null);
 
         mTabHost.setOnTabChangedListener(this);
 
