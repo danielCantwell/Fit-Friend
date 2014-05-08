@@ -106,7 +106,7 @@ public abstract class SocialEvent {
     }
 
     public static void removeFriend(ParseUser friend) {
-        // confirm an entry in the Friend table
+        // remove an entry in the Friend table
         ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Friend");
         query1.whereEqualTo("from", friend);
         query1.whereEqualTo("to", ParseUser.getCurrentUser());
@@ -128,5 +128,10 @@ public abstract class SocialEvent {
                 }
             }
         });
+    }
+
+    public static void removeFriend(ParseObject friend) {
+        // remove an entry in the Friend table
+        friend.deleteInBackground();
     }
 }

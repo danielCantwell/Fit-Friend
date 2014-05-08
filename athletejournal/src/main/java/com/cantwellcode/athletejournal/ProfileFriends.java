@@ -43,7 +43,9 @@ public class ProfileFriends extends Fragment {
     private Button friendRequest;
 
     private ParseUser user;
-    private ParseQueryAdapter<ParseObject> friendship;
+
+    private ParseQueryAdapter<ParseObject> currentFriendsAdapter;
+    private ParseQueryAdapter<ParseObject> friendRequestsAdapter;
 
     private int previous = 0;
     private int current = 2;
@@ -100,6 +102,120 @@ public class ProfileFriends extends Fragment {
                 handleLayout();
             }
         });
+
+        ParseQueryAdapter.QueryFactory<ParseObject> factoryCurrentFriends = new ParseQueryAdapter.QueryFactory<ParseObject>() {
+                    public ParseQuery<ParseObject> create() {
+
+                        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Friend");
+                        query1.whereEqualTo("from", user);
+                        query1.whereEqualTo("confirmed", true);
+                        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Friend");
+                        query2.whereEqualTo("to", user);
+                        query2.whereEqualTo("confirmed", true);
+
+                        List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
+                        queries.add(query1);
+                        queries.add(query2);
+
+                        ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
+                        mainQuery.include("from");
+                        mainQuery.include("to");
+
+                        return mainQuery;
+                    }
+                };
+        currentFriendsAdapter = new ParseQueryAdapter<ParseObject>(getActivity(), factoryCurrentFriends) {
+            @Override
+            public View getItemView(final ParseObject object, View view, ViewGroup parent) {
+//                mOnClickListener = new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        switch (v.getId()) {
+//                            case R.id.name:
+//
+//                                break;
+//                        }
+//                    }
+//                };
+                if (view == null) {
+                    view = view.inflate(getActivity(), R.layout.friend_list_item, null);
+                }
+                TextView name = (TextView) view.findViewById(R.id.name);
+
+                ParseUser from = object.getParseUser("from");
+
+                ParseUser friend;
+                if (from.hasSameId(user)) {
+                    friend = object.getParseUser("to");
+                } else {
+                    friend = from;
+                }
+
+                name.setText(friend.getString("name"));
+
+                return view;
+            }
+        };
+
+
+
+        ParseQueryAdapter.QueryFactory<ParseObject> factoryFriendRequests = new ParseQueryAdapter.QueryFactory<ParseObject>() {
+            @Override
+            public ParseQuery<ParseObject> create() {
+                // Friend Requests Query
+                ParseQuery<ParseObject> queryFriendRequests = ParseQuery.getQuery("Friend");
+                queryFriendRequests.whereEqualTo("to", user);
+                queryFriendRequests.whereEqualTo("confirmed", false);
+                queryFriendRequests.include("from");
+
+                return queryFriendRequests;
+            }
+        };
+
+        friendRequestsAdapter = new ParseQueryAdapter<ParseObject>(getActivity(), factoryFriendRequests) {
+            @Override
+            public View getItemView(final ParseObject object, View view, final ViewGroup parent) {
+                if (view == null) {
+                    view = view.inflate(getActivity(), R.layout.friend_request_item, null);
+                }
+                TextView name = (TextView) view.findViewById(R.id.name);
+                final Button confirm = (Button) view.findViewById(R.id.confirm);
+                final Button deny = (Button) view.findViewById(R.id.deny);
+
+                ParseUser from = object.getParseUser("from");
+
+                final ParseUser friend;
+                if (from.hasSameId(user)) {
+                    friend = object.getParseUser("to");
+                } else {
+                    friend = from;
+                }
+
+                name.setText(friend.getString("name"));
+
+                confirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SocialEvent.confirmFriend(friend);
+                        confirm.setText("Confirmed");
+                        deny.setVisibility(View.GONE);
+                        confirm.setClickable(false);
+                    }
+                });
+
+                deny.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SocialEvent.removeFriend(object);
+                        deny.setText("Denied");
+                        confirm.setVisibility(View.INVISIBLE);
+                        deny.setClickable(false);
+                    }
+                });
+
+                return view;
+            }
+        };
 
         handleLayout();
 
@@ -189,98 +305,12 @@ public class ProfileFriends extends Fragment {
 
     private void handleFriendRequests() {
         /* Check for pending friend requests */
-
-        // Create query
-        final ParseQuery<ParseObject> query = ParseQuery.getQuery("Friend");
-        query.whereEqualTo("to", user);
-        query.whereEqualTo("confirmed", false);
-        query.include("from");
-
-        // Query for friend table
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(final ParseObject parseObject, ParseException e) {
-                if (e == null) {
-                    Toast.makeText(getActivity(), "New Friend Request", Toast.LENGTH_SHORT).show();
-                    //friendRequests = parseObject;
-                    friendRequest = (Button) root.findViewById(R.id.friendRequest);
-                    friendRequest.setVisibility(View.VISIBLE);
-                    ParseUser friend = parseObject.getParseUser("from");
-                    friendRequest.setText(friend.getString("name"));
-                    friendRequest.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            SocialEvent.confirmFriend(parseObject);
-                            friendRequest.setVisibility(View.GONE);
-                            friendship.loadObjects();
-                        }
-                    });
-                }
-            }
-        });
+        friendsList.setAdapter(friendRequestsAdapter);
     }
 
     private void handleFriends() {
         /* Query for current friends */
-
-        final ParseQueryAdapter.QueryFactory<ParseObject> factory =
-                new ParseQueryAdapter.QueryFactory<ParseObject>() {
-                    public ParseQuery<ParseObject> create() {
-
-                        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Friend");
-                        query1.whereEqualTo("from", user);
-                        query1.whereEqualTo("confirmed", true);
-                        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Friend");
-                        query2.whereEqualTo("to", user);
-                        query2.whereEqualTo("confirmed", true);
-
-                        List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
-                        queries.add(query1);
-                        queries.add(query2);
-
-                        ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
-                        mainQuery.include("from");
-                        mainQuery.include("to");
-
-                        return mainQuery;
-                    }
-                };
-
-        friendship = new ParseQueryAdapter<ParseObject>(getActivity(), factory) {
-            @Override
-            public View getItemView(final ParseObject friendshipObject, View view, ViewGroup parent) {
-//                mOnClickListener = new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        switch (v.getId()) {
-//                            case R.id.name:
-//
-//                                break;
-//                        }
-//                    }
-//                };
-                if (view == null) {
-                    view = view.inflate(getActivity(), R.layout.friend_list_item, null);
-                }
-                TextView name = (TextView) view.findViewById(R.id.name);
-
-                ParseUser from = friendshipObject.getParseUser("from");
-
-                ParseUser friend;
-                if (from.hasSameId(user)) {
-                    friend = friendshipObject.getParseUser("to");
-                } else {
-                    friend = from;
-                }
-
-                name.setText(friend.getString("name"));
-
-                return view;
-            }
-        };
-
-        friendsList.setAdapter(friendship);
-        friendship.setAutoload(true);
+        friendsList.setAdapter(currentFriendsAdapter);
     }
 
     private void handleGroups() {
