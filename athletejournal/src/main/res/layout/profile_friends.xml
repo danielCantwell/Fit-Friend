@@ -91,15 +91,6 @@
 
     </TableRow>
 
-    <Button
-        android:id="@+id/friendRequest"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:hint="Friend Request: "
-        android:visibility="gone"/>
-
     <EditText
         android:id="@+id/searchIdentifier"
         android:layout_width="match_parent"

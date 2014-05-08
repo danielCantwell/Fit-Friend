@@ -26,6 +26,7 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Created by Daniel on 5/6/2014.
@@ -40,8 +41,6 @@ public class ProfileFriends extends Fragment {
     private EditText searchIdentifier;
     private Button search;
 
-    private Button friendRequest;
-
     private ParseUser user;
 
     private ParseQueryAdapter<ParseObject> currentFriendsAdapter;
@@ -49,6 +48,8 @@ public class ProfileFriends extends Fragment {
 
     private int previous = 0;
     private int current = 2;
+    private String searchType;
+    private String s;
 
     private ViewGroup root;
 
@@ -103,27 +104,33 @@ public class ProfileFriends extends Fragment {
             }
         });
 
+        /*
+         Query Factory for finding current friends
+         */
         ParseQueryAdapter.QueryFactory<ParseObject> factoryCurrentFriends = new ParseQueryAdapter.QueryFactory<ParseObject>() {
-                    public ParseQuery<ParseObject> create() {
+            public ParseQuery<ParseObject> create() {
 
-                        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Friend");
-                        query1.whereEqualTo("from", user);
-                        query1.whereEqualTo("confirmed", true);
-                        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Friend");
-                        query2.whereEqualTo("to", user);
-                        query2.whereEqualTo("confirmed", true);
+                ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Friend");
+                query1.whereEqualTo("from", user);
+                query1.whereEqualTo("confirmed", true);
+                ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Friend");
+                query2.whereEqualTo("to", user);
+                query2.whereEqualTo("confirmed", true);
 
-                        List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
-                        queries.add(query1);
-                        queries.add(query2);
+                List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
+                queries.add(query1);
+                queries.add(query2);
 
-                        ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
-                        mainQuery.include("from");
-                        mainQuery.include("to");
+                ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
+                mainQuery.include("from");
+                mainQuery.include("to");
 
-                        return mainQuery;
-                    }
-                };
+                return mainQuery;
+            }
+        };
+        /*
+        Adapter for listing current friends
+         */
         currentFriendsAdapter = new ParseQueryAdapter<ParseObject>(getActivity(), factoryCurrentFriends) {
             @Override
             public View getItemView(final ParseObject object, View view, ViewGroup parent) {
@@ -157,8 +164,9 @@ public class ProfileFriends extends Fragment {
             }
         };
 
-
-
+        /*
+        Query Factory for finding from requests
+         */
         ParseQueryAdapter.QueryFactory<ParseObject> factoryFriendRequests = new ParseQueryAdapter.QueryFactory<ParseObject>() {
             @Override
             public ParseQuery<ParseObject> create() {
@@ -171,7 +179,9 @@ public class ProfileFriends extends Fragment {
                 return queryFriendRequests;
             }
         };
-
+        /*
+        Adapter for listing friend requests
+         */
         friendRequestsAdapter = new ParseQueryAdapter<ParseObject>(getActivity(), factoryFriendRequests) {
             @Override
             public View getItemView(final ParseObject object, View view, final ViewGroup parent) {
@@ -239,6 +249,7 @@ public class ProfileFriends extends Fragment {
         switch (previous) {
             case 0:
                 findFriends.setBackground(getResources().getDrawable(R.drawable.ic_search_black));
+                searchIdentifier.setHint("find friends");
                 break;
             case 1:
                 friendRequests.setBackground(getResources().getDrawable(R.drawable.ic_add_person_black));
@@ -247,6 +258,7 @@ public class ProfileFriends extends Fragment {
                 break;
             case 2:
                 friends.setBackground(getResources().getDrawable(R.drawable.ic_friends_black));
+                friendsList.setAdapter(null);
                 break;
             case 3:
                 groups.setBackground(getResources().getDrawable(R.drawable.ic_group_black));
@@ -257,6 +269,7 @@ public class ProfileFriends extends Fragment {
         switch (current) {
             case 0:
                 findFriends.setBackground(getResources().getDrawable(R.drawable.ic_search_red));
+                searchIdentifier.setHint("username, email or  phone");
                 handleSearch();
                 previous = 0;
                 break;
@@ -281,23 +294,73 @@ public class ProfileFriends extends Fragment {
     }
 
     private void handleSearch() {
+        /* on click listener for the search button */
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /* close soft keyboard */
                 InputMethodManager inputManager = (InputMethodManager)
                         getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
                 inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
+
+                /* make sure identifier is not empty */
                 if (isEmpty(searchIdentifier)) {
                     Toast.makeText(getActivity(), "Search cannot be empty", Toast.LENGTH_LONG).show();
                 } else {
-                    String identifier = searchIdentifier.getText().toString();
-                    String type = "username";
+                    /* if identifier is not empty, determine type */
+                    final String identifier = searchIdentifier.getText().toString();
+                    final String regex = "\\d+";
                     if (identifier.contains("@") && identifier.contains(".")) {
-                        type = "email";
+                        searchType = "email"; // if it contains @ and . you can safely say it is an email
+                    } else if (identifier.matches(regex)) {
+                        searchType = "phone";
+                    } else {
+                        searchType = "username"; // default type is username
                     }
-                    SocialEvent.requestFriend(getActivity(), "username", identifier);
+
+                    /* Query Factory for finding new friends */
+                    ParseQueryAdapter.QueryFactory<ParseUser> factoryFindFriends = new ParseQueryAdapter.QueryFactory<ParseUser>() {
+                        @Override
+                        public ParseQuery<ParseUser> create() {
+                            /* find users with this info */
+                            final ParseQuery<ParseUser> query = ParseUser.getQuery();
+                            query.whereEqualTo(searchType, identifier);
+                            query.whereNotEqualTo("objectId", user.getObjectId());
+                            query.orderByAscending("name");
+                            return query;
+                        }
+                    };
+
+                    ParseQueryAdapter<ParseUser> searchFriendsAdapter = new ParseQueryAdapter<ParseUser>(getActivity(), factoryFindFriends) {
+                        @Override
+                        public View getItemView(final ParseUser friend, View view, ViewGroup parent) {
+                            if (view == null) {
+                                view = view.inflate(getActivity(), R.layout.friend_search_item, null);
+                            }
+                            TextView name = (TextView) view.findViewById(R.id.name);
+                            TextView mainSport = (TextView) view.findViewById(R.id.mainSport);
+                            TextView age = (TextView) view.findViewById(R.id.age);
+                            TextView location = (TextView) view.findViewById(R.id.location);
+
+                            name.setText(friend.getString("name"));
+                            mainSport.setText(friend.getString("mainSport"));
+                            age.setText(friend.getInt("age") + "");
+                            location.setText(friend.getString("location"));
+
+                            view.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    SocialEvent.requestFriend(getActivity(), friend);
+                                }
+                            });
+
+                            return view;
+                        }
+                    };
+
+                    friendsList.setAdapter(searchFriendsAdapter);
                 }
             }
         });

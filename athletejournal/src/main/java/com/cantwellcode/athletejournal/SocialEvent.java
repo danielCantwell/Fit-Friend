@@ -20,65 +20,44 @@ import java.util.concurrent.Semaphore;
  */
 public abstract class SocialEvent {
 
-    private static void requestFriend(ParseUser friend) {
-        // create an entry in the Friend table
-        ParseObject friendRequest = new ParseObject("Friend");
-        friendRequest.put("from", ParseUser.getCurrentUser());
-        friendRequest.put("to", friend);
-        friendRequest.put("confirmed", false);
-        friendRequest.saveEventually();
-    }
-
     private static String s;
-    public static void requestFriend(final Context context, String type, final String identity) {
-        /* Check that username exists */
-        final ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo(type, identity);
+    public static void requestFriend(final Context context, final ParseUser friend) {
 
-        query.getFirstInBackground(new GetCallback<ParseUser>() {
+        /* Check that user is not already a confirmed / requested friend */
+        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Friend");
+        query1.whereEqualTo("from", ParseUser.getCurrentUser());
+        query1.whereEqualTo("to", friend);
+
+        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Friend");
+        query2.whereEqualTo("to", ParseUser.getCurrentUser());
+        query2.whereEqualTo("from", friend);
+
+        List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
+        queries.add(query1);
+        queries.add(query2);
+
+        ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
+
+        mainQuery.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
-            public void done(final ParseUser friend, ParseException e) {
+            public void done(ParseObject parseObject, ParseException e) {
                 if (e == null) {
-
-                    /* USER EXISTS, continue with request process */
-
-                    /* Check that user is not already a confirmed / requested friend */
-                    ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Friend");
-                    query1.whereEqualTo("from", ParseUser.getCurrentUser());
-                    query1.whereEqualTo("to", friend);
-
-                    ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Friend");
-                    query2.whereEqualTo("to", ParseUser.getCurrentUser());
-                    query2.whereEqualTo("from", friend);
-
-                    List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
-                    queries.add(query1);
-                    queries.add(query2);
-
-                    ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
-
-                    mainQuery.getFirstInBackground(new GetCallback<ParseObject>() {
-                        @Override
-                        public void done(ParseObject parseObject, ParseException e) {
-                            if (e == null) {
-                                // friendship ALREADY EXISTS
-                                s = "friendship with " + identity + " already exists";
-                            } else {
-
-                                /* this is a new friendship, continue with request */
-                                requestFriend(friend);
-                                s = "requesting friendship with " + identity;
-                            }
-                            Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
+                    // friendship ALREADY EXISTS
+                    s = "friendship with " + friend.getUsername() + " already exists";
                 } else {
 
-                    /* USER does NOT exist */
-                    s = "user " + identity + " not found";
-                    Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
+                    /* this is a new friendship, continue with request */
+                    requestFriend(context, friend);
+                    s = "requesting friendship with " + friend.getUsername();
+
+                    /* create an entry in the Friend table */
+                    ParseObject friendRequest = new ParseObject("Friend");
+                    friendRequest.put("from", ParseUser.getCurrentUser());
+                    friendRequest.put("to", friend);
+                    friendRequest.put("confirmed", false);
+                    friendRequest.saveEventually();
                 }
+                Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
             }
         });
     }
