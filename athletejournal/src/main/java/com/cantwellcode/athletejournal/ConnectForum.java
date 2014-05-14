@@ -28,11 +28,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
-import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -78,26 +78,171 @@ public class ConnectForum extends ListFragment {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, friendGroups);
 
+        /* Spinner Listener for which group of posts to display */
         getActivity().getActionBar().setListNavigationCallbacks(adapter, new ActionBar.OnNavigationListener() {
             @Override
             public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-                return false;
+                String groupName = friendGroups.get(itemPosition);
+                if (groupName.equals("Friends")) {
+                    setupFriendsPosts();
+                } else if (groupName.equals("Explore")) {
+                    setupExplorePosts();
+                } else {
+                    setupGroupPosts(groupName);
+                }
+
+                return true;
             }
         });
 
-        // Set up a customized query
+        setupFriendsPosts();
+
+        setHasOptionsMenu(true);
+        return root;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_createPost:
+                FragmentManager fm1 = getFragmentManager();
+                ForumPostDialog dialog = new ForumPostDialog();
+                dialog.show(fm1, "ForumPostDialog");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    /**
+     * Query 'Friend' table for friendships with current user
+     * Determine which user in the friendship object is the friend
+     * Create a factory query on 'ForumPost' table
+     * Add constraint where the forum post's 'user' must be in the list of friends
+     * Setup list adapter with this factory
+     * Setup forum post views
+     * Set list adapter
+     */
+    private void setupFriendsPosts() {
+
+        ParseQuery<ParseObject> friendships = SocialEvent.getCurrentFriendshipsQuery();
+        final List<ParseUser> friends = new ArrayList<ParseUser>();
+        friends.add(user);
+
+        /* Query for current friendships */
+        friendships.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+
+                /* Add all friends to the list */
+                for (ParseObject object : parseObjects) {
+                    ParseUser from = object.getParseUser("from");
+
+                    ParseUser friend;
+                    /* Check if friend is the 'from' or 'to' user in the friendship */
+                    if (from.hasSameId(ParseUser.getCurrentUser())) {
+                        friend = object.getParseUser("to");
+                    } else {
+                        friend = from;
+                    }
+
+                    friends.add(friend);
+                }
+
+                /* Set up factory for forum posts by friends */
+                factory = new ParseQueryAdapter.QueryFactory<ForumPost>() {
+                    public ParseQuery<ForumPost> create() {
+
+                        /* Create a query for forum posts */
+                        ParseQuery<ForumPost> query = ForumPost.getQuery();
+                        // Forum posts must be created by someone in the list of friends
+                        query.whereContainedIn("user", friends);
+                        query.include("user");
+                        query.orderByDescending("createdAt");
+                        query.setLimit(MAX_POST_SEARCH_RESULTS);
+
+                        return query;
+                    }
+                };
+
+                /* Set up list adapter using the factory of friends */
+                posts = new ParseQueryAdapter<ForumPost>(getActivity(), factory) {
+                    @Override
+                    public View getItemView(final ForumPost post, View view, ViewGroup parent) {
+
+                        mOnClickListener = new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                switch (v.getId()) {
+                                    /* Click listener for high five button */
+                                    case R.id.highFive:
+                                        post.addHighFive();
+                                        post.saveInBackground(new SaveCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                posts.notifyDataSetChanged();
+                                            }
+                                        });
+                                        break;
+                                    /* Click listener for discussion button */
+                                    case R.id.discusson:
+                                        FragmentManager fm = getFragmentManager();
+                                        DiscussionDialog discussionDialog = new DiscussionDialog(post);
+                                        discussionDialog.show(fm, "DiscussionDialog");
+                                }
+                            }
+                        };
+
+                        if (view == null) {
+                            view = view.inflate(getActivity(), R.layout.forum_item, null);
+                        }
+
+                        TextView name = (TextView) view.findViewById(R.id.name);
+                        TextView date = (TextView) view.findViewById(R.id.date);
+                        TextView content = (TextView) view.findViewById(R.id.content);
+                        TextView numHighFives = (TextView) view.findViewById(R.id.numHighFives);
+                        TextView numComments = (TextView) view.findViewById(R.id.numComments);
+                        Button highFive = (Button) view.findViewById(R.id.highFive);
+                        Button comment = (Button) view.findViewById(R.id.discusson);
+
+                        name.setText(post.getUser().getString("name"));
+                        content.setText(post.getContent());
+                        numHighFives.setText(String.valueOf(post.getHighFives()));
+                        if (post.has("comments")) {
+                            numComments.setText(String.valueOf(post.getComments().size()));
+                        }
+
+                        highFive.setOnClickListener(mOnClickListener);
+                        comment.setOnClickListener(mOnClickListener);
+
+                        DateFormat df = new SimpleDateFormat("d MMM yyyy");
+                        Date dateTime = post.getCreatedAt();
+                        String dateText = df.format(dateTime);
+
+                        date.setText(dateText);
+
+                        return view;
+                    }
+                };
+
+                setListAdapter(posts);
+            }
+        });
+    }
+
+    /**
+     * Create a factory query on 'ForumPost' table
+     * Setup list adapter with this factory
+     * Setup forum post views
+     * Set list adapter
+     */
+    private void setupExplorePosts() {
+        /* Set up factory for forum posts by any user */
         factory = new ParseQueryAdapter.QueryFactory<ForumPost>() {
             public ParseQuery<ForumPost> create() {
-                // Query for friends the current user is following
-                // Query for forum posts authored by the current user's friends
-                // Query for forum posts authored by the current user
 
-                // Final query for combined forum posts
-                List<ParseUser> friendsAndSelf = ConnectFriends.getCurrentFriendsImmediately();
-                friendsAndSelf.add(user);
-
+                /* Create a query for forum posts */
                 ParseQuery<ForumPost> query = ForumPost.getQuery();
-                query.whereContainedIn("user", friendsAndSelf);
                 query.include("user");
                 query.orderByDescending("createdAt");
                 query.setLimit(MAX_POST_SEARCH_RESULTS);
@@ -106,6 +251,7 @@ public class ConnectForum extends ListFragment {
             }
         };
 
+                /* Set up list adapter using the factory of friends */
         posts = new ParseQueryAdapter<ForumPost>(getActivity(), factory) {
             @Override
             public View getItemView(final ForumPost post, View view, ViewGroup parent) {
@@ -114,11 +260,17 @@ public class ConnectForum extends ListFragment {
                     @Override
                     public void onClick(View v) {
                         switch (v.getId()) {
+                                    /* Click listener for high five button */
                             case R.id.highFive:
                                 post.addHighFive();
-                                post.saveInBackground();
-                                posts.notifyDataSetChanged();
+                                post.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        posts.notifyDataSetChanged();
+                                    }
+                                });
                                 break;
+                                    /* Click listener for discussion button */
                             case R.id.discusson:
                                 FragmentManager fm = getFragmentManager();
                                 DiscussionDialog discussionDialog = new DiscussionDialog(post);
@@ -130,6 +282,7 @@ public class ConnectForum extends ListFragment {
                 if (view == null) {
                     view = view.inflate(getActivity(), R.layout.forum_item, null);
                 }
+
                 TextView name = (TextView) view.findViewById(R.id.name);
                 TextView date = (TextView) view.findViewById(R.id.date);
                 TextView content = (TextView) view.findViewById(R.id.content);
@@ -159,23 +312,10 @@ public class ConnectForum extends ListFragment {
         };
 
         setListAdapter(posts);
-        posts.setAutoload(true);
-
-        setHasOptionsMenu(true);
-        return root;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_createPost:
-                FragmentManager fm1 = getFragmentManager();
-                ForumPostDialog dialog = new ForumPostDialog();
-                dialog.show(fm1, "ForumPostDialog");
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    private void setupGroupPosts(String groupName) {
+        
     }
 
     private class ForumPostDialog extends DialogFragment {

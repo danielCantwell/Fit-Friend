@@ -113,4 +113,26 @@ public abstract class SocialEvent {
         // remove an entry in the Friend table
         friend.deleteInBackground();
     }
+
+    public static ParseQuery<ParseObject> getCurrentFriendshipsQuery() {
+
+        final List<ParseUser> friends = new ArrayList<ParseUser>();
+
+        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Friend");
+        query1.whereEqualTo("from", ParseUser.getCurrentUser());
+        query1.whereEqualTo("confirmed", true);
+        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Friend");
+        query2.whereEqualTo("to", ParseUser.getCurrentUser());
+        query2.whereEqualTo("confirmed", true);
+
+        List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
+        queries.add(query1);
+        queries.add(query2);
+
+        ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
+        mainQuery.include("from");
+        mainQuery.include("to");
+
+        return mainQuery;
+    }
 }
