@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -165,7 +166,7 @@ public class ProfileFriends extends Fragment {
         };
 
         /*
-        Query Factory for finding from requests
+        Query Factory for finding friend requests
          */
         ParseQueryAdapter.QueryFactory<ParseObject> factoryFriendRequests = new ParseQueryAdapter.QueryFactory<ParseObject>() {
             @Override

@@ -21,6 +21,7 @@ public class App extends Application {
         super.onCreate();
 
         ParseObject.registerSubclass(ForumPost.class);
+        ParseObject.registerSubclass(Group.class);
         Parse.initialize(this, "6ndNVpRctpv0EB5awdLtiT1nEwg5WidUBSNyKRwo", "QeU6X4k0S1zJDtlMZhiZPoe59DKhhGJONMdhZEBN");
     }
 }

@@ -1,5 +1,6 @@
 package com.cantwellcode.athletejournal;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -28,8 +29,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -50,7 +53,13 @@ public class ConnectForum extends ListFragment {
 
     private ParseUser user;
 
+    private List<String> friendGroups;
+
     private View.OnClickListener mOnClickListener;
+
+    private String currentGroup;
+
+    ParseQueryAdapter.QueryFactory<ForumPost> factory;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,21 +67,44 @@ public class ConnectForum extends ListFragment {
 
         user = ParseUser.getCurrentUser();
 
+        friendGroups = new ArrayList<String>();
+        friendGroups.add("Friends");
+        friendGroups.add("Explore");
+        for (Group group : ConnectFriends.getGroups()) {
+            friendGroups.add(group.getName());
+        }
+
+        currentGroup = "Friends";
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, friendGroups);
+
+        getActivity().getActionBar().setListNavigationCallbacks(adapter, new ActionBar.OnNavigationListener() {
+            @Override
+            public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+                return false;
+            }
+        });
+
         // Set up a customized query
-        ParseQueryAdapter.QueryFactory<ForumPost> factory =
-                new ParseQueryAdapter.QueryFactory<ForumPost>() {
-                    public ParseQuery<ForumPost> create() {
-                        // Query for friends the current user is following
-                        // Query for forum posts authored by the current user's friends
-                        // Query for forum posts authored by the current user
-                        // Final query for combined forum posts
-                        ParseQuery<ForumPost> query = ForumPost.getQuery();
-                        query.include("user");
-                        query.orderByDescending("createdAt");
-                        query.setLimit(MAX_POST_SEARCH_RESULTS);
-                        return query;
-                    }
-                };
+        factory = new ParseQueryAdapter.QueryFactory<ForumPost>() {
+            public ParseQuery<ForumPost> create() {
+                // Query for friends the current user is following
+                // Query for forum posts authored by the current user's friends
+                // Query for forum posts authored by the current user
+
+                // Final query for combined forum posts
+                List<ParseUser> friendsAndSelf = ConnectFriends.getCurrentFriendsImmediately();
+                friendsAndSelf.add(user);
+
+                ParseQuery<ForumPost> query = ForumPost.getQuery();
+                query.whereContainedIn("user", friendsAndSelf);
+                query.include("user");
+                query.orderByDescending("createdAt");
+                query.setLimit(MAX_POST_SEARCH_RESULTS);
+
+                return query;
+            }
+        };
 
         posts = new ParseQueryAdapter<ForumPost>(getActivity(), factory) {
             @Override
@@ -245,8 +277,7 @@ public class ConnectForum extends ListFragment {
             ArrayAdapter adapter;
             if (post.has("comments")) {
                 adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, post.getComments());
-            }
-            else {
+            } else {
                 List<String> comments = new ArrayList<String>();
                 comments.add("NO COMMENTS HAVE BEEN ADDED");
                 adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, comments);

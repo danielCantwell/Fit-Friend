@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.cantwellcode.athletejournal.ConnectFriends">
 
-    <item
-        android:id="@+id/spinner"
-        android:showAsAction="always"
-        android:title="Select Group"
-        app:actionViewClass="android.widget.Spinner">
-    </item>
+    <!--<item-->
+        <!--android:id="@+id/spinner"-->
+        <!--android:showAsAction="always"-->
+        <!--android:title="Select Group"-->
+        <!--app:actionViewClass="android.widget.Spinner">-->
+    <!--</item>-->
 
     <item
         android:id="@+id/action_createPost"
