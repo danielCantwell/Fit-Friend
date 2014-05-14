@@ -315,7 +315,7 @@ public class ConnectForum extends ListFragment {
     }
 
     private void setupGroupPosts(String groupName) {
-        
+
     }
 
     private class ForumPostDialog extends DialogFragment {

@@ -15,10 +15,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
+
+import java.util.List;
 
 /**
  * Created by Daniel on 5/3/2014.
@@ -128,7 +134,7 @@ public class LogInActivity extends FragmentActivity {
                                     dlg.show();
 
                                     // Set up a new Parse user
-                                    ParseUser user = new ParseUser();
+                                    final ParseUser user = new ParseUser();
                                     user.setUsername(usernameView.getText().toString());
                                     user.setPassword(passwordView.getText().toString());
                                     // Call the Parse signup method
@@ -141,6 +147,20 @@ public class LogInActivity extends FragmentActivity {
                                                 // Show the error message
                                                 Toast.makeText(LogInActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                                             } else {
+                                                // Add CANTWELL CODE as a friend
+                                                ParseQuery<ParseUser> query = ParseUser.getQuery();
+                                                query.whereEqualTo("username", "CantwellCode");
+                                                query.setLimit(1);
+                                                query.getFirstInBackground(new GetCallback<ParseUser>() {
+                                                    @Override
+                                                    public void done(ParseUser parseUser, ParseException e) {
+                                                        ParseObject friend = new ParseObject("Friend");
+                                                        friend.put("confirmed", true);
+                                                        friend.put("from", user);
+                                                        friend.put("to", parseUser);
+                                                        friend.saveInBackground();
+                                                    }
+                                                });
                                                 // Start an intent for the dispatch activity
                                                 Intent intent = new Intent(LogInActivity.this, DispatchActivity.class);
                                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

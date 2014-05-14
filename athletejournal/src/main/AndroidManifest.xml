@@ -11,7 +11,7 @@
         android:allowBackup="true"
         android:icon="@drawable/journal_icon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name="com.cantwellcode.athletejournal.DispatchActivity"
             android:label="@string/app_name"
@@ -26,12 +26,13 @@
             android:name="com.cantwellcode.athletejournal.MainActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
-            android:windowSoftInputMode="adjustPan" >
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.cantwellcode.athletejournal.LogInActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
         </activity>
 
         <receiver android:name="com.cantwellcode.athletejournal.WidgetProvider" >

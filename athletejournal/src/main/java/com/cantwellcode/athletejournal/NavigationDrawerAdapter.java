@@ -24,7 +24,7 @@ public class NavigationDrawerAdapter extends ArrayAdapter<DrawerItem> {
     private final Context context;
     private final int res;
 
-    public int selection = 1;
+    public int selection = 9;
 
     public NavigationDrawerAdapter(Context context, int resource, List<DrawerItem> objects) {
         super(context, resource, objects);

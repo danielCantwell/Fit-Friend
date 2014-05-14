@@ -46,6 +46,7 @@ public class ProfileFriends extends Fragment {
 
     private ParseQueryAdapter<ParseObject> currentFriendsAdapter;
     private ParseQueryAdapter<ParseObject> friendRequestsAdapter;
+    private ParseQueryAdapter<Group> groupsAdapter;
 
     private int previous = 0;
     private int current = 2;
@@ -228,6 +229,31 @@ public class ProfileFriends extends Fragment {
             }
         };
 
+        /*
+        Query Factory for finding groups
+         */
+        ParseQueryAdapter.QueryFactory<Group> factoryGroups = new ParseQueryAdapter.QueryFactory<Group>() {
+            @Override
+            public ParseQuery<Group> create() {
+                ParseQuery<Group> groupQuery = Group.getQuery();
+                groupQuery.whereEqualTo("members", user);
+                return groupQuery;
+            }
+        };
+        /*
+        Adapter for listing groups
+         */
+        groupsAdapter = new ParseQueryAdapter<Group>(getActivity(), factoryGroups) {
+            @Override
+            public View getItemView(Group group, View view, ViewGroup parent) {
+                if (view == null) {
+                    view = view.inflate(getActivity(), R.layout.group_item, null);
+                }
+
+                return view;
+            }
+        };
+
         handleLayout();
 
         return root;
@@ -263,6 +289,8 @@ public class ProfileFriends extends Fragment {
                 break;
             case 3:
                 groups.setBackground(getResources().getDrawable(R.drawable.ic_group_black));
+                searchIdentifier.setVisibility(View.VISIBLE);
+                search.setVisibility(View.VISIBLE);
                 break;
         }
 
@@ -288,6 +316,8 @@ public class ProfileFriends extends Fragment {
                 break;
             case 3:
                 groups.setBackground(getResources().getDrawable(R.drawable.ic_group_red));
+                searchIdentifier.setVisibility(View.GONE);
+                search.setVisibility(View.GONE);
                 handleGroups();
                 previous = 3;
                 break;
@@ -378,6 +408,6 @@ public class ProfileFriends extends Fragment {
     }
 
     private void handleGroups() {
-
+        friendsList.setAdapter(groupsAdapter);
     }
 }
