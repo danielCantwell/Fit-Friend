@@ -6,8 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -45,38 +49,57 @@ public class RoutineListAdapter extends ArrayAdapter<GymRoutine> {
             holder.rowReps = (TableRow) convertView.findViewById(R.id.row_reps);
             holder.rowWeight = (TableRow) convertView.findViewById(R.id.row_weight);
             convertView.setTag(holder);
-
-            holder.name.setText(routine.getName());
-
-            int count = 0;
-            for (GymSet set : routine.getSets()) {
-                count++;
-
-                TextView setNum = new TextView(context);
-                TextView reps = new TextView(context);
-                TextView weight = new TextView(context);
-
-                setNum.setTextSize(12);
-                setNum.setTextColor(Color.LTGRAY);
-                setNum.setText(" " + count + "  ");
-                reps.setText(" " + set.reps + "  ");
-                weight.setText(" " + set.weight + "  ");
-
-                holder.rowSets.addView(setNum);
-                holder.rowReps.addView(reps);
-                holder.rowWeight.addView(weight);
-            }
         }
         else {
             holder = (ViewHolder) convertView.getTag();
 
-//            int count = 0;
-//            for (GymSet set : routine.getSets()) {
-//                count++;
-//                ((TextView) holder.rowSets.getChildAt(count)).setText(count);
-//                ((TextView) holder.rowReps.getChildAt(count)).setText(set.reps);
-//                ((TextView) holder.rowWeight.getChildAt(count)).setText(set.weight);
-//            }
+            holder.rowSets.removeAllViews();
+            holder.rowReps.removeAllViews();
+            holder.rowWeight.removeAllViews();
+        }
+
+        TableRow.LayoutParams params = new TableRow.LayoutParams(
+                TableRow.LayoutParams.WRAP_CONTENT,
+                TableRow.LayoutParams.WRAP_CONTENT, 1.0f);
+
+        holder.name.setText(routine.getName());
+
+        TextView blankText = new TextView(context);
+        blankText.setText(" ");
+        blankText.setTextSize(12);
+        blankText.setLayoutParams(params);
+
+        TextView repsText = new TextView(context);
+        repsText.setText("Reps");
+        repsText.setTextSize(12);
+        repsText.setLayoutParams(params);
+
+        TextView weightText = new TextView(context);
+        weightText.setText("Weight");
+        weightText.setTextSize(12);
+        weightText.setLayoutParams(params);
+
+        holder.rowSets.addView(blankText);
+        holder.rowReps.addView(repsText);
+        holder.rowWeight.addView(weightText);
+
+        int count = 0;
+        for (GymSet set : routine.getSets()) {
+            count++;
+
+            TextView setNum = new TextView(context);
+            TextView reps = new TextView(context);
+            TextView weight = new TextView(context);
+
+            setNum.setTextSize(12);
+            setNum.setTextColor(Color.LTGRAY);
+            setNum.setText(" " + count + "  ");
+            reps.setText(" " + set.reps + "  ");
+            weight.setText(" " + set.weight + "  ");
+
+            holder.rowSets.addView(setNum);
+            holder.rowReps.addView(reps);
+            holder.rowWeight.addView(weight);
         }
 
         return convertView;
