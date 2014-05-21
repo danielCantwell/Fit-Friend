@@ -206,8 +206,10 @@ public class ProfilePersonal extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                user.put("age", Integer.parseInt(s.toString()));
-                user.saveInBackground();
+                if (s.length() > 0) {
+                    user.put("age", Integer.parseInt(s.toString()));
+                    user.saveInBackground();
+                }
             }
 
             @Override
