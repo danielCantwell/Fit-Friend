@@ -218,11 +218,11 @@ public class WorkoutLog extends Fragment implements TabHost.OnTabChangeListener{
                     .replace(R.id.container, WorkoutAddRun.newInstance((Run) workout))
                     .commit();
         }
-//        if (workout instanceof Gym) {
-//            fm.beginTransaction()
-//                    .replace(R.id.container, WorkoutAddGym.newInstance((Gym) workout))
-//                    .commit();
-//        }
+        if (workout instanceof Gym) {
+            fm.beginTransaction()
+                    .replace(R.id.container, WorkoutAddGym.newInstance((Gym) workout))
+                    .commit();
+        }
     }
 
     private void menuClickDelete(Workout workout) {

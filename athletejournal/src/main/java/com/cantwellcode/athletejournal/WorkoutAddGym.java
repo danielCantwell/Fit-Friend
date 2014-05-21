@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -172,7 +173,7 @@ public class WorkoutAddGym extends Fragment{
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 GymRoutine routine = listAdapter.getItem(position);
                 routines.remove(routine);
-                listAdapter.notifyDataSetChanged();
+                updateRoutineList();
                 return true;
             }
         });
@@ -187,8 +188,8 @@ public class WorkoutAddGym extends Fragment{
             name.setText(gym.getName());
             date.setText(gym.getDate());
             type.setSelection(spinnerPosition);
-            routines = gym.getRoutines();
-            listAdapter.addAll(routines);
+            routines.addAll(gym.getRoutines());
+            //listAdapter.addAll(routines);
             updateRoutineList();
         }
 
@@ -268,7 +269,7 @@ public class WorkoutAddGym extends Fragment{
         private List<GymSet> sets;
         private View view;
 
-        AlertDialog.Builder builder;
+        private AlertDialog.Builder builder;
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {

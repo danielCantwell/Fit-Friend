@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Athlete Journal</string>
+    <string name="app_name">Athlete Connection</string>
     <string name="title_section1">Nutrition Log</string>
     <string name="title_section2">Meal Plan</string>
     <string name="title_section3">Nutrition Stats</string>

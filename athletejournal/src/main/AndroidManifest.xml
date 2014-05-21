@@ -9,7 +9,7 @@
     <application
         android:name="com.cantwellcode.athletejournal.App"
         android:allowBackup="true"
-        android:icon="@drawable/journal_icon"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity

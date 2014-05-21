@@ -24,5 +24,7 @@
         android:id="@+id/routineSetCount"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:background="@android:drawable/editbox_background"/>
+        android:background="@android:drawable/editbox_background"
+        android:focusable="false"
+        android:focusableInTouchMode="false"/>
 </RelativeLayout>
