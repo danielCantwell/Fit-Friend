@@ -104,6 +104,10 @@ public class WorkoutLog extends Fragment implements TabHost.OnTabChangeListener{
                         month = bundle.getInt("month");
                         day = bundle.getInt("day");
 
+                        c.set(Calendar.YEAR, year);
+                        c.set(Calendar.MONTH, month);
+                        c.set(Calendar.DAY_OF_MONTH, day);
+
                         updateWorkouts();
                     }
 
