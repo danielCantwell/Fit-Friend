@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
@@ -77,6 +78,7 @@ public class WorkoutLog extends Fragment implements TabHost.OnTabChangeListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.inflater = inflater;
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.workout_log, null);
 
         db = new DBHelper(getActivity());
 
@@ -85,16 +87,9 @@ public class WorkoutLog extends Fragment implements TabHost.OnTabChangeListener{
         month = c.get(Calendar.MONTH) + 1;
         day = c.get(Calendar.DAY_OF_MONTH);
 
-        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
-        String formattedDate = df.format(c.getTime());
-
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.workout_log, null);
-
-        setHasOptionsMenu(true);
-
-        previous = (Button) root.findViewById(R.id.w_previous);
-        date = (Button) root.findViewById(R.id.w_date);
-        next = (Button) root.findViewById(R.id.w_next);
+        previous = (Button) root.findViewById(R.id.previous);
+        date = (Button) root.findViewById(R.id.date);
+        next = (Button) root.findViewById(R.id.next);
 
         next.setEnabled(false);
 
@@ -228,6 +223,67 @@ public class WorkoutLog extends Fragment implements TabHost.OnTabChangeListener{
     private void menuClickDelete(Workout workout) {
         db.delete(workout);
         updateWorkouts();
+    }
+
+    private void loadEmptyLog(LayoutInflater inflater) {
+            final View emptyLogView = inflater.inflate(R.layout.workout_log_empty, null);
+
+            ImageButton addSwim = (ImageButton) emptyLogView.findViewById(R.id.addSwim);
+            ImageButton addBike = (ImageButton) emptyLogView.findViewById(R.id.addBike);
+            ImageButton addRun = (ImageButton) emptyLogView.findViewById(R.id.addRun);
+            ImageButton addGym = (ImageButton) emptyLogView.findViewById(R.id.addGym);
+            ImageButton addFile = (ImageButton) emptyLogView.findViewById(R.id.addFile);
+
+            addSwim.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentManager fm1 = getFragmentManager();
+                    fm1.beginTransaction()
+                            .replace(R.id.container, WorkoutAddSwim.newInstance())
+                            .commit();
+                }
+            });
+
+            addBike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentManager fm1 = getFragmentManager();
+                    fm1.beginTransaction()
+                            .replace(R.id.container, WorkoutAddBike.newInstance())
+                            .commit();
+                }
+            });
+
+            addRun.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentManager fm1 = getFragmentManager();
+                    fm1.beginTransaction()
+                            .replace(R.id.container, WorkoutAddRun.newInstance())
+                            .commit();
+                }
+            });
+
+            addGym.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentManager fm1 = getFragmentManager();
+                    fm1.beginTransaction()
+                            .replace(R.id.container, WorkoutAddGym.newInstance())
+                            .commit();
+                }
+            });
+
+            final TabHost.TabSpec tabSpec = tabHost.newTabSpec("emptyTab");
+            tabSpec.setIndicator("Add a New Workout");
+            tabSpec.setContent(new TabHost.TabContentFactory() {
+                @Override
+                public View createTabContent(String tag) {
+                    return emptyLogView;
+                }
+            });
+
+            tabHost.addTab(tabSpec);
     }
 
     private void loadSwimData(LayoutInflater inflater, List<Swim> swims) {
@@ -455,17 +511,30 @@ public class WorkoutLog extends Fragment implements TabHost.OnTabChangeListener{
         runs = db.getRunList(new Run(formattedDate));
         gyms = db.getGymList(new Gym(formattedDate));
 
+        boolean isEmpty = true;
+
         if (!swims.isEmpty()) {
             loadSwimData(inflater, swims);
+            isEmpty = false;
         }
         if (!bikes.isEmpty()) {
             loadBikeData(inflater, bikes);
+            isEmpty = false;
         }
         if (!runs.isEmpty()) {
             loadRunData(inflater, runs);
+            isEmpty = false;
         }
         if (!gyms.isEmpty()) {
             loadGymData(inflater, gyms);
+            isEmpty = false;
+        }
+
+        if (isEmpty) {
+            loadEmptyLog(inflater);
+            setHasOptionsMenu(false);
+        } else {
+            setHasOptionsMenu(true);
         }
 
         for(int i = 0;i < tabHost.getTabWidget().getChildCount(); i++) {

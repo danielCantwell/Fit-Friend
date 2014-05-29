@@ -150,6 +150,7 @@ public class ProfileFriends extends Fragment {
                     view = view.inflate(getActivity(), R.layout.friend_list_item, null);
                 }
                 TextView name = (TextView) view.findViewById(R.id.name);
+                TextView mainSport = (TextView) view.findViewById(R.id.mainSport);
 
                 ParseUser from = object.getParseUser("from");
 
@@ -161,6 +162,7 @@ public class ProfileFriends extends Fragment {
                 }
 
                 name.setText(friend.getString("name"));
+                mainSport.setText(friend.getString("mainSport"));
 
                 return view;
             }

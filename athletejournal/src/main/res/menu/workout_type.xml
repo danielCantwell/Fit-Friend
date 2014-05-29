@@ -18,6 +18,9 @@
             <item android:id="@+id/action_selectGym"
                 android:title="Gym"
                 android:showAsAction="withText|ifRoom" />
+            <item android:id="@+id/action_selectGPX"
+                android:title=".gpx File"
+                android:showAsAction="withText|ifRoom" />
         </menu>
 
     </item>

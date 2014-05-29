@@ -9,6 +9,16 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/name"
-        android:layout_margin="8dp"
-        android:hint="name" />
+        android:hint="name"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="4dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="sport"
+        android:id="@+id/mainSport"
+        android:layout_marginLeft="20dp" />
 </LinearLayout>
