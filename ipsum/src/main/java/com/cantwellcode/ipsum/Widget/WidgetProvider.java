@@ -1,0 +1,118 @@
+package com.cantwellcode.ipsum.Widget;
+
+import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
+import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.widget.RemoteViews;
+
+import com.cantwellcode.ipsum.Utils.DBHelper;
+import com.cantwellcode.ipsum.Nutrition.Log.Nutrition;
+import com.cantwellcode.ipsum.Settings.PersonalSettings;
+import com.cantwellcode.ipsum.R;
+import com.cantwellcode.ipsum.Startup.MainActivity;
+
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
+
+/**
+ * Created by Daniel on 3/25/2014.
+ */
+public class WidgetProvider extends AppWidgetProvider {
+
+    DBHelper db;
+
+    @Override
+    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+
+        db = new DBHelper(context);
+
+        // Get all ids
+        ComponentName thisWidget = new ComponentName(context,
+                WidgetProvider.class);
+        int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+
+
+        for (int widgetId : allWidgetIds) {
+
+            RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
+                    R.layout.widget_journal_layout);
+
+            // set texts
+
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH) + 1;
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+            String formattedDate = df.format(c.getTime());
+
+            List<Nutrition> todaysNutrition = db.getMealList(new Nutrition(null, formattedDate, null, null, null, null, null));
+
+            BigDecimal calorieCount = new BigDecimal(0);
+            BigDecimal proteinCount = new BigDecimal(0);
+            BigDecimal carbCount = new BigDecimal(0);
+            BigDecimal fatCount = new BigDecimal(0);
+
+            for (Nutrition n : todaysNutrition) {
+                calorieCount = calorieCount.add(BigDecimal.valueOf(Double.parseDouble(n.get_calories())));
+                proteinCount = proteinCount.add(BigDecimal.valueOf(Double.parseDouble(n.get_protein())));
+                carbCount = carbCount.add(BigDecimal.valueOf(Double.parseDouble(n.get_carbs())));
+                fatCount = fatCount.add(BigDecimal.valueOf(Double.parseDouble(n.get_fat())));
+            }
+
+            if (calorieCount.toString().endsWith(".0")) {
+                remoteViews.setTextViewText(R.id.w_cal_text,
+                        calorieCount.toString().substring(0, calorieCount.toString().indexOf(".")));
+            } else {
+                remoteViews.setTextViewText(R.id.w_cal_text, calorieCount.toString());
+            }
+
+            if (proteinCount.toString().endsWith(".0")) {
+                remoteViews.setTextViewText(R.id.w_protein_text,
+                        proteinCount.toString().substring(0, proteinCount.toString().indexOf(".")));
+            } else {
+                remoteViews.setTextViewText(R.id.w_protein_text, proteinCount.toString());
+            }
+
+            if (carbCount.toString().endsWith(".0")) {
+                remoteViews.setTextViewText(R.id.w_carbs_text,
+                        carbCount.toString().substring(0, carbCount.toString().indexOf(".")));
+            } else {
+                remoteViews.setTextViewText(R.id.w_carbs_text, carbCount.toString());
+            }
+
+            if (fatCount.toString().endsWith(".0")) {
+                remoteViews.setTextViewText(R.id.w_fat_text,
+                        fatCount.toString().substring(0, fatCount.toString().indexOf(".")));
+            } else {
+                remoteViews.setTextViewText(R.id.w_fat_text, fatCount.toString());
+            }
+
+
+            // goal texts
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+            remoteViews.setTextViewText(R.id.w_cal_desired_text, sp.getString(PersonalSettings.GOAL_CALORIES, "defaultCal"));
+            remoteViews.setTextViewText(R.id.w_protein_desired_text, sp.getString(PersonalSettings.GOAL_PROTEIN, "defaultPro"));
+            remoteViews.setTextViewText(R.id.w_carbs_desired_text, sp.getString(PersonalSettings.GOAL_CARBS, "defaultCarb"));
+            remoteViews.setTextViewText(R.id.w_fat_desired_text, sp.getString(PersonalSettings.GOAL_FAT, "defaultFat"));
+
+
+            // Register an onClickListener
+            Intent activityIntent = new Intent(context, MainActivity.class);
+            activityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            activityIntent.putExtra("FROM_NUTRITION_WIDGET", true);
+
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, activityIntent, 0);
+            remoteViews.setOnClickPendingIntent(R.id.widget_layout_id, pendingIntent);
+            appWidgetManager.updateAppWidget(widgetId, remoteViews);
+        }
+    }
+}

@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/AthleteJournal.iml" filepath="$PROJECT_DIR$/AthleteJournal.iml" />
-      <module fileurl="file://$PROJECT_DIR$/athletejournal/athletejournal.iml" filepath="$PROJECT_DIR$/athletejournal/athletejournal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Ipsum.iml" filepath="$PROJECT_DIR$/Ipsum.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Ipsum.iml" filepath="$PROJECT_DIR$/Ipsum.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ipsum/ipsum.iml" filepath="$PROJECT_DIR$/ipsum/ipsum.iml" />
     </modules>
   </component>
 </project>

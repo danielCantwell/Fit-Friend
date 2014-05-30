@@ -1,0 +1,29 @@
+apply plugin: 'android'
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion '19.0.1'
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 14
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile files('libs/Parse-1.4.3.jar')
+    compile files('libs/db4o-8.0.249.16098-all-java5.jar')
+    compile 'com.android.support:support-v4:+'
+    compile 'com.android.support:appcompat-v7:+'
+    compile 'com.android.support:support-v13:19.+'
+    compile 'com.google.android.gms:play-services:4.3.23+'
+    compile files('libs/google-play-services.jar')
+}
