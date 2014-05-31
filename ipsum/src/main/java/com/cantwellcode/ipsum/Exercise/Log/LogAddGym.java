@@ -36,10 +36,10 @@ import java.util.List;
 /**
  * Created by Daniel on 4/18/2014.
  */
-public class WorkoutAddGym extends Fragment{
+public class LogAddGym extends Fragment{
 
     public static Fragment newInstance() {
-        WorkoutAddGym f = new WorkoutAddGym();
+        LogAddGym f = new LogAddGym();
 
         Bundle args = new Bundle();
         f.setArguments(args);
@@ -48,7 +48,7 @@ public class WorkoutAddGym extends Fragment{
     }
 
     public static Fragment newInstance(Gym gym) {
-        WorkoutAddGym f = new WorkoutAddGym();
+        LogAddGym f = new LogAddGym();
 
         Bundle args = new Bundle();
         args.putSerializable("EditGym", gym);

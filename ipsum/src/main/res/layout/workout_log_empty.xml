@@ -8,6 +8,7 @@
         android:id="@+id/addSwim"
         android:layout_width="match_parent"
         android:layout_height="80dp"
+        android:layout_toLeftOf="@+id/addSwimFile"
         android:src="@drawable/swim_icon" />
 
     <ImageButton
@@ -15,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_below="@+id/addSwim"
+        android:layout_toLeftOf="@+id/addBikeFile"
         android:src="@drawable/bike_icon" />
 
     <ImageButton
@@ -22,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_below="@+id/addBike"
+        android:layout_toLeftOf="@+id/addRunFile"
         android:src="@drawable/run_icon" />
 
     <ImageButton
@@ -32,10 +35,27 @@
         android:src="@drawable/gym_icon" />
 
     <ImageButton
-        android:id="@+id/addFile"
-        android:layout_width="match_parent"
+        android:id="@+id/addSwimFile"
+        android:layout_width="wrap_content"
         android:layout_height="80dp"
-        android:layout_below="@+id/addGym"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:src="@android:drawable/ic_menu_upload" />
+
+    <ImageButton
+        android:id="@+id/addBikeFile"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/addSwimFile"
+        android:src="@android:drawable/ic_menu_upload" />
+
+    <ImageButton
+        android:id="@+id/addRunFile"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/addBikeFile"
         android:src="@android:drawable/ic_menu_upload" />
 
 </RelativeLayout>

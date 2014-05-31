@@ -3,7 +3,6 @@ package com.cantwellcode.ipsum.Exercise.Log;
 import android.app.ActionBar;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
@@ -23,7 +22,7 @@ import android.widget.Spinner;
 import com.cantwellcode.ipsum.Utils.DBHelper;
 import com.cantwellcode.ipsum.Utils.DatePickerFragment;
 import com.cantwellcode.ipsum.Utils.DialogListener;
-import com.cantwellcode.ipsum.Exercise.Run;
+import com.cantwellcode.ipsum.Exercise.Swim;
 import com.cantwellcode.ipsum.Startup.MainActivity;
 import com.cantwellcode.ipsum.R;
 import com.cantwellcode.ipsum.Utils.TimePickerDialog;
@@ -34,16 +33,16 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- * Created by Daniel on 4/18/2014.
+ * Created by Daniel on 4/15/2014.
  */
-public class WorkoutAddRun extends Fragment {
+public class LogAddSwim extends Fragment{
 
-    private enum Type {
+    private static enum Type {
         AVG, MAX
     }
 
     public static Fragment newInstance() {
-        WorkoutAddRun f = new WorkoutAddRun();
+        LogAddSwim f = new LogAddSwim();
 
         Bundle args = new Bundle();
         f.setArguments(args);
@@ -51,11 +50,11 @@ public class WorkoutAddRun extends Fragment {
         return f;
     }
 
-    public static Fragment newInstance(Run run) {
-        WorkoutAddRun f = new WorkoutAddRun();
+    public static Fragment newInstance(Swim swim) {
+        LogAddSwim f = new LogAddSwim();
 
         Bundle args = new Bundle();
-        args.putSerializable("EditRun", run);
+        args.putSerializable("EditSwim", swim);
         f.setArguments(args);
 
         return f;
@@ -68,9 +67,7 @@ public class WorkoutAddRun extends Fragment {
     private Button time;
     private Button avgPace;
     private Button maxPace;
-    private EditText avgHR;
-    private EditText maxHR;
-    private EditText elevation;
+    private EditText strokeRate;
     private EditText caloriesBurned;
     private EditText notes;
     private CheckBox addToFavoriteCheck;
@@ -82,21 +79,18 @@ public class WorkoutAddRun extends Fragment {
     private String _time;
     private String _avgPace;
     private String _maxPace;
-    private String _avgHR;
-    private String _maxHR;
-    private String _elevation;
+    private String _strokeRate;
     private String _caloriesBurned;
     private String _notes;
 
     private DBHelper db;
     private Calendar c;
     private int year, month, day;
-    private DialogFragment dateFragment;
 
     private ArrayAdapter<CharSequence> adapter;
 
-    private Run run = null;
-    private Run oldRun = null;
+    private Swim swim = null;
+    private Swim oldSwim = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -108,7 +102,7 @@ public class WorkoutAddRun extends Fragment {
         month = c.get(Calendar.MONTH);
         day = c.get(Calendar.DAY_OF_MONTH);
 
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.workout_new_run, null);
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.workout_new_swim, null);
 
         name = (AutoCompleteTextView) root.findViewById(R.id.w_name);
         type = (Spinner) root.findViewById(R.id.w_type);
@@ -117,9 +111,7 @@ public class WorkoutAddRun extends Fragment {
         time = (Button) root.findViewById(R.id.w_time);
         avgPace = (Button) root.findViewById(R.id.w_avgPace);
         maxPace = (Button) root.findViewById(R.id.w_maxPace);
-        avgHR = (EditText) root.findViewById(R.id.w_avgHR);
-        maxHR = (EditText) root.findViewById(R.id.w_maxHR);
-        elevation = (EditText) root.findViewById(R.id.w_elevation);
+        strokeRate = (EditText) root.findViewById(R.id.w_strokeRate);
         caloriesBurned = (EditText) root.findViewById(R.id.w_calories);
         notes = (EditText) root.findViewById(R.id.w_notes);
         addToFavoriteCheck = (CheckBox) root.findViewById(R.id.addFavoriteCheck);
@@ -131,30 +123,28 @@ public class WorkoutAddRun extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         type.setAdapter(adapter);
-        //adapter.addAll(getRunTypes());
+        //adapter.addAll(getSwimTypes());
 
         SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
         String formattedDate = df.format(c.getTime());
         date.setText(formattedDate);
 
-        if (getArguments().containsKey("EditRun")) {
-            run = (Run) getArguments().getSerializable("EditRun");
-            oldRun = run;
+        if (getArguments().containsKey("EditSwim")) {
+            swim = (Swim) getArguments().getSerializable("EditSwim");
+            oldSwim = swim;
 
-            int spinnerPosition = adapter.getPosition(run.getType());
+            int spinnerPosition = adapter.getPosition(swim.getType());
 
-            name.setText(run.getName());
+            name.setText(swim.getName());
             type.setSelection(spinnerPosition);
-            date.setText(run.getDate());
-            distance.setText(run.getDistance());
-            time.setText(run.getTime());
-            avgPace.setText(run.getAvgPace());
-            maxPace.setText(run.getMaxPace());
-            avgHR.setText(run.getAvgHR());
-            maxHR.setText(run.getMaxHR());
-            elevation.setText(run.getElevation());
-            caloriesBurned.setText(run.getCalBurned());
-            notes.setText(run.getNotes());
+            date.setText(swim.getDate());
+            distance.setText(swim.getDistance());
+            time.setText(swim.getTime());
+            avgPace.setText(swim.getAvgPace());
+            maxPace.setText(swim.getMaxPace());
+            strokeRate.setText(swim.getStrokeRate());
+            caloriesBurned.setText(swim.getCalBurned());
+            notes.setText(swim.getNotes());
 
             addToFavoriteCheck.setEnabled(false);
             addToFavoriteCheck.setVisibility(View.GONE);
@@ -194,7 +184,8 @@ public class WorkoutAddRun extends Fragment {
         type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                _type = parent.getSelectedItem().toString();
+                String item = parent.getSelectedItem().toString();
+                _type = item;
             }
 
             @Override
@@ -239,7 +230,7 @@ public class WorkoutAddRun extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_saveWorkout:
-                if (run == null) {
+                if (swim == null) {
                     saveWorkout();
                 }
                 else {
@@ -262,14 +253,14 @@ public class WorkoutAddRun extends Fragment {
 
     private void saveWorkout() {
         prepareData();
-        run = new Run(_name, _date, _type, _notes, _distance, _time, _avgPace, _maxPace, _avgHR, _maxHR, _caloriesBurned, _elevation);
-        db.store(run);
+        swim = new Swim(_name, _date, _type, _notes, _distance, _time, _avgPace, _maxPace, _caloriesBurned, _strokeRate);
+        db.store(swim);
     }
 
     private void editWorkout() {
         prepareData();
-        run = new Run(_name, _date, _type, _notes, _distance, _time, _avgPace, _maxPace,  _avgHR, _maxHR, _caloriesBurned, _elevation);
-        db.updateRun(oldRun, run);
+        swim = new Swim(_name, _date, _type, _notes, _distance, _time, _avgPace, _maxPace, _caloriesBurned, _strokeRate);
+        db.updateSwim(oldSwim, swim);
     }
 
     private void prepareData() {
@@ -305,17 +296,9 @@ public class WorkoutAddRun extends Fragment {
             _maxPace = maxPace.getText().toString();
         else _maxPace = "0";
 
-        if (!avgHR.getText().toString().isEmpty())
-            _avgHR = avgHR.getText().toString();
-        else _avgHR = "0";
-
-        if (!maxHR.getText().toString().isEmpty())
-            _maxHR = maxHR.getText().toString();
-        else _maxHR = "0";
-
-        if (!elevation.getText().toString().isEmpty())
-            _elevation = elevation.getText().toString();
-        else _elevation = "0";
+        if (!strokeRate.getText().toString().isEmpty())
+            _strokeRate = strokeRate.getText().toString();
+        else _strokeRate = "0";
 
         if (!caloriesBurned.getText().toString().isEmpty())
             _caloriesBurned = caloriesBurned.getText().toString();
@@ -326,10 +309,10 @@ public class WorkoutAddRun extends Fragment {
         else _notes = "";
     }
 
-    private List<String> getRunTypes() {
+    private List<String> getSwimTypes() {
         SharedPreferences sp = getActivity().getSharedPreferences(MainActivity.PREFS, 0);
 
-        String _list = sp.getString("RunTypes", null);
+        String _list = sp.getString("SwimTypes", null);
 
         if (_list != null) {
             String[] items = _list.split(",");
@@ -348,10 +331,10 @@ public class WorkoutAddRun extends Fragment {
         }
     }
 
-    private void addRunType(String type) {
+    private void addSwimType(String type) {
         SharedPreferences sp = getActivity().getSharedPreferences(MainActivity.PREFS, 0);
 
-        List<String> list = getRunTypes();
+        List<String> list = getSwimTypes();
         StringBuilder stringBuilder = new StringBuilder();
 
         if (list != null) {
@@ -363,7 +346,7 @@ public class WorkoutAddRun extends Fragment {
 
         stringBuilder.append(type);
         stringBuilder.append(",");
-        sp.edit().putString("RunTypes", stringBuilder.toString());
+        sp.edit().putString("SwimTypes", stringBuilder.toString());
     }
 
     private void showTimeDialog() {
@@ -422,6 +405,6 @@ public class WorkoutAddRun extends Fragment {
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle("New Run");
+        actionBar.setTitle("New Swim");
     }
 }

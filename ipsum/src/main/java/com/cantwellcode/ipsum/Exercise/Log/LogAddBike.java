@@ -22,7 +22,7 @@ import android.widget.Spinner;
 import com.cantwellcode.ipsum.Utils.DBHelper;
 import com.cantwellcode.ipsum.Utils.DatePickerFragment;
 import com.cantwellcode.ipsum.Utils.DialogListener;
-import com.cantwellcode.ipsum.Exercise.Swim;
+import com.cantwellcode.ipsum.Exercise.Bike;
 import com.cantwellcode.ipsum.Startup.MainActivity;
 import com.cantwellcode.ipsum.R;
 import com.cantwellcode.ipsum.Utils.TimePickerDialog;
@@ -33,16 +33,16 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- * Created by Daniel on 4/15/2014.
+ * Created by Daniel on 4/18/2014.
  */
-public class WorkoutAddSwim extends Fragment{
+public class LogAddBike extends Fragment {
 
-    private static enum Type {
+    private enum Type {
         AVG, MAX
     }
 
     public static Fragment newInstance() {
-        WorkoutAddSwim f = new WorkoutAddSwim();
+        LogAddBike f = new LogAddBike();
 
         Bundle args = new Bundle();
         f.setArguments(args);
@@ -50,11 +50,11 @@ public class WorkoutAddSwim extends Fragment{
         return f;
     }
 
-    public static Fragment newInstance(Swim swim) {
-        WorkoutAddSwim f = new WorkoutAddSwim();
+    public static Fragment newInstance(Bike bike) {
+        LogAddBike f = new LogAddBike();
 
         Bundle args = new Bundle();
-        args.putSerializable("EditSwim", swim);
+        args.putSerializable("EditBike", bike);
         f.setArguments(args);
 
         return f;
@@ -65,9 +65,13 @@ public class WorkoutAddSwim extends Fragment{
     private Button date;
     private EditText distance;
     private Button time;
-    private Button avgPace;
-    private Button maxPace;
-    private EditText strokeRate;
+    private EditText avgSpeed;
+    private EditText maxSpeed;
+    private EditText avgHR;
+    private EditText maxHR;
+    private EditText avgCadence;
+    private EditText maxCadence;
+    private EditText elevation;
     private EditText caloriesBurned;
     private EditText notes;
     private CheckBox addToFavoriteCheck;
@@ -77,9 +81,13 @@ public class WorkoutAddSwim extends Fragment{
     private String _date;
     private String _distance;
     private String _time;
-    private String _avgPace;
-    private String _maxPace;
-    private String _strokeRate;
+    private String _avgSpeed;
+    private String _maxSpeed;
+    private String _avgHR;
+    private String _maxHR;
+    private String _avgCadence;
+    private String _maxCadence;
+    private String _elevation;
     private String _caloriesBurned;
     private String _notes;
 
@@ -89,8 +97,8 @@ public class WorkoutAddSwim extends Fragment{
 
     private ArrayAdapter<CharSequence> adapter;
 
-    private Swim swim = null;
-    private Swim oldSwim = null;
+    private Bike bike = null;
+    private Bike oldBike = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -102,16 +110,20 @@ public class WorkoutAddSwim extends Fragment{
         month = c.get(Calendar.MONTH);
         day = c.get(Calendar.DAY_OF_MONTH);
 
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.workout_new_swim, null);
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.workout_new_bike, null);
 
         name = (AutoCompleteTextView) root.findViewById(R.id.w_name);
         type = (Spinner) root.findViewById(R.id.w_type);
         date = (Button) root.findViewById(R.id.w_date);
         distance = (EditText) root.findViewById(R.id.w_distance);
         time = (Button) root.findViewById(R.id.w_time);
-        avgPace = (Button) root.findViewById(R.id.w_avgPace);
-        maxPace = (Button) root.findViewById(R.id.w_maxPace);
-        strokeRate = (EditText) root.findViewById(R.id.w_strokeRate);
+        avgSpeed = (EditText) root.findViewById(R.id.w_avgSpeed);
+        maxSpeed = (EditText) root.findViewById(R.id.w_maxSpeed);
+        avgHR = (EditText) root.findViewById(R.id.w_avgHR);
+        maxHR = (EditText) root.findViewById(R.id.w_maxHR);
+        avgCadence = (EditText) root.findViewById(R.id.w_avgCadence);
+        maxCadence = (EditText) root.findViewById(R.id.w_maxCadence);
+        elevation = (EditText) root.findViewById(R.id.w_elevation);
         caloriesBurned = (EditText) root.findViewById(R.id.w_calories);
         notes = (EditText) root.findViewById(R.id.w_notes);
         addToFavoriteCheck = (CheckBox) root.findViewById(R.id.addFavoriteCheck);
@@ -123,28 +135,32 @@ public class WorkoutAddSwim extends Fragment{
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         type.setAdapter(adapter);
-        //adapter.addAll(getSwimTypes());
+        //adapter.addAll(getBikeTypes());
 
         SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
         String formattedDate = df.format(c.getTime());
         date.setText(formattedDate);
 
-        if (getArguments().containsKey("EditSwim")) {
-            swim = (Swim) getArguments().getSerializable("EditSwim");
-            oldSwim = swim;
+        if (getArguments().containsKey("EditBike")) {
+            bike = (Bike) getArguments().getSerializable("EditBike");
+            oldBike = bike;
 
-            int spinnerPosition = adapter.getPosition(swim.getType());
+            int spinnerPosition = adapter.getPosition(bike.getType());
 
-            name.setText(swim.getName());
+            name.setText(bike.getName());
             type.setSelection(spinnerPosition);
-            date.setText(swim.getDate());
-            distance.setText(swim.getDistance());
-            time.setText(swim.getTime());
-            avgPace.setText(swim.getAvgPace());
-            maxPace.setText(swim.getMaxPace());
-            strokeRate.setText(swim.getStrokeRate());
-            caloriesBurned.setText(swim.getCalBurned());
-            notes.setText(swim.getNotes());
+            date.setText(bike.getDate());
+            distance.setText(bike.getDistance());
+            time.setText(bike.getTime());
+            avgSpeed.setText(bike.getAvgSpeed());
+            maxSpeed.setText(bike.getMaxSpeed());
+            avgHR.setText(bike.getAvgHR());
+            maxHR.setText(bike.getMaxHR());
+            avgCadence.setText(bike.getAvgCadence());
+            maxCadence.setText(bike.getMaxCadence());
+            elevation.setText(bike.getElevation());
+            caloriesBurned.setText(bike.getCalBurned());
+            notes.setText(bike.getNotes());
 
             addToFavoriteCheck.setEnabled(false);
             addToFavoriteCheck.setVisibility(View.GONE);
@@ -201,18 +217,6 @@ public class WorkoutAddSwim extends Fragment{
                 showTimeDialog();
             }
         });
-        avgPace.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPaceDialog(Type.AVG);
-            }
-        });
-        maxPace.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPaceDialog(Type.MAX);
-            }
-        });
 
         setHasOptionsMenu(true);
 
@@ -230,7 +234,7 @@ public class WorkoutAddSwim extends Fragment{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_saveWorkout:
-                if (swim == null) {
+                if (bike == null) {
                     saveWorkout();
                 }
                 else {
@@ -253,14 +257,14 @@ public class WorkoutAddSwim extends Fragment{
 
     private void saveWorkout() {
         prepareData();
-        swim = new Swim(_name, _date, _type, _notes, _distance, _time, _avgPace, _maxPace, _caloriesBurned, _strokeRate);
-        db.store(swim);
+        bike = new Bike(_name, _date, _type, _notes, _distance, _time, _avgSpeed, _maxSpeed, _avgCadence, _maxCadence, _avgHR, _maxHR, _caloriesBurned, _elevation);
+        db.store(bike);
     }
 
     private void editWorkout() {
         prepareData();
-        swim = new Swim(_name, _date, _type, _notes, _distance, _time, _avgPace, _maxPace, _caloriesBurned, _strokeRate);
-        db.updateSwim(oldSwim, swim);
+        bike = new Bike(_name, _date, _type, _notes, _distance, _time, _avgSpeed, _maxSpeed, _avgCadence, _maxCadence, _avgHR, _maxHR, _caloriesBurned, _elevation);
+        db.updateBike(oldBike, bike);
     }
 
     private void prepareData() {
@@ -288,17 +292,33 @@ public class WorkoutAddSwim extends Fragment{
             _time = time.getText().toString();
         else _time = "0";
 
-        if (!avgPace.getText().toString().isEmpty())
-            _avgPace = avgPace.getText().toString();
-        else _avgPace = "0";
+        if (!avgSpeed.getText().toString().isEmpty())
+            _avgSpeed = avgSpeed.getText().toString();
+        else _avgSpeed = "0";
 
-        if (!maxPace.getText().toString().isEmpty())
-            _maxPace = maxPace.getText().toString();
-        else _maxPace = "0";
+        if (!maxSpeed.getText().toString().isEmpty())
+            _maxSpeed = maxSpeed.getText().toString();
+        else _maxSpeed = "0";
 
-        if (!strokeRate.getText().toString().isEmpty())
-            _strokeRate = strokeRate.getText().toString();
-        else _strokeRate = "0";
+        if (!avgCadence.getText().toString().isEmpty())
+            _avgCadence = avgCadence.getText().toString();
+        else _avgCadence = "0";
+
+        if (!maxSpeed.getText().toString().isEmpty())
+            _maxCadence = maxCadence.getText().toString();
+        else _maxCadence = "0";
+
+        if (!avgHR.getText().toString().isEmpty())
+            _avgHR = avgHR.getText().toString();
+        else _avgHR = "0";
+
+        if (!maxHR.getText().toString().isEmpty())
+            _maxHR = maxHR.getText().toString();
+        else _maxHR = "0";
+
+        if (!elevation.getText().toString().isEmpty())
+            _elevation = elevation.getText().toString();
+        else _elevation = "0";
 
         if (!caloriesBurned.getText().toString().isEmpty())
             _caloriesBurned = caloriesBurned.getText().toString();
@@ -309,10 +329,10 @@ public class WorkoutAddSwim extends Fragment{
         else _notes = "";
     }
 
-    private List<String> getSwimTypes() {
+    private List<String> getBikeTypes() {
         SharedPreferences sp = getActivity().getSharedPreferences(MainActivity.PREFS, 0);
 
-        String _list = sp.getString("SwimTypes", null);
+        String _list = sp.getString("BikeTypes", null);
 
         if (_list != null) {
             String[] items = _list.split(",");
@@ -331,10 +351,10 @@ public class WorkoutAddSwim extends Fragment{
         }
     }
 
-    private void addSwimType(String type) {
+    private void addBikeType(String type) {
         SharedPreferences sp = getActivity().getSharedPreferences(MainActivity.PREFS, 0);
 
-        List<String> list = getSwimTypes();
+        List<String> list = getBikeTypes();
         StringBuilder stringBuilder = new StringBuilder();
 
         if (list != null) {
@@ -346,7 +366,7 @@ public class WorkoutAddSwim extends Fragment{
 
         stringBuilder.append(type);
         stringBuilder.append(",");
-        sp.edit().putString("SwimTypes", stringBuilder.toString());
+        sp.edit().putString("BikeTypes", stringBuilder.toString());
     }
 
     private void showTimeDialog() {
@@ -374,37 +394,10 @@ public class WorkoutAddSwim extends Fragment{
         timePickerDialog.show(fm, "timeFragment");
     }
 
-    private void showPaceDialog(final Type type) {
-        FragmentManager fm = getFragmentManager();
-        PacePickerDialog pacePickerDialog = new PacePickerDialog();
-        pacePickerDialog.setDialogListener(new DialogListener() {
-            @Override
-            public void onDialogOK(Bundle bundle) {
-                Calendar cal = Calendar.getInstance();
-                cal.set(Calendar.MINUTE, bundle.getInt("minute"));
-                cal.set(Calendar.SECOND, bundle.getInt("second"));
-
-                SimpleDateFormat df = new SimpleDateFormat("m:ss");
-                String formattedTime = df.format(cal.getTime());
-
-                if (type == Type.AVG)
-                    avgPace.setText(formattedTime);
-                else if (type == Type.MAX)
-                    maxPace.setText(formattedTime);
-            }
-
-            @Override
-            public void onDialogCancel() {
-
-            }
-        });
-        pacePickerDialog.show(fm, "paceFragment");
-    }
-
     private void restoreActionBar() {
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle("New Swim");
+        actionBar.setTitle("New Bike");
     }
 }

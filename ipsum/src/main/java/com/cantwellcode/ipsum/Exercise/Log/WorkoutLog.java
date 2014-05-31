@@ -43,7 +43,7 @@ import java.util.List;
 /**
  * Created by Daniel on 2/8/14.
  */
-public class WorkoutLog extends Fragment implements TabHost.OnTabChangeListener{
+public class WorkoutLog extends Fragment implements TabHost.OnTabChangeListener {
 
     private static final String SWIM = "Swim";
     private static final String BIKE = "Bike";
@@ -170,25 +170,25 @@ public class WorkoutLog extends Fragment implements TabHost.OnTabChangeListener{
             case R.id.action_selectSwim:
                 FragmentManager fm1 = getFragmentManager();
                 fm1.beginTransaction()
-                        .replace(R.id.container, WorkoutAddSwim.newInstance())
+                        .replace(R.id.container, LogAddSwim.newInstance())
                         .commit();
                 return true;
             case R.id.action_selectBike:
                 FragmentManager fm2 = getFragmentManager();
                 fm2.beginTransaction()
-                        .replace(R.id.container, WorkoutAddBike.newInstance())
+                        .replace(R.id.container, LogAddBike.newInstance())
                         .commit();
                 return true;
             case R.id.action_selectRun:
                 FragmentManager fm3 = getFragmentManager();
                 fm3.beginTransaction()
-                        .replace(R.id.container, WorkoutAddRun.newInstance())
+                        .replace(R.id.container, LogAddRun.newInstance())
                         .commit();
                 return true;
             case R.id.action_selectGym:
                 FragmentManager fm4 = getFragmentManager();
                 fm4.beginTransaction()
-                        .replace(R.id.container, WorkoutAddGym.newInstance())
+                        .replace(R.id.container, LogAddGym.newInstance())
                         .commit();
                 return true;
             default:
@@ -207,22 +207,22 @@ public class WorkoutLog extends Fragment implements TabHost.OnTabChangeListener{
 
         if (workout instanceof Swim) {
             fm.beginTransaction()
-                    .replace(R.id.container, WorkoutAddSwim.newInstance((Swim) workout))
-                            .commit();
+                    .replace(R.id.container, LogAddSwim.newInstance((Swim) workout))
+                    .commit();
         }
         if (workout instanceof Bike) {
             fm.beginTransaction()
-                    .replace(R.id.container, WorkoutAddBike.newInstance((Bike) workout))
+                    .replace(R.id.container, LogAddBike.newInstance((Bike) workout))
                     .commit();
         }
         if (workout instanceof Run) {
             fm.beginTransaction()
-                    .replace(R.id.container, WorkoutAddRun.newInstance((Run) workout))
+                    .replace(R.id.container, LogAddRun.newInstance((Run) workout))
                     .commit();
         }
         if (workout instanceof Gym) {
             fm.beginTransaction()
-                    .replace(R.id.container, WorkoutAddGym.newInstance((Gym) workout))
+                    .replace(R.id.container, LogAddGym.newInstance((Gym) workout))
                     .commit();
         }
     }
@@ -233,64 +233,64 @@ public class WorkoutLog extends Fragment implements TabHost.OnTabChangeListener{
     }
 
     private void loadEmptyLog(LayoutInflater inflater) {
-            final View emptyLogView = inflater.inflate(R.layout.workout_log_empty, null);
+        final View emptyLogView = inflater.inflate(R.layout.workout_log_empty, null);
 
-            ImageButton addSwim = (ImageButton) emptyLogView.findViewById(R.id.addSwim);
-            ImageButton addBike = (ImageButton) emptyLogView.findViewById(R.id.addBike);
-            ImageButton addRun = (ImageButton) emptyLogView.findViewById(R.id.addRun);
-            ImageButton addGym = (ImageButton) emptyLogView.findViewById(R.id.addGym);
-            ImageButton addFile = (ImageButton) emptyLogView.findViewById(R.id.addFile);
+        ImageButton addSwim = (ImageButton) emptyLogView.findViewById(R.id.addSwim);
+        ImageButton addBike = (ImageButton) emptyLogView.findViewById(R.id.addBike);
+        ImageButton addRun = (ImageButton) emptyLogView.findViewById(R.id.addRun);
+        ImageButton addGym = (ImageButton) emptyLogView.findViewById(R.id.addGym);
+        ImageButton addRunFile = (ImageButton) emptyLogView.findViewById(R.id.addRunFile);
 
-            addSwim.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FragmentManager fm1 = getFragmentManager();
-                    fm1.beginTransaction()
-                            .replace(R.id.container, WorkoutAddSwim.newInstance())
-                            .commit();
-                }
-            });
+        addSwim.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm1 = getFragmentManager();
+                fm1.beginTransaction()
+                        .replace(R.id.container, LogAddSwim.newInstance())
+                        .commit();
+            }
+        });
 
-            addBike.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FragmentManager fm1 = getFragmentManager();
-                    fm1.beginTransaction()
-                            .replace(R.id.container, WorkoutAddBike.newInstance())
-                            .commit();
-                }
-            });
+        addBike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm1 = getFragmentManager();
+                fm1.beginTransaction()
+                        .replace(R.id.container, LogAddBike.newInstance())
+                        .commit();
+            }
+        });
 
-            addRun.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FragmentManager fm1 = getFragmentManager();
-                    fm1.beginTransaction()
-                            .replace(R.id.container, WorkoutAddRun.newInstance())
-                            .commit();
-                }
-            });
+        addRun.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm1 = getFragmentManager();
+                fm1.beginTransaction()
+                        .replace(R.id.container, LogAddRun.newInstance())
+                        .commit();
+            }
+        });
 
-            addGym.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FragmentManager fm1 = getFragmentManager();
-                    fm1.beginTransaction()
-                            .replace(R.id.container, WorkoutAddGym.newInstance())
-                            .commit();
-                }
-            });
+        addGym.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm1 = getFragmentManager();
+                fm1.beginTransaction()
+                        .replace(R.id.container, LogAddGym.newInstance())
+                        .commit();
+            }
+        });
 
-            final TabHost.TabSpec tabSpec = tabHost.newTabSpec("emptyTab");
-            tabSpec.setIndicator("Add a New Workout");
-            tabSpec.setContent(new TabHost.TabContentFactory() {
-                @Override
-                public View createTabContent(String tag) {
-                    return emptyLogView;
-                }
-            });
+        final TabHost.TabSpec tabSpec = tabHost.newTabSpec("emptyTab");
+        tabSpec.setIndicator("Add a New Workout");
+        tabSpec.setContent(new TabHost.TabContentFactory() {
+            @Override
+            public View createTabContent(String tag) {
+                return emptyLogView;
+            }
+        });
 
-            tabHost.addTab(tabSpec);
+        tabHost.addTab(tabSpec);
     }
 
     private void loadSwimData(LayoutInflater inflater, List<Swim> swims) {
@@ -544,7 +544,7 @@ public class WorkoutLog extends Fragment implements TabHost.OnTabChangeListener{
             setHasOptionsMenu(true);
         }
 
-        for(int i = 0;i < tabHost.getTabWidget().getChildCount(); i++) {
+        for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
             tabHost.getTabWidget().getChildAt(i).setBackgroundColor(Color.parseColor("#ecf0f1"));
         }
 
