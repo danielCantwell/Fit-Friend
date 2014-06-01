@@ -167,6 +167,7 @@ public class ForumFragment extends ListFragment {
                         // Forum posts must be created by someone in the list of friends
                         query.whereContainedIn("user", friends);
                         query.include("user");
+                        query.include("comments.user");
                         query.orderByDescending("createdAt");
                         query.setLimit(MAX_POST_SEARCH_RESULTS);
 
@@ -253,6 +254,7 @@ public class ForumFragment extends ListFragment {
                 /* Create a query for forum posts */
                 ParseQuery<Post> query = Post.getQuery();
                 query.include("user");
+                query.include("comments.user");
                 query.orderByDescending("createdAt");
                 query.setLimit(MAX_POST_SEARCH_RESULTS);
 
@@ -362,11 +364,14 @@ public class ForumFragment extends ListFragment {
                     } else {
                         /* Create new post */
                         Post post = new Post();
-                        post.setUser(ParseUser.getCurrentUser());
+                        post.setUser(user);
                         post.setContent(content.getText().toString());
                         /* Add comment if exists */
                         if (!isEmpty(comment)) {
-                            post.addComment(comment.getText().toString());
+                            Comment c = new Comment();
+                            c.setUser(user);
+                            c.setContent(comment.getText().toString());
+                            post.addComment(c);
                         }
                         post.setHighFives(0);
                         /* Save post */
@@ -423,20 +428,23 @@ public class ForumFragment extends ListFragment {
             content.setText(post.getContent());
             name.setText(post.getUser().getString("name"));
 
-            ArrayAdapter adapter;
+            CommentsAdapter adapter;
             if (post.has("comments")) {
-                adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, post.getComments());
+                adapter = new CommentsAdapter(getActivity(), android.R.layout.simple_list_item_1, post.getComments());
+                listView.setAdapter(adapter);
             } else {
-                List<String> comments = new ArrayList<String>();
-                comments.add("NO COMMENTS HAVE BEEN ADDED");
-                adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, comments);
+//                List<Comment> comments = new ArrayList<Comment>();
+//                adapter = new CommentsAdapter(getActivity(), android.R.layout.simple_list_item_1, comments);
             }
-            listView.setAdapter(adapter);
+//            listView.setAdapter(adapter);
 
             postComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    post.addComment(createComment.getText().toString());
+                    Comment c = new Comment();
+                    c.setUser(user);
+                    c.setContent(createComment.getText().toString());
+                    post.addComment(c);
                     posts.notifyDataSetChanged();
                     post.saveInBackground();
                     DiscussionDialog.this.dismiss();

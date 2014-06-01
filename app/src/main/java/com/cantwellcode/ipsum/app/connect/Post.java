@@ -5,6 +5,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 /**
@@ -43,11 +45,11 @@ public class Post extends ParseObject {
         increment("highFives");
     }
 
-    public List<String> getComments() { return getList("comments"); }
+    public List<Comment> getComments() { return getList("comments"); }
 
-    public void setComments(List<String> comments) { put("comments", comments); }
+    public void setComments(List<Comment> comments) { put("comments", comments); }
 
-    public void addComment(String comment) {
+    public void addComment(Comment comment) {
         add("comments", comment);
     }
 

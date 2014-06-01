@@ -1,31 +1,28 @@
 package com.cantwellcode.ipsum.app.connect;
 
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+
 /**
  * Created by Daniel on 4/27/2014.
  */
-public class Comment {
+@ParseClassName("Comment")
+public class Comment extends ParseObject {
 
-    private User user;
-    private String text;
-
-    public Comment(User user, String text) {
-        this.user = user;
-        this.text = text;
+    public ParseUser getUser() {
+        return getParseUser("user");
     }
 
-    public User getUser() {
-        return user;
+    public void setUser(ParseUser user) {
+        put("user", user);
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public String getContent() {
+        return getString("content");
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
+    public void setContent(String content) {
+        put("content", content);
     }
 }
