@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nutrition_log">Nutrition Log</string>
+
+    <string-array name="meal_types">
+        <item>Breakfast</item>
+        <item>Lunch</item>
+        <item>Dinner</item>
+        <item>Snack</item>
+        <item>Pre-Workout</item>
+        <item>Post-Workout</item>
+    </string-array>
+</resources>

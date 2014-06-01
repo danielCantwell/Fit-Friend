@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_addNew"
+        android:title="New"
+        android:showAsAction="withText|ifRoom" >
+
+        <menu>
+            <item android:id="@+id/action_selectSwim"
+                android:title="Swim"
+                android:showAsAction="withText|ifRoom" />
+            <item android:id="@+id/action_selectBike"
+                android:title="Bike"
+                android:showAsAction="withText|ifRoom" />
+            <item android:id="@+id/action_selectRun"
+                android:title="Run"
+                android:showAsAction="withText|ifRoom" />
+            <item android:id="@+id/action_selectGym"
+                android:title="Gym"
+                android:showAsAction="withText|ifRoom" />
+        </menu>
+
+    </item>
+</menu>

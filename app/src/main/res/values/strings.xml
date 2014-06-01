@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Ipsum</string>
+
+    <string name="tab_log">Log</string>
+    <string name="tab_plan">Plan</string>
+    <string name="tab_forum">Forum</string>
+    <string name="tab_profile">Profile</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_new">New</string>
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="previous"><![CDATA[<<]]></string>
+    <string name="next"><![CDATA[>>]]></string>
+
+</resources>

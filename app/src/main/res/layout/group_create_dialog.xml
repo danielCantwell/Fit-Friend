@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="textPersonName"
+        android:text="Name" />
+
+    <RadioGroup
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText"
+        android:layout_centerHorizontal="true">
+
+        <RadioButton
+            android:id="@+id/publicGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:button="@null"
+            android:checked="false"
+            android:drawableRight="@android:drawable/btn_radio"
+            android:text="Public | Anyone can see the group, members of the group, and group posts" />
+
+        <RadioButton
+            android:id="@+id/privateGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:button="@null"
+            android:checked="true"
+            android:drawableRight="@android:drawable/btn_radio"
+            android:text="Private | Anyone can see the group and members of the group, but not posts" />
+
+        <RadioButton
+            android:id="@+id/secretGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:button="@null"
+            android:checked="false"
+            android:drawableRight="@android:drawable/btn_radio"
+            android:text="Secret | The group is only visible to members of the group" />
+    </RadioGroup>
+</RelativeLayout>
