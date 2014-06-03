@@ -211,6 +211,7 @@ public class AddMeal extends FragmentActivity implements AdapterView.OnItemSelec
                 finish();
                 break;
             case android.R.id.home:
+                setResult(RESULT_CANCELED);
                 finish();
                 break;
         }

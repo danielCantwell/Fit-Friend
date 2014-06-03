@@ -24,7 +24,7 @@
         android:hint="name" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/icon"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/name"
@@ -36,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/createComment"
-        android:layout_below="@+id/imageView" />
+        android:layout_below="@+id/icon" />
 
     <EditText
         android:id="@+id/createComment"

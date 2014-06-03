@@ -5,6 +5,7 @@ import android.app.Application;
 import com.cantwellcode.ipsum.app.connect.Comment;
 import com.cantwellcode.ipsum.app.connect.Group;
 import com.cantwellcode.ipsum.app.connect.Post;
+import com.cantwellcode.ipsum.app.plan.Event;
 import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -24,6 +25,7 @@ public class App extends Application {
         ParseObject.registerSubclass(Post.class);
         ParseObject.registerSubclass(Group.class);
         ParseObject.registerSubclass(Comment.class);
+        ParseObject.registerSubclass(Event.class);
         Parse.initialize(this, "6ndNVpRctpv0EB5awdLtiT1nEwg5WidUBSNyKRwo", "QeU6X4k0S1zJDtlMZhiZPoe59DKhhGJONMdhZEBN");
     }
 }

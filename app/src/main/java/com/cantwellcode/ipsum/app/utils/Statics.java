@@ -14,4 +14,5 @@ public abstract class Statics {
 
     public static final int INTENT_REQUEST_MEAL = 1001;
     public static final int INTENT_REQUEST_WORKOUT = 1002;
+    public static final int INTENT_REQUEST_EVENT = 1003;
 }

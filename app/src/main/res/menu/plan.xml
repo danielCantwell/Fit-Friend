@@ -1,7 +1,6 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.cantwellcode.ipsum.Connect.Friends.ConnectFriends">
+<?xml version="1.0" encoding="utf-8"?>
 
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/action_group"
         android:actionLayout="@layout/spinner_layout"
@@ -10,10 +9,9 @@
     </item>
 
     <item
-        android:id="@+id/action_createPost"
+        android:id="@+id/action_createEvent"
         android:icon="@android:drawable/ic_menu_add"
         android:showAsAction="always"
-        android:title="Create Post">
+        android:title="Create Event">
     </item>
-
 </menu>

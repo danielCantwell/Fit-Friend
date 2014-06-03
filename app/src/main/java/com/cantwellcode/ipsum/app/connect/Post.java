@@ -47,8 +47,6 @@ public class Post extends ParseObject {
 
     public List<Comment> getComments() { return getList("comments"); }
 
-    public void setComments(List<Comment> comments) { put("comments", comments); }
-
     public void addComment(Comment comment) {
         add("comments", comment);
     }

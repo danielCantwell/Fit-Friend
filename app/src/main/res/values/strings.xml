@@ -15,4 +15,16 @@
     <string name="previous"><![CDATA[<<]]></string>
     <string name="next"><![CDATA[>>]]></string>
 
+    <string-array name="event_types">
+        <item>Swim</item>
+        <item>Bike</item>
+        <item>Run</item>
+        <item>Gym</item>
+        <item>Breakfast</item>
+        <item>Lunch</item>
+        <item>Dinner</item>
+        <item>Drinks</item>
+        <item>Other</item>
+    </string-array>
+
 </resources>

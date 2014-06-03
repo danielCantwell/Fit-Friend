@@ -27,7 +27,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:id="@+id/imageView"
+        android:id="@+id/icon"
         android:layout_below="@+id/privacy"
         android:layout_centerHorizontal="true"
         android:layout_margin="5dp"

@@ -38,7 +38,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:id="@+id/imageView"
+        android:id="@+id/icon"
         android:layout_below="@+id/group"
         android:layout_centerHorizontal="true"
         android:background="#444444"
@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:id="@+id/content"
-        android:layout_below="@+id/imageView"
+        android:layout_below="@+id/icon"
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
         android:hint="T i t l e"
