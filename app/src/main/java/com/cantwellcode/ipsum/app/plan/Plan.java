@@ -153,7 +153,7 @@ public class Plan extends Fragment {
                         query.whereContainedIn("user", friends);
                         query.whereEqualTo("date", date);
                         query.include("user");
-                        query.orderByDescending("createdAt");
+                        query.orderByAscending("title");
                         query.setLimit(MAX_EVENT_SEARCH_RESULTS);
 
                         return query;
@@ -212,6 +212,21 @@ public class Plan extends Fragment {
                         time.setText(event.getTime());
                         creator.setText(event.getUser().getString("name"));
 
+                        view.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(getActivity(), EventDetails.class);
+                                intent.putExtra("title", event.getTitle());
+                                intent.putExtra("date", event.getDate());
+                                intent.putExtra("time", event.getTime());
+                                intent.putExtra("creator", event.getUser().getString("name"));
+                                intent.putExtra("location", event.getLocation());
+                                intent.putExtra("description", event.getDescription());
+                                intent.putExtra("type", event.getType());
+                                startActivityForResult(intent, Statics.INTENT_REQUEST_EVENT_DETAILS);
+                            }
+                        });
+
                         return view;
                     }
                 };
@@ -240,7 +255,7 @@ public class Plan extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == getActivity().RESULT_OK) {
+        if (resultCode == getActivity().RESULT_OK && requestCode == Statics.INTENT_REQUEST_EVENT) {
             setupFriendsEvents();
         }
     }

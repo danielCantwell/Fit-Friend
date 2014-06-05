@@ -6,13 +6,14 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Daniel on 6/1/2014.
  */
 @ParseClassName("Event")
-public class Event extends ParseObject {
+public class Event extends ParseObject{
 
     // User who created the Event
     public ParseUser getUser() {

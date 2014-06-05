@@ -53,6 +53,10 @@
             android:name=".plan.AddEvent"
             android:label="@string/app_name">
         </activity>
+        <activity
+            android:name=".plan.EventDetails"
+            android:label="@string/app_name">
+        </activity>
     </application>
 
 </manifest>

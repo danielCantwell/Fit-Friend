@@ -97,7 +97,6 @@ public class AddEvent extends FragmentActivity implements DatePickerDialog.OnDat
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.clear();
         restoreActionBar();
         getMenuInflater().inflate(R.menu.save, menu);
         return true;
