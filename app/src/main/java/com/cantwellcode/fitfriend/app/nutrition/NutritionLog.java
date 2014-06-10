@@ -214,9 +214,7 @@ public class NutritionLog extends ListFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
         restoreActionBar();
-        inflater.inflate(R.menu.menu_new, menu);
     }
 
     @Override
@@ -232,8 +230,6 @@ public class NutritionLog extends ListFragment {
 
     private void restoreActionBar() {
         ActionBar actionBar = getActivity().getActionBar();
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle("Nutrition Log");
     }
 
     private void updateTotals() {

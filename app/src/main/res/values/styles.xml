@@ -4,10 +4,17 @@
     <style name="AppTheme" parent="android:Theme.Holo.Light">
         <!-- Customize your theme here. -->
         <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="android:actionBarTabStyle">@style/AppTheme.Tab</item>
     </style>
 
     <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">#c0392b</item>
+        <item name="android:icon">@drawable/ic_launcher_white</item>
+    </style>
+
+    <style name="AppTheme.Tab">
+        <item name="android:background">@drawable/tab_background</item>
+        <item name="android:gravity">center</item>
     </style>
 
 </resources>

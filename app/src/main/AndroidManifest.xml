@@ -62,6 +62,10 @@
             android:label="@string/app_name">
         </activity>
         <activity
+            android:name="com.cantwellcode.fitfriend.app.connect.ProfileActivity"
+            android:label="@string/app_name">
+        </activity>
+        <activity
             android:name="com.cantwellcode.fitfriend.app.connect.SettingsActivity"
             android:label="@string/app_name">
         </activity>

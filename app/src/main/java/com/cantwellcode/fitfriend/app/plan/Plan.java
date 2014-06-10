@@ -97,15 +97,13 @@ public class Plan extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
         restoreActionBar();
-        inflater.inflate(R.menu.plan, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_createEvent:
+            case R.id.action_new:
                 Intent intent = new Intent(getActivity(), AddEvent.class);
                 startActivityForResult(intent, Statics.INTENT_REQUEST_EVENT);
                 return true;
@@ -250,9 +248,6 @@ public class Plan extends Fragment {
 
     private void restoreActionBar() {
         ActionBar actionBar = getActivity().getActionBar();
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        actionBar.setTitle("Plan");
     }
 
     @Override

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/gym"
+        android:title="Gym"
+        android:showAsAction="always" />
+    <item android:id="@+id/swim"
+        android:title="Swim"
+        android:showAsAction="always" />
+    <item android:id="@+id/bike"
+        android:title="Bike"
+        android:showAsAction="always" />
+    <item android:id="@+id/run"
+        android:title="Run"
+        android:showAsAction="always" />
+</menu>

@@ -18,8 +18,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.cantwellcode.fitfriend.app.R;
@@ -28,6 +30,7 @@ import com.cantwellcode.fitfriend.app.exercise.types.Gym;
 import com.cantwellcode.fitfriend.app.exercise.types.Run;
 import com.cantwellcode.fitfriend.app.exercise.types.Swim;
 import com.cantwellcode.fitfriend.app.exercise.types.Workout;
+import com.cantwellcode.fitfriend.app.nutrition.Meal;
 import com.cantwellcode.fitfriend.app.utils.DBHelper;
 import com.cantwellcode.fitfriend.app.utils.DatePickerFragment;
 import com.cantwellcode.fitfriend.app.utils.DialogListener;
@@ -149,34 +152,61 @@ public class WorkoutLog extends Fragment implements TabHost.OnTabChangeListener 
 
         updateWorkouts();
 
+        setHasOptionsMenu(true);
+
         return root;
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
         restoreActionBar();
-        inflater.inflate(R.menu.workout_type, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Toast.makeText(getActivity(), "popup should popup first", Toast.LENGTH_SHORT).show();
         switch (item.getItemId()) {
-            case R.id.action_selectSwim:
-                startAddActivity("Swim", null);
-                return true;
-            case R.id.action_selectBike:
-                startAddActivity("Bike", null);
-                return true;
-            case R.id.action_selectRun:
-                startAddActivity("Run", null);
-                return true;
-            case R.id.action_selectGym:
-                startAddActivity("Gym", null);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+            case R.id.action_new:
+                Toast.makeText(getActivity(), "popup should popup next", Toast.LENGTH_SHORT).show();
+                View v = getActivity().findViewById(R.id.action_new);
+                showPopup(v);
+                break;
         }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showPopup(View v) {
+        Toast.makeText(getActivity(), "popup should popup", Toast.LENGTH_SHORT).show();
+
+        PopupMenu popup = new PopupMenu(getActivity(), v);
+
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+
+                switch (menuItem.getItemId()) {
+                    case R.id.gym:
+                        startAddActivity("Gym", null);
+                        return true;
+                    case R.id.swim:
+                        startAddActivity("Swim", null);
+                        return true;
+                    case R.id.bike:
+                        startAddActivity("Bike", null);
+                        return true;
+                    case R.id.run:
+                        startAddActivity("Run", null);
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.new_workout_type, popup.getMenu());
+        popup.show();
     }
 
     private void menuClickEdit(Workout workout) {
@@ -490,9 +520,6 @@ public class WorkoutLog extends Fragment implements TabHost.OnTabChangeListener 
 
         if (isEmpty) {
             loadEmptyLog(mInflater);
-            setHasOptionsMenu(false);
-        } else {
-            setHasOptionsMenu(true);
         }
 
         for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
@@ -519,8 +546,6 @@ public class WorkoutLog extends Fragment implements TabHost.OnTabChangeListener 
 
     private void restoreActionBar() {
         ActionBar actionBar = getActivity().getActionBar();
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle("Workout Log");
     }
 
     @Override

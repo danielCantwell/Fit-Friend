@@ -105,15 +105,13 @@ public class ForumFragment extends ListFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
         restoreActionBar();
-        inflater.inflate(R.menu.connect_friends, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_createPost:
+            case R.id.action_new:
                 FragmentManager fm1 = getFragmentManager();
                 ForumPostDialog dialog = new ForumPostDialog();
                 dialog.show(fm1, "ForumPostDialog");
@@ -477,8 +475,5 @@ public class ForumFragment extends ListFragment {
 
     private void restoreActionBar() {
         ActionBar actionBar = getActivity().getActionBar();
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        actionBar.setTitle("Connect");
     }
 }

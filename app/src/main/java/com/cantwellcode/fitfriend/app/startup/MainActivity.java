@@ -3,6 +3,7 @@ package com.cantwellcode.fitfriend.app.startup;
 import java.util.Locale;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -16,7 +17,7 @@ import android.view.MenuItem;
 
 import com.cantwellcode.fitfriend.app.R;
 import com.cantwellcode.fitfriend.app.connect.ForumFragment;
-import com.cantwellcode.fitfriend.app.connect.ProfileFragment;
+import com.cantwellcode.fitfriend.app.connect.ProfileActivity;
 import com.cantwellcode.fitfriend.app.exercise.log.WorkoutLog;
 import com.cantwellcode.fitfriend.app.nutrition.NutritionLog;
 import com.cantwellcode.fitfriend.app.plan.Plan;
@@ -89,6 +90,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
         return true;
     }
 
@@ -98,7 +101,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_profile) {
+            Intent intent = new Intent(this, ProfileActivity.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -117,10 +122,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        if (tab.getPosition() == 0) {
-            switchLogs();
-            mSectionsPagerAdapter.notifyDataSetChanged();
-        }
     }
 
     /**
@@ -138,20 +139,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             // getItem is called to instantiate the fragment for the given page.
             switch (position) {
                 case 0:
-                    return getLog();
+                    return NutritionLog.newInstance();
                 case 1:
-                    return Plan.newInstance();
+                    return WorkoutLog.newInstance();
                 case 2:
-                    return ForumFragment.newInstance();
+                    return Plan.newInstance();
                 case 3:
-                    return ProfileFragment.newInstance();
+                    return ForumFragment.newInstance();
             }
             return null;
-        }
-
-        @Override
-        public int getItemPosition(Object object) {
-            return POSITION_NONE;
         }
 
         @Override
@@ -165,31 +161,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             Locale l = Locale.getDefault();
             switch (position) {
                 case 0:
-                    return getString(R.string.tab_log).toUpperCase(l);
+                    return getString(R.string.tab_food).toUpperCase(l);
                 case 1:
-                    return getString(R.string.tab_plan).toUpperCase(l);
+                    return getString(R.string.tab_exercise).toUpperCase(l);
                 case 2:
-                    return getString(R.string.tab_forum).toUpperCase(l);
+                    return getString(R.string.tab_plan).toUpperCase(l);
                 case 3:
-                    return getString(R.string.tab_profile).toUpperCase(l);
+                    return getString(R.string.tab_forum).toUpperCase(l);
             }
             return null;
-        }
-    }
-
-    private void switchLogs() {
-        if (log == Log.Nutrition) {
-            log = Log.Workout;
-        } else if (log == Log.Workout) {
-            log = Log.Nutrition;
-        }
-    }
-
-    private Fragment getLog() {
-        if (log == Log.Nutrition) {
-            return NutritionLog.newInstance();
-        } else {
-            return WorkoutLog.newInstance();
         }
     }
 }
