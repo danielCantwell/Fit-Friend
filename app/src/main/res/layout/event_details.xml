@@ -22,8 +22,8 @@
         android:layout_marginTop="2dp"
         android:layout_toRightOf="@+id/icon"
         android:text="Title"
-        android:textStyle="bold"
-        android:textAppearance="?android:attr/textAppearanceMedium"/>
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/time"
@@ -58,8 +58,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/time"
-        android:background="#CDCDCD"
-        android:layout_margin="4dp"/>
+        android:layout_margin="4dp"
+        android:background="#CDCDCD" />
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -78,10 +78,10 @@
                 android:id="@+id/locationText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Location"
-                android:textStyle="bold"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"/>
+                android:text="Location"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/location"
@@ -96,10 +96,10 @@
                 android:id="@+id/descriptionText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Description"
-                android:textStyle="bold"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"/>
+                android:text="Description"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/description"
@@ -120,14 +120,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="4 Attending" />
+                    android:background="@android:drawable/editbox_dropdown_light_frame"
+                    android:text="1 Attending" />
 
                 <Button
-                    android:id="@+id/attending"
+                    android:id="@+id/join"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Going" />
+                    android:background="@android:drawable/editbox_dropdown_light_frame"
+                    android:text="Join" />
             </TableRow>
 
             <ListView

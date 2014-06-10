@@ -14,7 +14,7 @@
         android:layout_alignParentTop="true"
         android:background="#FFFFFF">
 
-        <com.cantwellcode.ipsum.app.utils.SmallDecimalTextView
+        <com.cantwellcode.fitfriend.app.utils.SmallDecimalTextView
             android:id="@+id/n_view_total_calories"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
             android:hint="calories"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <com.cantwellcode.ipsum.app.utils.SmallDecimalTextView
+        <com.cantwellcode.fitfriend.app.utils.SmallDecimalTextView
             android:id="@+id/n_view_total_fat"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
             android:hint="fat"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <com.cantwellcode.ipsum.app.utils.SmallDecimalTextView
+        <com.cantwellcode.fitfriend.app.utils.SmallDecimalTextView
             android:id="@+id/n_view_total_carbs"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
             android:hint="carbs"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <com.cantwellcode.ipsum.app.utils.SmallDecimalTextView
+        <com.cantwellcode.fitfriend.app.utils.SmallDecimalTextView
             android:id="@+id/n_view_total_protein"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

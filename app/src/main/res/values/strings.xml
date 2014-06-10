@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Ipsum</string>
+    <string name="app_name">Fit-Friend</string>
 
     <string name="tab_log">Log</string>
     <string name="tab_plan">Plan</string>

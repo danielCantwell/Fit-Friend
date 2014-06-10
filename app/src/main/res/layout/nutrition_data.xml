@@ -44,7 +44,7 @@
         android:layout_alignParentRight="false"
         android:layout_below="@+id/n_data_type">
 
-        <com.cantwellcode.ipsum.app.utils.SmallDecimalTextView
+        <com.cantwellcode.fitfriend.app.utils.SmallDecimalTextView
             android:id="@+id/n_data_calories"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
             android:textColor="?android:attr/textColorPrimary"
             android:textStyle="bold" />
 
-        <com.cantwellcode.ipsum.app.utils.SmallDecimalTextView
+        <com.cantwellcode.fitfriend.app.utils.SmallDecimalTextView
             android:id="@+id/n_data_fat"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
             android:textColor="?android:attr/textColorPrimary"
             android:textStyle="bold" />
 
-        <com.cantwellcode.ipsum.app.utils.SmallDecimalTextView
+        <com.cantwellcode.fitfriend.app.utils.SmallDecimalTextView
             android:id="@+id/n_data_carbs"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
             android:textColor="?android:attr/textColorPrimary"
             android:textStyle="bold" />
 
-        <com.cantwellcode.ipsum.app.utils.SmallDecimalTextView
+        <com.cantwellcode.fitfriend.app.utils.SmallDecimalTextView
             android:id="@+id/n_data_protein"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

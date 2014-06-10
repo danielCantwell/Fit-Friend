@@ -18,14 +18,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/ic_search_black" />
+            android:background="@drawable/ic_search_red" />
 
         <Button
             android:id="@+id/friendRequests"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/ic_add_person_black" />
+            android:background="@drawable/ic_add_person_red" />
 
         <Button
             android:id="@+id/friends"
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/ic_group_black" />
+            android:background="@drawable/ic_group_red" />
 
     </TableRow>
 

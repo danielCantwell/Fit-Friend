@@ -48,7 +48,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <ImageView
-        android:id="@+id/icon"
+        android:id="@+id/dividerOne"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/location"
@@ -56,45 +56,55 @@
         android:layout_margin="5dp"
         android:background="#44000000" />
 
-    <Button
-        android:id="@+id/logout"
+    <TextView
+        android:id="@+id/headline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="L o g   O u t" />
+        android:layout_below="@+id/dividerOne"
+        android:layout_margin="5dp"
+        android:text="THIS IS MY HEADLINE" />
 
+    <ImageView
+        android:id="@+id/dividerTwo"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/headline"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dp"
+        android:background="#44000000" />
 
     <TableRow
-        android:layout_width="wrap_content"
+        android:id="@+id/row_posts_and_events"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/icon"
+        android:layout_below="@+id/dividerTwo">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@android:drawable/editbox_dropdown_light_frame"
+            android:text="Posts" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@android:drawable/editbox_dropdown_light_frame"
+            android:text="Events" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/row_friends_and_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/row_posts_and_events"
         android:layout_centerHorizontal="true"
         android:layout_weight="1">
-
-        <Button
-            android:id="@+id/chat"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="2dp"
-            android:layout_weight="1"
-            android:background="@drawable/chat_black" />
-
-        <Button
-            android:id="@+id/events"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="2dp"
-            android:layout_weight="1"
-            android:background="@drawable/event_black" />
-
-        <Button
-            android:id="@+id/posts"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="2dp"
-            android:layout_weight="1"
-            android:background="@drawable/posts_black" />
 
         <Button
             android:id="@+id/friends"
@@ -102,7 +112,27 @@
             android:layout_height="match_parent"
             android:layout_margin="2dp"
             android:layout_weight="1"
-            android:background="@drawable/group_black" />
+            android:background="@android:drawable/editbox_dropdown_light_frame"
+            android:text="Friends" />
+
+        <Button
+            android:id="@+id/settings"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@android:drawable/editbox_dropdown_light_frame"
+            android:text="Settings" />
     </TableRow>
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:layout_below="@+id/row_friends_and_settings"
+        android:layout_centerHorizontal="true"
+        android:background="@android:drawable/editbox_dropdown_light_frame"
+        android:text="L o g   O u t" />
 
 </RelativeLayout>
