@@ -83,6 +83,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+
     }
 
 

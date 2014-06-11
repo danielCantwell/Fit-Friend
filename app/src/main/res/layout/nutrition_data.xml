@@ -52,8 +52,7 @@
             android:gravity="center"
             android:hint="Calories"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textStyle="bold" />
+            android:textColor="?android:attr/textColorPrimary" />
 
         <com.cantwellcode.fitfriend.app.utils.SmallDecimalTextView
             android:id="@+id/n_data_fat"
@@ -63,8 +62,7 @@
             android:gravity="center"
             android:hint="Fat"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textStyle="bold" />
+            android:textColor="?android:attr/textColorPrimary" />
 
         <com.cantwellcode.fitfriend.app.utils.SmallDecimalTextView
             android:id="@+id/n_data_carbs"
@@ -74,8 +72,7 @@
             android:gravity="center"
             android:hint="Carbs"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textStyle="bold" />
+            android:textColor="?android:attr/textColorPrimary"/>
 
         <com.cantwellcode.fitfriend.app.utils.SmallDecimalTextView
             android:id="@+id/n_data_protein"
@@ -85,8 +82,7 @@
             android:gravity="center"
             android:hint="Protein"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textStyle="bold" />
+            android:textColor="?android:attr/textColorPrimary" />
     </TableRow>
 
     <TableRow
