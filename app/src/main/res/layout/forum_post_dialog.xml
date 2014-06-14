@@ -1,70 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
 
     <Button
+        android:id="@+id/options"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=". . ."
-        android:id="@+id/options"
-        android:layout_gravity="right"
-        android:gravity="center_horizontal|top"
-        android:textStyle="bold"
-        android:background="#00FFFFFF"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true" />
+        android:layout_gravity="right"
+        android:background="#00FFFFFF"
+        android:gravity="center_horizontal|top"
+        android:text=". . ."
+        android:textStyle="bold" />
 
     <CheckBox
+        android:id="@+id/publiclyAvailable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Public"
-        android:id="@+id/publiclyAvailable"
-        android:layout_gravity="center_horizontal"
-        android:checked="true"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/options" />
+        android:layout_gravity="center_horizontal"
+        android:layout_toLeftOf="@+id/options"
+        android:checked="true"
+        android:text="Public" />
 
     <Spinner
+        android:id="@+id/group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/group"
-        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@+id/options"
         android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/publiclyAvailable"
-        android:layout_alignBottom="@+id/options" />
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/publiclyAvailable" />
 
     <ImageView
+        android:id="@+id/icon"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:id="@+id/icon"
         android:layout_below="@+id/group"
         android:layout_centerHorizontal="true"
-        android:background="#444444"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="5dp"
+        android:background="#444444" />
 
     <EditText
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:id="@+id/content"
         android:layout_below="@+id/icon"
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
+        android:ems="10"
         android:hint="T i t l e"
         android:inputType="textPersonName" />
 
     <EditText
+        android:id="@+id/comment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
-        android:ems="10"
-        android:id="@+id/comment"
         android:layout_below="@+id/content"
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
+        android:ems="10"
+        android:gravity="left|top"
         android:hint="C o m m e n t"
-        android:gravity="left|top" />
+        android:inputType="textMultiLine|textCapSentences|textAutoCorrect" />
 
 </RelativeLayout>

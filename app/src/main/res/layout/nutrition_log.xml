@@ -3,7 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ecf0f1"
+    android:background="@color/background"
     android:orientation="vertical">
 
     <TableRow
@@ -11,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="#FFFFFF">
+        android:layout_alignParentTop="true">
 
         <com.cantwellcode.fitfriend.app.utils.SmallDecimalTextView
             android:id="@+id/n_view_total_calories"
@@ -60,8 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/tableRow1"
-        android:background="#FFFFFF">
+        android:layout_below="@+id/tableRow1">
 
         <TextView
             android:id="@+id/n_goal_calories"
@@ -110,7 +108,7 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_below="@id/tableRow2"
-        android:background="#c0392b" />
+        android:background="@color/pomegranate" />
 
     <ListView
         android:id="@android:id/list"
@@ -122,7 +120,7 @@
         android:layout_marginRight="3dp"
         android:background="#ecf0f1"
         android:choiceMode="singleChoice"
-        android:divider="#c0392b"
+        android:divider="@color/pomegranate"
         android:dividerHeight="2dp" />
 
     <TableRow
@@ -132,7 +130,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="false"
-        android:background="#c0392b">
+        android:background="@color/pomegranate">
 
         <Button
             android:id="@+id/n_previous"

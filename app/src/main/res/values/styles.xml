@@ -3,9 +3,21 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Holo.Light">
         <!-- Customize your theme here. -->
+        <item name="android:buttonStyle">@style/Button</item>
+        <item name="android:editTextStyle">@style/EditText</item>
         <item name="android:actionBarStyle">@style/ActionBar</item>
         <item name="android:actionBarTabStyle">@style/Tab</item>
         <item name="android:actionBarTabTextStyle">@style/TabText</item>
+    </style>
+
+    <style name="Button">
+        <item name="android:background">@android:drawable/editbox_background</item>
+        <item name="android:height">48dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="EditText" parent="android:style/Widget.EditText">
+        <item name="android:background">@android:drawable/edit_text</item>
     </style>
 
     <style name="ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
@@ -28,7 +40,7 @@
 
     <style name="TabText">
         <item name="android:textSize">14dp</item>
-        <item name="android:textColor">#c0392b</item>
+        <item name="android:textColor">@color/pomegranate</item>
     </style>
 
 </resources>

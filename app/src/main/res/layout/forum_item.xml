@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <TableRow
@@ -18,7 +18,7 @@
             android:layout_marginLeft="5dp"
             android:layout_weight="9"
             android:hint="display name"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/date"
@@ -48,19 +48,19 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="40dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:hint="content"
-        android:textAppearance="?android:attr/textAppearanceMedium"/>
+        android:minHeight="40dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#44c0392b"/>
+        android:background="#44c0392b" />
 
     <TableRow
         android:id="@+id/tableRow2"

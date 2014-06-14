@@ -3,7 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#FFFFFF">
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/n_data_name"
@@ -72,7 +72,7 @@
             android:gravity="center"
             android:hint="Carbs"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="?android:attr/textColorPrimary"/>
+            android:textColor="?android:attr/textColorPrimary" />
 
         <com.cantwellcode.fitfriend.app.utils.SmallDecimalTextView
             android:id="@+id/n_data_protein"
