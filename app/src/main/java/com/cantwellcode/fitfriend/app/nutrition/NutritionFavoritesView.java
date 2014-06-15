@@ -110,6 +110,7 @@ public class NutritionFavoritesView extends FragmentActivity {
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle("Favorite Meals");
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     private void showPopup(View v, final Meal meal) {

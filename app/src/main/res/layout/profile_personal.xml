@@ -1,236 +1,251 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/background">
 
-    <EditText
-        android:id="@+id/profileGoalCalories"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="center_horizontal"
-        android:hint="goal #"
-        android:inputType="number"
-        android:selectAllOnFocus="true"
-        android:layout_below="@+id/textView6"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
-    <EditText
-        android:id="@+id/profileGoalFat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="center_horizontal"
-        android:hint="goal #"
-        android:inputType="number"
-        android:selectAllOnFocus="true"
-        android:layout_below="@+id/profileGoalCalories"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        <EditText
+            android:id="@+id/profileGoalCalories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/textView6"
+            android:ems="10"
+            android:gravity="center_horizontal"
+            android:hint="goal #"
+            android:inputType="number"
+            android:selectAllOnFocus="true" />
 
-    <EditText
-        android:id="@+id/profileGoalCarbs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="center_horizontal"
-        android:hint="goal #"
-        android:inputType="number"
-        android:selectAllOnFocus="true"
-        android:layout_below="@+id/profileGoalFat"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        <EditText
+            android:id="@+id/profileGoalFat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/profileGoalCalories"
+            android:ems="10"
+            android:gravity="center_horizontal"
+            android:hint="goal #"
+            android:inputType="number"
+            android:selectAllOnFocus="true" />
 
-    <EditText
-        android:id="@+id/profileGoalProtein"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="center_horizontal"
-        android:hint="goal #"
-        android:inputType="number"
-        android:selectAllOnFocus="true"
-        android:layout_below="@+id/profileGoalCarbs"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        <EditText
+            android:id="@+id/profileGoalCarbs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/profileGoalFat"
+            android:ems="10"
+            android:gravity="center_horizontal"
+            android:hint="goal #"
+            android:inputType="number"
+            android:selectAllOnFocus="true" />
 
-    <TextView
-        android:id="@+id/editEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/email"
-        android:text="email: "
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_marginLeft="10dp" />
+        <EditText
+            android:id="@+id/profileGoalProtein"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/profileGoalCarbs"
+            android:ems="10"
+            android:gravity="center_horizontal"
+            android:hint="goal #"
+            android:inputType="number"
+            android:selectAllOnFocus="true" />
 
-    <EditText
-        android:id="@+id/email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="how to reach you"
-        android:inputType="textEmailAddress"
-        android:textSize="12sp"
-        android:layout_below="@+id/mainSport"
-        android:layout_alignLeft="@+id/mainSport"
-        android:layout_alignStart="@+id/mainSport"
-        android:layout_alignEnd="@+id/mainSport" />
+        <TextView
+            android:id="@+id/editEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/email"
+            android:layout_marginLeft="10dp"
+            android:text="email: "
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:id="@+id/nameText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/name"
-        android:layout_centerVertical="true"
-        android:text="Name:"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_marginLeft="10dp" />
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/mainSport"
+            android:layout_alignLeft="@+id/mainSport"
+            android:layout_alignStart="@+id/mainSport"
+            android:layout_below="@+id/mainSport"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="how to reach you"
+            android:inputType="textEmailAddress"
+            android:textSize="12sp" />
 
-    <EditText
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="what's your name"
-        android:inputType="textPersonName"
-        android:layout_below="@+id/textView5"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        <TextView
+            android:id="@+id/nameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/name"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="Name:"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <EditText
-        android:id="@+id/age"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="how old are you"
-        android:inputType="number"
-        android:layout_below="@+id/name"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/headline"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="what's your name"
+            android:inputType="textPersonName" />
 
-    <EditText
-        android:id="@+id/location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="where are you"
-        android:inputType="textPersonName"
-        android:layout_below="@+id/ageText"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        <EditText
+            android:id="@+id/age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/name"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="how old are you"
+            android:inputType="number" />
 
-    <EditText
-        android:id="@+id/mainSport"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="what do you do"
-        android:inputType="textPersonName"
-        android:layout_below="@+id/location"
-        android:layout_alignLeft="@+id/location"
-        android:layout_alignStart="@+id/location" />
+        <EditText
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/ageText"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="where are you"
+            android:inputType="textPersonName" />
 
-    <TextView
-        android:id="@+id/ageText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/age"
-        android:text="Age:"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_marginLeft="10dp" />
+        <EditText
+            android:id="@+id/mainSport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/location"
+            android:layout_alignStart="@+id/location"
+            android:layout_below="@+id/location"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="what do you do"
+            android:inputType="textPersonName" />
 
-    <TextView
-        android:id="@+id/locationText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/location"
-        android:layout_alignStart="@+id/ageText"
-        android:text="Location:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:id="@+id/ageText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/age"
+            android:layout_marginLeft="10dp"
+            android:text="Age:"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:id="@+id/mainSportText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/mainSport"
-        android:text="Main Sport:"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_marginLeft="10dp" />
+        <TextView
+            android:id="@+id/locationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/location"
+            android:layout_alignStart="@+id/ageText"
+            android:text="Location:"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Protein"
-        android:id="@+id/textView"
-        android:layout_alignBottom="@+id/profileGoalProtein"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="10dp" />
+        <TextView
+            android:id="@+id/mainSportText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/mainSport"
+            android:layout_marginLeft="10dp"
+            android:text="Main Sport:"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Carbs"
-        android:id="@+id/textView2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/profileGoalCarbs"
-        android:layout_marginLeft="10dp" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/profileGoalProtein"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp"
+            android:text="Protein"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Fat"
-        android:id="@+id/textView3"
-        android:layout_alignBottom="@+id/profileGoalFat"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="10dp" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/profileGoalCarbs"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp"
+            android:text="Carbs"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Calories"
-        android:id="@+id/textView4"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/profileGoalCalories"
-        android:layout_marginLeft="10dp" />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/profileGoalFat"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp"
+            android:text="Fat"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Social Settings"
-        android:id="@+id/textView5"
-        android:layout_below="@+id/profileGoalProtein"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="5dp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/profileGoalCalories"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp"
+            android:text="Calories"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Nutrition Goals"
-        android:id="@+id/textView6"
-        android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/textView5"
-        android:layout_alignStart="@+id/textView5"
-        android:layout_margin="5dp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profileGoalProtein"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
+            android:text="Social Settings"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView5"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/textView5"
+            android:layout_margin="5dp"
+            android:text="Nutrition Goals"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/headline"
+            android:text="This is my headline"
+            android:layout_alignRight="@+id/name"
+            android:layout_alignEnd="@+id/name"
+            android:layout_below="@+id/textView5"
+            android:layout_alignLeft="@+id/nameText" />
+
+    </RelativeLayout>
+
+</ScrollView>

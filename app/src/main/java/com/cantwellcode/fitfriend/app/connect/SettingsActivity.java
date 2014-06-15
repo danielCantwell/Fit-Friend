@@ -32,6 +32,7 @@ public class SettingsActivity extends FragmentActivity {
     private EditText goalCarbs;
     private EditText goalFat;
 
+    private EditText headline;
     private EditText name;
     private EditText age;
     private EditText location;
@@ -54,6 +55,7 @@ public class SettingsActivity extends FragmentActivity {
         goalCarbs = (EditText) findViewById(R.id.profileGoalCarbs);
         goalFat = (EditText) findViewById(R.id.profileGoalFat);
 
+        headline = (EditText) findViewById(R.id.headline);
         name = (EditText) findViewById(R.id.name);
         age = (EditText) findViewById(R.id.age);
         location = (EditText) findViewById(R.id.location);
@@ -67,6 +69,9 @@ public class SettingsActivity extends FragmentActivity {
         goalCarbs.setText(sp.getString(Statics.GOAL_CARBS, ""));
         goalFat.setText(sp.getString(Statics.GOAL_FAT, ""));
 
+        if (user.containsKey("headline")) {
+            headline.setText(user.getString("headline"));
+        }
         if (user.containsKey("name")) {
             name.setText(user.getString("name"));
         }
@@ -114,6 +119,7 @@ public class SettingsActivity extends FragmentActivity {
         if (age.length() > 0) {
             user.put("age", Integer.parseInt(age.getText().toString()));
         }
+        user.put("headline", headline.getText().toString());
         user.put("name", name.getText().toString());
         user.put("location", location.getText().toString());
         user.put("mainSport", mainSport.getText().toString());

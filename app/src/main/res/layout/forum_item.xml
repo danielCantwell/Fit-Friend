@@ -9,60 +9,61 @@
         android:id="@+id/picture"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"/>
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
 
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/picture"
         android:hint="display name"
         android:textSize="16dp"
-        android:textStyle="bold"
-        android:layout_toRightOf="@+id/picture"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="8dp"
+        android:layout_toRightOf="@+id/picture"
         android:hint="date"
-        android:textSize="14dp"
-        android:layout_below="@+id/name"
-        android:layout_toRightOf="@+id/picture"/>
+        android:textColor="#444444"
+        android:textSize="14dp" />
 
     <TextView
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/picture"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="8dp"
         android:gravity="center_vertical"
         android:hint="content"
-        android:textSize="16dp"
-        android:layout_below="@+id/picture"/>
+        android:textSize="16dp" />
 
     <TableRow
         android:id="@+id/tableRow2"
         android:layout_width="wrap_content"
         android:layout_height="24dp"
-        android:layout_marginRight="20dp"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/content"
-        android:layout_alignParentRight="true">
+        android:layout_marginRight="20dp">
 
         <TextView
             android:id="@+id/numComments"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginRight="2dp"
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:gravity="right"
-            android:layout_marginRight="2dp"
             android:text="0"
-            android:textSize="16sp"
-            android:textColor="#AAAAAA"/>
+            android:textColor="#AAAAAA"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/discusson"
@@ -73,20 +74,21 @@
             android:gravity="center"
             android:textSize="14sp" />
 
-        <Space android:layout_width="30dp"
-            android:layout_height="0dp"/>
+        <Space
+            android:layout_width="30dp"
+            android:layout_height="0dp" />
 
         <TextView
             android:id="@+id/numHighFives"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginRight="2dp"
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:gravity="right"
             android:text="0"
-            android:textSize="16sp"
-            android:layout_marginRight="2dp"
-            android:textColor="#AAAAAA"/>
+            android:textColor="#AAAAAA"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/highFive"

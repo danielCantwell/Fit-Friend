@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cantwellcode.fitfriend.app.R;
 import com.cantwellcode.fitfriend.app.nutrition.NutritionFavoritesView;
@@ -41,6 +42,7 @@ public class ProfileActivity extends FragmentActivity {
     private TextView age;
     private TextView mainSport;
     private TextView location;
+    private TextView headline;
 
     private Button friends;
     private Button settings;
@@ -78,11 +80,13 @@ public class ProfileActivity extends FragmentActivity {
         age = (TextView) findViewById(R.id.age);
         mainSport = (TextView) findViewById(R.id.mainSport);
         location = (TextView) findViewById(R.id.location);
+        headline = (TextView) findViewById(R.id.headline);
 
         name.setText(user.getString("name"));
         age.setText(user.getInt("age") + "");
         mainSport.setText(user.getString("mainSport"));
         location.setText(user.getString("location"));
+        headline.setText(user.getString("headline"));
 
         friends = (Button) findViewById(R.id.friends);
         settings = (Button) findViewById(R.id.settings);
