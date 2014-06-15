@@ -162,7 +162,10 @@ public class ProfileActivity extends FragmentActivity {
                     InputStream imageStream = null;
                     try {
                         imageStream = getContentResolver().openInputStream(selectedImage);
-                        userPicture = BitmapFactory.decodeStream(imageStream);
+
+                        final Bitmap b = BitmapFactory.decodeStream(imageStream);
+
+                        userPicture = Bitmap.createScaledBitmap(b, 140, 140, true);
 
                         ByteArrayOutputStream stream = new ByteArrayOutputStream();
                         userPicture.compress(Bitmap.CompressFormat.PNG, 100, stream);
