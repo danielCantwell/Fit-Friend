@@ -38,9 +38,6 @@ public class SettingsActivity extends FragmentActivity {
     private EditText mainSport;
     private EditText email;
 
-    private Button favorites;
-    private Button logOut;
-
     SharedPreferences sp;
 
     ParseUser user;
@@ -69,27 +66,6 @@ public class SettingsActivity extends FragmentActivity {
         goalProtein.setText(sp.getString(Statics.GOAL_PROTEIN, ""));
         goalCarbs.setText(sp.getString(Statics.GOAL_CARBS, ""));
         goalFat.setText(sp.getString(Statics.GOAL_FAT, ""));
-
-        favorites = (Button) findViewById(R.id.profileFavorites);
-        logOut = (Button) findViewById(R.id.logOut);
-
-        favorites.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SettingsActivity.this, NutritionFavoritesView.class);
-                startActivity(intent);
-            }
-        });
-
-        logOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseUser.logOut();
-                Intent intent = new Intent(SettingsActivity.this, DispatchActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-        });
 
         if (user.containsKey("name")) {
             name.setText(user.getString("name"));

@@ -7,11 +7,17 @@
     android:background="@color/background"
     android:orientation="vertical">
 
+    <ImageButton
+        android:id="@+id/picture"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="2dp"/>
+
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_toRightOf="@+id/picture"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="8dp"
         android:hint="name"
@@ -23,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/name"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="6dp"
         android:hint="age"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -31,9 +37,9 @@
         android:id="@+id/mainSport"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_toRightOf="@+id/picture"
         android:layout_below="@+id/age"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="6dp"
         android:hint="mainSport"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -44,7 +50,7 @@
         android:layout_alignBottom="@+id/mainSport"
         android:layout_alignParentRight="true"
         android:layout_marginRight="8dp"
-        android:hint="location"
+        android:hint="loc"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <ImageView
@@ -83,18 +89,16 @@
             android:id="@+id/button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="2dp"
+            android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@android:drawable/editbox_dropdown_light_frame"
             android:text="Posts" />
 
         <Button
             android:id="@+id/button2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="2dp"
+            android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@android:drawable/editbox_dropdown_light_frame"
             android:text="Events" />
     </TableRow>
 
@@ -110,29 +114,34 @@
             android:id="@+id/friends"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="2dp"
+            android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@android:drawable/editbox_dropdown_light_frame"
             android:text="Friends" />
 
         <Button
             android:id="@+id/settings"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="2dp"
+            android:layout_margin="1dp"
             android:layout_weight="1"
-            android:background="@android:drawable/editbox_dropdown_light_frame"
             android:text="Settings" />
     </TableRow>
+
+    <Button
+        android:id="@+id/profileFavorites"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/row_friends_and_settings"
+        android:layout_margin="1dp"
+        android:text="Favorite Meals" />
 
     <Button
         android:id="@+id/logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/row_friends_and_settings"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_margin="2dp"
-        android:background="@android:drawable/editbox_dropdown_light_frame"
+        android:layout_margin="1dp"
         android:text="L o g   O u t" />
 
 </RelativeLayout>

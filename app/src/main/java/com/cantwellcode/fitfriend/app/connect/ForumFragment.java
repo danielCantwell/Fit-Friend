@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -27,6 +30,7 @@ import android.widget.Toast;
 import com.cantwellcode.fitfriend.app.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
@@ -205,6 +209,7 @@ public class ForumFragment extends ListFragment {
                             view = view.inflate(getActivity(), R.layout.forum_item, null);
                         }
 
+                        ImageView picture = (ImageView) view.findViewById(R.id.picture);
                         TextView name = (TextView) view.findViewById(R.id.name);
                         TextView date = (TextView) view.findViewById(R.id.date);
                         TextView content = (TextView) view.findViewById(R.id.content);
@@ -228,6 +233,21 @@ public class ForumFragment extends ListFragment {
                         String dateText = df.format(dateTime);
 
                         date.setText(dateText);
+
+                        picture = (ImageView) view.findViewById(R.id.picture);
+
+                        ParseFile pic = post.getUser().getParseFile("picture");
+
+                        if (pic != null) {
+                            try {
+                                byte[] file = pic.getData();
+                                picture.setImageBitmap(BitmapFactory.decodeByteArray(file, 0, file.length));
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            picture.setImageResource(R.drawable.profile);
+                        }
 
                         return view;
                     }
