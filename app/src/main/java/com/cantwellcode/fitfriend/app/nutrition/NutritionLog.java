@@ -39,9 +39,12 @@ import java.util.List;
  */
 public class NutritionLog extends ListFragment {
 
+    private static Fragment instance = null;
+
     public static Fragment newInstance() {
-        NutritionLog f = new NutritionLog();
-        return f;
+        if(instance == null)
+            instance = new NutritionLog();
+        return instance;
     }
 
     private Activity activity;

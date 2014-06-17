@@ -67,8 +67,12 @@ public class WorkoutLog extends Fragment implements TabHost.OnTabChangeListener 
 
     private TabHost mTabHost;
 
+    private static Fragment instance = null;
+
     public static Fragment newInstance() {
-        return new WorkoutLog();
+        if(instance == null)
+            instance = new WorkoutLog();
+        return instance;
     }
 
     @Override

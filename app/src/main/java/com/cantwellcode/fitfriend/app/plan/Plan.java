@@ -38,8 +38,12 @@ import java.util.List;
  */
 public class Plan extends Fragment {
 
+    private static Fragment instance = null;
+
     public static Fragment newInstance() {
-        return new Plan();
+        if(instance == null)
+            instance = new Plan();
+        return instance;
     }
 
     private CalendarView mCalendarView;

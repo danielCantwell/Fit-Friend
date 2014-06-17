@@ -48,9 +48,12 @@ import java.util.List;
  */
 public class ForumFragment extends ListFragment {
 
+    private static Fragment instance = null;
+
     public static Fragment newInstance() {
-        Fragment f = new ForumFragment();
-        return f;
+        if(instance == null)
+            instance = new ForumFragment();
+        return instance;
     }
 
     private static final int MAX_POST_SEARCH_RESULTS = 50;

@@ -31,7 +31,7 @@
         android:layout_marginRight="8dp"
         android:layout_toRightOf="@+id/picture"
         android:hint="date"
-        android:textColor="#444444"
+        android:textColor="#666666"
         android:textSize="14dp" />
 
     <TextView
