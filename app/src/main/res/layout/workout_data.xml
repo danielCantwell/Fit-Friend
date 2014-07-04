@@ -58,7 +58,7 @@
         android:layout_below="@+id/average"
         android:layout_marginRight="4dp"
         android:text="data"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/textViewMax"

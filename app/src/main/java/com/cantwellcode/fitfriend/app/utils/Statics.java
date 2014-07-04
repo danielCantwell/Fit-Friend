@@ -16,4 +16,8 @@ public abstract class Statics {
     public static final int INTENT_REQUEST_EVENT_DETAILS = 1004;
     public static final int INTENT_REQUEST_FRIENDS = 1005;
     public static final int INTENT_REQUEST_SELECT_PICTURE = 1006;
+
+    public static enum RoutineType {
+        Lifting, Speed, HeartRate, Cadence
+    }
 }

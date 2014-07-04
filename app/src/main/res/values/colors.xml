@@ -2,6 +2,7 @@
 <resources>
     <color name="transparent">#00000000</color>
     <color name="pomegranate">#c0392b</color>
+    <color name="amethyst">#9b59b6</color>
     <color name="clouds">#ecf0f1</color>
     <color name="white">#ffffff</color>
     <color name="background">#f5f5f5</color>

@@ -34,19 +34,7 @@
             android:label="@string/app_name">
         </activity>
         <activity
-            android:name="com.cantwellcode.fitfriend.app.exercise.log.AddSwim"
-            android:label="@string/app_name">
-        </activity>
-        <activity
-            android:name="com.cantwellcode.fitfriend.app.exercise.log.AddBike"
-            android:label="@string/app_name">
-        </activity>
-        <activity
-            android:name="com.cantwellcode.fitfriend.app.exercise.log.AddRun"
-            android:label="@string/app_name">
-        </activity>
-        <activity
-            android:name="com.cantwellcode.fitfriend.app.exercise.log.AddGym"
+            android:name="com.cantwellcode.fitfriend.app.exercise.log.AddWorkout"
             android:label="@string/app_name">
         </activity>
         <activity

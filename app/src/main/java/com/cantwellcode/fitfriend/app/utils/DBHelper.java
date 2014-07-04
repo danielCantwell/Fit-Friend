@@ -2,10 +2,7 @@ package com.cantwellcode.fitfriend.app.utils;
 
 import android.content.Context;
 
-import com.cantwellcode.fitfriend.app.exercise.types.Bike;
-import com.cantwellcode.fitfriend.app.exercise.types.Gym;
-import com.cantwellcode.fitfriend.app.exercise.types.Run;
-import com.cantwellcode.fitfriend.app.exercise.types.Swim;
+import com.cantwellcode.fitfriend.app.exercise.types.Workout;
 import com.cantwellcode.fitfriend.app.nutrition.Meal;
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
@@ -18,19 +15,18 @@ import java.util.ArrayList;
  */
 public class DBHelper {
 
-    private Context context;
     private String dbPath;
     private ObjectContainer db;
 
     public DBHelper(Context context) {
-        this.context = context;
         dbPath = context.getFilesDir() + "/android.fitfriend";
     }
 
     public static String DB_NAME_NUTRITION = "Nutrition_Database";
+    public static String DB_NAME_FAVORITE_MEALS = "FavoriteMeals_Database";
     public static String DB_NAME_WORKOUTS = "Workout_Database";
 
-    private boolean openDb(String name) {
+    public boolean openDb(String name) {
         if (name != null) {
             db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), dbPath + "." + name);
             return true;
@@ -38,7 +34,7 @@ public class DBHelper {
         return false;
     }
 
-    private void closeDb() {
+    public void closeDb() {
         db.close();
     }
 
@@ -125,74 +121,16 @@ public class DBHelper {
         closeDb();
         return list;
     }
-
     /**
-    return all swim workouts
+     return all workouts
      */
-    public ArrayList<Swim> getAllSwimWorkouts() {
+    public ArrayList<Workout> getAllWorkouts() {
 
-        ArrayList<Swim> list = new ArrayList<Swim>();
-        Swim workout = new Swim();
+        ArrayList<Workout> list = new ArrayList<Workout>();
+        Workout workout = new Workout();
 
         openDb(DB_NAME_WORKOUTS);
-        ObjectSet<Swim> result = db.queryByExample(workout);
-
-        while (result.hasNext()) {
-            list.add(result.next());
-        }
-
-        closeDb();
-        return list;
-    }
-
-    /**
-    return all bike workouts
-     */
-    public ArrayList<Bike> getAllBikeWorkouts() {
-
-        ArrayList<Bike> list = new ArrayList<Bike>();
-        Bike workout = new Bike();
-
-        openDb(DB_NAME_WORKOUTS);
-        ObjectSet<Bike> result = db.queryByExample(workout);
-
-        while (result.hasNext()) {
-            list.add(result.next());
-        }
-
-        closeDb();
-        return list;
-    }
-
-    /**
-    return all run workouts
-     */
-    public ArrayList<Run> getAllRunWorkouts() {
-
-        ArrayList<Run> list = new ArrayList<Run>();
-        Run workout = new Run();
-
-        openDb(DB_NAME_WORKOUTS);
-        ObjectSet<Run> result = db.queryByExample(workout);
-
-        while (result.hasNext()) {
-            list.add(result.next());
-        }
-
-        closeDb();
-        return list;
-    }
-
-    /**
-    return all gym workouts
-     */
-    public ArrayList<Gym> getAllGymWorkouts() {
-
-        ArrayList<Gym> list = new ArrayList<Gym>();
-        Gym workout = new Gym();
-
-        openDb(DB_NAME_WORKOUTS);
-        ObjectSet<Gym> result = db.queryByExample(workout);
+        ObjectSet<Workout> result = db.queryByExample(workout);
 
         while (result.hasNext()) {
             list.add(result.next());
@@ -225,68 +163,14 @@ public class DBHelper {
     }
 
     /**
-    return a list of swim workouts
+     return a list of workouts
      */
-    public ArrayList<Swim> getSwimList(Swim workout) {
+    public ArrayList<Workout> getWorkoutList(Workout workout) {
 
-        ArrayList<Swim> list = new ArrayList<Swim>();
+        ArrayList<Workout> list = new ArrayList<Workout>();
 
         openDb(DB_NAME_WORKOUTS);
-        ObjectSet<Swim> result = db.queryByExample(workout);
-
-        while (result.hasNext()) {
-            list.add(result.next());
-        }
-
-        closeDb();
-        return list;
-    }
-
-    /**
-    return a list of bike workouts
-     */
-    public ArrayList<Bike> getBikeList(Bike workout) {
-
-        ArrayList<Bike> list = new ArrayList<Bike>();
-
-        openDb(DB_NAME_WORKOUTS);
-        ObjectSet<Bike> result = db.queryByExample(workout);
-
-        while (result.hasNext()) {
-            list.add(result.next());
-        }
-
-        closeDb();
-        return list;
-    }
-
-    /**
-    return a list of run workouts
-     */
-    public ArrayList<Run> getRunList(Run workout) {
-
-        ArrayList<Run> list = new ArrayList<Run>();
-
-        openDb(DB_NAME_WORKOUTS);
-        ObjectSet<Run> result = db.queryByExample(workout);
-
-        while (result.hasNext()) {
-            list.add(result.next());
-        }
-
-        closeDb();
-        return list;
-    }
-
-    /**
-    return a list of gym workouts
-     */
-    public ArrayList<Gym> getGymList(Gym workout) {
-
-        ArrayList<Gym> list = new ArrayList<Gym>();
-
-        openDb(DB_NAME_WORKOUTS);
-        ObjectSet<Gym> result = db.queryByExample(workout);
+        ObjectSet<Workout> result = db.queryByExample(workout);
 
         while (result.hasNext()) {
             list.add(result.next());
@@ -321,146 +205,6 @@ public class DBHelper {
             found.setCarbs(ObjFrom.getCarbs());
             found.setProtein(ObjFrom.getProtein());
             found.setFavorite(ObjFrom.isFavorite());
-
-            db.store(found);
-            db.commit();
-
-            closeDb();
-            return true;
-        }
-
-        closeDb();
-        return false;
-    }
-
-    /**
-     update a swim in the database
-     */
-    public boolean updateSwim(Swim ObjTo, Swim ObjFrom) {
-        Swim found = null;
-
-        openDb(DB_NAME_WORKOUTS);
-        ObjectSet<Swim> result = db.queryByExample(ObjTo);
-
-        if (result.hasNext()) { // if found
-
-            found = result.next();
-
-            found.setName(ObjFrom.getName());
-            found.setDate(ObjFrom.getDate());
-            found.setType(ObjFrom.getType());
-            found.setNotes(ObjFrom.getNotes());
-            found.setAvgPace(ObjFrom.getAvgPace());
-            found.setMaxPace(ObjFrom.getMaxPace());
-            found.setDistance(ObjFrom.getDistance());
-            found.setTime(ObjFrom.getTime());
-            found.setStrokeRate(ObjFrom.getStrokeRate());
-            found.setCalBurned(ObjFrom.getCalBurned());
-
-            db.store(found);
-            db.commit();
-
-            closeDb();
-            return true;
-        }
-
-        closeDb();
-        return false;
-    }
-
-    /**
-     update a run in the database
-     */
-    public boolean updateRun(Run ObjTo, Run ObjFrom) {
-        Run found = null;
-
-        openDb(DB_NAME_WORKOUTS);
-        ObjectSet<Run> result = db.queryByExample(ObjTo);
-
-        if (result.hasNext()) { // if found
-
-            found = result.next();
-
-            found.setName(ObjFrom.getName());
-            found.setDate(ObjFrom.getDate());
-            found.setType(ObjFrom.getType());
-            found.setNotes(ObjFrom.getNotes());
-            found.setAvgPace(ObjFrom.getAvgPace());
-            found.setMaxPace(ObjFrom.getMaxPace());
-            found.setAvgHR(ObjFrom.getAvgHR());
-            found.setMaxHR(ObjFrom.getMaxHR());
-            found.setDistance(ObjFrom.getDistance());
-            found.setTime(ObjFrom.getTime());
-            found.setElevation(ObjFrom.getElevation());
-            found.setCalBurned(ObjFrom.getCalBurned());
-
-            db.store(found);
-            db.commit();
-
-            closeDb();
-            return true;
-        }
-
-        closeDb();
-        return false;
-    }
-
-    /**
-     update a bike in the database
-     */
-    public boolean updateBike(Bike ObjTo, Bike ObjFrom) {
-        Bike found = null;
-
-        openDb(DB_NAME_WORKOUTS);
-        ObjectSet<Bike> result = db.queryByExample(ObjTo);
-
-        if (result.hasNext()) { // if found
-
-            found = result.next();
-
-            found.setName(ObjFrom.getName());
-            found.setDate(ObjFrom.getDate());
-            found.setType(ObjFrom.getType());
-            found.setNotes(ObjFrom.getNotes());
-            found.setAvgSpeed(ObjFrom.getAvgSpeed());
-            found.setMaxSpeed(ObjFrom.getMaxSpeed());
-            found.setAvgCadence(ObjFrom.getAvgCadence());
-            found.setMaxCadence(ObjFrom.getMaxCadence());
-            found.setAvgHR(ObjFrom.getAvgHR());
-            found.setMaxHR(ObjFrom.getMaxHR());
-            found.setDistance(ObjFrom.getDistance());
-            found.setTime(ObjFrom.getTime());
-            found.setElevation(ObjFrom.getElevation());
-            found.setCalBurned(ObjFrom.getCalBurned());
-
-            db.store(found);
-            db.commit();
-
-            closeDb();
-            return true;
-        }
-
-        closeDb();
-        return false;
-    }
-
-    /**
-     update a gym in the database
-     */
-    public boolean updateGym(Gym ObjTo, Gym ObjFrom) {
-        Gym found = null;
-
-        openDb(DB_NAME_WORKOUTS);
-        ObjectSet<Gym> result = db.queryByExample(ObjTo);
-
-        if (result.hasNext()) { // if found
-
-            found = result.next();
-
-            found.setName(ObjFrom.getName());
-            found.setDate(ObjFrom.getDate());
-            found.setType(ObjFrom.getType());
-            found.setRoutines(ObjFrom.getRoutines());
 
             db.store(found);
             db.commit();

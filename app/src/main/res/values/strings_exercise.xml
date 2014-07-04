@@ -13,4 +13,22 @@
         <item>Edit</item>
         <item>Delete</item>
     </string-array>
+
+    <string-array name="cardio_data">
+        <item>Time</item>
+        <item>Distance</item>
+        <item>Calories</item>
+        <item>Elevation</item>
+        <item>Speed</item>
+        <item>Heart Rate</item>
+        <item>Cadence</item>
+        <item>Power</item>
+    </string-array>
+
+    <string-array name="set_labels">
+        <item>NoLabel</item>
+        <item>Avg</item>
+        <item>Max</item>
+        <item>Min</item>
+    </string-array>
 </resources>

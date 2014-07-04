@@ -4,13 +4,7 @@
     <item android:id="@+id/gym"
         android:title="Gym"
         android:showAsAction="always" />
-    <item android:id="@+id/swim"
-        android:title="Swim"
-        android:showAsAction="always" />
-    <item android:id="@+id/bike"
-        android:title="Bike"
-        android:showAsAction="always" />
-    <item android:id="@+id/run"
-        android:title="Run"
+    <item android:id="@+id/cardio"
+        android:title="Cardio"
         android:showAsAction="always" />
 </menu>

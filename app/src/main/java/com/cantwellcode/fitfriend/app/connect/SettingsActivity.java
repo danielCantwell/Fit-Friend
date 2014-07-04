@@ -125,7 +125,7 @@ public class SettingsActivity extends FragmentActivity {
         user.put("mainSport", mainSport.getText().toString());
         user.setEmail(email.getText().toString());
 
-        user.saveEventually();
+        user.saveInBackground();
     }
 
     private void restoreActionBar() {

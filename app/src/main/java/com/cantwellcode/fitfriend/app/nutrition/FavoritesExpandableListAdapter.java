@@ -21,7 +21,6 @@ public class FavoritesExpandableListAdapter extends BaseExpandableListAdapter {
 
     private class ViewHolder {
         TextView name;
-        TextView category;
         TextView type;
         SmallDecimalTextView calories;
         SmallDecimalTextView protein;
