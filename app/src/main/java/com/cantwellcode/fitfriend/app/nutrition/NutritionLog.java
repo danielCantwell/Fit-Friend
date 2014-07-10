@@ -137,7 +137,7 @@ public class NutritionLog extends ListFragment {
 
                         mAdapter.clear();
                         mAdapter.addAll(meals);
-                        updateTotals();
+                        updateList();
 
                         final Calendar cal = Calendar.getInstance();
                         int y = cal.get(Calendar.YEAR);
@@ -146,6 +146,8 @@ public class NutritionLog extends ListFragment {
 
                         if (y == year && m == month && d == day) {
                             date.setText("Today");
+                            next.setEnabled(false);
+                            next.setTextColor(Color.GRAY);
                         } else {
                             date.setText(formattedDate);
                         }

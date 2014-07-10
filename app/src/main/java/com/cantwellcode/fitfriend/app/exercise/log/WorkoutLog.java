@@ -95,6 +95,22 @@ public class WorkoutLog extends Fragment {
                         mCalendar.set(Calendar.DAY_OF_MONTH, mDay);
 
                         updateWorkouts();
+
+                        final Calendar cal = Calendar.getInstance();
+                        int y = cal.get(Calendar.YEAR);
+                        int m = cal.get(Calendar.MONTH);
+                        int d = cal.get(Calendar.DAY_OF_MONTH);
+
+                        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+                        String formattedDate = df.format(mCalendar.getTime());
+
+                        if (y == mYear && m == mMonth && d == mDay) {
+                            mDateButton.setText("Today");
+                            mNextButton.setEnabled(false);
+                            mNextButton.setTextColor(Color.GRAY);
+                        } else {
+                            mDateButton.setText(formattedDate);
+                        }
                     }
 
                     @Override
