@@ -5,10 +5,17 @@ package com.cantwellcode.fitfriend.app.exercise.types;
  */
 public class RepsValue implements Value {
 
-    private final int data;
+    private int data;
+
+    public RepsValue() {}
 
     public RepsValue(int data) {
         this.data = data;
+    }
+
+    @Override
+    public void setData(String data) {
+        this.data = Integer.valueOf(data);
     }
 
     @Override

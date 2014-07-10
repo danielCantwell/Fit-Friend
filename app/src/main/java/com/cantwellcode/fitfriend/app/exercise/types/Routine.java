@@ -14,4 +14,6 @@ public interface Routine {
     public List<Set> getSets();
 
     public RelativeLayout getLayout();
+
+    public void addSet(Set set);
 }

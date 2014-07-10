@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/background">
 
     <TextView
-        android:id="@+id/label"
+        android:id="@+id/secondaryLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -16,22 +16,22 @@
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/data"
+        android:id="@+id/secondaryData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/label"
-        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/secondaryLabel"
+        android:layout_toRightOf="@+id/secondaryLabel"
         android:text="Data"
         android:textSize="24sp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/units"
+        android:id="@+id/secondaryUnits"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/data"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/secondaryData"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/secondaryData"
         android:text="units"
         android:textSize="14sp" />
 </RelativeLayout>

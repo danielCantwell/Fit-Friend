@@ -2,6 +2,7 @@ package com.cantwellcode.fitfriend.app.exercise.types;
 
 import android.widget.RelativeLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,8 +10,13 @@ import java.util.List;
  */
 public class BaseRoutine implements Routine {
 
-    private final String name;
-    private final List<Set> sets;
+    private String name;
+    private List<Set> sets;
+
+    public BaseRoutine() {
+        name = "Routine Name";
+        sets = new ArrayList<Set>();
+    }
 
     public BaseRoutine(String name, List<Set> sets) {
         this.name = name;
@@ -31,5 +37,10 @@ public class BaseRoutine implements Routine {
     @Override
     public RelativeLayout getLayout() {
         return null;
+    }
+
+    @Override
+    public void addSet(Set set) {
+        sets.add(set);
     }
 }

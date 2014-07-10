@@ -80,6 +80,16 @@ public class NutritionFavoritesView extends FragmentActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void prepareListData(DBHelper db) {
         listHeaders = new ArrayList<String>();
         listData = new HashMap<String, List<Meal>>();

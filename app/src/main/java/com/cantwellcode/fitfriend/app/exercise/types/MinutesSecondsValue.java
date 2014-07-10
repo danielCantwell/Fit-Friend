@@ -12,6 +12,11 @@ public class MinutesSecondsValue implements Value {
     }
 
     @Override
+    public void setData(String data) {
+
+    }
+
+    @Override
     public String getDataDisplayString() {
         int minutes = data / 60;
         int seconds = data % 60;

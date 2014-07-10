@@ -4,7 +4,7 @@
     android:id="@+id/addRoutine_Layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/background"
     android:padding="4dp">
 
     <EditText
@@ -29,15 +29,23 @@
 
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/divider"
-        android:layout_gravity="center_horizontal"
-        android:layout_toLeftOf="@layout/add_set"
-        android:fillViewport="true" />
+        android:layout_toLeftOf="@+id/add_set_layout"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/sets"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" />
+
+    </HorizontalScrollView>
 
     <include
+        android:id="@+id/add_set_layout"
         layout="@layout/add_set"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

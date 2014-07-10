@@ -1,17 +1,9 @@
 package com.cantwellcode.fitfriend.app.exercise.types;
 
 /**
- * Created by Daniel on 6/27/2014.
+ * Created by Daniel on 7/8/2014.
  */
-public class DistanceValue implements Value {
-
-    private final float data;
-    private final String units;
-
-    public DistanceValue(int data, String units) {
-        this.data = data;
-        this.units = units;
-    }
+public class CadenceValue implements Value {
 
     @Override
     public void setData(String data) {
@@ -20,12 +12,12 @@ public class DistanceValue implements Value {
 
     @Override
     public String getDataDisplayString() {
-        return Float.toString(data);
+        return null;
     }
 
     @Override
     public String getUnitDisplayString() {
-        return units;
+        return null;
     }
 
     @Override

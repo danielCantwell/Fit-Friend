@@ -5,10 +5,17 @@ package com.cantwellcode.fitfriend.app.exercise.types;
  */
 public class WeightValue implements Value {
 
-    private final float data;
+    private float data;
+
+    public WeightValue() {}
 
     public WeightValue(float data) {
         this.data = data;
+    }
+
+    @Override
+    public void setData(String data) {
+        this.data = Float.valueOf(data);
     }
 
     @Override

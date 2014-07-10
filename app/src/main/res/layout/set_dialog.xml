@@ -20,14 +20,15 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="10dp"
         android:fillViewport="true"
-        android:scrollbars="none"
-        android:scrollX="35dp">
+        android:scrollX="120dp"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <RadioGroup
+                android:id="@+id/primaryRadioGroup"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_gravity="center"
@@ -167,6 +168,7 @@
             android:layout_height="wrap_content">
 
             <RadioGroup
+                android:id="@+id/secondaryRadioGroup"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_gravity="center"

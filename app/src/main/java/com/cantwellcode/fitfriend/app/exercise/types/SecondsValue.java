@@ -12,6 +12,11 @@ public class SecondsValue implements Value {
     }
 
     @Override
+    public void setData(String data) {
+
+    }
+
+    @Override
     public String getDataDisplayString() {
         return Integer.toString(data);
     }

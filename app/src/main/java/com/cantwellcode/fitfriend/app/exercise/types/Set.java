@@ -1,5 +1,8 @@
 package com.cantwellcode.fitfriend.app.exercise.types;
 
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import java.util.List;
@@ -13,5 +16,5 @@ public interface Set {
 
     public List<Value> getValues();
 
-    public LinearLayout getLayout();
+    public View getLayout(LayoutInflater inflater);
 }

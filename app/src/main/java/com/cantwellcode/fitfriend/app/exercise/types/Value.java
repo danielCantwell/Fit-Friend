@@ -5,6 +5,8 @@ package com.cantwellcode.fitfriend.app.exercise.types;
  */
 public interface Value {
 
+    public void setData(String data);
+
     public String getDataDisplayString();
 
     public String getUnitDisplayString();
