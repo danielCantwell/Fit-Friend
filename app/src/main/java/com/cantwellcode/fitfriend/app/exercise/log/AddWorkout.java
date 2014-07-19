@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -145,6 +146,11 @@ public class AddWorkout extends FragmentActivity implements View.OnClickListener
         TextView primaryUnitsText;
         TextView secondaryUnitsText;
 
+        AutoCompleteTextView primaryLabelText;
+        AutoCompleteTextView secondaryLabelText;
+
+        ArrayAdapter<CharSequence> labelsAdapter;
+
         RadioGroup primaryRadioGroup;
         RadioGroup secondaryRadioGroup;
 
@@ -173,6 +179,15 @@ public class AddWorkout extends FragmentActivity implements View.OnClickListener
 
             primaryRadioGroup.setOnCheckedChangeListener(unitsHandler);
             secondaryRadioGroup.setOnCheckedChangeListener(unitsHandler);
+
+            labelsAdapter = ArrayAdapter.createFromResource(AddWorkout.this, R.array.set_labels, android.R.layout.simple_spinner_item);
+            labelsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            primaryLabelText = (AutoCompleteTextView) root.findViewById(R.id.primaryLabel);
+            secondaryLabelText = (AutoCompleteTextView) root.findViewById(R.id.secondaryLabel);
+
+            primaryLabelText.setAdapter(labelsAdapter);
+            secondaryLabelText.setAdapter(labelsAdapter);
 
             // Inflate and set the layout for the dialog
             // Pass null as the parent view because its going in the dialog layout
