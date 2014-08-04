@@ -7,13 +7,13 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name="com.cantwellcode.fitfriend.app.startup.App"
+        android:name=".startup.App"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.cantwellcode.fitfriend.app.startup.DispatchActivity"
+            android:name=".startup.DispatchActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,45 +22,58 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.cantwellcode.fitfriend.app.startup.LogInActivity"
+            android:name="com.parse.ui.ParseLoginActivity"
             android:label="@string/app_name">
+            <meta-data
+                android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_ENABLED"
+                android:value="true" />
+            <meta-data
+                android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_EMAIL_AS_USERNAME"
+                android:value="true" />
+            <meta-data
+                android:name="com.parse.ui.ParseLoginActivity.FACEBOOK_LOGIN_ENABLED"
+                android:value="true" />
+            <meta-data
+                android:name="com.parse.ui.ParseLoginActivity.FACEBOOK_LOGIN_PERMISSIONS"
+                android:resource="@array/my_facebook_permissions"/>
         </activity>
         <activity
-            android:name="com.cantwellcode.fitfriend.app.startup.MainActivity"
-            android:label="@string/app_name">
-        </activity>
+            android:name="com.facebook.LoginActivity"
+            android:label="@string/app_name" />
         <activity
-            android:name="com.cantwellcode.fitfriend.app.nutrition.AddMeal"
-            android:label="@string/app_name">
-        </activity>
+            android:name=".startup.LogInActivity"
+            android:label="@string/app_name"></activity>
         <activity
-            android:name="com.cantwellcode.fitfriend.app.exercise.log.AddWorkout"
-            android:label="@string/app_name">
-        </activity>
+            android:name=".startup.MainActivity"
+            android:label="@string/app_name"></activity>
         <activity
-            android:name="com.cantwellcode.fitfriend.app.plan.AddEvent"
-            android:label="@string/app_name">
-        </activity>
+            android:name=".nutrition.AddMeal"
+            android:label="@string/app_name"></activity>
         <activity
-            android:name="com.cantwellcode.fitfriend.app.plan.EventDetails"
-            android:label="@string/app_name">
-        </activity>
+            android:name=".exercise.log.AddWorkout"
+            android:label="@string/app_name"></activity>
         <activity
-            android:name="com.cantwellcode.fitfriend.app.connect.FriendsActivity"
-            android:label="@string/app_name">
-        </activity>
+            android:name=".plan.AddEvent"
+            android:label="@string/app_name"></activity>
         <activity
-            android:name="com.cantwellcode.fitfriend.app.connect.ProfileActivity"
-            android:label="@string/app_name">
-        </activity>
+            android:name=".plan.EventDetails"
+            android:label="@string/app_name"></activity>
         <activity
-            android:name="com.cantwellcode.fitfriend.app.connect.SettingsActivity"
-            android:label="@string/app_name">
-        </activity>
+            android:name=".connect.FriendsActivity"
+            android:label="@string/app_name"></activity>
         <activity
-            android:name="com.cantwellcode.fitfriend.app.nutrition.NutritionFavoritesView"
-            android:label="@string/app_name">
-        </activity>
+            android:name=".connect.ProfileActivity"
+            android:label="@string/app_name"></activity>
+        <activity
+            android:name=".connect.SettingsActivity"
+            android:label="@string/app_name"></activity>
+        <activity
+            android:name=".nutrition.NutritionFavoritesView"
+            android:label="@string/app_name"></activity>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
     </application>
 
 </manifest>

@@ -20,4 +20,7 @@
     <string name="error_mismatched_passwords">enter the same password twice</string>
     <string name="error_join">", and "</string>
     <string name="error_end">.</string>
+
+    <string name="facebook_app_id">253716341493635</string>
+
 </resources>

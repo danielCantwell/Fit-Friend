@@ -2,12 +2,10 @@
 <resources>
 
     <string name="app_name">Fit-Friend</string>
-
     <string name="tab_food">Food</string>
     <string name="tab_exercise">Exercise</string>
     <string name="tab_plan">Plan</string>
     <string name="tab_forum">Forum</string>
-
     <string name="action_settings">Settings</string>
     <string name="action_profile">Profile</string>
     <string name="action_explore">Explore</string>
@@ -28,5 +26,12 @@
         <item>Drinks</item>
         <item>Other</item>
     </string-array>
+
+    <string name="title_section1">Nutrition</string>
+    <string name="title_section2">Exercise</string>
+    <string name="title_section3">Plan</string>
+    <string name="title_section4">Forum</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
 </resources>

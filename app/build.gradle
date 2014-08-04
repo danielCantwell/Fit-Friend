@@ -2,7 +2,7 @@ apply plugin: 'android'
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.1.0"
+    buildToolsVersion '19.1.0'
 
     defaultConfig {
         packageName "com.cantwellcode.fitfriend.app"
@@ -21,7 +21,9 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:support-v13:19.+'
     compile files('libs/db4o-8.0.249.16098-all-java5.jar')
-    compile files('libs/Parse-1.4.3.jar')
+    compile 'com.android.support:support-v13:19.+'
+    compile 'com.android.support:support-v4:19.+'
+    compile project(':ParseLoginUI')
+    compile project(':facebook')
 }
