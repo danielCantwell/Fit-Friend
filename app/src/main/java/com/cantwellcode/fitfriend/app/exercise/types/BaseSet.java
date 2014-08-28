@@ -1,9 +1,7 @@
 package com.cantwellcode.fitfriend.app.exercise.types;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cantwellcode.fitfriend.app.R;
@@ -34,7 +32,7 @@ public class BaseSet implements Set {
     @Override
     public View getLayout(LayoutInflater inflater) {
 
-        View view = inflater.inflate(R.layout.set, null);
+        View view = inflater.inflate(R.layout.exercise_set, null);
 
         TextView pLabel = (TextView) view.findViewById(R.id.primaryLabel);
         TextView pData = (TextView) view.findViewById(R.id.primaryData);

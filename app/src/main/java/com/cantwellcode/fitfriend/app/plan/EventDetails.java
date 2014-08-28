@@ -10,12 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cantwellcode.fitfriend.app.R;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 /**
  * Created by Daniel on 6/4/2014.
@@ -36,7 +30,7 @@ public class EventDetails extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.event_details);
+        setContentView(R.layout.plan_event_details);
 
         mTitle = (TextView) findViewById(R.id.title);
         mTime = (TextView) findViewById(R.id.time);

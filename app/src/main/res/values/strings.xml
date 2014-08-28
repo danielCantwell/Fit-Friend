@@ -31,6 +31,14 @@
     <string name="title_section2">Exercise</string>
     <string name="title_section3">Plan</string>
     <string name="title_section4">Forum</string>
+
+    <string name="title_section5">Settings</string>
+    <string name="title_section6">Goals</string>
+    <string name="title_section7">Favorites</string>
+    <string name="title_section8">Premium</string>
+    <string name="title_section9">Suggestions</string>
+    <string name="title_section10">Help</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 

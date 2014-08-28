@@ -1,18 +1,21 @@
 package com.cantwellcode.fitfriend.app.exercise.types;
 
 /**
- * Created by Daniel on 6/27/2014.
+ * Created by Daniel on 8/28/2014.
  */
-public class WeightValue implements Value {
+public class SimpleFloatValue implements Value {
 
     private float data;
     private String unit;
     private String label;
 
-    public WeightValue() {}
+    public SimpleFloatValue() {
+    }
 
-    public WeightValue(float data) {
+    public SimpleFloatValue(float data, String unit, String label) {
         this.data = data;
+        this.unit = unit;
+        this.label = label;
     }
 
     @Override
@@ -22,17 +25,16 @@ public class WeightValue implements Value {
 
     @Override
     public String getDataDisplayString() {
-            return Float.toString(data);
+        return Float.toString(data);
     }
 
     @Override
     public String getUnitDisplayString() {
-        return "lbs";
+        return unit;
     }
 
     @Override
     public String getLabelDisplayString() {
-        // Sets with "Weight" values do not have a label
-        return null;
+        return label;
     }
 }

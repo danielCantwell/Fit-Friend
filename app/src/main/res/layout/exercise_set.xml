@@ -8,12 +8,12 @@
     android:paddingRight="6dp">
 
     <include
-        layout="@layout/set_primary"
+        layout="@layout/exercise_set_primary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <include
-        layout="@layout/set_secondary"
+        layout="@layout/exercise_set_secondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal" />

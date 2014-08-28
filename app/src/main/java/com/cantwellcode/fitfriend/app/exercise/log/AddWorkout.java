@@ -33,8 +33,6 @@ import com.cantwellcode.fitfriend.app.exercise.types.Value;
 import com.cantwellcode.fitfriend.app.exercise.types.WeightValue;
 import com.cantwellcode.fitfriend.app.utils.DBHelper;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,7 +104,7 @@ public class AddWorkout extends FragmentActivity implements View.OnClickListener
                 final Routine r = new BaseRoutine();
                 mRoutineList.add(r);
 
-                RelativeLayout relativeLayout = (RelativeLayout) getLayoutInflater().inflate(R.layout.add_routine, null);
+                RelativeLayout relativeLayout = (RelativeLayout) getLayoutInflater().inflate(R.layout.exercise_add_routine, null);
                 relativeLayout.setTag(r);
 
                 Button copySet = (Button) relativeLayout.findViewById(R.id.copySet);
@@ -167,7 +165,7 @@ public class AddWorkout extends FragmentActivity implements View.OnClickListener
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             // Get the layout inflater
             LayoutInflater inflater = getActivity().getLayoutInflater();
-            View root = inflater.inflate(R.layout.set_dialog, null);
+            View root = inflater.inflate(R.layout.exercise_set_dialog, null);
 
             primaryDataText = (EditText) root.findViewById(R.id.primaryData);
             secondaryDataText = (EditText) root.findViewById(R.id.secondaryData);

@@ -120,25 +120,25 @@
                 </color>
                 <color name="com_parse_ui_facebook_login_button" >#3B5998
                 </color>
-                <color name="com_parse_ui_twitter_login_button" >#2DAAE2
-                </color>
                 <color name="com_parse_ui_parse_login_button_focus" >#35CCCCCC
+                </color>
+                <color name="com_parse_ui_twitter_login_button" >#2DAAE2
                 </color>
             </file>
             <file
                 path="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\ParseLoginUI\res\values\dimens.xml"
                 qualifiers="" >
-                <dimen name="com_parse_ui_small_horizontal_spacing" >8dp
-                </dimen>
                 <dimen name="com_parse_ui_large_vertical_spacing" >24dp
+                </dimen>
+                <dimen name="com_parse_ui_small_horizontal_spacing" >8dp
                 </dimen>
                 <dimen name="com_parse_ui_vertical_margin" >16dp
                 </dimen>
                 <dimen name="com_parse_ui_horizontal_margin" >16dp
                 </dimen>
-                <dimen name="com_parse_ui_vertical_spacing" >16dp
-                </dimen>
                 <dimen name="com_parse_ui_small_vertical_spacing" >8dp
+                </dimen>
+                <dimen name="com_parse_ui_vertical_spacing" >16dp
                 </dimen>
                 <dimen name="com_parse_ui_xlarge_vertical_spacing" >36dp
                 </dimen>
@@ -173,13 +173,13 @@ Forgot password
                 </string>
                 <string name="com_parse_ui_progress_dialog_text" >Loading...
                 </string>
-                <string name="com_parse_ui_username_input_hint" >Username
-                </string>
                 <string name="com_parse_ui_login_warning_twitter_login_user_update_failed" >"Updating user object after Twitter login failed, exception: "
                 </string>
-                <string name="com_parse_ui_no_username_toast" >Please enter your username
+                <string name="com_parse_ui_username_input_hint" >Username
                 </string>
                 <string name="com_parse_ui_facebook_login_button_label" >Log in with Facebook
+                </string>
+                <string name="com_parse_ui_no_username_toast" >Please enter your username
                 </string>
                 <string name="com_parse_ui_login_warning_facebook_login_user_update_failed" >"Updating user object after Facebook login failed, exception: "
                 </string>
@@ -267,6 +267,9 @@ Password must be at least %d characters long
                     parent="@android:style/Widget.EditText" >
                     <item name="android:singleLine">
 true
+                    </item>
+                    <item name="android:textColor">
+#DDDDDD
                     </item>
                 </style>
 

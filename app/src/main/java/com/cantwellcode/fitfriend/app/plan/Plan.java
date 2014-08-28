@@ -60,7 +60,7 @@ public class Plan extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_plan, null);
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.plan_activity, null);
         user = ParseUser.getCurrentUser();
 
         mCalendarView = (CalendarView) root.findViewById(R.id.calendarView);
@@ -191,7 +191,7 @@ public class Plan extends Fragment {
 //                        };
 
                         if (view == null) {
-                            view = view.inflate(getActivity(), R.layout.event_item, null);
+                            view = view.inflate(getActivity(), R.layout.plan_event_list_item, null);
                         }
 
                         TextView title = (TextView) view.findViewById(R.id.title);
@@ -252,6 +252,8 @@ public class Plan extends Fragment {
 
     private void restoreActionBar() {
         ActionBar actionBar = getActivity().getActionBar();
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setTitle("Plan");
     }
 
     @Override

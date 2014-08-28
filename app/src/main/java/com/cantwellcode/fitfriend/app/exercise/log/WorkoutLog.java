@@ -241,6 +241,8 @@ public class WorkoutLog extends Fragment {
 
     private void restoreActionBar() {
         ActionBar actionBar = getActivity().getActionBar();
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setTitle("Exercise Log");
     }
 
     private class OptionsDialog extends DialogFragment {

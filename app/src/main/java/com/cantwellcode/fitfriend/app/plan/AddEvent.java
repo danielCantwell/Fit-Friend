@@ -44,7 +44,7 @@ public class AddEvent extends FragmentActivity implements DatePickerDialog.OnDat
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_event);
+        setContentView(R.layout.plan_add_event);
 
         mTitleText = (EditText) findViewById(R.id.title);
         mDateButton = (Button) findViewById(R.id.date);

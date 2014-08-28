@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
@@ -23,11 +24,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cantwellcode.fitfriend.app.R;
+import com.cantwellcode.fitfriend.app.connect.GoalsActivity;
+import com.cantwellcode.fitfriend.app.connect.ProfileActivity;
+import com.cantwellcode.fitfriend.app.connect.SettingsActivity;
+import com.cantwellcode.fitfriend.app.nutrition.NutritionFavoritesView;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -36,11 +43,11 @@ import com.parse.SaveCallback;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
- * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
- * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
 public class NavigationDrawerFragment extends Fragment {
 
@@ -67,9 +74,12 @@ public class NavigationDrawerFragment extends Fragment {
 
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerListView;
+    private NavigationDrawerAdapter mAdapter;
+    private ListView mDrawerListViewTwo;
+    private NavDrawerAdapterTwo mAdapterTwo;
     private View mFragmentContainerView;
 
-    private ImageButton mProfilePicture;
+    private ImageView mProfilePicture;
     private TextView mName;
 
     private int mCurrentSelectedPosition = 0;
@@ -77,7 +87,6 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mUserLearnedDrawer;
 
     private ParseUser user;
-    private Bitmap userPicture;
 
     public NavigationDrawerFragment() {
     }
@@ -101,7 +110,7 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated (Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
@@ -109,12 +118,12 @@ public class NavigationDrawerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_navigation_drawer, null);
 
         user = ParseUser.getCurrentUser();
 
-        mProfilePicture = (ImageButton) root.findViewById(R.id.profilePicture);
+        mProfilePicture = (ImageView) root.findViewById(R.id.profilePicture);
         mName = (TextView) root.findViewById(R.id.name);
 
         ParseFile pic = user.getParseFile("picture");
@@ -131,6 +140,14 @@ public class NavigationDrawerFragment extends Fragment {
         }
         mName.setText(user.get("name").toString());
 
+        List<String> drawerItems = new ArrayList<String>();
+        drawerItems.add(getString(R.string.title_section1));
+        drawerItems.add(getString(R.string.title_section2));
+        drawerItems.add(getString(R.string.title_section3));
+        drawerItems.add(getString(R.string.title_section4));
+        mAdapter = new NavigationDrawerAdapter(getActivity(),
+                android.R.layout.simple_list_item_activated_1, drawerItems);
+
         mDrawerListView = (ListView) root.findViewById(R.id.listView);
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -138,24 +155,59 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                new String[]{
-                        getString(R.string.title_section1),
-                        getString(R.string.title_section2),
-                        getString(R.string.title_section3),
-                        getString(R.string.title_section4)
-                }));
+        mDrawerListView.setAdapter(mAdapter);
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 
-        mProfilePicture.setOnClickListener(new View.OnClickListener() {
+        List<DrawerItemTwo> drawerItemTwos = new ArrayList<DrawerItemTwo>();
+        drawerItemTwos.add(new DrawerItemTwo(getString(R.string.title_section5), android.R.drawable.ic_menu_preferences));
+        drawerItemTwos.add(new DrawerItemTwo(getString(R.string.title_section6), R.drawable.ic_goals));
+        drawerItemTwos.add(new DrawerItemTwo(getString(R.string.title_section7), android.R.drawable.btn_star));
+        drawerItemTwos.add(new DrawerItemTwo(getString(R.string.title_section8), R.drawable.ic_launcher_small));
+        drawerItemTwos.add(new DrawerItemTwo(getString(R.string.title_section9), android.R.drawable.sym_action_email));
+        drawerItemTwos.add(new DrawerItemTwo(getString(R.string.title_section10), android.R.drawable.ic_menu_help));
+        mAdapterTwo = new NavDrawerAdapterTwo(getActivity(),
+                android.R.layout.simple_list_item_1, drawerItemTwos);
+
+        mDrawerListViewTwo = (ListView) root.findViewById(R.id.secondListView);
+        mDrawerListViewTwo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        Intent i0 = new Intent(getActivity(), SettingsActivity.class);
+                        startActivity(i0);
+                        break;
+                    case 1:
+                        Intent i1 = new Intent(getActivity(), GoalsActivity.class);
+                        startActivity(i1);
+                        break;
+                    case 2:
+                        Intent i2 = new Intent(getActivity(), NutritionFavoritesView.class);
+                        startActivity(i2);
+                        break;
+                    case 3:
+                        Intent i3 = new Intent(getActivity(), SettingsActivity.class);
+                        startActivity(i3);
+                        break;
+                    case 4:
+                        Intent i4 = new Intent(getActivity(), SettingsActivity.class);
+                        startActivity(i4);
+                        break;
+                    case 5:
+                        Intent i5 = new Intent(getActivity(), SettingsActivity.class);
+                        startActivity(i5);
+                        break;
+                }
+            }
+        });
+        mDrawerListViewTwo.setAdapter(mAdapterTwo);
+
+        FrameLayout frameLayout = (FrameLayout) root.findViewById(R.id.profile);
+        frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, Statics.INTENT_REQUEST_SELECT_PICTURE);
+                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -167,7 +219,7 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     /**
-     * Users of this fragment must call this method to set up the navigation drawer interactions.
+     * Users of this fragment must call this method to exercise_set up the navigation drawer interactions.
      *
      * @param fragmentId   The android:id of this fragment in its activity's layout.
      * @param drawerLayout The DrawerLayout containing this fragment's UI.
@@ -244,6 +296,7 @@ public class NavigationDrawerFragment extends Fragment {
         mCurrentSelectedPosition = position;
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);
+            mAdapter.selection = position;
         }
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
@@ -325,40 +378,5 @@ public class NavigationDrawerFragment extends Fragment {
          * Called when an item in the navigation drawer is selected.
          */
         void onNavigationDrawerItemSelected(int position);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch(requestCode) {
-            case Statics.INTENT_REQUEST_SELECT_PICTURE:
-                if(resultCode == getActivity().RESULT_OK){
-                    Uri selectedImage = data.getData();
-                    InputStream imageStream = null;
-                    try {
-                        imageStream = getActivity().getContentResolver().openInputStream(selectedImage);
-
-                        final Bitmap b = BitmapFactory.decodeStream(imageStream);
-
-                        userPicture = Bitmap.createScaledBitmap(b, 140, 140, true);
-
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        userPicture.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                        // get byte array here
-                        byte[] imageData = stream.toByteArray();
-
-                        final ParseFile imgFile = new ParseFile("picture.png", imageData);
-                        user.put("picture", imgFile);
-                        user.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                mProfilePicture.setImageBitmap(userPicture);
-                            }
-                        });
-
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                }
-        }
     }
 }

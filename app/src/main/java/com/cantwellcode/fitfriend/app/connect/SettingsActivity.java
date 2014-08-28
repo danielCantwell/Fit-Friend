@@ -27,11 +27,6 @@ import com.parse.ParseUser;
  */
 public class SettingsActivity extends FragmentActivity {
 
-    private EditText goalCalories;
-    private EditText goalProtein;
-    private EditText goalCarbs;
-    private EditText goalFat;
-
     private EditText headline;
     private EditText name;
     private EditText age;
@@ -46,28 +41,16 @@ public class SettingsActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.profile_personal);
+        setContentView(R.layout.activity_settings);
 
         user = ParseUser.getCurrentUser();
 
-        goalCalories = (EditText) findViewById(R.id.profileGoalCalories);
-        goalProtein = (EditText) findViewById(R.id.profileGoalProtein);
-        goalCarbs = (EditText) findViewById(R.id.profileGoalCarbs);
-        goalFat = (EditText) findViewById(R.id.profileGoalFat);
-
-        headline = (EditText) findViewById(R.id.headline);
-        name = (EditText) findViewById(R.id.name);
-        age = (EditText) findViewById(R.id.age);
-        location = (EditText) findViewById(R.id.location);
-        mainSport = (EditText) findViewById(R.id.mainSport);
-        email = (EditText) findViewById(R.id.email);
-
-        sp = PreferenceManager.getDefaultSharedPreferences(this);
-
-        goalCalories.setText(sp.getString(Statics.GOAL_CALORIES, ""));
-        goalProtein.setText(sp.getString(Statics.GOAL_PROTEIN, ""));
-        goalCarbs.setText(sp.getString(Statics.GOAL_CARBS, ""));
-        goalFat.setText(sp.getString(Statics.GOAL_FAT, ""));
+        headline = (EditText) findViewById(R.id.settings_headline);
+        name = (EditText) findViewById(R.id.settings_name);
+        age = (EditText) findViewById(R.id.settings_age);
+        location = (EditText) findViewById(R.id.settings_location);
+        mainSport = (EditText) findViewById(R.id.settings_mainSport);
+        email = (EditText) findViewById(R.id.settings_email);
 
         if (user.containsKey("headline")) {
             headline.setText(user.getString("headline"));
@@ -111,11 +94,6 @@ public class SettingsActivity extends FragmentActivity {
     }
 
     private void save() {
-        sp.edit().putString(Statics.GOAL_CALORIES, goalCalories.getText().toString()).commit();
-        sp.edit().putString(Statics.GOAL_FAT, goalFat.getText().toString()).commit();
-        sp.edit().putString(Statics.GOAL_CARBS, goalCarbs.getText().toString()).commit();
-        sp.edit().putString(Statics.GOAL_PROTEIN, goalProtein.getText().toString()).commit();
-
         if (age.length() > 0) {
             user.put("age", Integer.parseInt(age.getText().toString()));
         }

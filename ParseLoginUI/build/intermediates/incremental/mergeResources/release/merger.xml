@@ -685,41 +685,40 @@ center
 
                 <dimen name="com_facebook_picker_place_image_size" >64dp
                 </dimen>
+                <dimen name="com_facebook_usersettingsfragment_profile_picture_height" >64dp
+                </dimen>
 
                 <string name="com_facebook_requesterror_reconnect" >Please log into this app again to reconnect your Facebook account.
                 </string>
-
-                <dimen name="com_facebook_usersettingsfragment_profile_picture_height" >64dp
-                </dimen>
 
                 <color name="com_facebook_usersettingsfragment_connected_text_color" >#FFFFFF
                 </color>
 
                 <string name="com_facebook_loginview_log_out_action" >Log out
                 </string>
+                <string name="com_facebook_dialogloginactivity_ok_button" >OK
+                </string>
 
                 <dimen name="com_facebook_profilepictureview_preset_size_small" >50dp
                 </dimen>
-
-                <string name="com_facebook_dialogloginactivity_ok_button" >OK
-                </string>
 
                 <color name="com_facebook_usersettingsfragment_not_connected_text_color" >#A6AED7
                 </color>
 
                 <string name="com_facebook_tooltip_default" >New! You\'re in control - choose what info you want to share with apps.
                 </string>
-                <string name="com_facebook_loginview_logged_in_as" >Logged in as: %1$s
-                </string>
 
                 <dimen name="com_facebook_profilepictureview_preset_size_large" >180dp
                 </dimen>
 
-                <string name="com_facebook_loginview_cancel_action" >Cancel
+                <string name="com_facebook_loginview_logged_in_as" >Logged in as: %1$s
                 </string>
 
                 <color name="com_facebook_usersettingsfragment_connected_shadow_color" >#000000
                 </color>
+
+                <string name="com_facebook_loginview_cancel_action" >Cancel
+                </string>
 
                 <dimen name="com_facebook_tooltip_horizontal_padding" >10dp
                 </dimen>
@@ -807,9 +806,9 @@ center
                 </string>
                 <string name="com_facebook_loginview_cancel_action" >Cancelar
                 </string>
-                <string name="com_facebook_choose_friends" >Elige Amigos
-                </string>
                 <string name="com_facebook_internet_permission_error_message" >WebView inicio de sesión requiere permiso INTERNET
+                </string>
+                <string name="com_facebook_choose_friends" >Elige Amigos
                 </string>
                 <string name="com_facebook_placepicker_subtitle_were_here_only_format" >es:%1$,d estuvieron aquí
                 </string>
@@ -845,21 +844,21 @@ center
                 </string>
                 <string name="com_facebook_requesterror_reconnect" >.ארעה שגיאה בעת החיבור עם פייסבוק, חבר בבקשה מחדש את האפליקציה עם פייסבוק
                 </string>
-                <string name="com_facebook_logo_content_description" >פייסבוק לוגו
-                </string>
                 <string name="com_facebook_picker_done_button_text" >בצע
+                </string>
+                <string name="com_facebook_logo_content_description" >פייסבוק לוגו
                 </string>
                 <string name="com_facebook_loginview_log_in_button" >התחבר לפייסבוק
                 </string>
                 <string name="com_facebook_loginview_logged_in_as" >מחובר בשם: %1$s
                 </string>
-                <string name="com_facebook_placepicker_subtitle_were_here_only_format" >%1$,d היו פה
-                </string>
                 <string name="com_facebook_requesterror_relogin" >.האפליקציה אינה מחוברת לפייסבוק, אנא היכנס וחבר מחדש את האפליקציה
                 </string>
-                <string name="com_facebook_internet_permission_error_title" >AndroidManifest שגיאת
+                <string name="com_facebook_placepicker_subtitle_were_here_only_format" >%1$,d היו פה
                 </string>
                 <string name="com_facebook_internet_permission_error_message" >ההתחברות לתצוגת אתר דורשת אישור אינטרנט
+                </string>
+                <string name="com_facebook_internet_permission_error_title" >AndroidManifest שגיאת
                 </string>
                 <string name="com_facebook_usersettingsfragment_log_in_button" >התחבר…
                 </string>
@@ -913,19 +912,19 @@ center
                 </string>
                 <string name="com_facebook_placepicker_subtitle_catetory_only_format" >%1$s
                 </string>
-                <string name="com_facebook_usersettingsfragment_logged_in" >מחובר
-                </string>
                 <string name="com_facebook_logo_content_description" >פייסבוק לוגו
+                </string>
+                <string name="com_facebook_usersettingsfragment_logged_in" >מחובר
                 </string>
                 <string name="com_facebook_choose_friends" >בחר חברים
                 </string>
-                <string name="com_facebook_dialogloginactivity_ok_button" >אישור
-                </string>
                 <string name="com_facebook_loading" >..מעלה
                 </string>
-                <string name="com_facebook_nearby" >קרוב אליי
+                <string name="com_facebook_dialogloginactivity_ok_button" >אישור
                 </string>
                 <string name="com_facebook_loginview_log_in_button" >התחבר לפייסבוק
+                </string>
+                <string name="com_facebook_nearby" >קרוב אליי
                 </string>
                 <string name="com_facebook_placepicker_subtitle_were_here_only_format" >%1$,d היו פה
                 </string>
@@ -1081,25 +1080,25 @@ center
                 </color>
                 <color name="com_parse_ui_facebook_login_button" >#3B5998
                 </color>
-                <color name="com_parse_ui_twitter_login_button" >#2DAAE2
-                </color>
                 <color name="com_parse_ui_parse_login_button_focus" >#35CCCCCC
+                </color>
+                <color name="com_parse_ui_twitter_login_button" >#2DAAE2
                 </color>
             </file>
             <file
                 path="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\ParseLoginUI\res\values\dimens.xml"
                 qualifiers="" >
-                <dimen name="com_parse_ui_small_horizontal_spacing" >8dp
-                </dimen>
                 <dimen name="com_parse_ui_large_vertical_spacing" >24dp
+                </dimen>
+                <dimen name="com_parse_ui_small_horizontal_spacing" >8dp
                 </dimen>
                 <dimen name="com_parse_ui_vertical_margin" >16dp
                 </dimen>
                 <dimen name="com_parse_ui_horizontal_margin" >16dp
                 </dimen>
-                <dimen name="com_parse_ui_vertical_spacing" >16dp
-                </dimen>
                 <dimen name="com_parse_ui_small_vertical_spacing" >8dp
+                </dimen>
+                <dimen name="com_parse_ui_vertical_spacing" >16dp
                 </dimen>
                 <dimen name="com_parse_ui_xlarge_vertical_spacing" >36dp
                 </dimen>
@@ -1134,13 +1133,13 @@ Forgot password
                 </string>
                 <string name="com_parse_ui_progress_dialog_text" >Loading...
                 </string>
-                <string name="com_parse_ui_username_input_hint" >Username
-                </string>
                 <string name="com_parse_ui_login_warning_twitter_login_user_update_failed" >"Updating user object after Twitter login failed, exception: "
                 </string>
-                <string name="com_parse_ui_no_username_toast" >Please enter your username
+                <string name="com_parse_ui_username_input_hint" >Username
                 </string>
                 <string name="com_parse_ui_facebook_login_button_label" >Log in with Facebook
+                </string>
+                <string name="com_parse_ui_no_username_toast" >Please enter your username
                 </string>
                 <string name="com_parse_ui_login_warning_facebook_login_user_update_failed" >"Updating user object after Facebook login failed, exception: "
                 </string>
@@ -1228,6 +1227,9 @@ Password must be at least %d characters long
                     parent="@android:style/Widget.EditText" >
                     <item name="android:singleLine">
 true
+                    </item>
+                    <item name="android:textColor">
+#DDDDDD
                     </item>
                 </style>
 

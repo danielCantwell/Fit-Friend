@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.cantwellcode.fitfriend.app.R;
-import com.parse.ParseException;
 
 import java.util.List;
 
@@ -38,7 +37,7 @@ public class CommentsAdapter extends ArrayAdapter<Comment> {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.comment_item, null);
+            convertView = inflater.inflate(R.layout.forum_comment, null);
             holder = new ViewHolder();
             holder.comment = (TextView) convertView.findViewById(R.id.comment);
             holder.name = (TextView) convertView.findViewById(R.id.name);
