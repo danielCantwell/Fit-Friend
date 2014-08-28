@@ -42,7 +42,7 @@ public class NutritionLog extends ListFragment {
     private static Fragment instance = null;
 
     public static Fragment newInstance() {
-        if(instance == null)
+        if (instance == null)
             instance = new NutritionLog();
         return instance;
     }
@@ -305,9 +305,9 @@ public class NutritionLog extends ListFragment {
     }
 
     private void menuClickAddToFavorites(Meal meal) {
-        Meal newMeal = meal;
-        newMeal.setFavorite(true);
-        db.updateMeal(newMeal, meal);
+        db.store(new FavoriteMeal(
+                meal.getName(), meal.getType(), meal.getCalories(), meal.getProtein(), meal.getCarbs(), meal.getFat()
+        ));
     }
 
     private void menuClickEdit(Meal meal) {

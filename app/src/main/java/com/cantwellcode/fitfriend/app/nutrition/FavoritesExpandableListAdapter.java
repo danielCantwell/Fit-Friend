@@ -31,10 +31,10 @@ public class FavoritesExpandableListAdapter extends BaseExpandableListAdapter {
     private final Context context;
 
     private List<String> headerData;
-    private HashMap<String, List<Meal>> childData;
+    private HashMap<String, List<FavoriteMeal>> childData;
 
     public FavoritesExpandableListAdapter(Context context, List<String> headerData,
-                                          HashMap<String, List<Meal>> childData) {
+                                          HashMap<String, List<FavoriteMeal>> childData) {
         this.context = context;
         this.headerData = headerData;
         this.childData = childData;
@@ -95,7 +95,7 @@ public class FavoritesExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
         ViewHolder holder = null;
-        Meal meal = (Meal) getChild(groupPosition, childPosition);
+        FavoriteMeal meal = (FavoriteMeal) getChild(groupPosition, childPosition);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 

@@ -3,6 +3,7 @@ package com.cantwellcode.fitfriend.app.utils;
 import android.content.Context;
 
 import com.cantwellcode.fitfriend.app.exercise.types.Workout;
+import com.cantwellcode.fitfriend.app.nutrition.FavoriteMeal;
 import com.cantwellcode.fitfriend.app.nutrition.Meal;
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
@@ -46,7 +47,9 @@ public class DBHelper {
     Store a meal
      */
     public void store(Object object) {
-        if (object instanceof Meal)
+        if (object instanceof FavoriteMeal)
+            openDb(DB_NAME_FAVORITE_MEALS);
+        else if (object instanceof Meal)
             openDb(DB_NAME_NUTRITION);
         else
             openDb(DB_NAME_WORKOUTS);
@@ -64,7 +67,9 @@ public class DBHelper {
      */
     public Object get(Object object) {
 
-        if (object instanceof Meal)
+        if (object instanceof FavoriteMeal)
+            openDb(DB_NAME_FAVORITE_MEALS);
+        else if (object instanceof Meal)
             openDb(DB_NAME_NUTRITION);
         else
             openDb(DB_NAME_WORKOUTS);
@@ -106,13 +111,13 @@ public class DBHelper {
     /**
     return all favorite meals
      */
-    public ArrayList<Meal> getAllFavorites() {
+    public ArrayList<FavoriteMeal> getAllFavorites() {
 
-        ArrayList<Meal> list = new ArrayList<Meal>();
-        Meal meal = new Meal(true);
+        ArrayList<FavoriteMeal> list = new ArrayList<FavoriteMeal>();
+        FavoriteMeal meal = new FavoriteMeal();
 
-        openDb(DB_NAME_NUTRITION);
-        ObjectSet<Meal> result = db.queryByExample(meal);
+        openDb(DB_NAME_FAVORITE_MEALS);
+        ObjectSet<FavoriteMeal> result = db.queryByExample(meal);
 
         while (result.hasNext()) {
             list.add(result.next());
@@ -153,6 +158,24 @@ public class DBHelper {
 
         openDb(DB_NAME_NUTRITION);
         ObjectSet<Meal> result = db.queryByExample(meal);
+
+        while (result.hasNext()) {
+            list.add(result.next());
+        }
+
+        closeDb();
+        return list;
+    }
+
+    /**
+     return a list of favorite meals
+     */
+    public ArrayList<FavoriteMeal> getFavoriteMealList(FavoriteMeal meal) {
+
+        ArrayList<FavoriteMeal> list = new ArrayList<FavoriteMeal>();
+
+        openDb(DB_NAME_FAVORITE_MEALS);
+        ObjectSet<FavoriteMeal> result = db.queryByExample(meal);
 
         while (result.hasNext()) {
             list.add(result.next());
@@ -204,7 +227,6 @@ public class DBHelper {
             found.setFat(ObjFrom.getFat());
             found.setCarbs(ObjFrom.getCarbs());
             found.setProtein(ObjFrom.getProtein());
-            found.setFavorite(ObjFrom.isFavorite());
 
             db.store(found);
             db.commit();
@@ -227,7 +249,9 @@ public class DBHelper {
     public boolean delete(Object object) {
         Object found = null;
 
-        if (object instanceof Meal)
+        if (object instanceof FavoriteMeal)
+            openDb(DB_NAME_FAVORITE_MEALS);
+        else if (object instanceof Meal)
             openDb(DB_NAME_NUTRITION);
         else
             openDb(DB_NAME_WORKOUTS);

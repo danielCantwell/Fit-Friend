@@ -63,7 +63,7 @@ public class AddMeal extends FragmentActivity implements AdapterView.OnItemSelec
     private ArrayAdapter<CharSequence> mAdapter;
 
     private List<String> mSpinnerFavorites = new ArrayList<String>();
-    private List<Meal> mFavoritesList;
+    private List<FavoriteMeal> mFavoritesList;
 
     private Meal mMeal = null;
     private Meal mOldMeal = null;
@@ -87,7 +87,7 @@ public class AddMeal extends FragmentActivity implements AdapterView.OnItemSelec
         mTypeSpinner.setOnItemSelectedListener(this);
 
         mFavoritesList = mDatabase.getAllFavorites();
-        for (Meal meal : mFavoritesList) {
+        for (FavoriteMeal meal : mFavoritesList) {
             mSpinnerFavorites.add(meal.getName());
         }
         Collections.sort(mSpinnerFavorites);
@@ -148,7 +148,7 @@ public class AddMeal extends FragmentActivity implements AdapterView.OnItemSelec
 
                 String item = parent.getItemAtPosition(position).toString();
 
-                for (Meal meal : mFavoritesList) {
+                for (FavoriteMeal meal : mFavoritesList) {
                     if (meal.getName() == item) {
                         int spinnerPosition = mAdapter.getPosition(meal.getType());
 
@@ -289,7 +289,11 @@ public class AddMeal extends FragmentActivity implements AdapterView.OnItemSelec
         Toast.makeText(this, "Saving Meal", Toast.LENGTH_SHORT).show();
         Log.d("Nutrition", "Name: " + mName + " Date: " + mDate + " Type: " + mType + " Calories: " + mCalories);
 
-        mMeal = new Meal(mName, mDate, mType, mCalories, mProtein, mCarbs, mFat, isFavorite);
+        mMeal = new Meal(mName, mDate, mType, mCalories, mProtein, mCarbs, mFat);
+
+        if (isFavorite) {
+            mDatabase.store(new FavoriteMeal(mName, mType, mCalories, mProtein, mCarbs, mFat));
+        }
 
         mDatabase.store(mMeal);
     }
@@ -299,7 +303,7 @@ public class AddMeal extends FragmentActivity implements AdapterView.OnItemSelec
         prepareData();
         Toast.makeText(this, "Saving Meal", Toast.LENGTH_SHORT).show();
         Log.d("Nutrition", "Name: " + mName + " Date: " + mDate + " Type: " + mType + " Calories: " + mCalories);
-        mMeal = new Meal(mName, mDate, mType, mCalories, mProtein, mCarbs, mFat, isFavorite);
+        mMeal = new Meal(mName, mDate, mType, mCalories, mProtein, mCarbs, mFat);
 
         mDatabase.updateMeal(mMeal, mOldMeal);
     }

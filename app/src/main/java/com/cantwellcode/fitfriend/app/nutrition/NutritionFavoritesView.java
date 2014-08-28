@@ -31,10 +31,10 @@ public class NutritionFavoritesView extends FragmentActivity {
     private DBHelper db;
 
     private ExpandableListView listView;
-    private List<Meal> meals;
+    private List<FavoriteMeal> meals;
     private FavoritesExpandableListAdapter mAdapter;
     private List<String> listHeaders;
-    private HashMap<String, List<Meal>> listData;
+    private HashMap<String, List<FavoriteMeal>> listData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +64,7 @@ public class NutritionFavoritesView extends FragmentActivity {
                 int childPosition = ExpandableListView.getPackedPositionChild(packedPosition);
 
                 if (itemType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-                    Meal meal = (Meal) mAdapter.getChild(groupPosition, childPosition);
+                    FavoriteMeal meal = (FavoriteMeal) mAdapter.getChild(groupPosition, childPosition);
                     showPopup(view, meal);
 
                     return true;
@@ -92,9 +92,9 @@ public class NutritionFavoritesView extends FragmentActivity {
 
     private void prepareListData(DBHelper db) {
         listHeaders = new ArrayList<String>();
-        listData = new HashMap<String, List<Meal>>();
+        listData = new HashMap<String, List<FavoriteMeal>>();
 
-        List<Meal> favorites = db.getAllFavorites();
+        List<FavoriteMeal> favorites = db.getAllFavorites();
         // If user selects "meal type" sort type
         listHeaders.add("Breakfast");
         listHeaders.add("Lunch");
@@ -104,8 +104,8 @@ public class NutritionFavoritesView extends FragmentActivity {
         listHeaders.add("Post-Workout");
 
         for (String header : listHeaders) {
-            List<Meal> favoritesInType = new ArrayList<Meal>();
-            for (Meal favorite : favorites) {
+            List<FavoriteMeal> favoritesInType = new ArrayList<FavoriteMeal>();
+            for (FavoriteMeal favorite : favorites) {
                 if (favorite.getType().equals(header)) {
                     favoritesInType.add(favorite);
                 }
@@ -123,7 +123,7 @@ public class NutritionFavoritesView extends FragmentActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
-    private void showPopup(View v, final Meal meal) {
+    private void showPopup(View v, final FavoriteMeal meal) {
         PopupMenu popup = new PopupMenu(this, v);
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -144,7 +144,7 @@ public class NutritionFavoritesView extends FragmentActivity {
         popup.show();
     }
 
-    private void menuClickDelete(Meal meal) {
+    private void menuClickDelete(FavoriteMeal meal) {
         db.delete(meal);
         meals = db.getAllFavorites();
         if (meals.isEmpty()) {
@@ -153,17 +153,17 @@ public class NutritionFavoritesView extends FragmentActivity {
         reloadList();
     }
 
-    private List<Meal> sortFavoritesByName(List<Meal> favoritesUnsorted) {
-        List<Meal> favoritesSorted = new ArrayList<Meal>();
+    private List<FavoriteMeal> sortFavoritesByName(List<FavoriteMeal> favoritesUnsorted) {
+        List<FavoriteMeal> favoritesSorted = new ArrayList<FavoriteMeal>();
         List<String> favoritesNames = new ArrayList<String>();
 
-        for (Meal f1 : favoritesUnsorted) {
+        for (FavoriteMeal f1 : favoritesUnsorted) {
             favoritesNames.add(f1.getName());
         }
         Collections.sort(favoritesNames);
 
         for (String name : favoritesNames) {
-            for (Meal f2 : favoritesUnsorted) {
+            for (FavoriteMeal f2 : favoritesUnsorted) {
                 if (name.equals(f2.getName())) {
                     favoritesSorted.add(f2);
                     favoritesUnsorted.remove(f2);

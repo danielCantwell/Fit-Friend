@@ -5,10 +5,7 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Typeface;
-import android.net.Uri;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -23,9 +20,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,14 +31,11 @@ import com.cantwellcode.fitfriend.app.connect.GoalsActivity;
 import com.cantwellcode.fitfriend.app.connect.ProfileActivity;
 import com.cantwellcode.fitfriend.app.connect.SettingsActivity;
 import com.cantwellcode.fitfriend.app.nutrition.NutritionFavoritesView;
+import com.cantwellcode.fitfriend.app.startup.DispatchActivity;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,6 +74,8 @@ public class NavigationDrawerFragment extends Fragment {
 
     private ImageView mProfilePicture;
     private TextView mName;
+
+    private Button logout;
 
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
@@ -125,6 +120,7 @@ public class NavigationDrawerFragment extends Fragment {
 
         mProfilePicture = (ImageView) root.findViewById(R.id.profilePicture);
         mName = (TextView) root.findViewById(R.id.name);
+        logout = (Button) root.findViewById(R.id.logout);
 
         ParseFile pic = user.getParseFile("picture");
 
@@ -207,6 +203,16 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseUser.logOut();
+                Intent intent = new Intent(getActivity(), DispatchActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });
