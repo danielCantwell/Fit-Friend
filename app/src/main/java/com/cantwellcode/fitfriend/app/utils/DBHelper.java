@@ -214,19 +214,19 @@ public class DBHelper {
         Meal found = null;
 
         openDb(DB_NAME_NUTRITION);
-        ObjectSet<Meal> result = db.queryByExample(ObjTo);
+        ObjectSet<Meal> result = db.queryByExample(ObjFrom);
 
         if (result.hasNext()) { // if found
 
             found = result.next();
 
-            found.setName(ObjFrom.getName());
-            found.setDate(ObjFrom.getDate());
-            found.setType(ObjFrom.getType());
-            found.setCalories(ObjFrom.getCalories());
-            found.setFat(ObjFrom.getFat());
-            found.setCarbs(ObjFrom.getCarbs());
-            found.setProtein(ObjFrom.getProtein());
+            found.setName(ObjTo.getName());
+            found.setDate(ObjTo.getDate());
+            found.setType(ObjTo.getType());
+            found.setCalories(ObjTo.getCalories());
+            found.setFat(ObjTo.getFat());
+            found.setCarbs(ObjTo.getCarbs());
+            found.setProtein(ObjTo.getProtein());
 
             db.store(found);
             db.commit();
