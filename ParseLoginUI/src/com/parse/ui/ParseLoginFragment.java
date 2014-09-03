@@ -273,6 +273,7 @@ public class ParseLoginFragment extends ParseLoginFragmentBase {
                           && fbUser.getName().length() > 0) {
                         parseUser.put(USER_OBJECT_NAME_FIELD, fbUser.getName());
                         parseUser.put(USER_OBJECT_FB_ID_FIELD, fbUser.getId());
+                        parseUser.put("email", fbUser.asMap().get("email").toString());
                         parseUser.saveInBackground(new SaveCallback() {
                           @Override
                           public void done(ParseException e) {
