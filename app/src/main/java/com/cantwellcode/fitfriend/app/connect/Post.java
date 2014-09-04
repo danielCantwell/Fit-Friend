@@ -35,6 +35,10 @@ public class Post extends ParseObject {
         put("content", content);
     }
 
+    public String getCategory() { return getString("category"); }
+
+    public void setCategory(String category) { put("category", category); }
+
     public int getHighFives() { return getInt("highFives"); }
 
     public void setHighFives(int num) { put ("highFives", num); }

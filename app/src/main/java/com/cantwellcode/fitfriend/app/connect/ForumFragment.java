@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -40,6 +41,7 @@ import com.parse.SaveCallback;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -62,11 +64,11 @@ public class ForumFragment extends ListFragment {
 
     private ParseUser user;
 
-    private List<String> friendGroups;
+    private List<String> forumCategories;
 
     private View.OnClickListener mOnClickListener;
 
-    private String currentGroup;
+    private String currentCategory;
 
     ParseQueryAdapter.QueryFactory<Post> factory;
 
@@ -76,28 +78,23 @@ public class ForumFragment extends ListFragment {
 
         user = ParseUser.getCurrentUser();
 
-        friendGroups = new ArrayList<String>();
-        friendGroups.add("Friends");
-        friendGroups.add("Explore");
-        for (Group group : getGroups()) {
-            friendGroups.add(group.getName());
-        }
+        String[] categories = getResources().getStringArray(R.array.forum_categories);
+        forumCategories = Arrays.asList(categories);
 
-        currentGroup = "Friends";
+        currentCategory = "Friends";
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, friendGroups);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, forumCategories);
 
         /* Spinner Listener for which group of posts to display */
         getActivity().getActionBar().setListNavigationCallbacks(adapter, new ActionBar.OnNavigationListener() {
             @Override
             public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-                String groupName = friendGroups.get(itemPosition);
-                if (groupName.equals("Friends")) {
+                String category = forumCategories.get(itemPosition);
+                currentCategory = category;
+                if (category.equals("Friends")) {
                     setupFriendsPosts();
-                } else if (groupName.equals("Explore")) {
-                    setupExplorePosts();
                 } else {
-                    setupGroupPosts(groupName);
+                    setupCategoryPosts(category);
                 }
 
                 return true;
@@ -267,7 +264,7 @@ public class ForumFragment extends ListFragment {
      * Setup forum post views
      * Set list adapter
      */
-    private void setupExplorePosts() {
+    private void setupCategoryPosts(final String category) {
         /* Set up factory for forum posts by any user */
         factory = new ParseQueryAdapter.QueryFactory<Post>() {
             public ParseQuery<Post> create() {
@@ -276,6 +273,7 @@ public class ForumFragment extends ListFragment {
                 ParseQuery<Post> query = Post.getQuery();
                 query.include("user");
                 query.include("comments.user");
+                query.whereEqualTo("category", category);
                 query.orderByDescending("createdAt");
                 query.setLimit(MAX_POST_SEARCH_RESULTS);
 
@@ -346,15 +344,8 @@ public class ForumFragment extends ListFragment {
         setListAdapter(posts);
     }
 
-    private void setupGroupPosts(String groupName) {
-
-    }
-
     private class ForumPostDialog extends DialogFragment {
 
-        private Spinner group;
-        private CheckBox publiclyAvailable;
-        private Button options;
         private EditText content;
         private EditText comment;
         private View view;
@@ -368,14 +359,11 @@ public class ForumFragment extends ListFragment {
 
             view = inflater.inflate(R.layout.forum_post_dialog, null);
 
-            group = (Spinner) view.findViewById(R.id.group);
-            publiclyAvailable = (CheckBox) view.findViewById(R.id.publiclyAvailable);
-            options = (Button) view.findViewById(R.id.options);
             content = (EditText) view.findViewById(R.id.content);
             comment = (EditText) view.findViewById(R.id.comment);
 
             builder.setView(view);
-            builder.setTitle("Post in Forum");
+            builder.setTitle("Post in " + currentCategory);
 
             builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
                 @Override
@@ -387,6 +375,7 @@ public class ForumFragment extends ListFragment {
                         Post post = new Post();
                         post.setUser(user);
                         post.setContent(content.getText().toString());
+                        post.setCategory(currentCategory);
                         /* Add comment if exists */
                         if (!isEmpty(comment)) {
                             Comment c = new Comment();
@@ -500,5 +489,6 @@ public class ForumFragment extends ListFragment {
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle("Forum");
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
     }
 }

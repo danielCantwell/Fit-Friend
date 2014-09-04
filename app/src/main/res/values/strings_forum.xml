@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="forum_categories">
+        <item>Friends</item>
+        <item>General</item>
+        <item>Exercise</item>
+        <item>Crossfit</item>
+        <item>Cycling</item>
+        <item>Lifting</item>
+        <item>Running</item>
+        <item>Swimming</item>
+        <item>Triathlon</item>
+        <item>Recovery</item>
+        <item>Stretching</item>
+        <item>Nutrition</item>
+        <item>Bulking</item>
+        <item>Toning</item>
+        <item>Weight Loss</item>
+    </string-array>
+
+</resources>
