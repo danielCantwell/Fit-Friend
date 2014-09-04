@@ -17,6 +17,7 @@ import com.cantwellcode.fitfriend.app.exercise.log.WorkoutLog;
 import com.cantwellcode.fitfriend.app.nutrition.NutritionLog;
 import com.cantwellcode.fitfriend.app.plan.Plan;
 import com.cantwellcode.fitfriend.app.utils.NavigationDrawerFragment;
+import com.parse.PushService;
 
 
 public class MainActivity extends FragmentActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {

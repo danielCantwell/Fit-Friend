@@ -499,6 +499,6 @@ public class ForumFragment extends ListFragment {
     private void restoreActionBar() {
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle("Nutrition Log");
+        actionBar.setTitle("Forum");
     }
 }

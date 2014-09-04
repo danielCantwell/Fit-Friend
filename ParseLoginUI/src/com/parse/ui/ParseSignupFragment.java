@@ -34,6 +34,7 @@ import android.widget.ImageView;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -229,6 +230,7 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
     }
 
     private void signupSuccess() {
+
         // Add Daniel Cantwell as a friend
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("email", "dcantwell04@gmail.com");
@@ -243,6 +245,10 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
                 friend.saveInBackground();
             }
         });
+
+        // Save the current Installation to Parse. (Used for push notifications)
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+
         onLoginSuccessListener.onLoginSuccess();
     }
 }

@@ -15,6 +15,7 @@ import com.cantwellcode.fitfriend.app.plan.Event;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
+import com.parse.PushService;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -38,6 +39,8 @@ public class App extends Application {
 
         Parse.initialize(this, "6ndNVpRctpv0EB5awdLtiT1nEwg5WidUBSNyKRwo", "QeU6X4k0S1zJDtlMZhiZPoe59DKhhGJONMdhZEBN");
         ParseFacebookUtils.initialize(getString(R.string.facebook_app_id));
+
+        PushService.setDefaultPushCallback(this, MainActivity.class);
 
         try{
             PackageInfo info = getPackageManager().getPackageInfo(
