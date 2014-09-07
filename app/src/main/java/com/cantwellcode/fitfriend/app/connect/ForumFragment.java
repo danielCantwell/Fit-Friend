@@ -289,47 +289,36 @@ public class ForumFragment extends ListFragment {
                 mOnClickListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        switch (v.getId()) {
-                                    /* Click listener for high five button */
-                            case R.id.highFive:
-                                post.addHighFive();
-                                post.saveInBackground(new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException e) {
-                                        posts.notifyDataSetChanged();
-                                    }
-                                });
-                                break;
-                                    /* Click listener for discussion button */
-                            case R.id.discusson:
+//                        switch (v.getId()) {
+//                                    /* Click listener for discussion button */
+//                            case R.id.discusson:
                                 FragmentManager fm = getFragmentManager();
                                 DiscussionDialog discussionDialog = new DiscussionDialog(post);
                                 discussionDialog.show(fm, "DiscussionDialog");
-                        }
+//                                break;
+//                        }
                     }
                 };
 
                 if (view == null) {
-                    view = view.inflate(getActivity(), R.layout.forum_item, null);
+                    view = view.inflate(getActivity(), R.layout.forum_item_public, null);
                 }
+
+                view.setOnClickListener(mOnClickListener);
 
                 TextView name = (TextView) view.findViewById(R.id.name);
                 TextView date = (TextView) view.findViewById(R.id.date);
                 TextView content = (TextView) view.findViewById(R.id.content);
-                TextView numHighFives = (TextView) view.findViewById(R.id.numHighFives);
                 TextView numComments = (TextView) view.findViewById(R.id.numComments);
-                Button highFive = (Button) view.findViewById(R.id.highFive);
-                Button comment = (Button) view.findViewById(R.id.discusson);
+                //Button comment = (Button) view.findViewById(R.id.discusson);
 
                 name.setText(post.getUser().getString("name"));
                 content.setText(post.getContent());
-                numHighFives.setText(String.valueOf(post.getHighFives()));
                 if (post.has("comments")) {
                     numComments.setText(String.valueOf(post.getComments().size()));
                 }
 
-                highFive.setOnClickListener(mOnClickListener);
-                comment.setOnClickListener(mOnClickListener);
+//                comment.setOnClickListener(mOnClickListener);
 
                 DateFormat df = new SimpleDateFormat("d MMM yyyy");
                 Date dateTime = post.getCreatedAt();
