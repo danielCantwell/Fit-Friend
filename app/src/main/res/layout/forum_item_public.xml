@@ -15,24 +15,24 @@
         android:textSize="16dp" />
 
     <TextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/content"
-        android:layout_marginLeft="30dp"
-        android:hint="display name"
-        android:textColor="@color/amethyst"
-        android:textSize="12dp" />
-
-    <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/content"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/name"
+        android:layout_marginLeft="30dp"
         android:hint="date"
         android:textColor="#888888"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/date"
+        android:hint="display name"
+        android:textColor="@color/amethyst"
         android:textSize="12dp" />
 
     <TextView

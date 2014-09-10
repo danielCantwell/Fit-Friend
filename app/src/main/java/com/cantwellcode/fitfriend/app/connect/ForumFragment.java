@@ -53,7 +53,7 @@ public class ForumFragment extends ListFragment {
     private static Fragment instance = null;
 
     public static Fragment newInstance() {
-        if(instance == null)
+        if (instance == null)
             instance = new ForumFragment();
         return instance;
     }
@@ -289,14 +289,9 @@ public class ForumFragment extends ListFragment {
                 mOnClickListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        switch (v.getId()) {
-//                                    /* Click listener for discussion button */
-//                            case R.id.discusson:
-                                FragmentManager fm = getFragmentManager();
-                                DiscussionDialog discussionDialog = new DiscussionDialog(post);
-                                discussionDialog.show(fm, "DiscussionDialog");
-//                                break;
-//                        }
+                        FragmentManager fm = getFragmentManager();
+                        DiscussionDialog discussionDialog = new DiscussionDialog(post);
+                        discussionDialog.show(fm, "DiscussionDialog");
                     }
                 };
 
@@ -310,15 +305,12 @@ public class ForumFragment extends ListFragment {
                 TextView date = (TextView) view.findViewById(R.id.date);
                 TextView content = (TextView) view.findViewById(R.id.content);
                 TextView numComments = (TextView) view.findViewById(R.id.numComments);
-                //Button comment = (Button) view.findViewById(R.id.discusson);
 
                 name.setText(post.getUser().getString("name"));
                 content.setText(post.getContent());
                 if (post.has("comments")) {
                     numComments.setText(String.valueOf(post.getComments().size()));
                 }
-
-//                comment.setOnClickListener(mOnClickListener);
 
                 DateFormat df = new SimpleDateFormat("d MMM yyyy");
                 Date dateTime = post.getCreatedAt();
