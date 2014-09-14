@@ -42,24 +42,24 @@
         android:layout_below="@+id/typeText"
         android:layout_marginLeft="10dp" />
 
-    <TextView
-        android:id="@+id/groupText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/title"
-        android:layout_margin="10dp"
-        android:text="Group"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+    <!--<TextView-->
+        <!--android:id="@+id/groupText"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_below="@+id/title"-->
+        <!--android:layout_margin="10dp"-->
+        <!--android:text="Group"-->
+        <!--android:textSize="18sp"-->
+        <!--android:textStyle="bold" />-->
 
-    <Spinner
-        android:id="@+id/group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/groupText"
-        android:layout_marginRight="10dp" />
+    <!--<Spinner-->
+        <!--android:id="@+id/group"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_below="@+id/groupText"-->
+        <!--android:layout_marginRight="10dp" />-->
 
     <TextView
         android:id="@+id/dateText"

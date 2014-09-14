@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.cantwellcode.fitfriend.app">
+    package="com.fitfriend.app">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -12,17 +12,17 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <permission android:protectionLevel="signature"
-        android:name="com.cantwellcode.fitfriend.app.permission.C2D_MESSAGE" />
+        android:name="com.fitfriend.app.permission.C2D_MESSAGE" />
     <uses-permission android:name="com.cantwellcode.fitfriend.app.permission.C2D_MESSAGE" />
 
     <application
-        android:name=".startup.App"
+        android:name="com.fitfriend.app.startup.App"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".startup.DispatchActivity"
+            android:name="com.fitfriend.app.startup.DispatchActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,34 +50,34 @@
             android:name="com.facebook.LoginActivity"
             android:label="@string/app_name" />
         <activity
-            android:name=".startup.MainActivity"
+            android:name="com.fitfriend.app.startup.MainActivity"
             android:label="@string/app_name"></activity>
         <activity
-            android:name=".nutrition.AddMeal"
+            android:name="com.fitfriend.app.nutrition.AddMeal"
             android:label="@string/app_name"></activity>
         <activity
-            android:name=".exercise.log.AddWorkout"
+            android:name="com.fitfriend.app.exercise.log.AddWorkout"
             android:label="@string/app_name"></activity>
         <activity
-            android:name=".plan.AddEvent"
+            android:name="com.fitfriend.app.plan.AddEvent"
             android:label="@string/app_name"></activity>
         <activity
-            android:name=".plan.EventDetails"
+            android:name="com.fitfriend.app.plan.EventDetails"
             android:label="@string/app_name"></activity>
         <activity
-            android:name=".connect.FriendsActivity"
+            android:name="com.fitfriend.app.connect.FriendsActivity"
             android:label="@string/app_name"></activity>
         <activity
-            android:name=".connect.ProfileActivity"
+            android:name="com.fitfriend.app.connect.ProfileActivity"
             android:label="@string/app_name"></activity>
         <activity
-            android:name=".connect.SettingsActivity"
+            android:name="com.fitfriend.app.connect.SettingsActivity"
             android:label="@string/app_name"></activity>
         <activity
-            android:name=".connect.GoalsActivity"
+            android:name="com.fitfriend.app.connect.GoalsActivity"
             android:label="@string/app_name"></activity>
         <activity
-            android:name=".nutrition.NutritionFavoritesView"
+            android:name="com.fitfriend.app.nutrition.NutritionFavoritesView"
             android:label="@string/app_name"></activity>
 
         <meta-data

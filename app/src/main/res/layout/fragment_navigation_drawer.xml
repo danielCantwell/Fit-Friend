@@ -51,15 +51,15 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/listView"
             android:background="@color/background"
-            android:padding="10dp">
+            android:paddingBottom="10dp">
 
             <ListView
                 android:id="@+id/secondListView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|top"
-                android:divider="@color/transparent"
-                android:dividerHeight="10dp" />
+                android:divider="@color/grey"
+                android:dividerHeight="1dp" />
 
             <Button
                 android:id="@+id/logout"

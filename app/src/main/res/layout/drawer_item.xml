@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/transparent"
-    android:textColor="@color/black"
+    android:textColor="@color/dark_grey"
     android:textSize="20sp">
 
 </TextView>
