@@ -40,4 +40,7 @@ public abstract class Statics {
     public static String FORUM_CATEGORY_BULKING = "Bulking";
     public static String FORUM_CATEGORY_WEIGHTLOSS = "WeightLoss";
     public static String FORUM_CATEGORY_TONING = "Toning";
+
+    // Push Channels
+    public static String EVENT_CHANNEL_ = "Event-";
 }

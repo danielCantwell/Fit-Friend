@@ -1,6 +1,7 @@
 package com.fitfriend.app.plan;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -11,9 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fitfriend.app.R;
+import com.fitfriend.app.startup.MainActivity;
+import com.fitfriend.app.utils.Statics;
 import com.parse.ParseException;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.PushService;
 
 /**
  * Created by Daniel on 6/4/2014.
@@ -111,11 +116,20 @@ public class EventDetails extends FragmentActivity {
                     mEvent.saveInBackground();
                     mJoin.setText("Join");
                     going = false;
+                    /* Unsubscribe to push notifications */
+                    PushService.unsubscribe(EventDetails.this, Statics.EVENT_CHANNEL_ + mEvent.getObjectId());
                 } else {
                     mEvent.addAttendee(ParseUser.getCurrentUser());
                     mEvent.saveInBackground();
                     mJoin.setText("Going");
                     going = true;
+                    /* Subscribe to push notifications */
+                    PushService.subscribe(EventDetails.this, Statics.EVENT_CHANNEL_ + mEvent.getObjectId(), MainActivity.class);
+                    /* Notify subscribers */
+                    ParsePush push = new ParsePush();
+                    push.setChannel(Statics.EVENT_CHANNEL_ + mEvent.getObjectId());
+                    push.setMessage(ParseUser.getCurrentUser().getString("name") + " has joined the event " + mEvent.getTitle());
+                    push.sendInBackground();
                 }
                 mAttendeesButton.setText(mEvent.getAttendees().size() + " Attending");
             }

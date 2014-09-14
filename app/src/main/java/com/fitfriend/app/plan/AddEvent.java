@@ -16,7 +16,12 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 
 import com.fitfriend.app.R;
+import com.fitfriend.app.startup.MainActivity;
+import com.fitfriend.app.utils.Statics;
+import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.PushService;
+import com.parse.SaveCallback;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -25,7 +30,7 @@ import java.util.Calendar;
 /**
  * Created by Daniel on 6/2/2014.
  */
-public class AddEvent extends FragmentActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
+public class AddEvent extends FragmentActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private EditText mTitleText;
     private Button mDateButton;
@@ -104,7 +109,7 @@ public class AddEvent extends FragmentActivity implements DatePickerDialog.OnDat
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.action_save:
                 save();
                 setResult(RESULT_OK);
@@ -164,7 +169,7 @@ public class AddEvent extends FragmentActivity implements DatePickerDialog.OnDat
         String date = dateFormat.format(calendar.getTime());
         String time = timeFormat.format(calendar.getTime());
 
-        Event event = new Event();
+        final Event event = new Event();
         event.setUser(ParseUser.getCurrentUser());
         event.setTitle(title);
         event.setDate(date);
@@ -174,7 +179,13 @@ public class AddEvent extends FragmentActivity implements DatePickerDialog.OnDat
         event.setType(type);
         event.addAttendee(ParseUser.getCurrentUser());
 
-        event.saveInBackground();
+        event.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                                       /* Subscribe to push notifications */
+                PushService.subscribe(AddEvent.this, Statics.EVENT_CHANNEL_ + event.getObjectId(), MainActivity.class);
+            }
+        });
     }
 
     @Override
