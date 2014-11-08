@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.fitfriend.app.exercise.log.NewWorkoutActivity">
+
+    <item
+        android:id="@+id/action_save"
+        android:icon="@drawable/ic_action_save"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="Save" />
+
+    <item
+        android:id="@+id/action_new_routine"
+        android:icon="@drawable/ic_action_plus"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="New Routine" />
+</menu>

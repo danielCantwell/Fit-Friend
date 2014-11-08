@@ -11,6 +11,7 @@ import com.fitfriend.app.R;
 import com.fitfriend.app.connect.Comment;
 import com.fitfriend.app.connect.Group;
 import com.fitfriend.app.connect.Post;
+import com.fitfriend.app.exercise.types.Exercise;
 import com.fitfriend.app.plan.Event;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
@@ -36,6 +37,9 @@ public class App extends Application {
         ParseObject.registerSubclass(Group.class);
         ParseObject.registerSubclass(Comment.class);
         ParseObject.registerSubclass(Event.class);
+        ParseObject.registerSubclass(Exercise.class);
+
+        Parse.enableLocalDatastore(this);
 
         Parse.initialize(this, "6ndNVpRctpv0EB5awdLtiT1nEwg5WidUBSNyKRwo", "QeU6X4k0S1zJDtlMZhiZPoe59DKhhGJONMdhZEBN");
         ParseFacebookUtils.initialize(getString(R.string.facebook_app_id));

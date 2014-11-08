@@ -11,18 +11,20 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
-    <permission android:protectionLevel="signature"
-        android:name="com.fitfriend.app.permission.C2D_MESSAGE" />
+    <permission
+        android:name="com.fitfriend.app.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
     <uses-permission android:name="com.fitfriend.app.permission.C2D_MESSAGE" />
 
     <application
-        android:name="com.fitfriend.app.startup.App"
+        android:name=".startup.App"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.fitfriend.app.startup.DispatchActivity"
+            android:name=".startup.DispatchActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,49 +52,50 @@
             android:name="com.facebook.LoginActivity"
             android:label="@string/app_name" />
         <activity
-            android:name="com.fitfriend.app.startup.MainActivity"
-            android:label="@string/app_name"></activity>
+            android:name=".startup.MainActivity"
+            android:label="@string/app_name" />
         <activity
-            android:name="com.fitfriend.app.nutrition.AddMeal"
-            android:label="@string/app_name"></activity>
+            android:name=".nutrition.AddMeal"
+            android:label="@string/app_name" />
         <activity
-            android:name="com.fitfriend.app.exercise.log.AddWorkout"
-            android:label="@string/app_name"></activity>
+            android:name=".exercise.log.AddWorkout"
+            android:label="@string/app_name" />
         <activity
-            android:name="com.fitfriend.app.plan.AddEvent"
-            android:label="@string/app_name"></activity>
+            android:name=".plan.AddEvent"
+            android:label="@string/app_name" />
         <activity
-            android:name="com.fitfriend.app.plan.EventDetails"
-            android:label="@string/app_name"></activity>
+            android:name=".plan.EventDetails"
+            android:label="@string/app_name" />
         <activity
-            android:name="com.fitfriend.app.connect.FriendsActivity"
-            android:label="@string/app_name"></activity>
+            android:name=".connect.FriendsActivity"
+            android:label="@string/app_name" />
         <activity
-            android:name="com.fitfriend.app.connect.ProfileActivity"
-            android:label="@string/app_name"></activity>
+            android:name=".connect.ProfileActivity"
+            android:label="@string/app_name" />
         <activity
-            android:name="com.fitfriend.app.connect.SettingsActivity"
-            android:label="@string/app_name"></activity>
+            android:name=".connect.SettingsActivity"
+            android:label="@string/app_name" />
         <activity
-            android:name="com.fitfriend.app.connect.GoalsActivity"
-            android:label="@string/app_name"></activity>
+            android:name=".connect.GoalsActivity"
+            android:label="@string/app_name" />
         <activity
-            android:name="com.fitfriend.app.nutrition.NutritionFavoritesView"
-            android:label="@string/app_name"></activity>
+            android:name=".nutrition.NutritionFavoritesView"
+            android:label="@string/app_name" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-
         <service android:name="com.parse.PushService" />
+
         <receiver android:name="com.parse.ParseBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.parse.GcmBroadcastReceiver"
+        <receiver
+            android:name="com.parse.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
@@ -101,6 +104,33 @@
                 <category android:name="com.fitfriend.app" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".exercise.log.NewWorkoutActivity"
+            android:label="@string/title_activity_new_exercise"
+            android:parentActivityName=".startup.MainActivity"
+            android:windowSoftInputMode="stateUnchanged">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.fitfriend.app.startup.MainActivity" />
+        </activity>
+        <activity
+            android:name=".exercise.log.NewExerciseActivity"
+            android:label="@string/title_activity_new_routine"
+            android:parentActivityName=".exercise.log.NewWorkoutActivity"
+            android:windowSoftInputMode="stateUnchanged">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.fitfriend.app.exercise.log.NewExerciseActivity" />
+        </activity>
+        <activity
+            android:name=".exercise.log.ExerciseSetsActivity"
+            android:label="@string/title_activity_routine_sets"
+            android:parentActivityName=".exercise.log.NewExerciseActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.fitfriend.app.exercise.log.NewRoutineActivity" />
+        </activity>
     </application>
 
 </manifest>

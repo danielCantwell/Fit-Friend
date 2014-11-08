@@ -17,12 +17,12 @@
     </style>
 
     <style name="EditText" parent="android:style/Widget.EditText">
-        <item name="android:background">@android:drawable/edit_text</item>
+        <item name="android:background">@drawable/edittext_selector</item>
     </style>
 
     <style name="ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:titleTextStyle">@style/ActionBarText</item>
-        <item name="android:background">#c0392b</item>
+        <item name="android:background">@color/pomegranate</item>
         <item name="android:icon">@drawable/ic_launcher_white</item>
     </style>
 

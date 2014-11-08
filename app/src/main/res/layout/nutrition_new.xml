@@ -6,20 +6,36 @@
     android:background="@color/background"
     android:orientation="vertical">
 
-    <AutoCompleteTextView
-        android:id="@+id/n_name"
+    <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:hint="Name"
-        android:maxLines="2"
-        android:selectAllOnFocus="true"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:layout_marginTop="10dp">
+
+        <AutoCompleteTextView
+            android:id="@+id/n_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:hint="Name"
+            android:maxLines="2"
+            android:selectAllOnFocus="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/button_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_search_red"
+            android:gravity="center_horizontal" />
+
+    </TableRow>
 
     <TableRow
         android:layout_width="match_parent"
@@ -60,7 +76,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@android:drawable/edit_text"
         android:ems="10"
         android:gravity="center"
         android:inputType="numberDecimal"
@@ -81,7 +96,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@android:drawable/edit_text"
         android:ems="10"
         android:gravity="center"
         android:inputType="numberDecimal"
@@ -102,7 +116,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@android:drawable/edit_text"
         android:ems="10"
         android:gravity="center"
         android:inputType="numberDecimal"
@@ -123,7 +136,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@android:drawable/edit_text"
         android:ems="10"
         android:gravity="center"
         android:inputType="numberDecimal"

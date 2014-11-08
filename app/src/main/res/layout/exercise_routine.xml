@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_below="@+id/name"
-        android:background="@color/amethyst" />
+        android:background="@color/pomegranate" />
 
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"

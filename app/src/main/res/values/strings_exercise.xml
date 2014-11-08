@@ -32,4 +32,20 @@
         <item>Min</item>
     </string-array>
 
+    <string-array name="routines">
+        <item>Bench Press</item>
+        <item>Curl</item>
+        <item>Deadlift</item>
+        <item>Front Squat</item>
+        <item>Inclined Chest Press</item>
+        <item>Kettle Bell Swing</item>
+        <item>Leg Press</item>
+        <item>Plank</item>
+        <item>Pull Up</item>
+        <item>Push Up</item>
+        <item>Romanian Deadlift</item>
+        <item>Row</item>
+        <item>Squat</item>
+    </string-array>
+
 </resources>

@@ -107,7 +107,7 @@
         android:text="8:30 am" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/weight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -122,7 +122,7 @@
         android:id="@+id/location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
+        android:layout_below="@+id/weight"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp" />
 

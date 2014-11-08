@@ -162,7 +162,7 @@ public class WorkoutLog extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_new:
-                Intent intent = new Intent(getActivity(), AddWorkout.class);
+                Intent intent = new Intent(getActivity(), NewWorkoutActivity.class);
                 startActivity(intent);
                 break;
         }

@@ -4,17 +4,58 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingLeft="6dp"
-    android:paddingRight="6dp">
+    android:padding="10dp">
 
-    <include
-        layout="@layout/exercise_set_primary"
+    <TableRow
+        android:id="@+id/row_weight"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
 
-    <include
-        layout="@layout/exercise_set_secondary"
+        <TextView
+            android:id="@+id/weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:text="140"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:text="  lbs" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/row_reps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/reps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:text="12"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:text="  reps" />
+    </TableRow>
+
+    <TextView
+        android:id="@+id/row_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" />
+        android:layout_marginBottom="5dp"
+        android:layout_weight="1"
+        android:text="01:30"
+        android:textStyle="bold" />
 </LinearLayout>

@@ -12,10 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:selectedDateVerticalBar="@android:color/holo_red_dark"
+        android:selectedDateVerticalBar="@color/pomegranate"
         android:selectedWeekBackgroundColor="@android:color/background_light"
         android:showWeekNumber="false"
-        android:unfocusedMonthDateColor="#DDDDDD" />
+        android:unfocusedMonthDateColor="#DDDDDD"/>
 
     <ListView
         android:id="@+id/listView"

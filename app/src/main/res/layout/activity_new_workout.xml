@@ -1,0 +1,58 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    tools:context="com.fitfriend.app.exercise.log.NewWorkoutActivity">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/pomegranate">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:text="PAUSE"
+            android:textColor="@color/black"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:text="EXERCISES"
+            android:textColor="@color/black" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/pomegranate">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:text="START"
+            android:textColor="@color/white" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:text="END"
+            android:textColor="@color/white" />
+
+    </TableRow>
+
+    <ListView
+        android:id="@+id/exerciseList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date"
+        android:layout_margin="20dp" />
+
+</LinearLayout>

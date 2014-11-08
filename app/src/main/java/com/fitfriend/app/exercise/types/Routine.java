@@ -1,19 +1,12 @@
 package com.fitfriend.app.exercise.types;
 
-import android.widget.RelativeLayout;
-
+import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by Daniel on 6/23/2014.
+ * Created by Daniel on 10/26/2014.
  */
-public interface Routine {
-
-    public String getName();
-
-    public List<Set> getSets();
-
-    public RelativeLayout getLayout();
-
-    public void addSet(Set set);
+public class Routine implements Serializable{
+    public String name;
+    public List<Set> sets;
 }

@@ -10,6 +10,10 @@ public abstract class Statics {
     public static final String GOAL_CARBS = "GoalCarbs";
     public static final String GOAL_PROTEIN = "GoalProtein";
 
+    public static final String FATSECRET_URL = "http://platform.fatsecret.com/rest/server.api";
+    public static final String API_CONSUMER_KEY = "ffb559ce0118461abac9a23d5de05128";
+    public static final String API_SHARED_SECRET = "148ce93f2f3d4346b3952864b3a99528";
+
     public static final int INTENT_REQUEST_MEAL = 1001;
     public static final int INTENT_REQUEST_WORKOUT = 1002;
     public static final int INTENT_REQUEST_EVENT = 1003;
