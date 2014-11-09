@@ -22,8 +22,8 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile files('libs/db4o-8.0.249.16098-all-java5.jar')
-    compile 'com.android.support:support-v13:19.+'
-    compile 'com.android.support:support-v4:19.+'
     compile project(':ParseLoginUI')
     compile project(':facebook')
+    compile 'com.android.support:support-v13:21.0.0'
+    compile 'com.android.support:support-v4:21.0.0'
 }

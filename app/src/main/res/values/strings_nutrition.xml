@@ -2,6 +2,10 @@
 <resources>
     <string name="nutrition_log">Nutrition Log</string>
 
+    <string name="newfood_tab1">Search</string>
+    <string name="newfood_tab2">Details</string>
+    <string name="newfood_tab3">Favorites</string>
+
     <string-array name="meal_types">
         <item>Breakfast</item>
         <item>Lunch</item>

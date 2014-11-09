@@ -12,6 +12,7 @@ import com.fitfriend.app.connect.Comment;
 import com.fitfriend.app.connect.Group;
 import com.fitfriend.app.connect.Post;
 import com.fitfriend.app.exercise.types.Exercise;
+import com.fitfriend.app.nutrition.Food;
 import com.fitfriend.app.plan.Event;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
@@ -38,6 +39,7 @@ public class App extends Application {
         ParseObject.registerSubclass(Comment.class);
         ParseObject.registerSubclass(Event.class);
         ParseObject.registerSubclass(Exercise.class);
+        ParseObject.registerSubclass(Food.class);
 
         Parse.enableLocalDatastore(this);
 

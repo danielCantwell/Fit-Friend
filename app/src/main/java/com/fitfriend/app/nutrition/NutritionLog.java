@@ -226,7 +226,7 @@ public class NutritionLog extends ListFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_new:
-                Intent intent = new Intent(getActivity(), AddMeal.class);
+                Intent intent = new Intent(getActivity(), NewFoodActivity.class);
                 startActivityForResult(intent, Statics.INTENT_REQUEST_MEAL);
                 break;
         }
@@ -311,9 +311,10 @@ public class NutritionLog extends ListFragment {
     }
 
     private void menuClickEdit(Meal meal) {
-        Intent intent = new Intent(getActivity(), AddMeal.class);
-        intent.putExtra("Edit", meal);
-        startActivityForResult(intent, Statics.INTENT_REQUEST_MEAL);
+//        Intent intent = new Intent(getActivity(), CustomFoodFragment.class);
+//        intent.putExtra("Edit", meal);
+//        startActivityForResult(intent, Statics.INTENT_REQUEST_MEAL);
+        Toast.makeText(getActivity(), "Edit is currently not enabled", Toast.LENGTH_SHORT).show();
     }
 
     private void menuClickDelete(Meal meal) {

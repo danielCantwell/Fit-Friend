@@ -2,23 +2,29 @@
 <pre-dex-items>
 
     <item
-        dex="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\pre-dexed\debug\support-v13-19.1.0-c858d494903a4c659de20252b47315dd4aa0b833.jar"
-        jar="C:\Users\Daniel\Documents\android-studio\sdk\extras\android\m2repository\com\android\support\support-v13\19.1.0\support-v13-19.1.0.jar"
+        dex="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.0-3c97411d3d4737d6c8baf1f7bca815bd83f8b7f1.jar"
+        jar="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\exploded-aar\com.android.support\support-v13\21.0.0\libs\internal_impl-21.0.0.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="6b852a232f642c75a7fdfc7212b841b8c8f8959c"/>
-    <item
-        dex="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-67756d9e219fb9ec556bf00290ee5803e71041c5.jar"
-        jar="C:\Users\Daniel\Documents\android-studio\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
+        sha1="5a8e01742aee890c56fe638ea7c921b91a3fdc62"/>
     <item
         dex="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\pre-dexed\debug\classes-5e68b3043e849bfe359f3a98185e643f4f54ecdd.jar"
         jar="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\exploded-aar\Fit-Friend\ParseLoginUI\unspecified\classes.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="b5e8126fa6f0a625559835d9ad4cfae150f71f0a"/>
+    <item
+        dex="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\pre-dexed\debug\classes-b1a981644c5de6707fd3a94e06ecefc603c96b7c.jar"
+        jar="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.0\classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="686344a780033e4ba22b926cd225f8d4941247e6"/>
+    <item
+        dex="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.0-70bf8f3a7d3b94de8be757ba25fdea547ee09af1.jar"
+        jar="C:\Users\Daniel\Documents\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.0\support-annotations-21.0.0.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="1a578b9607b36266c63d43a4fa0ab5664dbe911e"/>
     <item
         dex="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\pre-dexed\debug\bolts-17226eb5de1555925b343b1b4c4966293325e653.jar"
         jar="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\exploded-aar\Fit-Friend\facebook\unspecified\libs\bolts.jar"
@@ -32,6 +38,12 @@
         revision="19.1.0"
         sha1="3d645417e7780d44f32e29a3ec6b729b75aef26c"/>
     <item
+        dex="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\pre-dexed\debug\classes-00d2220e9a2af5a85b602e37954b67737ee53c6d.jar"
+        jar="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\exploded-aar\com.android.support\support-v13\21.0.0\classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="0c0c19759e5868604a3b4c2c0074ee9404d73c76"/>
+    <item
         dex="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\pre-dexed\debug\db4o-8.0.249.16098-all-java5-bb2066e8d0e4a128076656e82ad4fd951c44b5fe.jar"
         jar="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\libs\db4o-8.0.249.16098-all-java5.jar"
         jumboMode="false"
@@ -43,5 +55,11 @@
         jumboMode="false"
         revision="19.1.0"
         sha1="c9c4a893d47d71185c612b26196a8b2a0a36c8f9"/>
+    <item
+        dex="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.0-6be5c68e69ee33432f289a587254ec64231a1598.jar"
+        jar="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.0\libs\internal_impl-21.0.0.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="1609e6d42d0480b0f4188e2c29f75388fa12a8f0"/>
 
 </pre-dex-items>

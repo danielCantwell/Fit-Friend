@@ -3,13 +3,18 @@ package com.fitfriend.app.nutrition;
 import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -32,7 +37,7 @@ import java.util.List;
 /**
  * Created by Daniel on 2/8/14.
  */
-public class AddMeal extends FragmentActivity implements AdapterView.OnItemSelectedListener {
+public class CustomFoodFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     private DBHelper mDatabase;
 
@@ -45,6 +50,7 @@ public class AddMeal extends FragmentActivity implements AdapterView.OnItemSelec
     private EditText mCarbsText;
     private EditText mFatText;
     private CheckBox mAddToFavorites;
+    private Button mSaveButton;
 
     private String mName;
     private String mDate;
@@ -68,17 +74,22 @@ public class AddMeal extends FragmentActivity implements AdapterView.OnItemSelec
     private Meal mMeal = null;
     private Meal mOldMeal = null;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.nutrition_new);
+    public static CustomFoodFragment newInstance() {
+        return new CustomFoodFragment();
+    }
 
-        mDatabase = new DBHelper(this);
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View root = inflater.inflate(R.layout.fragment_food_custom, null);
+
+        mDatabase = new DBHelper(getActivity());
 
         /* Meal Type Spinner */
-        mTypeSpinner = (Spinner) findViewById(R.id.n_type);
+        mTypeSpinner = (Spinner) root.findViewById(R.id.n_type);
         // Create an ArrayAdapter using the string array and a default spinner layout
-        mAdapter = ArrayAdapter.createFromResource(this,
+        mAdapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.meal_types, R.layout.spinner_item);
         // Specify the layout to use when the list of choices appears
         mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -93,20 +104,21 @@ public class AddMeal extends FragmentActivity implements AdapterView.OnItemSelec
         Collections.sort(mSpinnerFavorites);
         mSpinnerFavorites.add(0, "Favorite Meals");
 
-        ArrayAdapter<String> favoritesAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> favoritesAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item, mSpinnerFavorites);
         favoritesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        mNameText = (AutoCompleteTextView) findViewById(R.id.n_name);
-        mDateButton = (Button) findViewById(R.id.n_date);
-        mCaloriesText = (EditText) findViewById(R.id.n_calories);
-        mProteinText = (EditText) findViewById(R.id.n_protein);
-        mCarbsText = (EditText) findViewById(R.id.n_carbs);
-        mFatText = (EditText) findViewById(R.id.n_fat);
-        mAddToFavorites = (CheckBox) findViewById(R.id.addFavoriteCheck);
+        mNameText = (AutoCompleteTextView) root.findViewById(R.id.n_name);
+        mDateButton = (Button) root.findViewById(R.id.n_date);
+        mCaloriesText = (EditText) root.findViewById(R.id.n_calories);
+        mProteinText = (EditText) root.findViewById(R.id.n_protein);
+        mCarbsText = (EditText) root.findViewById(R.id.n_carbs);
+        mFatText = (EditText) root.findViewById(R.id.n_fat);
+        mAddToFavorites = (CheckBox) root.findViewById(R.id.addFavoriteCheck);
+        mSaveButton = (Button) root.findViewById(R.id.save);
 
-        if (getIntent().hasExtra("Edit")) {
-            mMeal = (Meal) getIntent().getExtras().getSerializable("Edit");
+        if (getActivity().getIntent().hasExtra("Edit")) {
+            mMeal = (Meal) getActivity().getIntent().getExtras().getSerializable("Edit");
             mOldMeal = mMeal;
 
             int spinnerPosition = mAdapter.getPosition(mMeal.getType());
@@ -132,13 +144,13 @@ public class AddMeal extends FragmentActivity implements AdapterView.OnItemSelec
 
         mDateButton.setText(formattedDate);
 
-        mDateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mDateDialog = new DatePickerFragment();
-                mDateDialog.show(getSupportFragmentManager(), "datePicker");
-            }
-        });
+//        mDateButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mDateDialog = new DatePickerFragment();
+//                mDateDialog.show(getSupportFragmentManager(), "datePicker");
+//            }
+//        });
 
         mNameText.setAdapter(favoritesAdapter);
 
@@ -162,6 +174,17 @@ public class AddMeal extends FragmentActivity implements AdapterView.OnItemSelec
                 }
             }
         });
+
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveNutrition();
+                getActivity().setResult(getActivity().RESULT_OK);
+                getActivity().finish();
+            }
+        });
+
+        return root;
     }
 
     /* Spinner Item Selection */
@@ -186,31 +209,13 @@ public class AddMeal extends FragmentActivity implements AdapterView.OnItemSelec
     /* Options Menu */
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        menu.clear();
-        restoreActionBar();
-        getMenuInflater().inflate(R.menu.save, menu);
-        return true;
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_save:
-                if (mMeal == null) {
-                    saveNutrition();
-                }
-                else {
-                    editNutrition();
-                }
-                setResult(RESULT_OK);
-                finish();
-                break;
-            case android.R.id.home:
-                setResult(RESULT_CANCELED);
-                finish();
-                break;
-        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -225,7 +230,7 @@ public class AddMeal extends FragmentActivity implements AdapterView.OnItemSelec
             int m = c.get(Calendar.MONTH);
             int d = c.get(Calendar.DAY_OF_MONTH);
 
-            return new DatePickerDialog(AddMeal.this, this, y, m, d);
+            return new DatePickerDialog(getActivity(), this, y, m, d);
         }
 
         @Override
@@ -286,7 +291,7 @@ public class AddMeal extends FragmentActivity implements AdapterView.OnItemSelec
 
     public void saveNutrition() {
         prepareData();
-        Toast.makeText(this, "Saving Meal", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Saving Meal", Toast.LENGTH_SHORT).show();
         Log.d("Nutrition", "Name: " + mName + " Date: " + mDate + " Type: " + mType + " Calories: " + mCalories);
 
         mMeal = new Meal(mName, mDate, mType, mCalories, mProtein, mCarbs, mFat);
@@ -301,24 +306,34 @@ public class AddMeal extends FragmentActivity implements AdapterView.OnItemSelec
     public void editNutrition() {
 
         prepareData();
-        Toast.makeText(this, "Saving Meal", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Saving Meal", Toast.LENGTH_SHORT).show();
         Log.d("Nutrition", "Name: " + mName + " Date: " + mDate + " Type: " + mType + " Calories: " + mCalories);
         mMeal = new Meal(mName, mDate, mType, mCalories, mProtein, mCarbs, mFat);
 
         mDatabase.updateMeal(mMeal, mOldMeal);
     }
 
-    private void restoreActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle("Meal");
+
+
+    public void setDetails(String name, String cal, String fat, String carbs, String prot) {
+        mNameText.setText(name);
+        mCaloriesText.setText(cal);
+        mFatText.setText(fat);
+        mCarbsText.setText(carbs);
+        mProteinText.setText(prot);
     }
 
-    @Override
-    public void onBackPressed() {
-        finish();
+    public void setDetails(FavoriteMeal food) {
+        mNameText.setText(food.getName());
+        mCaloriesText.setText(food.getCalories());
+        mFatText.setText(food.getFat());
+        mCarbsText.setText(food.getCarbs());
+        mProteinText.setText(food.getProtein());
+
+        int spinnerPosition = mAdapter.getPosition(food.getType());
+        mTypeSpinner.setSelection(spinnerPosition);
+
+        mAddToFavorites.setVisibility(View.INVISIBLE);
     }
 }
 
