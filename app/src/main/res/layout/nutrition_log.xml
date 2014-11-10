@@ -125,6 +125,13 @@
 
     </TableRow>
 
+    <!--<ProgressBar-->
+        <!--android:id="@+id/caloriesProgress"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--style="?android:attr/progressBarStyleHorizontal"-->
+        <!--android:layout_below="@+id/chartsRow"/>-->
+
     <ImageView
         android:id="@+id/dividerImage"
         android:layout_width="match_parent"

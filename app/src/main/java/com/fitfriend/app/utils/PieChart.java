@@ -17,14 +17,14 @@ import com.fitfriend.app.R;
  */
 public class PieChart extends SurfaceView implements SurfaceHolder.Callback {
 
-    private static final int COLOR_BREAKFAST = Color.MAGENTA;
-    private static final int COLOR_LUNCH = Color.CYAN;
-    private static final int COLOR_DINNER = Color.GREEN;
-    private static final int COLOR_SNACK = Color.BLUE;
+    private static final int COLOR_BREAKFAST = Color.parseColor("#5da5da");
+    private static final int COLOR_LUNCH = Color.parseColor("#faa43a");
+    private static final int COLOR_DINNER = Color.parseColor("#60bd68");
+    private static final int COLOR_SNACK = Color.parseColor("#f17cb0");
 
-    private static final int COLOR_FAT = Color.GREEN;
-    private static final int COLOR_CARBS = Color.BLUE;
-    private static final int COLOR_PROTEIN = Color.RED;
+    private static final int COLOR_FAT = Color.parseColor("#f15854");
+    private static final int COLOR_CARBS = Color.parseColor("#decf3f");
+    private static final int COLOR_PROTEIN = Color.parseColor("#b276b2");
 
     private Paint mPaint;
 
@@ -123,7 +123,7 @@ public class PieChart extends SurfaceView implements SurfaceHolder.Callback {
             } else {
 
                 mPaint.setColor(COLOR_BREAKFAST);
-                canvas.drawText(a1P + "% Breakfast", 275, colorCodeTextY, mPaint);
+                canvas.drawText(a1P + "% Breakfast", a1P == 100 ? 265 : 275, colorCodeTextY, mPaint);
                 colorCodeTextY += 60;
 
                 mPaint.setColor(COLOR_LUNCH);
