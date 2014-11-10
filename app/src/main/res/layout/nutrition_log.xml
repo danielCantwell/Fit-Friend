@@ -3,111 +3,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
     android:orientation="vertical">
-
-    <TableRow
-        android:id="@+id/tableRow1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true">
-
-        <com.fitfriend.app.utils.SmallDecimalTextView
-            android:id="@+id/n_view_total_calories"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:hint="calories"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textStyle="bold" />
-
-        <com.fitfriend.app.utils.SmallDecimalTextView
-            android:id="@+id/n_view_total_fat"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:hint="fat"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textStyle="bold" />
-
-        <com.fitfriend.app.utils.SmallDecimalTextView
-            android:id="@+id/n_view_total_carbs"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:hint="carbs"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textStyle="bold" />
-
-        <com.fitfriend.app.utils.SmallDecimalTextView
-            android:id="@+id/n_view_total_protein"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:hint="protein"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textStyle="bold" />
-    </TableRow>
-
-    <TableRow
-        android:id="@+id/tableRow2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/tableRow1">
-
-        <TextView
-            android:id="@+id/n_goal_calories"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Calories"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ababab" />
-
-        <TextView
-            android:id="@+id/n_goal_fat"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Fat"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ababab" />
-
-        <TextView
-            android:id="@+id/n_goal_carbs"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Carbs"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ababab" />
-
-        <TextView
-            android:id="@+id/n_goal_protein"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Protein"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ababab" />
-
-    </TableRow>
 
     <TableRow
         android:id="@+id/chartsRow"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tableRow2">
+        android:layout_height="wrap_content">
 
         <com.fitfriend.app.utils.PieChart
             android:id="@+id/surfaceCalories"
@@ -125,18 +26,188 @@
 
     </TableRow>
 
-    <!--<ProgressBar-->
-        <!--android:id="@+id/caloriesProgress"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--style="?android:attr/progressBarStyleHorizontal"-->
-        <!--android:layout_below="@+id/chartsRow"/>-->
+    <TableRow
+        android:id="@+id/caloriesRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/chartsRow"
+        android:background="@color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <com.fitfriend.app.utils.SmallDecimalTextView
+            android:id="@+id/n_view_total_calories"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:gravity="right"
+            android:hint="cal" />
+
+        <ProgressBar
+            android:id="@+id/caloriesProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" />
+
+        <TextView
+            android:id="@+id/n_goal_calories"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:gravity="left"
+            android:hint="goal" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:gravity="left"
+            android:text="cal"
+            android:textColor="@color/grey" />
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/fatRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/caloriesRow"
+        android:background="@color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <com.fitfriend.app.utils.SmallDecimalTextView
+            android:id="@+id/n_view_total_fat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:gravity="right"
+            android:hint="cal" />
+
+        <ProgressBar
+            android:id="@+id/fatProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" />
+
+        <TextView
+            android:id="@+id/n_goal_fat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:gravity="left"
+            android:hint="goal" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:gravity="left"
+            android:text="fat"
+            android:textColor="@color/grey" />
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/carbsRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fatRow"
+        android:background="@color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <com.fitfriend.app.utils.SmallDecimalTextView
+            android:id="@+id/n_view_total_carbs"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:gravity="right"
+            android:hint="cal" />
+
+        <ProgressBar
+            android:id="@+id/carbsProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" />
+
+        <TextView
+            android:id="@+id/n_goal_carbs"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:gravity="left"
+            android:hint="goal" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:gravity="left"
+            android:text="carbs"
+            android:textColor="@color/grey" />
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/proteinRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/carbsRow"
+        android:background="@color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <com.fitfriend.app.utils.SmallDecimalTextView
+            android:id="@+id/n_view_total_protein"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:gravity="right"
+            android:hint="cal" />
+
+        <ProgressBar
+            android:id="@+id/proteinProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" />
+
+        <TextView
+            android:id="@+id/n_goal_protein"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:gravity="left"
+            android:hint="goal" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:gravity="left"
+            android:text="prot"
+            android:textColor="@color/grey" />
+
+    </TableRow>
 
     <ImageView
         android:id="@+id/dividerImage"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_below="@id/chartsRow"
+        android:layout_below="@+id/proteinRow"
+        android:layout_marginTop="8dp"
         android:background="@color/pomegranate" />
 
     <ListView

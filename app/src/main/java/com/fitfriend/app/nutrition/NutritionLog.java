@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,6 +81,11 @@ public class NutritionLog extends ListFragment {
 
     private PieChart mSurfaceCalories;
     private PieChart mSurfaceMacros;
+
+    private ProgressBar mProgressCalories;
+    private ProgressBar mProgressFat;
+    private ProgressBar mProgressCarbs;
+    private ProgressBar mProgressProtein;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -211,6 +217,22 @@ public class NutritionLog extends ListFragment {
         mSurfaceCalories = (PieChart) root.findViewById(R.id.surfaceCalories);
         mSurfaceMacros = (PieChart) root.findViewById(R.id.surfaceMacros);
 
+        int calGoal = Integer.valueOf(sp.getString(Statics.GOAL_CALORIES, "3000"));
+        mProgressCalories = (ProgressBar) root.findViewById(R.id.caloriesProgress);
+        mProgressCalories.setMax(calGoal);
+
+        int fatGoal = Integer.valueOf(sp.getString(Statics.GOAL_FAT, "60"));
+        mProgressFat = (ProgressBar) root.findViewById(R.id.fatProgress);
+        mProgressFat.setMax(fatGoal);
+
+        int carbGoal = Integer.valueOf(sp.getString(Statics.GOAL_CARBS, "300"));
+        mProgressCarbs = (ProgressBar) root.findViewById(R.id.carbsProgress);
+        mProgressCarbs.setMax(carbGoal);
+
+        int protGoal = Integer.valueOf(sp.getString(Statics.GOAL_PROTEIN, "150"));
+        mProgressProtein = (ProgressBar) root.findViewById(R.id.proteinProgress);
+        mProgressProtein.setMax(protGoal);
+
         updateTotals();
 
         return root;
@@ -220,10 +242,10 @@ public class NutritionLog extends ListFragment {
     public void onResume() {
         super.onResume();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
-        goalCalories.setText(sp.getString(Statics.GOAL_CALORIES, "goal") + " cal");
-        goalFat.setText(sp.getString(Statics.GOAL_FAT, "goal") + " fat");
-        goalCarbs.setText(sp.getString(Statics.GOAL_CARBS, "goal") + " carbs");
-        goalProtein.setText(sp.getString(Statics.GOAL_PROTEIN, "goal") + " prot");
+        goalCalories.setText(sp.getString(Statics.GOAL_CALORIES, "goal"));
+        goalFat.setText(sp.getString(Statics.GOAL_FAT, "goal"));
+        goalCarbs.setText(sp.getString(Statics.GOAL_CARBS, "goal"));
+        goalProtein.setText(sp.getString(Statics.GOAL_PROTEIN, "goal"));
     }
 
     @Override
@@ -302,6 +324,11 @@ public class NutritionLog extends ListFragment {
 
         mSurfaceCalories.setValues(breakfastCals, lunchCals, dinnerCals, snackCals);
         mSurfaceMacros.setValues(fat.intValue(), carbs.intValue(), protein.intValue(), 0);
+
+        mProgressCalories.setProgress(calories.intValue());
+        mProgressFat.setProgress(fat.intValue());
+        mProgressCarbs.setProgress(carbs.intValue());
+        mProgressProtein.setProgress(protein.intValue());
     }
 
     private void showPopup(View v, final Meal meal) {
