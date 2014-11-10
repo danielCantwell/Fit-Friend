@@ -7,8 +7,8 @@
     android:fillViewport="true">
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@color/background"
         android:orientation="vertical">
 
@@ -142,11 +142,11 @@
 
         <Button
             android:id="@+id/save"
-            android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/pomegranate"
             android:layout_gravity="bottom"
+            android:layout_marginTop="18dp"
+            android:background="@color/pomegranate"
             android:text="Save Food"
             android:textColor="@color/white"
             android:textStyle="bold" />

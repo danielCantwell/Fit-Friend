@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -26,6 +28,7 @@ import com.fitfriend.app.R;
 import com.fitfriend.app.utils.DBHelper;
 import com.fitfriend.app.utils.DatePickerFragment;
 import com.fitfriend.app.utils.DialogListener;
+import com.fitfriend.app.utils.PieChart;
 import com.fitfriend.app.utils.SmallDecimalTextView;
 import com.fitfriend.app.utils.Statics;
 
@@ -74,6 +77,9 @@ public class NutritionLog extends ListFragment {
     int year;
     int month;
     int day;
+
+    private PieChart mSurfaceCalories;
+    private PieChart mSurfaceMacros;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -202,6 +208,9 @@ public class NutritionLog extends ListFragment {
         goalCarbs.setText(sp.getString(Statics.GOAL_CARBS, "goal carbs"));
         goalFat.setText(sp.getString(Statics.GOAL_FAT, "goal fat"));
 
+        mSurfaceCalories = (PieChart) root.findViewById(R.id.surfaceCalories);
+        mSurfaceMacros = (PieChart) root.findViewById(R.id.surfaceMacros);
+
         updateTotals();
 
         return root;
@@ -245,11 +254,26 @@ public class NutritionLog extends ListFragment {
         BigDecimal carbs = new BigDecimal(0);
         BigDecimal fat = new BigDecimal(0);
 
+        int breakfastCals = 0;
+        int lunchCals = 0;
+        int dinnerCals = 0;
+        int snackCals = 0;
+
         for (Meal n : meals) {
             calories = calories.add(BigDecimal.valueOf(Double.parseDouble(n.getCalories())));
             protein = protein.add(BigDecimal.valueOf(Double.parseDouble(n.getProtein())));
             carbs = carbs.add(BigDecimal.valueOf(Double.parseDouble(n.getCarbs())));
             fat = fat.add(BigDecimal.valueOf(Double.parseDouble(n.getFat())));
+
+            if (n.getType().equals("Breakfast")) {
+                breakfastCals += Integer.valueOf(n.getCalories());
+            } else if (n.getType().equals("Lunch")) {
+                lunchCals += Integer.valueOf(n.getCalories());
+            } else if (n.getType().equals("Dinner")) {
+                dinnerCals += Integer.valueOf(n.getCalories());
+            } else if (n.getType().equals("Snack")) {
+                snackCals += Integer.valueOf(n.getCalories());
+            }
         }
 
         if (calories.toString().endsWith(".0")) {
@@ -275,6 +299,9 @@ public class NutritionLog extends ListFragment {
         } else {
             totalFat.setText(fat.toString());
         }
+
+        mSurfaceCalories.setValues(breakfastCals, lunchCals, dinnerCals, snackCals);
+        mSurfaceMacros.setValues(fat.intValue(), carbs.intValue(), protein.intValue(), 0);
     }
 
     private void showPopup(View v, final Meal meal) {

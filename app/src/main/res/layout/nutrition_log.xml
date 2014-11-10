@@ -103,11 +103,33 @@
 
     </TableRow>
 
+    <TableRow
+        android:id="@+id/chartsRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tableRow2">
+
+        <com.fitfriend.app.utils.PieChart
+            android:id="@+id/surfaceCalories"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:orientation="vertical" />
+
+        <com.fitfriend.app.utils.PieChart
+            android:id="@+id/surfaceMacros"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:orientation="vertical" />
+
+    </TableRow>
+
     <ImageView
         android:id="@+id/dividerImage"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_below="@id/tableRow2"
+        android:layout_below="@id/chartsRow"
         android:background="@color/pomegranate" />
 
     <ListView
