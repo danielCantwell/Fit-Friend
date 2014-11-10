@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
@@ -87,6 +88,8 @@ public class NutritionLog extends ListFragment {
     private ProgressBar mProgressCarbs;
     private ProgressBar mProgressProtein;
 
+    private ImageView mEmptyListImage;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.nutrition_log, null);
@@ -101,10 +104,6 @@ public class NutritionLog extends ListFragment {
         SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
         String formattedDate = df.format(c.getTime());
         meals = db.getMealList(new Meal(formattedDate));
-
-//        if (meals.isEmpty()) {
-//            Toast.makeText(activity, "No Meals Have Been Added Today", Toast.LENGTH_SHORT).show();
-//        }
 
         mAdapter = new NutritionArrayAdapter(activity, android.R.id.list, meals);
 
@@ -233,6 +232,8 @@ public class NutritionLog extends ListFragment {
         mProgressProtein = (ProgressBar) root.findViewById(R.id.proteinProgress);
         mProgressProtein.setMax(protGoal);
 
+        mEmptyListImage = (ImageView) root.findViewById(R.id.emptyListImage);
+
         updateTotals();
 
         return root;
@@ -329,6 +330,14 @@ public class NutritionLog extends ListFragment {
         mProgressFat.setProgress(fat.intValue());
         mProgressCarbs.setProgress(carbs.intValue());
         mProgressProtein.setProgress(protein.intValue());
+
+        if (meals.isEmpty()) {
+            listView.setVisibility(View.GONE);
+            mEmptyListImage.setVisibility(View.VISIBLE);
+        } else {
+            listView.setVisibility(View.VISIBLE);
+            mEmptyListImage.setVisibility(View.GONE);
+        }
     }
 
     private void showPopup(View v, final Meal meal) {

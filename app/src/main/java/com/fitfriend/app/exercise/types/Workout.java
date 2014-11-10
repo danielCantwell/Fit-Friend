@@ -13,7 +13,7 @@ public class Workout {
     private String date;
     private String notes;
 
-    private List<Routine> routines;
+    private List<Exercise> exerciseList;
 
     public Workout() {};
 
@@ -21,12 +21,12 @@ public class Workout {
         this.date = date;
     }
 
-    public Workout(String name, String type, String intensity, String date, String notes, List<Routine> routines) {
+    public Workout(String name, String type, String intensity, String date, String notes, List<Exercise> exerciseList) {
         this.name = name;
         this.type = type;
         this.intensity = intensity;
         this.date = date;
         this.notes = notes;
-        this.routines = routines;
+        this.exerciseList = exerciseList;
     }
 }
