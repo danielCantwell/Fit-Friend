@@ -6,10 +6,20 @@
     android:background="@color/white"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/textCalBreakdown"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:text="Calorie Breakdown"
+        android:layout_marginTop="5dp"/>
+
     <TableRow
         android:id="@+id/chartsRow"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textCalBreakdown">
 
         <com.fitfriend.app.utils.PieChart
             android:id="@+id/surfaceCalories"

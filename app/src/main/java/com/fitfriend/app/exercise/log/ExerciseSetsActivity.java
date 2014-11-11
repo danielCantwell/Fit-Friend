@@ -3,10 +3,12 @@ package com.fitfriend.app.exercise.log;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -23,7 +25,13 @@ import com.parse.SaveCallback;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExerciseSetsActivity extends Activity implements SeekBar.OnSeekBarChangeListener, View.OnClickListener{
+public class ExerciseSetsActivity extends Activity implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {
+
+    private enum TimerState {
+        ready, started, stopped
+    }
+
+    private TimerState timerState = TimerState.ready;
 
     private View mIncludeWeight;
     private View mIncludeReps;
@@ -36,6 +44,11 @@ public class ExerciseSetsActivity extends Activity implements SeekBar.OnSeekBarC
     private Button mMinusReps;
     private Button mPlusWeight;
     private Button mPlusReps;
+    private Button mStartTime;
+    private Button mStopTime;
+
+    private Chronometer mTime;
+    private long mStoppedTime;
 
     private TextView mWeight;
     private TextView mReps;
@@ -103,7 +116,13 @@ public class ExerciseSetsActivity extends Activity implements SeekBar.OnSeekBarC
             mIncludeReps.setVisibility(View.GONE);
         }
         if (timeData) {
+            mTime = (Chronometer) findViewById(R.id.time);
+            mStartTime = (Button) findViewById(R.id.start);
+            mStopTime = (Button) findViewById(R.id.stop_reset);
+            mStopTime.setVisibility(View.INVISIBLE);
 
+            mStartTime.setOnClickListener(this);
+            mStopTime.setOnClickListener(this);
         } else {
             mIncludeTime.setVisibility(View.GONE);
         }
@@ -176,6 +195,7 @@ public class ExerciseSetsActivity extends Activity implements SeekBar.OnSeekBarC
                 View view = getLayoutInflater().inflate(R.layout.exercise_set, null);
                 TextView weightText = (TextView) view.findViewById(R.id.weight);
                 TextView repsText = (TextView) view.findViewById(R.id.reps);
+                TextView timeText = (TextView) view.findViewById(R.id.time_text);
                 Set set = new Set();
 
                 if (weightData) {
@@ -191,7 +211,16 @@ public class ExerciseSetsActivity extends Activity implements SeekBar.OnSeekBarC
                     view.findViewById(R.id.row_reps).setVisibility(View.GONE);
                 }
                 if (timeData) {
-
+                    int time;
+                    if (timerState == TimerState.stopped) {
+                        time = (int) mStoppedTime / -1000;
+                    } else if (timerState == TimerState.started) {
+                        time = (int) (SystemClock.elapsedRealtime() - mTime.getBase()) / 1000;
+                    } else {
+                        time = 0;
+                    }
+                    set.setTime(time);
+                    timeText.setText("" + time + "s");
                 } else {
                     view.findViewById(R.id.row_time).setVisibility(View.GONE);
                 }
@@ -210,6 +239,34 @@ public class ExerciseSetsActivity extends Activity implements SeekBar.OnSeekBarC
                 break;
             case R.id.plusReps:
                 mSeekReps.setProgress(mSeekReps.getProgress() + 1);
+                break;
+            case R.id.start:
+                if (timerState == TimerState.stopped) {
+                    mTime.setBase(SystemClock.elapsedRealtime() + mStoppedTime);
+                    mStopTime.setText("Stop");
+                } else if (timerState == TimerState.ready) {
+                    mTime.setBase(SystemClock.elapsedRealtime());
+                }
+                mTime.start();
+                mStartTime.setVisibility(View.INVISIBLE);
+                mStopTime.setVisibility(View.VISIBLE);
+                timerState = TimerState.started;
+                break;
+            case R.id.stop_reset:
+                if (timerState == TimerState.started) {
+                    mTime.stop();
+                    mStoppedTime = mTime.getBase() - SystemClock.elapsedRealtime();
+                    mStopTime.setText("Reset");
+                    mStartTime.setVisibility(View.VISIBLE);
+                    timerState = TimerState.stopped;
+                } else if (timerState == TimerState.stopped) {
+                    mTime.setBase(SystemClock.elapsedRealtime());
+                    mStopTime.setText("Stop");
+                    mStartTime.setVisibility(View.VISIBLE);
+                    mStopTime.setVisibility(View.INVISIBLE);
+                    timerState = TimerState.ready;
+                }
+
                 break;
         }
     }

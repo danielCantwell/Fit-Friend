@@ -324,7 +324,8 @@ public class NutritionLog extends ListFragment {
         }
 
         mSurfaceCalories.setValues(breakfastCals, lunchCals, dinnerCals, snackCals);
-        mSurfaceMacros.setValues(fat.intValue(), carbs.intValue(), protein.intValue(), 0);
+        // Fat: 9 calories per gram    Carbs: 4 calories per gram    Protein: 4 calories per gram
+        mSurfaceMacros.setValues(fat.intValue() * 9, carbs.intValue() * 4, protein.intValue() * 4, 0);
 
         mProgressCalories.setProgress(calories.intValue());
         mProgressFat.setProgress(fat.intValue());
