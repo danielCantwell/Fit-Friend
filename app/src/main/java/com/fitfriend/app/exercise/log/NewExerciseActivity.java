@@ -85,8 +85,6 @@ public class NewExerciseActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getActionBar().setDisplayShowTitleEnabled(true);
-        getActionBar().setTitle("Create or Select Routine");
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.new_exercise, menu);
         return true;

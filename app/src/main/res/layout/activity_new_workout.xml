@@ -4,48 +4,36 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical"
+    android:padding="16dp"
     tools:context="com.fitfriend.app.exercise.log.NewWorkoutActivity">
 
-    <TableRow
+    <EditText
+        android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/pomegranate">
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:text="PAUSE"
-            android:textColor="@color/black"/>
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:text="EXERCISES"
-            android:textColor="@color/black" />
-
-    </TableRow>
+        android:layout_gravity="center"
+        android:text="11 November 2014"
+        android:textStyle="bold" />
 
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/pomegranate">
+        android:layout_marginTop="10dp">
 
-        <Button
+        <TextView
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/transparent"
-            android:text="START"
-            android:textColor="@color/white" />
+            android:text="Number of Exercises: "
+            android:textStyle="italic" />
 
-        <Button
+        <TextView
+            android:id="@+id/numExercises"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/transparent"
-            android:text="END"
-            android:textColor="@color/white" />
-
+            android:text="0"
+            android:textStyle="bold" />
     </TableRow>
 
     <ListView
@@ -53,6 +41,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/date"
-        android:layout_margin="20dp" />
+        android:layout_marginTop="10dp" />
 
 </LinearLayout>

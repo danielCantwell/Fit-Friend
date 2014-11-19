@@ -39,9 +39,9 @@
     <string name="title_section10">Help</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="title_activity_new_exercise">NewExerciseActivity</string>
+    <string name="title_activity_new_workout">New Workout</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_new_routine">NewRoutineActivity</string>
+    <string name="title_activity_new_exercise">Create or Select Exercise</string>
     <string name="title_activity_routine_sets">RoutineSetsActivity</string>
     <string name="title_activity_new_food">NewFoodActivity</string>
 

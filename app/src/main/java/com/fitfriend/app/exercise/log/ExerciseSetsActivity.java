@@ -69,13 +69,11 @@ public class ExerciseSetsActivity extends Activity implements SeekBar.OnSeekBarC
         setContentView(R.layout.activity_exercise_sets);
 
         Bundle args = getIntent().getBundleExtra("args");
-
         mName = args.getString("name");
-
-        mSets = new ArrayList<Set>();
-
         TextView name = (TextView) findViewById(R.id.name);
         name.setText(mName);
+
+        mSets = new ArrayList<Set>();
 
         weightData = args.getBoolean("weight");
         repsData = args.getBoolean("reps");
@@ -192,41 +190,7 @@ public class ExerciseSetsActivity extends Activity implements SeekBar.OnSeekBarC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.addSet:
-                View view = getLayoutInflater().inflate(R.layout.exercise_set, null);
-                TextView weightText = (TextView) view.findViewById(R.id.weight);
-                TextView repsText = (TextView) view.findViewById(R.id.reps);
-                TextView timeText = (TextView) view.findViewById(R.id.time_text);
-                Set set = new Set();
-
-                if (weightData) {
-                    set.setWeight(mSeekWeight.getProgress());
-                    weightText.setText("" + mSeekWeight.getProgress());
-                } else {
-                    view.findViewById(R.id.row_weight).setVisibility(View.GONE);
-                }
-                if (repsData) {
-                    set.setReps(mSeekReps.getProgress());
-                    repsText.setText("" + mSeekReps.getProgress());
-                } else {
-                    view.findViewById(R.id.row_reps).setVisibility(View.GONE);
-                }
-                if (timeData) {
-                    int time;
-                    if (timerState == TimerState.stopped) {
-                        time = (int) mStoppedTime / -1000;
-                    } else if (timerState == TimerState.started) {
-                        time = (int) (SystemClock.elapsedRealtime() - mTime.getBase()) / 1000;
-                    } else {
-                        time = 0;
-                    }
-                    set.setTime(time);
-                    timeText.setText("" + time + "s");
-                } else {
-                    view.findViewById(R.id.row_time).setVisibility(View.GONE);
-                }
-
-                mScrollLayout.addView(view);
-                mSets.add(set);
+                addSet();
                 break;
             case R.id.minusWeight:
                 mSeekWeight.setProgress(mSeekWeight.getProgress() - 1);
@@ -241,33 +205,81 @@ public class ExerciseSetsActivity extends Activity implements SeekBar.OnSeekBarC
                 mSeekReps.setProgress(mSeekReps.getProgress() + 1);
                 break;
             case R.id.start:
-                if (timerState == TimerState.stopped) {
-                    mTime.setBase(SystemClock.elapsedRealtime() + mStoppedTime);
-                    mStopTime.setText("Stop");
-                } else if (timerState == TimerState.ready) {
-                    mTime.setBase(SystemClock.elapsedRealtime());
-                }
-                mTime.start();
-                mStartTime.setVisibility(View.INVISIBLE);
-                mStopTime.setVisibility(View.VISIBLE);
-                timerState = TimerState.started;
+                startTimer();
                 break;
             case R.id.stop_reset:
-                if (timerState == TimerState.started) {
-                    mTime.stop();
-                    mStoppedTime = mTime.getBase() - SystemClock.elapsedRealtime();
-                    mStopTime.setText("Reset");
-                    mStartTime.setVisibility(View.VISIBLE);
-                    timerState = TimerState.stopped;
-                } else if (timerState == TimerState.stopped) {
-                    mTime.setBase(SystemClock.elapsedRealtime());
-                    mStopTime.setText("Stop");
-                    mStartTime.setVisibility(View.VISIBLE);
-                    mStopTime.setVisibility(View.INVISIBLE);
-                    timerState = TimerState.ready;
-                }
-
+                stopResetTimer();
                 break;
+        }
+    }
+
+    /*
+    Adds the set to the layout, and adds it to the list of sets
+     */
+    public void addSet() {
+        View view = getLayoutInflater().inflate(R.layout.exercise_set, null);
+        TextView weightText = (TextView) view.findViewById(R.id.weight);
+        TextView repsText = (TextView) view.findViewById(R.id.reps);
+        TextView timeText = (TextView) view.findViewById(R.id.time_text);
+        Set set = new Set();
+
+        if (weightData) {
+            set.setWeight(mSeekWeight.getProgress());
+            weightText.setText("" + mSeekWeight.getProgress());
+        } else {
+            view.findViewById(R.id.row_weight).setVisibility(View.GONE);
+        }
+        if (repsData) {
+            set.setReps(mSeekReps.getProgress());
+            repsText.setText("" + mSeekReps.getProgress());
+        } else {
+            view.findViewById(R.id.row_reps).setVisibility(View.GONE);
+        }
+        if (timeData) {
+            int time;
+            if (timerState == TimerState.stopped) {
+                time = (int) mStoppedTime / -1000;
+            } else if (timerState == TimerState.started) {
+                time = (int) (SystemClock.elapsedRealtime() - mTime.getBase()) / 1000;
+            } else {
+                time = 0;
+            }
+            set.setTime(time);
+            timeText.setText("" + time + "s");
+        } else {
+            view.findViewById(R.id.row_time).setVisibility(View.GONE);
+        }
+
+        mScrollLayout.addView(view);
+        mSets.add(set);
+    }
+
+    public void startTimer() {
+        if (timerState == TimerState.stopped) {
+            mTime.setBase(SystemClock.elapsedRealtime() + mStoppedTime);
+            mStopTime.setText("Stop");
+        } else if (timerState == TimerState.ready) {
+            mTime.setBase(SystemClock.elapsedRealtime());
+        }
+        mTime.start();
+        mStartTime.setVisibility(View.INVISIBLE);
+        mStopTime.setVisibility(View.VISIBLE);
+        timerState = TimerState.started;
+    }
+
+    public void stopResetTimer() {
+        if (timerState == TimerState.started) {
+            mTime.stop();
+            mStoppedTime = mTime.getBase() - SystemClock.elapsedRealtime();
+            mStopTime.setText("Reset");
+            mStartTime.setVisibility(View.VISIBLE);
+            timerState = TimerState.stopped;
+        } else if (timerState == TimerState.stopped) {
+            mTime.setBase(SystemClock.elapsedRealtime());
+            mStopTime.setText("Stop");
+            mStartTime.setVisibility(View.VISIBLE);
+            mStopTime.setVisibility(View.INVISIBLE);
+            timerState = TimerState.ready;
         }
     }
 }

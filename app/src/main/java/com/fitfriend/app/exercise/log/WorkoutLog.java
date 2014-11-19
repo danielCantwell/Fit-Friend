@@ -36,9 +36,6 @@ import java.util.Calendar;
  */
 public class WorkoutLog extends Fragment {
 
-    private static final String CARDIO = "Cardio";
-    private static final String GYM = "Gym";
-
     private DBHelper mDatabase;
     private Calendar mCalendar;
 
@@ -49,7 +46,7 @@ public class WorkoutLog extends Fragment {
 
     private int mYear, mMonth, mDay;
 
-    private WorkoutsExpandableListAdapter mAdapter;
+//    private WorkoutsExpandableListAdapter mAdapter;
 
     private static Fragment instance = null;
 
@@ -170,33 +167,6 @@ public class WorkoutLog extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void showPopup(View v) {
-        Toast.makeText(getActivity(), "popup should popup", Toast.LENGTH_SHORT).show();
-
-        PopupMenu popup = new PopupMenu(getActivity(), v);
-
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-
-                switch (menuItem.getItemId()) {
-                    case R.id.gym:
-                        startAddActivity("Gym", null);
-                        return true;
-                    case R.id.cardio:
-                        startAddActivity("Cardio", null);
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-        });
-
-        MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.new_workout_type, popup.getMenu());
-        popup.show();
-    }
-
     private void menuClickEdit(Workout workout) {
 //        if (workout instanceof Cardio) {
 //            startAddActivity("Cardio", workout);
@@ -271,30 +241,6 @@ public class WorkoutLog extends Fragment {
 
         public void setWorkout(Workout workout) {
             this.workout = workout;
-        }
-    }
-
-    // Starts an activity corresponding to the type of desired workout to add
-    private void startAddActivity(String type, Workout workout) {
-        if (type.equals("Cardio")) {
-//            if (workout == null) {
-//                Intent cardioIntent = new Intent(getActivity(), AddCardio.class);
-//                startActivityForResult(cardioIntent, Statics.INTENT_REQUEST_WORKOUT);
-//            } else {
-//                Intent cardioIntent = new Intent(getActivity(), AddSwim.class);
-//                cardioIntent.putExtra("Edit", (Cardio) workout);
-//                startActivityForResult(cardioIntent, Statics.INTENT_REQUEST_WORKOUT);
-//            }
-        }
-        if (type.equals("Gym")) {
-//            if (workout == null) {
-//                Intent gymIntent = new Intent(getActivity(), AddGym.class);
-//                startActivityForResult(gymIntent, Statics.INTENT_REQUEST_WORKOUT);
-//            } else {
-//                Intent gymIntent = new Intent(getActivity(), AddGym.class);
-//                gymIntent.putExtra("Edit", (Gym) workout);
-//                startActivityForResult(gymIntent, Statics.INTENT_REQUEST_WORKOUT);
-//            }
         }
     }
 

@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merger version="2" >
 
-    <dataSet config="unspecified" >
-        <source path="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\ParseLoginUI\build\intermediates\exploded-aar\Fit-Friend\facebook\unspecified\assets" />
-    </dataSet>
     <dataSet config="debug" >
         <source path="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\ParseLoginUI\build\intermediates\bundles\debug\assets" />
     </dataSet>
