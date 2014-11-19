@@ -4,8 +4,11 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,17 +16,28 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.fitfriend.app.R;
+import com.fitfriend.app.connect.Post;
+import com.fitfriend.app.exercise.types.Exercise;
 import com.fitfriend.app.exercise.types.Workout;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseQueryAdapter;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class NewWorkoutActivity extends Activity {
 
     private EditText mName;
     private TextView mNumExercies;
     private ListView mList;
-    private ArrayAdapter<String> mAdapter;
+    private ParseQueryAdapter<Exercise> mAdapter;
+    private ParseQueryAdapter.QueryFactory<Exercise> factory;
+
+    private int mExerciseCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +53,46 @@ public class NewWorkoutActivity extends Activity {
 
         mName.setText(formattedDate);
 
-        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
         mList = (ListView) findViewById(R.id.exerciseList);
 
+        /* Set up factory for forum posts by any user */
+        factory = new ParseQueryAdapter.QueryFactory<Exercise>() {
+            public ParseQuery<Exercise> create() {
+
+                /* Create a query for forum posts */
+                ParseQuery<Exercise> query = Exercise.getQuery();
+                query.fromPin("CurrentExercises");
+                query.orderByAscending("createdAt");
+
+                return query;
+            }
+        };
+
+                /* Set up list adapter using the factory of friends */
+        mAdapter = new ParseQueryAdapter<Exercise>(this, factory) {
+            @Override
+            public View getItemView(final Exercise exercise, View view, ViewGroup parent) {
+
+                if (view == null) {
+                    view = view.inflate(NewWorkoutActivity.this, R.layout.exercise_list_item, null);
+                }
+
+                TextView name = (TextView) view.findViewById(R.id.name);
+
+                name.setText(exercise.getName());
+
+                return view;
+            }
+        };
+
+        mList.setAdapter(mAdapter);
+        try {
+            // TODO - this is very inefficient (creating the factory again) - find another way
+            mExerciseCount = factory.create().count();
+            mNumExercies.setText("" + mExerciseCount);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -66,6 +117,7 @@ public class NewWorkoutActivity extends Activity {
                 startActivity(intent);
                 return true;
             case android.R.id.home:
+                ParseObject.unpinAllInBackground("CurrentExercises");
                 setResult(RESULT_CANCELED);
                 finish();
                 break;
