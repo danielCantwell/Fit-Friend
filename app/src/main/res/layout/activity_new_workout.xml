@@ -5,7 +5,7 @@
     android:background="@color/background"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context="com.fitfriend.app.exercise.log.NewWorkoutActivity">
+    tools:context="com.cantwellcode.fitfriend.exercise.log.NewWorkoutActivity">
 
     <EditText
         android:id="@+id/name"

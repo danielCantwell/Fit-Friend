@@ -18,13 +18,13 @@
     <uses-permission android:name="com.fitfriend.app.permission.C2D_MESSAGE" />
 
     <application
-        android:name="com.fitfriend.app.startup.App"
+        android:name="com.cantwellcode.fitfriend.startup.App"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.fitfriend.app.startup.DispatchActivity"
+            android:name="com.cantwellcode.fitfriend.startup.DispatchActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -55,36 +55,36 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.fitfriend.app.startup.MainActivity"
+            android:name="com.cantwellcode.fitfriend.startup.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.fitfriend.app.plan.AddEvent"
+            android:name="com.cantwellcode.fitfriend.plan.AddEvent"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.fitfriend.app.plan.EventDetails"
+            android:name="com.cantwellcode.fitfriend.plan.EventDetails"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.fitfriend.app.connect.FriendsActivity"
+            android:name="com.cantwellcode.fitfriend.connect.FriendsActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.fitfriend.app.connect.ProfileActivity"
+            android:name="com.cantwellcode.fitfriend.connect.ProfileActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.fitfriend.app.connect.SettingsActivity"
+            android:name="com.cantwellcode.fitfriend.connect.SettingsActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.fitfriend.app.connect.GoalsActivity"
+            android:name="com.cantwellcode.fitfriend.connect.GoalsActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.fitfriend.app.nutrition.NutritionFavoritesView"
+            android:name="com.cantwellcode.fitfriend.nutrition.NutritionFavoritesView"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
 
@@ -112,15 +112,15 @@
         </receiver>
 
         <activity
-            android:name="com.fitfriend.app.exercise.log.NewWorkoutActivity"
+            android:name="com.cantwellcode.fitfriend.exercise.log.NewWorkoutActivity"
             android:label="@string/title_activity_new_workout"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateUnchanged">/>
         </activity>
         <activity
-            android:name="com.fitfriend.app.exercise.log.NewExerciseActivity"
+            android:name="com.cantwellcode.fitfriend.exercise.log.NewExerciseActivity"
             android:label="@string/title_activity_new_exercise"
-            android:parentActivityName="com.fitfriend.app.exercise.log.NewWorkoutActivity"
+            android:parentActivityName="com.cantwellcode.fitfriend.exercise.log.NewWorkoutActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateUnchanged">
             <meta-data
@@ -128,16 +128,16 @@
                 android:value="com.fitfriend.app.exercise.log.NewExerciseActivity" />
         </activity>
         <activity
-            android:name="com.fitfriend.app.exercise.log.ExerciseSetsActivity"
+            android:name="com.cantwellcode.fitfriend.exercise.log.ExerciseSetsActivity"
             android:label="@string/title_activity_routine_sets"
-            android:parentActivityName="com.fitfriend.app.exercise.log.NewExerciseActivity"
+            android:parentActivityName="com.cantwellcode.fitfriend.exercise.log.NewExerciseActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.fitfriend.app.exercise.log.NewRoutineActivity" />
         </activity>
         <activity
-            android:name="com.fitfriend.app.nutrition.NewFoodActivity"
+            android:name="com.cantwellcode.fitfriend.nutrition.NewFoodActivity"
             android:label="@string/title_activity_new_food"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateUnchanged"></activity>

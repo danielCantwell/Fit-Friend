@@ -23,4 +23,15 @@
         android:layout_height="match_parent"
         android:layout_margin="5dp"
         android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/emptyListText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:text="Motivate your friends\nPlan a workout"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:visibility="gone"/>
 </LinearLayout>

@@ -21,14 +21,14 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textCalBreakdown">
 
-        <com.fitfriend.app.utils.PieChart
+        <com.cantwellcode.fitfriend.utils.PieChart
             android:id="@+id/surfaceCalories"
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:layout_weight="1"
             android:orientation="vertical" />
 
-        <com.fitfriend.app.utils.PieChart
+        <com.cantwellcode.fitfriend.utils.PieChart
             android:id="@+id/surfaceMacros"
             android:layout_width="0dp"
             android:layout_height="100dp"
@@ -45,7 +45,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
 
-        <com.fitfriend.app.utils.SmallDecimalTextView
+        <com.cantwellcode.fitfriend.utils.SmallDecimalTextView
             android:id="@+id/n_view_total_calories"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
 
-        <com.fitfriend.app.utils.SmallDecimalTextView
+        <com.cantwellcode.fitfriend.utils.SmallDecimalTextView
             android:id="@+id/n_view_total_fat"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -131,7 +131,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
 
-        <com.fitfriend.app.utils.SmallDecimalTextView
+        <com.cantwellcode.fitfriend.utils.SmallDecimalTextView
             android:id="@+id/n_view_total_carbs"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -174,7 +174,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
 
-        <com.fitfriend.app.utils.SmallDecimalTextView
+        <com.cantwellcode.fitfriend.utils.SmallDecimalTextView
             android:id="@+id/n_view_total_protein"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

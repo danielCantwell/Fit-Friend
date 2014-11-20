@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.fitfriend.app.exercise.log.ExerciseSetsActivity">
+    tools:context="com.cantwellcode.fitfriend.exercise.log.ExerciseSetsActivity">
 
     <Button
         android:id="@+id/addSet"

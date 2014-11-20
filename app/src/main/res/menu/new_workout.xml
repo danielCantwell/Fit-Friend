@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.fitfriend.app.exercise.log.NewWorkoutActivity">
+    tools:context="com.cantwellcode.fitfriend.exercise.log.NewWorkoutActivity">
 
     <item
         android:id="@+id/action_save"
