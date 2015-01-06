@@ -1,9 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:orientation="vertical"
     android:padding="16dp"
     tools:context="com.cantwellcode.fitfriend.exercise.log.NewWorkoutActivity">
 
@@ -15,32 +14,42 @@
         android:text="11 November 2014"
         android:textStyle="bold" />
 
-    <TableRow
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        android:layout_below="@+id/name"
+        android:layout_marginTop="6dp"
+        android:text="Number of Exercises: "
+        android:textStyle="italic" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Number of Exercises: "
-            android:textStyle="italic" />
-
-        <TextView
-            android:id="@+id/numExercises"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="0"
-            android:textStyle="bold" />
-    </TableRow>
+    <TextView
+        android:id="@+id/numExercises"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="6dp"
+        android:layout_toRightOf="@+id/textView"
+        android:text="0"
+        android:textStyle="bold" />
 
     <ListView
         android:id="@+id/exerciseList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/date"
+        android:layout_below="@+id/textView"
         android:layout_marginTop="10dp" />
 
-</LinearLayout>
+    <Button
+        android:id="@android:id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/numExercises"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="Click here or on the 'plus'\n\nin the top right corner\n\nto add exercises"
+        android:textColor="@color/dark_grey"
+        android:textSize="20sp" />
+
+</RelativeLayout>

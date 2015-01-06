@@ -4,10 +4,13 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,10 +23,14 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 public class NewWorkoutActivity extends Activity {
@@ -50,7 +57,10 @@ public class NewWorkoutActivity extends Activity {
 
         mName.setText(formattedDate);
 
+        Button emptyView = (Button) findViewById(android.R.id.empty);
+
         mList = (ListView) findViewById(R.id.exerciseList);
+        mList.setEmptyView(emptyView);
 
         /* Set up factory for forum posts by any user */
         factory = new ParseQueryAdapter.QueryFactory<Exercise>() {
@@ -65,7 +75,7 @@ public class NewWorkoutActivity extends Activity {
             }
         };
 
-                /* Set up list adapter using the factory of friends */
+        /* Set up list adapter using the factory of friends */
         mAdapter = new ParseQueryAdapter<Exercise>(this, factory) {
             @Override
             public View getItemView(final Exercise exercise, View view, ViewGroup parent) {
@@ -93,23 +103,36 @@ public class NewWorkoutActivity extends Activity {
                 boolean time = exercise.recordTime();
 
                 List<Set> setsList = exercise.getSets();
-                for (Set s : setsList) {
+                Log.d("SETS", "set: " + setsList.get(0));
+
+                JSONArray setArray = null;
+                try {
+                    setArray = new JSONArray(exercise.getSets().toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                for (int i = 0; i < setArray.length(); i++) {
+
                     try {
+
+                    JSONObject s = setArray.getJSONObject(i);
+
                         if (reps) {
-                            setsText += s.getReps() + "";
+                            setsText += s.get("reps") + "";
                             if (weight) {
-                                setsText += "x" + s.getWeight() + "lbs";
+                                setsText += "x" + s.get("weight") + "lbs";
                             }
                             if (time) {
-                                setsText += "x" + s.getTime() + "s";
+                                setsText += "x" + s.get("time") + "s";
                             }
                         } else if (weight) {
-                            setsText += s.getWeight() + "lbs";
+                            setsText += s.get("weight") + "lbs";
                             if (time) {
-                                setsText += "x" + s.getTime() + "s";
+                                setsText += "x" + s.get("time") + "s";
                             }
                         } else if (time) {
-                            setsText += s.getTime() + "s";
+                            setsText += s.get("time") + "s";
                         }
                         setsText += "  +  ";
                     } catch (JSONException e) {
@@ -141,6 +164,21 @@ public class NewWorkoutActivity extends Activity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
+
+        emptyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NewWorkoutActivity.this, NewExerciseActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -155,9 +193,6 @@ public class NewWorkoutActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
 
             case R.id.action_new_routine:
