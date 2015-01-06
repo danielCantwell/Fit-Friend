@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fitfriend.app">
+    package="com.fitfriend.app" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -22,11 +22,11 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name="com.cantwellcode.fitfriend.startup.DispatchActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,7 +36,7 @@
         <activity
             android:name="com.parse.ui.ParseLoginActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_ENABLED"
                 android:value="true" />
@@ -58,7 +58,6 @@
             android:name="com.cantwellcode.fitfriend.startup.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.cantwellcode.fitfriend.plan.AddEvent"
             android:label="@string/app_name"
@@ -94,7 +93,7 @@
 
         <service android:name="com.parse.PushService" />
 
-        <receiver android:name="com.parse.ParseBroadcastReceiver">
+        <receiver android:name="com.parse.ParseBroadcastReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.USER_PRESENT" />
@@ -102,7 +101,7 @@
         </receiver>
         <receiver
             android:name="com.parse.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
+            android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
@@ -115,24 +114,31 @@
             android:name="com.cantwellcode.fitfriend.exercise.log.NewWorkoutActivity"
             android:label="@string/title_activity_new_workout"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateUnchanged">/>
+            android:windowSoftInputMode="stateUnchanged" >
+/>
         </activity>
         <activity
             android:name="com.cantwellcode.fitfriend.exercise.log.NewExerciseActivity"
             android:label="@string/title_activity_new_exercise"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateUnchanged">/>
+            android:windowSoftInputMode="stateUnchanged" >
+/>
         </activity>
         <activity
             android:name="com.cantwellcode.fitfriend.exercise.log.ExerciseSetsActivity"
             android:label="@string/title_activity_routine_sets"
-            android:screenOrientation="portrait"> />
+            android:screenOrientation="portrait" >
+ />
         </activity>
         <activity
             android:name="com.cantwellcode.fitfriend.nutrition.NewFoodActivity"
             android:label="@string/title_activity_new_food"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateUnchanged"></activity>
+            android:windowSoftInputMode="stateUnchanged" />
+        <activity
+            android:name="com.cantwellcode.fitfriend.exercise.log.CreateExerciseActivity"
+            android:label="@string/title_activity_create_exercise" >
+        </activity>
     </application>
 
 </manifest>

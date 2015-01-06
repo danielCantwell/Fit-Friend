@@ -43,15 +43,13 @@
             android:background="@color/white"
             android:choiceMode="singleChoice"
             android:divider="@android:color/transparent"
-            android:dividerHeight="20dp"
-            android:padding="10dp" />
+            android:dividerHeight="10dp" />
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/listView"
-            android:background="@color/background"
-            android:paddingBottom="10dp">
+            android:background="@color/background">
 
             <ListView
                 android:id="@+id/secondListView"

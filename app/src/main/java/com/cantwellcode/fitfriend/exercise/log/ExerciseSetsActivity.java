@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,8 +19,11 @@ import android.widget.Toast;
 import com.fitfriend.app.R;
 import com.cantwellcode.fitfriend.exercise.types.Exercise;
 import com.cantwellcode.fitfriend.exercise.types.Set;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
@@ -63,21 +67,43 @@ public class ExerciseSetsActivity extends Activity implements SeekBar.OnSeekBarC
     private boolean repsData;
     private boolean timeData;
 
+    private Exercise mExercise;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_sets);
 
-        Bundle args = getIntent().getBundleExtra("args");
-        mName = args.getString("name");
+
+        mName = getIntent().getStringExtra("name");
+        ParseQuery<Exercise> mExerciseQuery = Exercise.getQuery();
+        mExerciseQuery.fromPin(getResources().getString(R.string.saved_exercises));
+        mExerciseQuery.whereEqualTo("name", mName);
+        try {
+            mExercise = mExerciseQuery.getFirst();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+//        mExerciseQuery.getFirstInBackground(new GetCallback<Exercise>() {
+//            @Override
+//            public void done(Exercise exercise, ParseException e) {
+//                mExercise = exercise;
+//                setupExercise(mExercise);
+//            }
+//        });
+        setupExercise(mExercise);
+    }
+
+    private void setupExercise(Exercise e) {
+
         TextView name = (TextView) findViewById(R.id.name);
         name.setText(mName);
 
         mSets = new ArrayList<Set>();
 
-        weightData = args.getBoolean("weight");
-        repsData = args.getBoolean("reps");
-        timeData = args.getBoolean("time");
+        weightData = e.recordWeight();
+        repsData = e.recordReps();
+        timeData = e.recordTime();
 
         mScrollLayout = (LinearLayout) findViewById(R.id.linearLayout);
         mAddSet = (Button) findViewById(R.id.addSet);
@@ -126,7 +152,6 @@ public class ExerciseSetsActivity extends Activity implements SeekBar.OnSeekBarC
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         ActionBar actionBar = getActionBar();
@@ -145,7 +170,7 @@ public class ExerciseSetsActivity extends Activity implements SeekBar.OnSeekBarC
         switch (item.getItemId()) {
 
             case R.id.action_save:
-                Exercise exercise = new Exercise();
+                Exercise exercise = mExercise.createNew();
                 exercise.setName(mName);
                 exercise.setSets(mSets);
                 exercise.pinInBackground("CurrentExercises", new SaveCallback() {

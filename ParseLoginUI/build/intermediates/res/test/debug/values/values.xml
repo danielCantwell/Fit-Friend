@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!-- From: file:/C:/Users/Daniel/Documents/AndroidProjects/Fit-Friend/ParseLoginUI/build/intermediates/exploded-aar/Fit-Friend/facebook/unspecified/res/values/values.xml -->
-    <eat-comment />
-
+    <eat-comment/>
     <color name="com_facebook_blue">#3B5998</color>
     <color name="com_facebook_loginview_text_color">#FFFFFF</color>
     <color name="com_facebook_picker_search_bar_background">#f5f5f7</color>
@@ -12,8 +10,7 @@
     <color name="com_facebook_usersettingsfragment_connected_text_color">#FFFFFF</color>
     <color name="com_facebook_usersettingsfragment_not_connected_text_color">#A6AED7</color>
     <!-- From: file:/C:/Users/Daniel/Documents/AndroidProjects/Fit-Friend/ParseLoginUI/build/intermediates/bundles/debug/res/values/values.xml -->
-    <eat-comment />
-
+    <eat-comment/>
     <color name="com_parse_ui_facebook_login_button">#3B5998</color>
     <color name="com_parse_ui_facebook_login_button_focus">#304F8B</color>
     <color name="com_parse_ui_facebook_login_button_push">#2E4677</color>
@@ -28,44 +25,13 @@
     <color name="com_parse_ui_twitter_login_button">#2DAAE2</color>
     <color name="com_parse_ui_twitter_login_button_focus">#2788BE</color>
     <color name="com_parse_ui_twitter_login_button_push">#2588B5</color>
+    <declare-styleable name="com_facebook_friend_picker_fragment"><attr format="boolean" name="multi_select"/></declare-styleable>
+    <declare-styleable name="com_facebook_login_view"><attr format="boolean" name="confirm_logout"/><attr format="boolean" name="fetch_user_info"/><attr format="string" name="login_text"/><attr format="string" name="logout_text"/></declare-styleable>
+    <declare-styleable name="com_facebook_picker_fragment"><attr format="boolean" name="show_pictures"/><attr format="string" name="extra_fields"/><attr format="boolean" name="show_title_bar"/><attr format="string" name="title_text"/><attr format="string" name="done_button_text"/><attr format="reference" name="title_bar_background"/><attr format="reference" name="done_button_background"/></declare-styleable>
+    <declare-styleable name="com_facebook_place_picker_fragment"><attr format="integer" name="radius_in_meters"/><attr format="integer" name="results_limit"/><attr format="string" name="search_text"/><attr format="boolean" name="show_search_box"/></declare-styleable>
+    <declare-styleable name="com_facebook_profile_picture_view"><attr name="preset_size"><enum name="small" value="-2"/><enum name="normal" value="-3"/><enum name="large" value="-4"/></attr><attr format="boolean" name="is_cropped"/></declare-styleable>
     <!-- From: file:/C:/Users/Daniel/Documents/AndroidProjects/Fit-Friend/ParseLoginUI/build/intermediates/exploded-aar/Fit-Friend/facebook/unspecified/res/values/values.xml -->
-    <eat-comment />
-
-    <declare-styleable name="com_facebook_friend_picker_fragment">
-        <attr name="multi_select" format="boolean" />
-    </declare-styleable>
-    <declare-styleable name="com_facebook_login_view">
-        <attr name="confirm_logout" format="boolean" />
-        <attr name="fetch_user_info" format="boolean" />
-        <attr name="login_text" format="string" />
-        <attr name="logout_text" format="string" />
-    </declare-styleable>
-    <declare-styleable name="com_facebook_picker_fragment">
-        <attr name="show_pictures" format="boolean" />
-        <attr name="extra_fields" format="string" />
-        <attr name="show_title_bar" format="boolean" />
-        <attr name="title_text" format="string" />
-        <attr name="done_button_text" format="string" />
-        <attr name="title_bar_background" format="reference" />
-        <attr name="done_button_background" format="reference" />
-    </declare-styleable>
-    <declare-styleable name="com_facebook_place_picker_fragment">
-        <attr name="radius_in_meters" format="integer" />
-        <attr name="results_limit" format="integer" />
-        <attr name="search_text" format="string" />
-        <attr name="show_search_box" format="boolean" />
-    </declare-styleable>
-    <declare-styleable name="com_facebook_profile_picture_view">
-        <attr name="preset_size">
-
-            <!-- Keep in sync with constants in ProfilePictureView -->
-            <enum name="small" value="-2" />
-            <enum name="normal" value="-3" />
-            <enum name="large" value="-4" />
-        </attr>
-        <attr name="is_cropped" format="boolean" />
-    </declare-styleable>
-
+    <eat-comment/>
     <dimen name="com_facebook_loginview_compound_drawable_padding">12dp</dimen>
     <dimen name="com_facebook_loginview_padding_bottom">12dp</dimen>
     <dimen name="com_facebook_loginview_padding_left">12dip</dimen>
@@ -80,8 +46,7 @@
     <dimen name="com_facebook_usersettingsfragment_profile_picture_height">64dp</dimen>
     <dimen name="com_facebook_usersettingsfragment_profile_picture_width">64dp</dimen>
     <!-- From: file:/C:/Users/Daniel/Documents/AndroidProjects/Fit-Friend/ParseLoginUI/build/intermediates/bundles/debug/res/values/values.xml -->
-    <eat-comment />
-
+    <eat-comment/>
     <dimen name="com_parse_ui_horizontal_margin">16dp</dimen>
     <dimen name="com_parse_ui_large_vertical_spacing">24dp</dimen>
     <dimen name="com_parse_ui_small_horizontal_spacing">8dp</dimen>
@@ -90,19 +55,16 @@
     <dimen name="com_parse_ui_vertical_spacing">16dp</dimen>
     <dimen name="com_parse_ui_xlarge_vertical_spacing">36dp</dimen>
     <!-- From: file:/C:/Users/Daniel/Documents/AndroidProjects/Fit-Friend/ParseLoginUI/build/intermediates/exploded-aar/Fit-Friend/facebook/unspecified/res/values/values.xml -->
-    <eat-comment />
-
+    <eat-comment/>
     <drawable name="com_facebook_picker_default_separator_color">#33464c59</drawable>
     <!-- From: file:/C:/Users/Daniel/Documents/AndroidProjects/Fit-Friend/ParseLoginUI/build/intermediates/bundles/debug/res/values/values.xml -->
-    <eat-comment />
-
+    <eat-comment/>
     <plurals name="com_parse_ui_password_too_short_toast">
         <item quantity="one">Password must be at least %d character long</item>
         <item quantity="other">Password must be at least %d characters long</item>
     </plurals>
     <!-- From: file:/C:/Users/Daniel/Documents/AndroidProjects/Fit-Friend/ParseLoginUI/build/intermediates/exploded-aar/Fit-Friend/facebook/unspecified/res/values/values.xml -->
-    <eat-comment />
-
+    <eat-comment/>
     <string name="com_facebook_choose_friends">Choose Friends</string>
     <string name="com_facebook_dialogloginactivity_ok_button">OK</string>
     <string name="com_facebook_internet_permission_error_message">WebView login requires INTERNET permission</string>
@@ -130,8 +92,7 @@
     <string name="com_facebook_usersettingsfragment_logged_in">Logged in</string>
     <string name="com_facebook_usersettingsfragment_not_logged_in">Not logged in</string>
     <!-- From: file:/C:/Users/Daniel/Documents/AndroidProjects/Fit-Friend/ParseLoginUI/build/intermediates/bundles/debug/res/values/values.xml -->
-    <eat-comment />
-
+    <eat-comment/>
     <string name="com_parse_ui_confirm_password_input_hint">Re-enter password</string>
     <string name="com_parse_ui_create_account_button_label">Create account</string>
     <string name="com_parse_ui_email_input_hint">Email</string>
@@ -182,27 +143,24 @@
     <string name="com_parse_ui_twitter_login_failed_toast">Twitter login failed</string>
     <string name="com_parse_ui_username_input_hint">Username</string>
     <string name="com_parse_ui_username_taken_toast">Username is already taken, please choose a different one</string>
-
-    <style name="ParseLoginUI" />
-
+    <style name="ParseLoginUI"/>
     <style name="ParseLoginUI.Button" parent="@android:style/Widget.Button">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">48dp</item>
-        <item name="android:background">            @drawable/com_parse_ui_parse_login_button_background_selector</item>
+        <item name="android:background">
+            @drawable/com_parse_ui_parse_login_button_background_selector
+        </item>
         <item name="android:textColor">@color/com_parse_ui_parse_login_display_text</item>
         <item name="android:textSize">18sp</item>
     </style>
-
     <style name="ParseLoginUI.Button.ThirdPartyLogin" parent="ParseLoginUI.Button">
         <item name="android:paddingLeft">16dp</item>
         <item name="android:paddingRight">24dp</item>
     </style>
-
     <style name="ParseLoginUI.EditText" parent="@android:style/Widget.EditText">
         <item name="android:singleLine">true</item>
         <item name="android:textColor">#DDDDDD</item>
     </style>
-
     <style name="ParseLoginUI.HelpButton" parent="@android:style/Widget.Button">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -212,14 +170,12 @@
         <item name="android:textColor">@color/com_parse_ui_parse_login_help_button_label_selector</item>
         <item name="android:textSize">16sp</item>
     </style>
-
     <style name="ParseLoginUI.TextView" parent="@android:style/Widget.TextView">
         <item name="android:textColor">@color/com_parse_ui_parse_login_display_text</item>
         <item name="android:textSize">18sp</item>
     </style>
     <!-- From: file:/C:/Users/Daniel/Documents/AndroidProjects/Fit-Friend/ParseLoginUI/build/intermediates/exploded-aar/Fit-Friend/facebook/unspecified/res/values/values.xml -->
-    <eat-comment />
-
+    <eat-comment/>
     <style name="com_facebook_loginview_default_style" parent="@android:style/Widget.Button">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -230,7 +186,6 @@
         <item name="android:paddingLeft">@dimen/com_facebook_loginview_padding_left</item>
         <item name="android:gravity">center</item>
     </style>
-
     <style name="com_facebook_loginview_silver_style" parent="@android:style/Widget.Button">
         <item name="android:width">205dp</item>
         <item name="android:height">44dp</item>
@@ -240,14 +195,12 @@
         <item name="android:textColor">#4B5164</item>
         <item name="android:gravity">center</item>
     </style>
-
     <style name="tooltip_bubble_text">
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:gravity">left</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:shadowDy">-1</item>
-        <item name="android:shadowRadius">0.25</item>
-        <item name="android:shadowColor">#40000000</item>
+	    <item name="android:textColor">@android:color/white</item>
+	    <item name="android:gravity">left</item>
+	    <item name="android:textSize">12sp</item>
+	    <item name="android:shadowDy">-1</item>
+	    <item name="android:shadowRadius">0.25</item>
+	    <item name="android:shadowColor">#40000000</item>
     </style>
-
 </resources>

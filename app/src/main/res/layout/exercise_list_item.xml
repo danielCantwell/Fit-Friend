@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@drawable/list_item_background"
     android:padding="8dp">
 
     <TextView
@@ -13,8 +13,102 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_gravity="left"
         android:text="New Text"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_gravity="left" />
-</LinearLayout>
+        android:textSize="21sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/sets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+        android:layout_marginLeft="20dp"
+        android:text="8x120,  8x130,  8x140,  8x140"
+        android:textColor="@color/grey"
+        android:textStyle="bold" />
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sets"
+        android:layout_marginTop="6dp">
+
+        <TextView
+            android:id="@+id/arms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            android:background="@drawable/excs_arms"
+            android:padding="@dimen/excs_muscle_padding"
+            android:text="ARMS"
+            android:textColor="@color/chart_blue"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/chest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            android:background="@drawable/excs_chest"
+            android:padding="@dimen/excs_muscle_padding"
+            android:text="CHEST"
+            android:textColor="@color/chart_pink"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/shoulders"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            android:background="@drawable/excs_shoulders"
+            android:padding="@dimen/excs_muscle_padding"
+            android:text="SHOULDERS"
+            android:textColor="@color/chart_purple"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            android:background="@drawable/excs_back"
+            android:padding="@dimen/excs_muscle_padding"
+            android:text="BACK"
+            android:textColor="@color/chart_green"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/abs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            android:background="@drawable/excs_abs"
+            android:padding="@dimen/excs_muscle_padding"
+            android:text="ABS"
+            android:textColor="@color/chart_red"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/legs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            android:background="@drawable/excs_legs"
+            android:padding="@dimen/excs_muscle_padding"
+            android:text="LEGS"
+            android:textColor="@color/chart_orange"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/glutes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            android:background="@drawable/excs_glutes"
+            android:padding="@dimen/excs_muscle_padding"
+            android:text="GLUTES"
+            android:textColor="@color/chart_yellow"
+            android:textSize="12sp" />
+    </TableRow>
+</RelativeLayout>

@@ -44,5 +44,6 @@
     <string name="title_activity_new_exercise">Create or Select Exercise</string>
     <string name="title_activity_routine_sets">RoutineSetsActivity</string>
     <string name="title_activity_new_food">NewFoodActivity</string>
+    <string name="title_activity_create_exercise">CreateExerciseActivity</string>
 
 </resources>

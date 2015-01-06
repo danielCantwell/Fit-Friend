@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.cantwellcode.fitfriend.exercise.types.Set;
 import com.fitfriend.app.R;
 import com.cantwellcode.fitfriend.exercise.types.Exercise;
 import com.parse.ParseException;
@@ -19,8 +20,11 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
+import org.json.JSONException;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 public class NewWorkoutActivity extends Activity {
 
@@ -71,8 +75,59 @@ public class NewWorkoutActivity extends Activity {
                 }
 
                 TextView name = (TextView) view.findViewById(R.id.name);
+                TextView sets = (TextView) view.findViewById(R.id.sets);
+                TextView arms = (TextView) view.findViewById(R.id.arms);
+                TextView shoulders = (TextView) view.findViewById(R.id.shoulders);
+                TextView chest = (TextView) view.findViewById(R.id.chest);
+                TextView back = (TextView) view.findViewById(R.id.back);
+                TextView abs = (TextView) view.findViewById(R.id.abs);
+                TextView legs = (TextView) view.findViewById(R.id.legs);
+                TextView glutes = (TextView) view.findViewById(R.id.glutes);
 
                 name.setText(exercise.getName());
+
+                String setsText = "";
+
+                boolean reps = exercise.recordReps();
+                boolean weight = exercise.recordWeight();
+                boolean time = exercise.recordTime();
+
+                List<Set> setsList = exercise.getSets();
+                for (Set s : setsList) {
+                    try {
+                        if (reps) {
+                            setsText += s.getReps() + "";
+                            if (weight) {
+                                setsText += "x" + s.getWeight() + "lbs";
+                            }
+                            if (time) {
+                                setsText += "x" + s.getTime() + "s";
+                            }
+                        } else if (weight) {
+                            setsText += s.getWeight() + "lbs";
+                            if (time) {
+                                setsText += "x" + s.getTime() + "s";
+                            }
+                        } else if (time) {
+                            setsText += s.getTime() + "s";
+                        }
+                        setsText += "  +  ";
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                // this next line removes the extra 'plus' at the end from the for loop
+                setsText = setsText.substring(0, setsText.length() - 5);
+                sets.setText(setsText);
+
+                arms.setVisibility(exercise.usesArms() ? View.VISIBLE : View.GONE);
+                shoulders.setVisibility(exercise.usesShoulders() ? View.VISIBLE : View.GONE);
+                chest.setVisibility(exercise.usesChest() ? View.VISIBLE : View.GONE);
+                back.setVisibility(exercise.usesBack() ? View.VISIBLE : View.GONE);
+                abs.setVisibility(exercise.usesAbs() ? View.VISIBLE : View.GONE);
+                legs.setVisibility(exercise.usesLegs() ? View.VISIBLE : View.GONE);
+                glutes.setVisibility(exercise.usesGlutes() ? View.VISIBLE : View.GONE);
 
                 return view;
             }
