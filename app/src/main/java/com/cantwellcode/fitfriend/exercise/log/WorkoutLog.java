@@ -5,37 +5,25 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 
 import com.cantwellcode.fitfriend.exercise.types.Exercise;
-import com.cantwellcode.fitfriend.exercise.types.Set;
 import com.fitfriend.app.R;
 import com.cantwellcode.fitfriend.exercise.types.Workout;
-import com.cantwellcode.fitfriend.utils.DBHelper;
-import com.cantwellcode.fitfriend.utils.DatePickerFragment;
-import com.cantwellcode.fitfriend.utils.DialogListener;
 import com.cantwellcode.fitfriend.utils.Statics;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -62,7 +50,7 @@ public class WorkoutLog extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.activity_workout_log, null);
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_workout_log, null);
 
         mCalendar = Calendar.getInstance();
 
@@ -79,7 +67,7 @@ public class WorkoutLog extends Fragment {
                 ParseQuery<Workout> query = Workout.getQuery();
                 query.fromPin("Workout Log");
                 query.include("exercises");
-                query.orderByAscending("date");
+                query.orderByDescending("date");
 
                 return query;
             }
@@ -108,7 +96,13 @@ public class WorkoutLog extends Fragment {
                 SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
                 String dateFormat = formatter.format(workout.getDate());
                 date.setText(dateFormat);
-                notes.setText(workout.getNotes());
+
+                if (workout.getNotes().trim().isEmpty()) {
+                    notes.setVisibility(View.GONE);
+                } else {
+                    notes.setVisibility(View.VISIBLE);
+                    notes.setText(workout.getNotes());
+                }
 
                 boolean usesArms = false;
                 boolean usesShoulders = false;
@@ -130,10 +124,12 @@ public class WorkoutLog extends Fragment {
                     if (e.usesLegs()) usesLegs = true;
                     if (e.usesGlutes()) usesGlutes = true;
 
-                    detailsText += e.getName() + "  +  ";
+                    detailsText += e.getName() + ",  ";
                 }
                 // this next line removes the extra 'plus' at the end from the for loop
-                detailsText = detailsText.substring(0, detailsText.length() - 5);
+                if (!detailsText.trim().isEmpty()) {
+                    detailsText = detailsText.substring(0, detailsText.length() - 3);
+                }
                 details.setText(detailsText);
 
                 arms.setVisibility(usesArms ? View.VISIBLE : View.GONE);

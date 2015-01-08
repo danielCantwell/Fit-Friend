@@ -3,7 +3,9 @@ package com.cantwellcode.fitfriend.exercise.log;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cantwellcode.fitfriend.exercise.types.Set;
 import com.cantwellcode.fitfriend.exercise.types.Workout;
@@ -65,6 +68,9 @@ public class NewWorkoutActivity extends Activity {
         mName = (TextView) findViewById(R.id.name);
         mNumExercies = (TextView) findViewById(R.id.numExercises);
         mNotes = (EditText) findViewById(R.id.notes);
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        mNotes.setText(sp.getString("Workout Notes", ""));
 
         mName.setText(formattedDate);
 
@@ -202,6 +208,8 @@ public class NewWorkoutActivity extends Activity {
                 saveWorkout();
                 break;
             case R.id.action_new_routine:
+                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+                sp.edit().putString("Workout Notes", mNotes.getText().toString().trim()).commit();
                 Intent intent = new Intent(this, NewExerciseActivity.class);
                 startActivity(intent);
                 return true;
@@ -216,11 +224,18 @@ public class NewWorkoutActivity extends Activity {
     }
 
     private void saveWorkout() {
+        if (mExerciseCount == 0) {
+            Toast.makeText(this, "Please add at least 1 exercise", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         try {
             Workout workout = new Workout(mDate, mNotes.getText().toString().trim(), factory.create().find());
             workout.pinInBackground("Workout Log", new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
+                    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(NewWorkoutActivity.this);
+                    sp.edit().remove("Workout Notes").commit();
                     ParseObject.unpinAllInBackground("CurrentExercises");
                     setResult(Statics.INTENT_REQUEST_WORKOUT);
                     finish();
