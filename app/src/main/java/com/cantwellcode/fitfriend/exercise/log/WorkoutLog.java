@@ -14,7 +14,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 
@@ -22,6 +24,8 @@ import com.cantwellcode.fitfriend.exercise.types.Exercise;
 import com.fitfriend.app.R;
 import com.cantwellcode.fitfriend.exercise.types.Workout;
 import com.cantwellcode.fitfriend.utils.Statics;
+import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
@@ -146,11 +150,51 @@ public class WorkoutLog extends Fragment {
 
         mList.setAdapter(mAdapter);
 
-        updateWorkouts();
+        mList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Workout workout = mAdapter.getItem(position);
+                showPopup(view, workout);
+                return true;
+            }
+        });
 
         setHasOptionsMenu(true);
 
         return root;
+    }
+
+    private void showPopup(View v, final Workout workout) {
+        PopupMenu popup = new PopupMenu(getActivity(), v);
+
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.action_delete:
+                        menuClickDelete(workout);
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.workout_list_click, popup.getMenu());
+        popup.show();
+    }
+
+    private void menuClickDelete(Workout workout) {
+        try {
+            List<Workout> workouts = factory.create().find();
+            workouts.remove(workout);
+            ParseObject.unpinAll("Workout Log");
+            ParseObject.pinAll("Workout Log", workouts);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        updateWorkouts();
     }
 
     @Override
@@ -163,67 +207,22 @@ public class WorkoutLog extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_new:
                 Intent intent = new Intent(getActivity(), NewWorkoutActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, Statics.INTENT_REQUEST_WORKOUT);
                 break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void menuClickEdit(Workout workout) {
-//        if (workout instanceof Cardio) {
-//            startAddActivity("Cardio", workout);
-//        }
-    }
-
-    private void menuClickDelete(Workout workout) {
-        updateWorkouts();
-    }
-
     private void updateWorkouts() {
-
-        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
-        String formattedDate = df.format(mCalendar.getTime());
-
-        final Calendar cal = Calendar.getInstance();
-        int y = cal.get(Calendar.YEAR);
-        int m = cal.get(Calendar.MONTH) + 1;
-        int d = cal.get(Calendar.DAY_OF_MONTH);
+//        mAdapter.clear();
+        mAdapter.loadObjects();
     }
 
     private void restoreActionBar() {
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle("Exercise Log");
-    }
-
-    private class OptionsDialog extends DialogFragment {
-
-        private Workout workout;
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            setCancelable(true);
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("Workout Options")
-                    .setItems(R.array.workout_options, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            switch (which) {
-                                case 0:
-                                    menuClickEdit(workout);
-                                    break;
-                                case 1:
-                                    menuClickDelete(workout);
-                                    break;
-                            }
-                        }
-                    });
-            return builder.create();
-        }
-
-        public void setWorkout(Workout workout) {
-            this.workout = workout;
-        }
+        actionBar.setTitle("Workout Log");
     }
 
     @Override

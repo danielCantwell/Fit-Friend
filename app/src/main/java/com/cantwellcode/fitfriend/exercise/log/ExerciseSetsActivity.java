@@ -170,20 +170,24 @@ public class ExerciseSetsActivity extends Activity implements SeekBar.OnSeekBarC
         switch (item.getItemId()) {
 
             case R.id.action_save:
-                Exercise exercise = mExercise.createNew();
-                exercise.setName(mName);
-                exercise.setSets(mSets);
-                exercise.pinInBackground("CurrentExercises", new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e != null) {
-                            Toast.makeText(ExerciseSetsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                if (mSets.isEmpty()) {
+                    Toast.makeText(this, "Add at least 1 set", Toast.LENGTH_SHORT).show();
+                } else {
+                    Exercise exercise = mExercise.createNew();
+                    exercise.setName(mName);
+                    exercise.setSets(mSets);
+                    exercise.pinInBackground("CurrentExercises", new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e != null) {
+                                Toast.makeText(ExerciseSetsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                            Intent intent = new Intent(ExerciseSetsActivity.this, NewWorkoutActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
                         }
-                        Intent intent = new Intent(ExerciseSetsActivity.this, NewWorkoutActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                    }
-                });
+                    });
+                }
 
                 return true;
             case android.R.id.home:
