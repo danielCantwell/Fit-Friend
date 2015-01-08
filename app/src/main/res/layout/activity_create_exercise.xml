@@ -16,7 +16,7 @@
         android:ems="10"
         android:gravity="center"
         android:hint="Exercise Name"
-        android:inputType="textPersonName" />
+        android:inputType="textCapWords" />
 
     <TextView
         android:id="@+id/textView1"

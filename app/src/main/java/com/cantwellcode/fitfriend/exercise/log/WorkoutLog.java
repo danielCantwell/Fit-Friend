@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,129 +18,137 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 
+import com.cantwellcode.fitfriend.exercise.types.Exercise;
+import com.cantwellcode.fitfriend.exercise.types.Set;
 import com.fitfriend.app.R;
 import com.cantwellcode.fitfriend.exercise.types.Workout;
 import com.cantwellcode.fitfriend.utils.DBHelper;
 import com.cantwellcode.fitfriend.utils.DatePickerFragment;
 import com.cantwellcode.fitfriend.utils.DialogListener;
 import com.cantwellcode.fitfriend.utils.Statics;
+import com.parse.ParseQuery;
+import com.parse.ParseQueryAdapter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by Daniel on 2/8/14.
  */
 public class WorkoutLog extends Fragment {
 
-    private DBHelper mDatabase;
     private Calendar mCalendar;
 
-    private LayoutInflater mInflater;
-
-    private ExpandableListView listView;
-    private Button mPreviousButton, mDateButton, mNextButton;
-
-    private int mYear, mMonth, mDay;
-
-//    private WorkoutsExpandableListAdapter mAdapter;
+    private ListView mList;
+    private ParseQueryAdapter<Workout> mAdapter;
+    private ParseQueryAdapter.QueryFactory<Workout> factory;
 
     private static Fragment instance = null;
 
     public static Fragment newInstance() {
-        if(instance == null)
+        if (instance == null)
             instance = new WorkoutLog();
         return instance;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        this.mInflater = inflater;
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.workout_log, null);
-
-        mDatabase = new DBHelper(getActivity());
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.activity_workout_log, null);
 
         mCalendar = Calendar.getInstance();
-        mYear = mCalendar.get(Calendar.YEAR);
-        mMonth = mCalendar.get(Calendar.MONTH) + 1;
-        mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
 
-        listView = (ExpandableListView) root.findViewById(android.R.id.list);
+        mList = (ListView) root.findViewById(R.id.listView);
 
-        mPreviousButton = (Button) root.findViewById(R.id.previous);
-        mDateButton = (Button) root.findViewById(R.id.date);
-        mNextButton = (Button) root.findViewById(R.id.next);
+        TextView emptyView = (TextView) root.findViewById(android.R.id.empty);
+        mList.setEmptyView(emptyView);
 
-        mNextButton.setEnabled(false);
+        /* Set up factory for current exercises */
+        factory = new ParseQueryAdapter.QueryFactory<Workout>() {
+            public ParseQuery<Workout> create() {
 
-        mDateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DatePickerFragment dateFragment = new DatePickerFragment();
-                dateFragment.setDialogListener(new DialogListener() {
-                    @Override
-                    public void onDialogOK(Bundle bundle) {
-                        mYear = bundle.getInt("year");
-                        mMonth = bundle.getInt("month");
-                        mDay = bundle.getInt("day");
+                /* Create a query for forum posts */
+                ParseQuery<Workout> query = Workout.getQuery();
+                query.fromPin("Workout Log");
+                query.include("exercises");
+                query.orderByAscending("date");
 
-                        mCalendar.set(Calendar.YEAR, mYear);
-                        mCalendar.set(Calendar.MONTH, mMonth);
-                        mCalendar.set(Calendar.DAY_OF_MONTH, mDay);
-
-                        updateWorkouts();
-
-                        final Calendar cal = Calendar.getInstance();
-                        int y = cal.get(Calendar.YEAR);
-                        int m = cal.get(Calendar.MONTH);
-                        int d = cal.get(Calendar.DAY_OF_MONTH);
-
-                        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
-                        String formattedDate = df.format(mCalendar.getTime());
-
-                        if (y == mYear && m == mMonth && d == mDay) {
-                            mDateButton.setText("Today");
-                            mNextButton.setEnabled(false);
-                            mNextButton.setTextColor(Color.GRAY);
-                        } else {
-                            mDateButton.setText(formattedDate);
-                        }
-                    }
-
-                    @Override
-                    public void onDialogCancel() {
-
-                    }
-                });
-                dateFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+                return query;
             }
-        });
+        };
 
-        mPreviousButton.setOnClickListener(new View.OnClickListener() {
+        /* Set up list adapter using the factory of exercises */
+        mAdapter = new ParseQueryAdapter<Workout>(getActivity(), factory) {
             @Override
-            public void onClick(View v) {
-                mCalendar.add(Calendar.DATE, -1);
-                mYear = mCalendar.get(Calendar.YEAR);
-                mMonth = mCalendar.get(Calendar.MONTH) + 1;
-                mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
+            public View getItemView(final Workout workout, View view, ViewGroup parent) {
 
-                updateWorkouts();
+                if (view == null) {
+                    view = view.inflate(getActivity(), R.layout.workout_log_item, null);
+                }
+
+                TextView date = (TextView) view.findViewById(R.id.date);
+                TextView details = (TextView) view.findViewById(R.id.details);
+                TextView notes = (TextView) view.findViewById(R.id.notes);
+                TextView arms = (TextView) view.findViewById(R.id.arms);
+                TextView shoulders = (TextView) view.findViewById(R.id.shoulders);
+                TextView chest = (TextView) view.findViewById(R.id.chest);
+                TextView back = (TextView) view.findViewById(R.id.back);
+                TextView abs = (TextView) view.findViewById(R.id.abs);
+                TextView legs = (TextView) view.findViewById(R.id.legs);
+                TextView glutes = (TextView) view.findViewById(R.id.glutes);
+
+                SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
+                String dateFormat = formatter.format(workout.getDate());
+                date.setText(dateFormat);
+                notes.setText(workout.getNotes());
+
+                boolean usesArms = false;
+                boolean usesShoulders = false;
+                boolean usesChest = false;
+                boolean usesBack = false;
+                boolean usesAbs = false;
+                boolean usesLegs = false;
+                boolean usesGlutes = false;
+
+                String detailsText = "";
+
+                List<Exercise> exerciseList = workout.getExerciseList();
+                for (Exercise e : exerciseList) {
+                    if (e.usesArms()) usesArms = true;
+                    if (e.usesShoulders()) usesShoulders = true;
+                    if (e.usesChest()) usesChest = true;
+                    if (e.usesBack()) usesBack = true;
+                    if (e.usesAbs()) usesAbs = true;
+                    if (e.usesLegs()) usesLegs = true;
+                    if (e.usesGlutes()) usesGlutes = true;
+
+                    detailsText += e.getName() + "  +  ";
+                }
+                // this next line removes the extra 'plus' at the end from the for loop
+                detailsText = detailsText.substring(0, detailsText.length() - 5);
+                details.setText(detailsText);
+
+                arms.setVisibility(usesArms ? View.VISIBLE : View.GONE);
+                shoulders.setVisibility(usesShoulders ? View.VISIBLE : View.GONE);
+                chest.setVisibility(usesChest ? View.VISIBLE : View.GONE);
+                back.setVisibility(usesBack ? View.VISIBLE : View.GONE);
+                abs.setVisibility(usesAbs ? View.VISIBLE : View.GONE);
+                legs.setVisibility(usesLegs ? View.VISIBLE : View.GONE);
+                glutes.setVisibility(usesGlutes ? View.VISIBLE : View.GONE);
+
+                return view;
             }
-        });
+        };
 
-        mNextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mCalendar.add(Calendar.DATE, 1);
-                mYear = mCalendar.get(Calendar.YEAR);
-                mMonth = mCalendar.get(Calendar.MONTH) + 1;
-                mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
-
-                updateWorkouts();
-            }
-        });
+        mList.setAdapter(mAdapter);
 
         updateWorkouts();
 
@@ -172,7 +181,6 @@ public class WorkoutLog extends Fragment {
     }
 
     private void menuClickDelete(Workout workout) {
-        mDatabase.delete(workout);
         updateWorkouts();
     }
 
@@ -181,30 +189,10 @@ public class WorkoutLog extends Fragment {
         SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
         String formattedDate = df.format(mCalendar.getTime());
 
-//        mDatabase.openDb(DBHelper.DB_NAME_WORKOUTS);
-//        mCardios = mDatabase.getCardioListNOC(new Cardio(formattedDate));
-//        mGyms = mDatabase.getGymListNOC(new Gym(formattedDate));
-//        mDatabase.closeDb();
-
-//        mAdapter = new WorkoutsExpandableListAdapter(getActivity(), mCardios, mGyms);
-//        listView.setAdapter(mAdapter);
-
         final Calendar cal = Calendar.getInstance();
         int y = cal.get(Calendar.YEAR);
         int m = cal.get(Calendar.MONTH) + 1;
         int d = cal.get(Calendar.DAY_OF_MONTH);
-
-        if (y == mYear && m == mMonth && d == mDay) {
-            mDateButton.setText("Today");
-            mNextButton.setEnabled(false);
-            mNextButton.setTextColor(Color.GRAY);
-        } else {
-            mDateButton.setText(formattedDate);
-            if (!mNextButton.isEnabled()) {
-                mNextButton.setEnabled(true);
-                mNextButton.setTextColor(Color.BLACK);
-            }
-        }
     }
 
     private void restoreActionBar() {

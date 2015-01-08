@@ -13,15 +13,19 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.cantwellcode.fitfriend.exercise.types.Set;
+import com.cantwellcode.fitfriend.exercise.types.Workout;
+import com.cantwellcode.fitfriend.utils.Statics;
 import com.fitfriend.app.R;
 import com.cantwellcode.fitfriend.exercise.types.Exercise;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,19 +33,24 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 public class NewWorkoutActivity extends Activity {
 
-    private EditText mName;
+    private TextView mName;
     private TextView mNumExercies;
     private ListView mList;
+    private EditText mNotes;
+
     private ParseQueryAdapter<Exercise> mAdapter;
     private ParseQueryAdapter.QueryFactory<Exercise> factory;
 
     private int mExerciseCount = 0;
+
+    private Date mDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,31 +60,33 @@ public class NewWorkoutActivity extends Activity {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
         String formattedDate = df.format(c.getTime());
+        mDate = c.getTime();
 
-        mName = (EditText) findViewById(R.id.name);
+        mName = (TextView) findViewById(R.id.name);
         mNumExercies = (TextView) findViewById(R.id.numExercises);
+        mNotes = (EditText) findViewById(R.id.notes);
 
         mName.setText(formattedDate);
 
-        Button emptyView = (Button) findViewById(android.R.id.empty);
+        TextView emptyView = (TextView) findViewById(android.R.id.empty);
 
         mList = (ListView) findViewById(R.id.exerciseList);
         mList.setEmptyView(emptyView);
 
-        /* Set up factory for forum posts by any user */
+        /* Set up factory for current exercises */
         factory = new ParseQueryAdapter.QueryFactory<Exercise>() {
             public ParseQuery<Exercise> create() {
 
                 /* Create a query for forum posts */
                 ParseQuery<Exercise> query = Exercise.getQuery();
                 query.fromPin("CurrentExercises");
-                query.orderByAscending("createdAt");
+                query.orderByAscending("name");
 
                 return query;
             }
         };
 
-        /* Set up list adapter using the factory of friends */
+        /* Set up list adapter using the factory of exercises */
         mAdapter = new ParseQueryAdapter<Exercise>(this, factory) {
             @Override
             public View getItemView(final Exercise exercise, View view, ViewGroup parent) {
@@ -116,7 +127,7 @@ public class NewWorkoutActivity extends Activity {
 
                     try {
 
-                    JSONObject s = setArray.getJSONObject(i);
+                        JSONObject s = setArray.getJSONObject(i);
 
                         if (reps) {
                             setsText += s.get("reps") + "";
@@ -171,14 +182,6 @@ public class NewWorkoutActivity extends Activity {
 
             }
         });
-
-        emptyView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(NewWorkoutActivity.this, NewExerciseActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
 
@@ -195,6 +198,9 @@ public class NewWorkoutActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
+            case R.id.action_save:
+                saveWorkout();
+                break;
             case R.id.action_new_routine:
                 Intent intent = new Intent(this, NewExerciseActivity.class);
                 startActivity(intent);
@@ -209,4 +215,19 @@ public class NewWorkoutActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void saveWorkout() {
+        try {
+            Workout workout = new Workout(mDate, mNotes.getText().toString().trim(), factory.create().find());
+            workout.pinInBackground("Workout Log", new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    ParseObject.unpinAllInBackground("CurrentExercises");
+                    setResult(Statics.INTENT_REQUEST_WORKOUT);
+                    finish();
+                }
+            });
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
 }
