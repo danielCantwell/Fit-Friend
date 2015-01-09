@@ -206,10 +206,10 @@ public class NutritionLog extends ListFragment {
         goalProtein = (TextView) root.findViewById(R.id.n_goal_protein);
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
-        goalCalories.setText(sp.getString(Statics.GOAL_CALORIES, "goal cal"));
-        goalProtein.setText(sp.getString(Statics.GOAL_PROTEIN, "goal prot"));
-        goalCarbs.setText(sp.getString(Statics.GOAL_CARBS, "goal carbs"));
-        goalFat.setText(sp.getString(Statics.GOAL_FAT, "goal fat"));
+        goalCalories.setText(sp.getString(Statics.GOAL_CALORIES, "3000 cal"));
+        goalProtein.setText(sp.getString(Statics.GOAL_PROTEIN, "150 prot"));
+        goalCarbs.setText(sp.getString(Statics.GOAL_CARBS, "300 carbs"));
+        goalFat.setText(sp.getString(Statics.GOAL_FAT, "70 fat"));
 
         mSurfaceCalories = (PieChart) root.findViewById(R.id.surfaceCalories);
         mSurfaceMacros = (PieChart) root.findViewById(R.id.surfaceMacros);
@@ -218,7 +218,7 @@ public class NutritionLog extends ListFragment {
         mProgressCalories = (ProgressBar) root.findViewById(R.id.caloriesProgress);
         mProgressCalories.setMax(calGoal);
 
-        int fatGoal = Integer.valueOf(sp.getString(Statics.GOAL_FAT, "60"));
+        int fatGoal = Integer.valueOf(sp.getString(Statics.GOAL_FAT, "70"));
         mProgressFat = (ProgressBar) root.findViewById(R.id.fatProgress);
         mProgressFat.setMax(fatGoal);
 

@@ -68,8 +68,6 @@ public class NavigationDrawerFragment extends Fragment {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerListView;
     private NavigationDrawerAdapter mAdapter;
-    private ListView mDrawerListViewTwo;
-    private NavDrawerAdapterTwo mAdapterTwo;
     private View mFragmentContainerView;
 
     private ImageView mProfilePicture;
@@ -136,11 +134,14 @@ public class NavigationDrawerFragment extends Fragment {
         }
         mName.setText(user.get("name").toString());
 
-        List<String> drawerItems = new ArrayList<String>();
-        drawerItems.add(getString(R.string.title_section1));
-        drawerItems.add(getString(R.string.title_section2));
-        drawerItems.add(getString(R.string.title_section3));
-        drawerItems.add(getString(R.string.title_section4));
+        List<DrawerItem> drawerItems = new ArrayList<DrawerItem>();
+        drawerItems.add(new DrawerItem(getString(R.string.title_section1)));
+        drawerItems.add(new DrawerItem(getString(R.string.title_section2)));
+        drawerItems.add(new DrawerItem(getString(R.string.title_section3)));
+        drawerItems.add(new DrawerItem(getString(R.string.title_section4)));
+        drawerItems.add(new DrawerItem(getString(R.string.title_section5), android.R.drawable.ic_menu_preferences));
+        drawerItems.add(new DrawerItem(getString(R.string.title_section6), R.drawable.ic_goals));
+        drawerItems.add(new DrawerItem(getString(R.string.title_section7), android.R.drawable.btn_star));
         mAdapter = new NavigationDrawerAdapter(getActivity(),
                 android.R.layout.simple_list_item_activated_1, drawerItems);
 
@@ -153,50 +154,6 @@ public class NavigationDrawerFragment extends Fragment {
         });
         mDrawerListView.setAdapter(mAdapter);
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-
-        List<DrawerItemTwo> drawerItemTwos = new ArrayList<DrawerItemTwo>();
-        drawerItemTwos.add(new DrawerItemTwo(getString(R.string.title_section5), android.R.drawable.ic_menu_preferences));
-        drawerItemTwos.add(new DrawerItemTwo(getString(R.string.title_section6), R.drawable.ic_goals));
-        drawerItemTwos.add(new DrawerItemTwo(getString(R.string.title_section7), android.R.drawable.btn_star));
-        drawerItemTwos.add(new DrawerItemTwo(getString(R.string.title_section8), R.drawable.ic_launcher_small));
-        drawerItemTwos.add(new DrawerItemTwo(getString(R.string.title_section9), android.R.drawable.sym_action_email));
-        drawerItemTwos.add(new DrawerItemTwo(getString(R.string.title_section10), android.R.drawable.ic_menu_help));
-        mAdapterTwo = new NavDrawerAdapterTwo(getActivity(),
-                android.R.layout.simple_list_item_1, drawerItemTwos);
-
-        mDrawerListViewTwo = (ListView) root.findViewById(R.id.secondListView);
-        mDrawerListViewTwo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        Intent i0 = new Intent(getActivity(), SettingsActivity.class);
-                        startActivity(i0);
-                        break;
-                    case 1:
-                        Intent i1 = new Intent(getActivity(), GoalsActivity.class);
-                        startActivity(i1);
-                        break;
-                    case 2:
-                        Intent i2 = new Intent(getActivity(), NutritionFavoritesView.class);
-                        startActivity(i2);
-                        break;
-                    case 3:
-                        Intent i3 = new Intent(getActivity(), SettingsActivity.class);
-                        startActivity(i3);
-                        break;
-                    case 4:
-                        Intent i4 = new Intent(getActivity(), SettingsActivity.class);
-                        startActivity(i4);
-                        break;
-                    case 5:
-                        Intent i5 = new Intent(getActivity(), SettingsActivity.class);
-                        startActivity(i5);
-                        break;
-                }
-            }
-        });
-        mDrawerListViewTwo.setAdapter(mAdapterTwo);
 
         FrameLayout frameLayout = (FrameLayout) root.findViewById(R.id.profile);
         frameLayout.setOnClickListener(new View.OnClickListener() {
@@ -300,9 +257,12 @@ public class NavigationDrawerFragment extends Fragment {
 
     private void selectItem(int position) {
         mCurrentSelectedPosition = position;
+
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);
-            mAdapter.selection = position;
+            if (position < 4) {
+                mAdapter.selection = position;
+            }
         }
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);

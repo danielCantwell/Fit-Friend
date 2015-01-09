@@ -3,12 +3,16 @@ package com.cantwellcode.fitfriend.utils;
 /**
  * Created by Daniel on 8/8/2014.
  */
-public class DrawerItemTwo {
+public class DrawerItem {
 
     public String text;
     public int iconRes;
 
-    public DrawerItemTwo(String text, int iconRes) {
+    public DrawerItem(String text) {
+        this.text = text;
+    }
+
+    public DrawerItem(String text, int iconRes) {
         this.text = text;
         this.iconRes = iconRes;
     }

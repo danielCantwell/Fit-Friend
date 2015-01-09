@@ -74,7 +74,6 @@ public class ExerciseSetsActivity extends Activity implements SeekBar.OnSeekBarC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_sets);
 
-
         mName = getIntent().getStringExtra("name");
         ParseQuery<Exercise> mExerciseQuery = Exercise.getQuery();
         mExerciseQuery.fromPin(getResources().getString(R.string.saved_exercises));
@@ -84,13 +83,6 @@ public class ExerciseSetsActivity extends Activity implements SeekBar.OnSeekBarC
         } catch (ParseException e) {
             e.printStackTrace();
         }
-//        mExerciseQuery.getFirstInBackground(new GetCallback<Exercise>() {
-//            @Override
-//            public void done(Exercise exercise, ParseException e) {
-//                mExercise = exercise;
-//                setupExercise(mExercise);
-//            }
-//        });
         setupExercise(mExercise);
     }
 

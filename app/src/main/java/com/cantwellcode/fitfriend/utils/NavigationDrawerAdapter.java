@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -16,54 +17,53 @@ import java.util.List;
 /**
  * Created by Daniel on 8/7/2014.
  */
-public class NavigationDrawerAdapter extends ArrayAdapter<String> {
+public class NavigationDrawerAdapter extends ArrayAdapter<DrawerItem> {
 
     private class ViewHolder {
-        TextView textHolder;
+        TextView text;
+        ImageView image;
     }
 
     private final Context context;
-    private final int res;
 
     public int selection = 0;
 
-    public NavigationDrawerAdapter(Context context, int resource, List<String> objects) {
+    public NavigationDrawerAdapter(Context context, int resource, List<DrawerItem> objects) {
         super(context, resource, objects);
         this.context = context;
-        this.res = resource;
-    }
-
-    public void addItem(String item) {
-        add(item);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        String item = getItem(position);
-        ViewHolder holder = null;
+        DrawerItem item = getItem(position);
+        ViewHolder holder = new ViewHolder();
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        if (convertView == null) {
+        if (position < 4) {
             convertView = inflater.inflate(R.layout.drawer_item, null);
-            holder = new ViewHolder();
-            holder.textHolder = (TextView) convertView.findViewById(R.id.drawer_item);
-            convertView.setTag(holder);
-
+            holder.text = (TextView) convertView.findViewById(R.id.text);
         } else {
-            holder = (ViewHolder) convertView.getTag();
+            convertView = inflater.inflate(R.layout.drawer_item_two, null);
+            holder.text = (TextView) convertView.findViewById(R.id.text);
+            holder.image = (ImageView) convertView.findViewById(R.id.icon);
         }
 
-        if (position == selection) {
-            holder.textHolder.setTypeface(null, Typeface.BOLD);
-            holder.textHolder.setTextColor(context.getResources().getColor(R.color.black));
+        holder.text.setText(item.text);
+
+        if (position < 4) {
+            if (position == selection) {
+                holder.text.setTypeface(null, Typeface.BOLD);
+                holder.text.setTextColor(context.getResources().getColor(R.color.black));
+            } else {
+                holder.text.setTypeface(null, Typeface.NORMAL);
+                holder.text.setTextColor(context.getResources().getColor(R.color.dark_grey));
+            }
         } else {
-            holder.textHolder.setTypeface(null, Typeface.NORMAL);
-            holder.textHolder.setTextColor(context.getResources().getColor(R.color.dark_grey));
+            holder.image.setBackgroundResource(item.iconRes);
         }
 
-        holder.textHolder.setText(item);
 
         return convertView;
     }

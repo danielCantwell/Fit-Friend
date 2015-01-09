@@ -43,10 +43,6 @@ public class FavoriteFoodFragment extends Fragment {
         db = new DBHelper(getActivity());
         meals = db.getAllFavorites();
 
-        if (meals.isEmpty()) {
-            Toast.makeText(getActivity(), "No Favorites Have Been Added", Toast.LENGTH_LONG).show();
-        }
-
         prepareListData(db);
         mAdapter = new FavoritesExpandableListAdapter(getActivity(), listHeaders, listData);
 

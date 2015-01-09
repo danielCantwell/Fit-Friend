@@ -1,6 +1,7 @@
 package com.cantwellcode.fitfriend.startup;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -9,6 +10,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.cantwellcode.fitfriend.connect.GoalsActivity;
+import com.cantwellcode.fitfriend.connect.SettingsActivity;
+import com.cantwellcode.fitfriend.nutrition.NutritionFavoritesView;
 import com.fitfriend.app.R;
 import com.cantwellcode.fitfriend.connect.ForumFragment;
 import com.cantwellcode.fitfriend.exercise.log.WorkoutLog;
@@ -61,23 +65,40 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        Fragment fragment = new Fragment();
+
         switch (position) {
             case 0:
-                fragment = NutritionLog.newInstance();
+                Fragment nutritionFragment = NutritionLog.newInstance();
+                FragmentManager fm = getSupportFragmentManager();
+                fm.beginTransaction().replace(R.id.container, nutritionFragment).commit();
                 break;
             case 1:
-                fragment = WorkoutLog.newInstance();
+                Fragment workoutFragment = WorkoutLog.newInstance();
+                FragmentManager fm1 = getSupportFragmentManager();
+                fm1.beginTransaction().replace(R.id.container, workoutFragment).commit();
                 break;
             case 2:
-                fragment = Plan.newInstance();
+                Fragment planFragment = Plan.newInstance();
+                FragmentManager fm2 = getSupportFragmentManager();
+                fm2.beginTransaction().replace(R.id.container, planFragment).commit();
                 break;
             case 3:
-                fragment = ForumFragment.newInstance();
+                Fragment forumFragment = ForumFragment.newInstance();
+                FragmentManager fm3 = getSupportFragmentManager();
+                fm3.beginTransaction().replace(R.id.container, forumFragment).commit();
+                break;
+            case 4:
+                Intent i0 = new Intent(this, SettingsActivity.class);
+                startActivity(i0);
+                break;
+            case 5:
+                Intent i1 = new Intent(this, GoalsActivity.class);
+                startActivity(i1);
+                break;
+            case 6:
+                Intent i2 = new Intent(this, NutritionFavoritesView.class);
+                startActivity(i2);
                 break;
         }
-        // update the main content by replacing fragments
-        FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().replace(R.id.container, fragment).commit();
     }
 }
