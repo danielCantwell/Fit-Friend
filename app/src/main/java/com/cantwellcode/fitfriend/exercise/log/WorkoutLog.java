@@ -215,7 +215,6 @@ public class WorkoutLog extends Fragment {
     }
 
     private void updateWorkouts() {
-//        mAdapter.clear();
         mAdapter.loadObjects();
     }
 

@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.cantwellcode.fitfriend.exercise.types.Exercise;
+import com.cantwellcode.fitfriend.utils.Statics;
 import com.fitfriend.app.R;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
@@ -70,7 +71,7 @@ public class CreateExerciseActivity extends Activity {
                     e.setLegs(mLegs.isChecked() ? true : false);
                     e.setGlutes(mGlutes.isChecked() ? true : false);
 
-                    e.pinInBackground(getResources().getString(R.string.saved_exercises), new SaveCallback() {
+                    e.pinInBackground(Statics.SAVED_EXERCISES, new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
                             Intent intent = new Intent(CreateExerciseActivity.this, NewExerciseActivity.class);
