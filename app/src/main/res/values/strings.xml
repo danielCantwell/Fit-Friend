@@ -16,14 +16,8 @@
     <string name="next"><![CDATA[>>]]></string>
 
     <string-array name="event_types">
-        <item>Swim</item>
-        <item>Bike</item>
-        <item>Run</item>
-        <item>Gym</item>
-        <item>Breakfast</item>
-        <item>Lunch</item>
-        <item>Dinner</item>
-        <item>Drinks</item>
+        <item>Exercise</item>
+        <item>Food</item>
         <item>Other</item>
     </string-array>
 
@@ -34,9 +28,10 @@
     <string name="title_section5">Settings</string>
     <string name="title_section6">Goals</string>
     <string name="title_section7">Favorites</string>
-    <string name="title_section8">Premium</string>
-    <string name="title_section9">Suggestions</string>
-    <string name="title_section10">Help</string>
+    <string name="title_section8">Friends</string>
+    <string name="title_section9">Premium</string>
+    <string name="title_section10">Suggestions</string>
+    <string name="title_section11">Help</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_new_workout">New Workout</string>
@@ -45,5 +40,6 @@
     <string name="title_activity_routine_sets">RoutineSetsActivity</string>
     <string name="title_activity_new_food">NewFoodActivity</string>
     <string name="title_activity_create_exercise">CreateExerciseActivity</string>
+    <string name="title_activity_friends">Friends</string>
 
 </resources>

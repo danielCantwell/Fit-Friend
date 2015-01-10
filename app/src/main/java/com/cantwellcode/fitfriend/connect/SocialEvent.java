@@ -44,7 +44,6 @@ public abstract class SocialEvent {
                 } else {
 
                     /* this is a new friendship, continue with request */
-                    requestFriend(context, friend);
                     s = "requesting friendship with " + friend.getUsername();
 
                     /* create an entry in the Friend table */

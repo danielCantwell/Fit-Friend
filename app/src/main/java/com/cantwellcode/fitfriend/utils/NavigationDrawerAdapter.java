@@ -19,6 +19,10 @@ import java.util.List;
  */
 public class NavigationDrawerAdapter extends ArrayAdapter<DrawerItem> {
 
+    /*
+    In this case, viewholder is not used in the normal way
+    Because a different view is loaded depending on the position
+     */
     private class ViewHolder {
         TextView text;
         ImageView image;
@@ -26,6 +30,7 @@ public class NavigationDrawerAdapter extends ArrayAdapter<DrawerItem> {
 
     private final Context context;
 
+    // Used for checking if the view being loaded is the currently selected view
     public int selection = 0;
 
     public NavigationDrawerAdapter(Context context, int resource, List<DrawerItem> objects) {
@@ -41,18 +46,12 @@ public class NavigationDrawerAdapter extends ArrayAdapter<DrawerItem> {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+        // Items 0, 1, 2, 3 are main fragment items, and use the "drawer_item" layout
         if (position < 4) {
             convertView = inflater.inflate(R.layout.drawer_item, null);
             holder.text = (TextView) convertView.findViewById(R.id.text);
-        } else {
-            convertView = inflater.inflate(R.layout.drawer_item_two, null);
-            holder.text = (TextView) convertView.findViewById(R.id.text);
-            holder.image = (ImageView) convertView.findViewById(R.id.icon);
-        }
 
-        holder.text.setText(item.text);
-
-        if (position < 4) {
+            // if the item is currently selected, bold and darken the text
             if (position == selection) {
                 holder.text.setTypeface(null, Typeface.BOLD);
                 holder.text.setTextColor(context.getResources().getColor(R.color.black));
@@ -60,10 +59,17 @@ public class NavigationDrawerAdapter extends ArrayAdapter<DrawerItem> {
                 holder.text.setTypeface(null, Typeface.NORMAL);
                 holder.text.setTextColor(context.getResources().getColor(R.color.dark_grey));
             }
+            // Items 4+ are secondary items that are used less often and open a new activity
         } else {
+            convertView = inflater.inflate(R.layout.drawer_item_two, null);
+            holder.text = (TextView) convertView.findViewById(R.id.text);
+            holder.image = (ImageView) convertView.findViewById(R.id.icon);
+            // only these items have icons
             holder.image.setBackgroundResource(item.iconRes);
         }
 
+        // all items have text
+        holder.text.setText(item.text);
 
         return convertView;
     }

@@ -231,9 +231,9 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
 
     private void signupSuccess() {
 
-        // Add Daniel Cantwell as a friend
+        // Add Cantwell Code (Fit-Friend) as a friend
         ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo("email", "dcantwell04@gmail.com");
+        query.whereEqualTo("email", "danielcantwell@cantwellcode.com");
         query.setLimit(1);
         query.getFirstInBackground(new GetCallback<ParseUser>() {
             @Override

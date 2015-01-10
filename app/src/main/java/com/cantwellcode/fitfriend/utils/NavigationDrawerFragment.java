@@ -116,23 +116,23 @@ public class NavigationDrawerFragment extends Fragment {
 
         user = ParseUser.getCurrentUser();
 
-        mProfilePicture = (ImageView) root.findViewById(R.id.profilePicture);
-        mName = (TextView) root.findViewById(R.id.name);
+//        mProfilePicture = (ImageView) root.findViewById(R.id.profilePicture);
+//        mName = (TextView) root.findViewById(R.id.name);
         logout = (Button) root.findViewById(R.id.logout);
 
-        ParseFile pic = user.getParseFile("picture");
-
-        if (pic != null) {
-            try {
-                byte[] file = pic.getData();
-                mProfilePicture.setImageBitmap(BitmapFactory.decodeByteArray(file, 0, file.length));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        } else {
-            mProfilePicture.setImageResource(R.drawable.profile);
-        }
-        mName.setText(user.get("name").toString());
+//        ParseFile pic = user.getParseFile("picture");
+//
+//        if (pic != null) {
+//            try {
+//                byte[] file = pic.getData();
+//                mProfilePicture.setImageBitmap(BitmapFactory.decodeByteArray(file, 0, file.length));
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//        } else {
+//            mProfilePicture.setImageResource(R.drawable.profile);
+//        }
+//        mName.setText(user.get("name").toString());
 
         List<DrawerItem> drawerItems = new ArrayList<DrawerItem>();
         drawerItems.add(new DrawerItem(getString(R.string.title_section1)));
@@ -142,6 +142,7 @@ public class NavigationDrawerFragment extends Fragment {
         drawerItems.add(new DrawerItem(getString(R.string.title_section5), android.R.drawable.ic_menu_preferences));
         drawerItems.add(new DrawerItem(getString(R.string.title_section6), R.drawable.ic_goals));
         drawerItems.add(new DrawerItem(getString(R.string.title_section7), android.R.drawable.btn_star));
+        drawerItems.add(new DrawerItem(getString(R.string.title_section8), R.drawable.ic_friends_black));
         mAdapter = new NavigationDrawerAdapter(getActivity(),
                 android.R.layout.simple_list_item_activated_1, drawerItems);
 
@@ -155,14 +156,14 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerListView.setAdapter(mAdapter);
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 
-        FrameLayout frameLayout = (FrameLayout) root.findViewById(R.id.profile);
-        frameLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ProfileActivity.class);
-                startActivity(intent);
-            }
-        });
+//        FrameLayout frameLayout = (FrameLayout) root.findViewById(R.id.profile);
+//        frameLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -327,9 +328,8 @@ public class NavigationDrawerFragment extends Fragment {
      */
     private void showGlobalContextActionBar() {
         ActionBar actionBar = getActionBar();
-        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setTitle(R.string.app_name);
     }
 
     private ActionBar getActionBar() {

@@ -67,7 +67,7 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.cantwellcode.fitfriend.connect.FriendsActivity"
+            android:name="com.cantwellcode.fitfriend.connect.ActivityFriends"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -138,6 +138,10 @@
         <activity
             android:name="com.cantwellcode.fitfriend.exercise.log.CreateExerciseActivity"
             android:label="@string/title_activity_create_exercise" >
+        </activity>
+        <activity
+            android:name="com.cantwellcode.fitfriend.friends.FriendsActivity"
+            android:label="@string/title_activity_friends" >
         </activity>
     </application>
 

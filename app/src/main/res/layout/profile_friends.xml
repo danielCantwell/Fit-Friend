@@ -8,7 +8,7 @@
 
     <TableRow
         android:id="@+id/tableRow"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -16,37 +16,30 @@
 
         <Button
             android:id="@+id/findFriends"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/ic_search_red" />
+            android:background="@drawable/ic_search_black" />
 
         <Button
             android:id="@+id/friendRequests"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/ic_add_person_red" />
+            android:background="@drawable/ic_add_person_black" />
 
         <Button
             android:id="@+id/friends"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/ic_friends_black" />
-
-        <Button
-            android:id="@+id/groups"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/ic_group_red" />
+            android:background="@drawable/ic_friends_red" />
 
     </TableRow>
 
     <TableRow
         android:id="@+id/tableRow2"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/tableRow"
         android:layout_alignRight="@+id/tableRow"
@@ -81,15 +74,6 @@
             android:text="Friends"
             android:textSize="10sp" />
 
-        <TextView
-            android:id="@+id/text4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Groups"
-            android:textSize="10sp" />
-
     </TableRow>
 
     <EditText
@@ -103,7 +87,6 @@
 
     <Button
         android:id="@+id/search"
-        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/searchIdentifier"

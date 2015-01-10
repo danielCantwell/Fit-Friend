@@ -27,13 +27,12 @@ import java.util.List;
 /**
  * Created by Daniel on 5/6/2014.
  */
-public class FriendsActivity extends FragmentActivity {
+public class ActivityFriends extends FragmentActivity {
 
     private ListView friendsList;
     private Button findFriends;
     private Button friendRequests;
     private Button friends;
-    private Button groups;
     private EditText searchIdentifier;
     private Button search;
 
@@ -41,8 +40,6 @@ public class FriendsActivity extends FragmentActivity {
 
     private ParseQueryAdapter<ParseObject> currentFriendsAdapter;
     private ParseQueryAdapter<ParseObject> friendRequestsAdapter;
-    private ParseQueryAdapter<Group> groupsAdapter;
-
     private int previous = 0;
     private int current = 2;
     private String searchType;
@@ -58,7 +55,6 @@ public class FriendsActivity extends FragmentActivity {
         findFriends = (Button) findViewById(R.id.findFriends);
         friendRequests = (Button) findViewById(R.id.friendRequests);
         friends = (Button) findViewById(R.id.friends);
-        groups = (Button) findViewById(R.id.groups);
         friendsList = (ListView) findViewById(R.id.friendsList);
         searchIdentifier = (EditText) findViewById(R.id.searchIdentifier);
         search = (Button) findViewById(R.id.search);
@@ -83,14 +79,6 @@ public class FriendsActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 current = 2;
-                handleLayout();
-            }
-        });
-
-        groups.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                current = 3;
                 handleLayout();
             }
         });
@@ -136,7 +124,7 @@ public class FriendsActivity extends FragmentActivity {
 //                    }
 //                };
                 if (view == null) {
-                    view = view.inflate(FriendsActivity.this, R.layout.friend_list_item, null);
+                    view = view.inflate(ActivityFriends.this, R.layout.friend_list_item, null);
                 }
                 TextView name = (TextView) view.findViewById(R.id.name);
                 TextView mainSport = (TextView) view.findViewById(R.id.mainSport);
@@ -179,7 +167,7 @@ public class FriendsActivity extends FragmentActivity {
             @Override
             public View getItemView(final ParseObject object, View view, final ViewGroup parent) {
                 if (view == null) {
-                    view = view.inflate(FriendsActivity.this, R.layout.friend_request_item, null);
+                    view = view.inflate(ActivityFriends.this, R.layout.friend_request_item, null);
                 }
                 TextView name = (TextView) view.findViewById(R.id.name);
                 final Button confirm = (Button) view.findViewById(R.id.confirm);
@@ -231,19 +219,6 @@ public class FriendsActivity extends FragmentActivity {
                 return groupQuery;
             }
         };
-        /*
-        Adapter for listing groups
-         */
-        groupsAdapter = new ParseQueryAdapter<Group>(this, factoryGroups) {
-            @Override
-            public View getItemView(Group group, View view, ViewGroup parent) {
-                if (view == null) {
-                    view = view.inflate(FriendsActivity.this, R.layout.group_item, null);
-                }
-
-                return view;
-            }
-        };
 
         handleLayout();
     }
@@ -285,51 +260,39 @@ public class FriendsActivity extends FragmentActivity {
         /* deal with previous selection */
         switch (previous) {
             case 0:
-                findFriends.setBackground(getResources().getDrawable(R.drawable.ic_search_red));
+                findFriends.setBackground(getResources().getDrawable(R.drawable.ic_search_black));
                 searchIdentifier.setHint("find friends");
                 break;
             case 1:
-                friendRequests.setBackground(getResources().getDrawable(R.drawable.ic_add_person_red));
+                friendRequests.setBackground(getResources().getDrawable(R.drawable.ic_add_person_black));
                 searchIdentifier.setVisibility(View.VISIBLE);
                 search.setVisibility(View.VISIBLE);
                 break;
             case 2:
-                friends.setBackground(getResources().getDrawable(R.drawable.ic_friends_red));
+                friends.setBackground(getResources().getDrawable(R.drawable.ic_friends_black));
                 friendsList.setAdapter(null);
-                break;
-            case 3:
-                groups.setBackground(getResources().getDrawable(R.drawable.ic_group_red));
-                searchIdentifier.setVisibility(View.VISIBLE);
-                search.setVisibility(View.VISIBLE);
                 break;
         }
 
         /* handle current selection */
         switch (current) {
             case 0:
-                findFriends.setBackground(getResources().getDrawable(R.drawable.ic_search_black));
+                findFriends.setBackground(getResources().getDrawable(R.drawable.ic_search_red));
                 searchIdentifier.setHint("username, email or  phone");
                 handleSearch();
                 previous = 0;
                 break;
             case 1:
-                friendRequests.setBackground(getResources().getDrawable(R.drawable.ic_add_person_black));
+                friendRequests.setBackground(getResources().getDrawable(R.drawable.ic_add_person_red));
                 searchIdentifier.setVisibility(View.GONE);
                 search.setVisibility(View.GONE);
                 handleFriendRequests();
                 previous = 1;
                 break;
             case 2:
-                friends.setBackground(getResources().getDrawable(R.drawable.ic_friends_black));
+                friends.setBackground(getResources().getDrawable(R.drawable.ic_friends_red));
                 handleFriends();
                 previous = 2;
-                break;
-            case 3:
-                groups.setBackground(getResources().getDrawable(R.drawable.ic_group_black));
-                searchIdentifier.setVisibility(View.GONE);
-                search.setVisibility(View.GONE);
-                handleGroups();
-                previous = 3;
                 break;
         }
     }
@@ -348,7 +311,7 @@ public class FriendsActivity extends FragmentActivity {
 
                 /* make sure identifier is not empty */
                 if (isEmpty(searchIdentifier)) {
-                    Toast.makeText(FriendsActivity.this, "Search cannot be empty", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ActivityFriends.this, "Search cannot be empty", Toast.LENGTH_LONG).show();
                 } else {
                     /* if identifier is not empty, determine type */
                     final String identifier = searchIdentifier.getText().toString();
@@ -374,11 +337,11 @@ public class FriendsActivity extends FragmentActivity {
                         }
                     };
 
-                    ParseQueryAdapter<ParseUser> searchFriendsAdapter = new ParseQueryAdapter<ParseUser>(FriendsActivity.this, factoryFindFriends) {
+                    ParseQueryAdapter<ParseUser> searchFriendsAdapter = new ParseQueryAdapter<ParseUser>(ActivityFriends.this, factoryFindFriends) {
                         @Override
                         public View getItemView(final ParseUser friend, View view, ViewGroup parent) {
                             if (view == null) {
-                                view = view.inflate(FriendsActivity.this, R.layout.friend_search_item, null);
+                                view = view.inflate(ActivityFriends.this, R.layout.friend_search_item, null);
                             }
                             TextView name = (TextView) view.findViewById(R.id.name);
                             TextView mainSport = (TextView) view.findViewById(R.id.mainSport);
@@ -393,7 +356,7 @@ public class FriendsActivity extends FragmentActivity {
                             view.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    SocialEvent.requestFriend(FriendsActivity.this, friend);
+                                    SocialEvent.requestFriend(ActivityFriends.this, friend);
                                 }
                             });
 
@@ -417,7 +380,4 @@ public class FriendsActivity extends FragmentActivity {
         friendsList.setAdapter(currentFriendsAdapter);
     }
 
-    private void handleGroups() {
-        friendsList.setAdapter(groupsAdapter);
-    }
 }

@@ -3,39 +3,56 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <FrameLayout
-        android:id="@+id/profile"
+    <TextView
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/pomegranate">
+        android:layout_margin="6dp"
+        android:gravity="center"
+        android:text="Fit-Friend"
+        android:textColor="@color/pomegranate"
+        android:textSize="32sp" />
 
-        <ImageView
-            android:id="@+id/profilePicture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="left|center_vertical" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/title"
+        android:background="@color/pomegranate" />
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/profilePicture"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="right|center_vertical"
-            android:layout_margin="10dp"
-            android:text="First Last"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
-    </FrameLayout>
+    <!--<FrameLayout-->
+    <!--android:id="@+id/profile"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@color/pomegranate">-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/profilePicture"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:layout_gravity="left|center_vertical" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/name"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignBottom="@+id/profilePicture"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:layout_gravity="right|center_vertical"-->
+    <!--android:layout_margin="10dp"-->
+    <!--android:text="First Last"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:textSize="16sp" />-->
+    <!--</FrameLayout>-->
 
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/logout"
-        android:layout_below="@+id/profile"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="8dp"
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
         android:dividerHeight="10dp" />

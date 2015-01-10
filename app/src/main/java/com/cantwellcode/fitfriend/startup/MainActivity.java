@@ -10,9 +10,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.cantwellcode.fitfriend.connect.ActivityFriends;
 import com.cantwellcode.fitfriend.connect.GoalsActivity;
 import com.cantwellcode.fitfriend.connect.SettingsActivity;
+import com.cantwellcode.fitfriend.friends.FriendsActivity;
 import com.cantwellcode.fitfriend.nutrition.NutritionFavoritesView;
+import com.cantwellcode.fitfriend.utils.Statics;
 import com.fitfriend.app.R;
 import com.cantwellcode.fitfriend.connect.ForumFragment;
 import com.cantwellcode.fitfriend.exercise.log.WorkoutLog;
@@ -98,6 +101,10 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
             case 6:
                 Intent i2 = new Intent(this, NutritionFavoritesView.class);
                 startActivity(i2);
+                break;
+            case 7:
+                Intent intent = new Intent(this, FriendsActivity.class);
+                startActivity(intent);
                 break;
         }
     }

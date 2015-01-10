@@ -101,7 +101,7 @@ public class ProfileActivity extends FragmentActivity {
         friends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, FriendsActivity.class);
+                Intent intent = new Intent(ProfileActivity.this, ActivityFriends.class);
                 startActivityForResult(intent, Statics.INTENT_REQUEST_FRIENDS);
             }
         });
