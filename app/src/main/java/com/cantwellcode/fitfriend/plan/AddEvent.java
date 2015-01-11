@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
-import com.fitfriend.app.R;
+import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.startup.MainActivity;
 import com.cantwellcode.fitfriend.utils.Statics;
 import com.parse.ParseException;
@@ -62,12 +62,16 @@ public class AddEvent extends FragmentActivity implements DatePickerDialog.OnDat
                 this, R.array.event_types, android.R.layout.simple_spinner_dropdown_item);
         mTypeSpinner.setAdapter(adapter);
 
+        Bundle args = getIntent().getBundleExtra("args");
+
         Calendar c = Calendar.getInstance();
-        final int year = c.get(Calendar.YEAR);
-        final int month = c.get(Calendar.MONTH);
-        final int day = c.get(Calendar.DAY_OF_MONTH);
+        final int year = args.getInt("year");
+        final int month = args.getInt("month");
+        final int day = args.getInt("day");
         final int hour = c.get(Calendar.HOUR_OF_DAY);
         final int minute = c.get(Calendar.MINUTE);
+
+        c.set(year, month, day);
 
         mYear = year;
         mMonth = month;

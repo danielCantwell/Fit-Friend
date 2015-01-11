@@ -9,8 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
-import com.fitfriend.app.R;
+import com.cantwellcode.fitfriend.R;
 
 import java.util.List;
 

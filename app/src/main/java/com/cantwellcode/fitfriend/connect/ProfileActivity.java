@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.fitfriend.app.R;
+import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.nutrition.NutritionFavoritesView;
 import com.cantwellcode.fitfriend.startup.DispatchActivity;
 import com.cantwellcode.fitfriend.utils.Statics;
@@ -98,13 +98,13 @@ public class ProfileActivity extends FragmentActivity {
             }
         });
 
-        friends.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, ActivityFriends.class);
-                startActivityForResult(intent, Statics.INTENT_REQUEST_FRIENDS);
-            }
-        });
+//        friends.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(ProfileActivity.this, ActivityFriends.class);
+//                startActivityForResult(intent, Statics.INTENT_REQUEST_FRIENDS);
+//            }
+//        });
 
         settings.setOnClickListener(new View.OnClickListener() {
             @Override

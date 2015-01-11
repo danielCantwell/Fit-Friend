@@ -1,12 +1,9 @@
 package com.cantwellcode.fitfriend.connect;
 
 import android.app.ActionBar;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
@@ -20,11 +17,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fitfriend.app.R;
+import com.cantwellcode.fitfriend.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -112,9 +108,9 @@ public class ForumFragment extends ListFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_new:
-                FragmentManager fm1 = getFragmentManager();
-                ForumPostDialog dialog = new ForumPostDialog();
-                dialog.show(fm1, "ForumPostDialog");
+                Intent intent = new Intent(getActivity(), CreatePostActivity.class);
+                intent.putExtra("category", currentCategory);
+                startActivityForResult(intent, 1000);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -141,115 +137,120 @@ public class ForumFragment extends ListFragment {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
 
+                if (e != null) {
+                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                } else {
                 /* Add all friends to the list */
-                for (ParseObject object : parseObjects) {
-                    ParseUser from = object.getParseUser("from");
+                    for (ParseObject object : parseObjects) {
+                        ParseUser from = object.getParseUser("from");
 
-                    ParseUser friend;
+                        ParseUser friend;
                     /* Check if friend is the 'from' or 'to' user in the friendship */
-                    if (from.hasSameId(ParseUser.getCurrentUser())) {
-                        friend = object.getParseUser("to");
-                    } else {
-                        friend = from;
-                    }
+                        if (from.hasSameId(ParseUser.getCurrentUser())) {
+                            friend = object.getParseUser("to");
+                        } else {
+                            friend = from;
+                        }
 
-                    friends.add(friend);
-                }
+                        friends.add(friend);
+                    }
 
                 /* Set up factory for forum posts by friends */
-                factory = new ParseQueryAdapter.QueryFactory<Post>() {
-                    public ParseQuery<Post> create() {
+                    factory = new ParseQueryAdapter.QueryFactory<Post>() {
+                        public ParseQuery<Post> create() {
 
                         /* Create a query for forum posts */
-                        ParseQuery<Post> query = Post.getQuery();
-                        // Forum posts must be created by someone in the list of friends
-                        query.whereContainedIn("user", friends);
-                        query.include("user");
-                        query.include("comments.user");
-                        query.orderByDescending("createdAt");
-                        query.setLimit(MAX_POST_SEARCH_RESULTS);
+                            ParseQuery<Post> query = Post.getQuery();
+                            // Forum posts must be created by someone in the list of friends
+                            query.whereContainedIn("user", friends);
+                            query.whereEqualTo("category", "Friends");
+                            query.include("user");
+                            query.include("comments.user");
+                            query.orderByDescending("createdAt");
+                            query.setLimit(MAX_POST_SEARCH_RESULTS);
 
-                        return query;
-                    }
-                };
+                            return query;
+                        }
+                    };
 
                 /* Set up list adapter using the factory of friends */
-                posts = new ParseQueryAdapter<Post>(getActivity(), factory) {
-                    @Override
-                    public View getItemView(final Post post, View view, ViewGroup parent) {
+                    posts = new ParseQueryAdapter<Post>(getActivity(), factory) {
+                        @Override
+                        public View getItemView(final Post post, View view, ViewGroup parent) {
 
-                        mOnClickListener = new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                switch (v.getId()) {
+                            mOnClickListener = new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    switch (v.getId()) {
                                     /* Click listener for high five button */
-                                    case R.id.highFive:
-                                        post.addHighFive();
-                                        post.saveInBackground(new SaveCallback() {
-                                            @Override
-                                            public void done(ParseException e) {
-                                                posts.notifyDataSetChanged();
-                                            }
-                                        });
-                                        break;
+                                        case R.id.highFive:
+                                            post.addHighFive();
+                                            post.saveInBackground(new SaveCallback() {
+                                                @Override
+                                                public void done(ParseException e) {
+                                                    posts.notifyDataSetChanged();
+                                                }
+                                            });
+                                            break;
                                     /* Click listener for discussion button */
-                                    case R.id.discusson:
-                                        FragmentManager fm = getFragmentManager();
-                                        DiscussionDialog discussionDialog = new DiscussionDialog(post);
-                                        discussionDialog.show(fm, "DiscussionDialog");
+                                        case R.id.discusson:
+                                            Intent intent = new Intent(getActivity(), DiscussionActivity.class);
+                                            intent.putExtra("postID", post.getObjectId());
+                                            startActivity(intent);
+                                    }
                                 }
+                            };
+
+                            if (view == null) {
+                                view = view.inflate(getActivity(), R.layout.forum_item, null);
                             }
-                        };
 
-                        if (view == null) {
-                            view = view.inflate(getActivity(), R.layout.forum_item, null);
-                        }
+                            ImageView picture = (ImageView) view.findViewById(R.id.picture);
+                            TextView name = (TextView) view.findViewById(R.id.name);
+                            TextView date = (TextView) view.findViewById(R.id.date);
+                            TextView content = (TextView) view.findViewById(R.id.content);
+                            TextView numHighFives = (TextView) view.findViewById(R.id.numHighFives);
+                            TextView numComments = (TextView) view.findViewById(R.id.numComments);
+                            Button highFive = (Button) view.findViewById(R.id.highFive);
+                            Button comment = (Button) view.findViewById(R.id.discusson);
 
-                        ImageView picture = (ImageView) view.findViewById(R.id.picture);
-                        TextView name = (TextView) view.findViewById(R.id.name);
-                        TextView date = (TextView) view.findViewById(R.id.date);
-                        TextView content = (TextView) view.findViewById(R.id.content);
-                        TextView numHighFives = (TextView) view.findViewById(R.id.numHighFives);
-                        TextView numComments = (TextView) view.findViewById(R.id.numComments);
-                        Button highFive = (Button) view.findViewById(R.id.highFive);
-                        Button comment = (Button) view.findViewById(R.id.discusson);
-
-                        name.setText(post.getUser().getString("name"));
-                        content.setText(post.getContent());
-                        numHighFives.setText(String.valueOf(post.getHighFives()));
-                        if (post.has("comments")) {
-                            numComments.setText(String.valueOf(post.getComments().size()));
-                        }
-
-                        highFive.setOnClickListener(mOnClickListener);
-                        comment.setOnClickListener(mOnClickListener);
-
-                        DateFormat df = new SimpleDateFormat("d MMM yyyy");
-                        Date dateTime = post.getCreatedAt();
-                        String dateText = df.format(dateTime);
-
-                        date.setText(dateText);
-
-                        picture = (ImageView) view.findViewById(R.id.picture);
-
-                        ParseFile pic = post.getUser().getParseFile("picture");
-
-                        if (pic != null) {
-                            try {
-                                byte[] file = pic.getData();
-                                picture.setImageBitmap(BitmapFactory.decodeByteArray(file, 0, file.length));
-                            } catch (ParseException e) {
-                                e.printStackTrace();
+                            name.setText(post.getUser().getString("name"));
+                            content.setText(post.getContent());
+                            numHighFives.setText(String.valueOf(post.getHighFives()));
+                            if (post.has("comments")) {
+                                numComments.setText(String.valueOf(post.getComments().size()));
                             }
-                        } else {
-                            picture.setImageResource(R.drawable.profile);
+
+                            highFive.setOnClickListener(mOnClickListener);
+                            comment.setOnClickListener(mOnClickListener);
+
+                            DateFormat df = new SimpleDateFormat("d MMM yyyy");
+                            Date dateTime = post.getCreatedAt();
+                            String dateText = df.format(dateTime);
+
+                            date.setText(dateText);
+
+                            picture = (ImageView) view.findViewById(R.id.picture);
+
+                            ParseFile pic = post.getUser().getParseFile("picture");
+
+                            if (pic != null) {
+                                try {
+                                    byte[] file = pic.getData();
+                                    picture.setImageBitmap(BitmapFactory.decodeByteArray(file, 0, file.length));
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                picture.setImageResource(R.drawable.profile);
+                            }
+
+                            return view;
                         }
+                    };
 
-                        return view;
-                    }
-                };
-
-                setListAdapter(posts);
+                    setListAdapter(posts);
+                }
             }
         });
     }
@@ -285,9 +286,9 @@ public class ForumFragment extends ListFragment {
                 mOnClickListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        FragmentManager fm = getFragmentManager();
-                        DiscussionDialog discussionDialog = new DiscussionDialog(post);
-                        discussionDialog.show(fm, "DiscussionDialog");
+                        Intent intent = new Intent(getActivity(), DiscussionActivity.class);
+                        intent.putExtra("postID", post.getObjectId());
+                        startActivity(intent);
                     }
                 };
 
@@ -321,129 +322,6 @@ public class ForumFragment extends ListFragment {
         setListAdapter(posts);
     }
 
-    private class ForumPostDialog extends DialogFragment {
-
-        private EditText content;
-        private EditText comment;
-        private View view;
-
-        AlertDialog.Builder builder;
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            builder = new AlertDialog.Builder(getActivity());
-            LayoutInflater inflater = getActivity().getLayoutInflater();
-
-            view = inflater.inflate(R.layout.forum_post_dialog, null);
-
-            content = (EditText) view.findViewById(R.id.content);
-            comment = (EditText) view.findViewById(R.id.comment);
-
-            builder.setView(view);
-            builder.setTitle("Post in " + currentCategory);
-
-            builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (isEmpty(content)) {
-                        Toast.makeText(getActivity(), "Post not created.\nTitle required.", Toast.LENGTH_LONG).show();
-                    } else {
-                        /* Create new post */
-                        Post post = new Post();
-                        post.setUser(user);
-                        post.setContent(content.getText().toString());
-                        post.setCategory(currentCategory);
-                        /* Add comment if exists */
-                        if (!isEmpty(comment)) {
-                            Comment c = new Comment();
-                            c.setUser(user);
-                            c.setContent(comment.getText().toString());
-                            post.addComment(c);
-                        }
-                        post.setHighFives(0);
-                        /* Save post */
-                        post.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                posts.loadObjects();
-                            }
-                        });
-                    }
-                }
-            });
-
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                }
-            });
-
-            return builder.create();
-        }
-    }
-
-    private class DiscussionDialog extends DialogFragment {
-
-        private Post post;
-
-        public DiscussionDialog(Post post) {
-            this.post = post;
-        }
-
-        private TextView content;
-        private TextView name;
-        private ListView listView;
-        private Button postComment;
-        private EditText createComment;
-        private View view;
-
-        AlertDialog.Builder builder;
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            builder = new AlertDialog.Builder(getActivity());
-            LayoutInflater inflater = getActivity().getLayoutInflater();
-
-            view = inflater.inflate(R.layout.forum_discussion_dialog, null);
-
-            content = (TextView) view.findViewById(R.id.content);
-            name = (TextView) view.findViewById(R.id.name);
-            listView = (ListView) view.findViewById(R.id.comments);
-            postComment = (Button) view.findViewById(R.id.postComment);
-            createComment = (EditText) view.findViewById(R.id.createComment);
-
-            content.setText(post.getContent());
-            name.setText(post.getUser().getString("name"));
-
-            CommentsAdapter adapter;
-            if (post.has("comments")) {
-                adapter = new CommentsAdapter(getActivity(), android.R.layout.simple_list_item_1, post.getComments());
-                listView.setAdapter(adapter);
-            } else {
-//                List<Comment> comments = new ArrayList<Comment>();
-//                adapter = new CommentsAdapter(getActivity(), android.R.layout.simple_list_item_1, comments);
-            }
-//            listView.setAdapter(adapter);
-
-            postComment.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Comment c = new Comment();
-                    c.setUser(user);
-                    c.setContent(createComment.getText().toString());
-                    post.addComment(c);
-                    posts.notifyDataSetChanged();
-                    post.saveInBackground();
-                    DiscussionDialog.this.dismiss();
-                }
-            });
-
-            builder.setView(view);
-
-            return builder.create();
-        }
-    }
-
     private boolean isEmpty(EditText etText) {
         if (etText.getText().toString().trim().length() > 0) {
             return false;
@@ -467,5 +345,12 @@ public class ForumFragment extends ListFragment {
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle("Forum");
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == getActivity().RESULT_OK) {
+            posts.loadObjects();
+        }
     }
 }

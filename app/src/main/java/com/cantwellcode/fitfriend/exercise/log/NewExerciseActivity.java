@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.cantwellcode.fitfriend.exercise.types.Exercise;
 import com.cantwellcode.fitfriend.utils.Statics;
-import com.fitfriend.app.R;
+import com.cantwellcode.fitfriend.R;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;

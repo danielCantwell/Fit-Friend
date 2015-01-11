@@ -4,22 +4,24 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.fitfriend.app.R;
+import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.connect.Group;
 import com.cantwellcode.fitfriend.connect.SocialEvent;
 import com.cantwellcode.fitfriend.utils.Statics;
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -41,7 +43,7 @@ public class Plan extends Fragment {
     private static Fragment instance = null;
 
     public static Fragment newInstance() {
-        if(instance == null)
+        if (instance == null)
             instance = new Plan();
         return instance;
     }
@@ -56,9 +58,6 @@ public class Plan extends Fragment {
     private ParseUser user;
     private ParseQueryAdapter<Event> mEvents;
     private ParseQueryAdapter.QueryFactory<Event> factory;
-    private List<String> mGroups;
-    private String mCurrentGroup;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.plan_activity, null);
@@ -66,7 +65,8 @@ public class Plan extends Fragment {
 
         mCalendarView = (CalendarView) root.findViewById(R.id.calendarView);
         mListView = (ListView) root.findViewById(R.id.listView);
-        mEmptyListText = (TextView) root.findViewById(R.id.emptyListText);
+        mEmptyListText = (TextView) root.findViewById(android.R.id.empty);
+        mListView.setEmptyView(mEmptyListText);
         mCalendar = Calendar.getInstance();
 
         mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -76,22 +76,9 @@ public class Plan extends Fragment {
                 mCalendar.set(Calendar.MONTH, month);
                 mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-//                if (mCurrentGroup.equals("Friends")) {
-                    setupFriendsEvents();
-//                } else {
-//                    setupGroupPosts(mCurrentGroup);
-//                }
+                setupFriendsEvents();
             }
         });
-
-        mGroups = new ArrayList<String>();
-        mGroups.add("Friends");
-        for (Group group : getGroups()) {
-            mGroups.add(group.getName());
-        }
-        mCurrentGroup = "Friends";
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, mGroups);
 
         setupFriendsEvents();
 
@@ -109,7 +96,15 @@ public class Plan extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_new:
+                int year = mCalendar.get(Calendar.YEAR);
+                int month = mCalendar.get(Calendar.MONTH);
+                int day = mCalendar.get(Calendar.DAY_OF_MONTH);
                 Intent intent = new Intent(getActivity(), AddEvent.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("year", year);
+                bundle.putInt("month", month);
+                bundle.putInt("day", day);
+                intent.putExtra("args", bundle);
                 startActivityForResult(intent, Statics.INTENT_REQUEST_EVENT);
                 return true;
             default:
@@ -134,7 +129,7 @@ public class Plan extends Fragment {
 
                     ParseUser friend;
                     /* Check if friend is the 'from' or 'to' user in the friendship */
-                    if (from.hasSameId(ParseUser.getCurrentUser())) {
+                    if (from.hasSameId(user)) {
                         friend = object.getParseUser("to");
                     } else {
                         friend = from;
@@ -178,13 +173,7 @@ public class Plan extends Fragment {
                         ImageView icon = (ImageView) view.findViewById(R.id.icon);
 
                         String type = event.getType();
-                        if (type.equals("Swim")) {
-                            icon.setImageResource(R.drawable.swim_icon);
-                        } else if (type.equals("Bike")) {
-                            icon.setImageResource(R.drawable.bike_icon);
-                        } else if (type.equals("Run")) {
-                            icon.setImageResource(R.drawable.run_icon);
-                        } else if (type.equals("Gym")) {
+                        if (type.equals("Exercise")) {
                             icon.setImageResource(R.drawable.gym_icon);
                         } // else icon is food icon
 
@@ -201,6 +190,24 @@ public class Plan extends Fragment {
                             }
                         });
 
+                        view.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                if (event.getUser().getObjectId().equals(user.getObjectId())) {
+                                    Toast.makeText(getActivity(), "Deleting Event", Toast.LENGTH_SHORT).show();
+                                    event.deleteInBackground(new DeleteCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            mEvents.loadObjects();
+                                        }
+                                    });
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            }
+                        });
+
                         return view;
                     }
                 };
@@ -208,16 +215,6 @@ public class Plan extends Fragment {
                 mListView.setAdapter(mEvents);
             }
         });
-    }
-
-    public static List<Group> getGroups() {
-        ParseQuery<Group> query = Group.getQuery();
-        query.whereEqualTo("members", ParseUser.getCurrentUser());
-        try {
-            return query.find();
-        } catch (ParseException e) {
-            return null;
-        }
     }
 
     private void restoreActionBar() {

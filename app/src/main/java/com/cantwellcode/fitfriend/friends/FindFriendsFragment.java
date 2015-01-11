@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cantwellcode.fitfriend.connect.SocialEvent;
-import com.fitfriend.app.R;
+import com.cantwellcode.fitfriend.R;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;

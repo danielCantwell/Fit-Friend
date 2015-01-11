@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.fitfriend.app.R;
+import com.cantwellcode.fitfriend.R;
 
 /**
  * Created by Daniel on 11/9/2014.

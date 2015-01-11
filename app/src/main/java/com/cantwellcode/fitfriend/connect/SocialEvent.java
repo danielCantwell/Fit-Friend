@@ -112,8 +112,6 @@ public abstract class SocialEvent {
 
     public static ParseQuery<ParseObject> getCurrentFriendshipsQuery() {
 
-        final List<ParseUser> friends = new ArrayList<ParseUser>();
-
         ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Friend");
         query1.whereEqualTo("from", ParseUser.getCurrentUser());
         query1.whereEqualTo("confirmed", true);

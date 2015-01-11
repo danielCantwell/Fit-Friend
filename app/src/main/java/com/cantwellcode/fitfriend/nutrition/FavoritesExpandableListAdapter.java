@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import com.fitfriend.app.R;
+import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.utils.SmallDecimalTextView;
 
 import java.util.HashMap;

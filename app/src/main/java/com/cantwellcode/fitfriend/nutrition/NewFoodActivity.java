@@ -13,7 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.fitfriend.app.R;
+import com.cantwellcode.fitfriend.R;
 
 public class NewFoodActivity extends Activity implements ActionBar.TabListener {
 

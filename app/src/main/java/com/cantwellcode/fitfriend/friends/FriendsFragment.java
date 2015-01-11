@@ -9,7 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.fitfriend.app.R;
+import com.cantwellcode.fitfriend.connect.SocialEvent;
+import com.cantwellcode.fitfriend.R;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
@@ -42,25 +43,28 @@ public class FriendsFragment extends Fragment {
 
         mList = (ListView) root.findViewById(R.id.listView);
 
+        TextView empty = (TextView) root.findViewById(android.R.id.empty);
+        mList.setEmptyView(empty);
+
         factory = new ParseQueryAdapter.QueryFactory<ParseObject>() {
             @Override
             public ParseQuery<ParseObject> create() {
-                ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Friend");
-                query1.whereEqualTo("from", user);
-                query1.whereEqualTo("confirmed", true);
-                ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Friend");
-                query2.whereEqualTo("to", user);
-                query2.whereEqualTo("confirmed", true);
+//                ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Friend");
+//                query1.whereEqualTo("from", user);
+//                query1.whereEqualTo("confirmed", true);
+//                ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Friend");
+//                query2.whereEqualTo("to", user);
+//                query2.whereEqualTo("confirmed", true);
+//
+//                List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
+//                queries.add(query1);
+//                queries.add(query2);
+//
+//                ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
+//                mainQuery.include("from");
+//                mainQuery.include("to");
 
-                List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
-                queries.add(query1);
-                queries.add(query2);
-
-                ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
-                mainQuery.include("from");
-                mainQuery.include("to");
-
-                return mainQuery;
+                return SocialEvent.getCurrentFriendshipsQuery();
             }
         };
 

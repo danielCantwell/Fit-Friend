@@ -230,15 +230,14 @@
         android:dividerHeight="2dp" />
 
     <ImageView
-        android:id="@+id/emptyListImage"
+        android:id="@android:id/empty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/tableRow"
         android:layout_below="@+id/dividerImage"
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp"
-        android:src="@drawable/empty_nutrition_log"
-        android:visibility="gone" />
+        android:src="@drawable/empty_nutrition_log" />
 
     <TableRow
         android:id="@+id/tableRow"

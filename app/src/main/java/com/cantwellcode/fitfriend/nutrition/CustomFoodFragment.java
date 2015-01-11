@@ -23,7 +23,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.fitfriend.app.R;
+import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.utils.DBHelper;
 
 import java.text.SimpleDateFormat;
@@ -215,38 +215,6 @@ public class CustomFoodFragment extends Fragment implements AdapterView.OnItemSe
     public boolean onOptionsItemSelected(MenuItem item) {
 
         return super.onOptionsItemSelected(item);
-    }
-
-    /* Date Picker Fragment */
-
-    private class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener{
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final Calendar c = Calendar.getInstance();
-            int y = c.get(Calendar.YEAR);
-            int m = c.get(Calendar.MONTH);
-            int d = c.get(Calendar.DAY_OF_MONTH);
-
-            return new DatePickerDialog(getActivity(), this, y, m, d);
-        }
-
-        @Override
-        public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
-            mYear = i;
-            mMonth = i2;
-            mDay = i3;
-
-            Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.YEAR, mYear);
-            cal.set(Calendar.MONTH, mMonth);
-            cal.set(Calendar.DAY_OF_MONTH, mDay);
-
-            SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
-            String formattedDate = df.format(cal.getTime());
-
-            mDateButton.setText(formattedDate);
-        }
     }
 
     public void prepareData() {

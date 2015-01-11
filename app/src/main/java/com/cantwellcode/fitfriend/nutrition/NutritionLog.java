@@ -24,7 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fitfriend.app.R;
+import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.utils.DBHelper;
 import com.cantwellcode.fitfriend.utils.DatePickerFragment;
 import com.cantwellcode.fitfriend.utils.DialogListener;
@@ -214,23 +214,40 @@ public class NutritionLog extends ListFragment {
         mSurfaceCalories = (PieChart) root.findViewById(R.id.surfaceCalories);
         mSurfaceMacros = (PieChart) root.findViewById(R.id.surfaceMacros);
 
-        int calGoal = Integer.valueOf(sp.getString(Statics.GOAL_CALORIES, "3000"));
+        String calories = sp.getString(Statics.GOAL_CALORIES, "3000");
+        int calGoal = 3000;
+        if (!calories.trim().isEmpty()) {
+            calGoal = Integer.valueOf(calGoal);
+        }
         mProgressCalories = (ProgressBar) root.findViewById(R.id.caloriesProgress);
         mProgressCalories.setMax(calGoal);
 
-        int fatGoal = Integer.valueOf(sp.getString(Statics.GOAL_FAT, "70"));
+        String fat = sp.getString(Statics.GOAL_FAT, "70");
+        int fatGoal = 70;
+        if (!fat.trim().isEmpty()) {
+            fatGoal = Integer.valueOf(fat);
+        }
         mProgressFat = (ProgressBar) root.findViewById(R.id.fatProgress);
         mProgressFat.setMax(fatGoal);
 
-        int carbGoal = Integer.valueOf(sp.getString(Statics.GOAL_CARBS, "300"));
+        String carbs = sp.getString(Statics.GOAL_CARBS, "300");
+        int carbGoal = 300;
+        if (!carbs.trim().isEmpty()) {
+            carbGoal = Integer.valueOf(carbs);
+        }
         mProgressCarbs = (ProgressBar) root.findViewById(R.id.carbsProgress);
         mProgressCarbs.setMax(carbGoal);
 
-        int protGoal = Integer.valueOf(sp.getString(Statics.GOAL_PROTEIN, "150"));
+        String protein = sp.getString(Statics.GOAL_PROTEIN, "150");
+        int protGoal = 150;
+        if (!protein.trim().isEmpty()) {
+            protGoal = Integer.valueOf(protein);
+        }
         mProgressProtein = (ProgressBar) root.findViewById(R.id.proteinProgress);
         mProgressProtein.setMax(protGoal);
 
-        mEmptyListImage = (ImageView) root.findViewById(R.id.emptyListImage);
+        mEmptyListImage = (ImageView) root.findViewById(android.R.id.empty);
+        listView.setEmptyView(mEmptyListImage);
 
         updateTotals();
 
@@ -329,14 +346,6 @@ public class NutritionLog extends ListFragment {
         mProgressFat.setProgress(fat.intValue());
         mProgressCarbs.setProgress(carbs.intValue());
         mProgressProtein.setProgress(protein.intValue());
-
-        if (meals.isEmpty()) {
-            listView.setVisibility(View.GONE);
-            mEmptyListImage.setVisibility(View.VISIBLE);
-        } else {
-            listView.setVisibility(View.VISIBLE);
-            mEmptyListImage.setVisibility(View.GONE);
-        }
     }
 
     private void showPopup(View v, final Meal meal) {

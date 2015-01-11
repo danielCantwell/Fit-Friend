@@ -26,7 +26,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.fitfriend.app.R;
+import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.connect.GoalsActivity;
 import com.cantwellcode.fitfriend.connect.ProfileActivity;
 import com.cantwellcode.fitfriend.connect.SettingsActivity;

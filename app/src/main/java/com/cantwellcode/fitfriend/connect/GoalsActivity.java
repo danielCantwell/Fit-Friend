@@ -9,7 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-import com.fitfriend.app.R;
+import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.utils.Statics;
 
 /**
@@ -36,10 +36,10 @@ public class GoalsActivity extends FragmentActivity {
 
         sp = PreferenceManager.getDefaultSharedPreferences(this);
 
-        goalCalories.setText(sp.getString(Statics.GOAL_CALORIES, ""));
-        goalProtein.setText(sp.getString(Statics.GOAL_PROTEIN, ""));
-        goalCarbs.setText(sp.getString(Statics.GOAL_CARBS, ""));
-        goalFat.setText(sp.getString(Statics.GOAL_FAT, ""));
+        goalCalories.setText(sp.getString(Statics.GOAL_CALORIES, "3000"));
+        goalProtein.setText(sp.getString(Statics.GOAL_PROTEIN, "150"));
+        goalCarbs.setText(sp.getString(Statics.GOAL_CARBS, "300"));
+        goalFat.setText(sp.getString(Statics.GOAL_FAT, "70"));
     }
 
     @Override

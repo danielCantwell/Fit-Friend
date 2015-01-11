@@ -41,5 +41,7 @@
     <string name="title_activity_new_food">NewFoodActivity</string>
     <string name="title_activity_create_exercise">CreateExerciseActivity</string>
     <string name="title_activity_friends">Friends</string>
+    <string name="title_activity_create_post">Post in Forum</string>
+    <string name="title_activity_discussion">Discussion</string>
 
 </resources>

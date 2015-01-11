@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 
 import com.cantwellcode.fitfriend.exercise.types.Exercise;
-import com.fitfriend.app.R;
+import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.exercise.types.Workout;
 import com.cantwellcode.fitfriend.utils.Statics;
 import com.parse.ParseException;

@@ -8,7 +8,7 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.cantwellcode.fitfriend.exercise.types.Workout;
-import com.fitfriend.app.R;
+import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.connect.Comment;
 import com.cantwellcode.fitfriend.connect.Group;
 import com.cantwellcode.fitfriend.connect.Post;
@@ -47,8 +47,6 @@ public class App extends Application {
 
         Parse.initialize(this, "6ndNVpRctpv0EB5awdLtiT1nEwg5WidUBSNyKRwo", "QeU6X4k0S1zJDtlMZhiZPoe59DKhhGJONMdhZEBN");
         ParseFacebookUtils.initialize(getString(R.string.facebook_app_id));
-
-        PushService.setDefaultPushCallback(this, MainActivity.class);
 
         try{
             PackageInfo info = getPackageManager().getPackageInfo(

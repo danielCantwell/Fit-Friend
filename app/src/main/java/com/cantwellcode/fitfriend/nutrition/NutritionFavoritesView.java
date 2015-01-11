@@ -12,7 +12,7 @@ import android.widget.ExpandableListView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-import com.fitfriend.app.R;
+import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.utils.DBHelper;
 
 import java.util.ArrayList;

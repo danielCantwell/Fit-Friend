@@ -8,7 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-import com.fitfriend.app.R;
+import com.cantwellcode.fitfriend.R;
 import com.parse.ParseUser;
 
 /**

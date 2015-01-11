@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.fitfriend.app.R;
+import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.startup.MainActivity;
 import com.cantwellcode.fitfriend.utils.Statics;
 import com.parse.ParseException;
@@ -85,12 +85,6 @@ public class EventDetails extends FragmentActivity {
 
         String type = mEvent.getType();
         if (type.equals("Swim")) {
-            mType.setImageResource(R.drawable.swim_icon);
-        } else if (type.equals("Bike")) {
-            mType.setImageResource(R.drawable.bike_icon);
-        } else if (type.equals("Run")) {
-            mType.setImageResource(R.drawable.run_icon);
-        } else if (type.equals("Gym")) {
             mType.setImageResource(R.drawable.gym_icon);
         } // else icon is food icon
 

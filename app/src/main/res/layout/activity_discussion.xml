@@ -3,8 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:orientation="vertical">
+    android:background="@color/background">
 
     <TextView
         android:id="@+id/content"
@@ -45,6 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:layout_marginBottom="4dp"
         android:layout_marginLeft="3dp"
         android:layout_marginTop="4dp"
         android:layout_toLeftOf="@+id/postComment"
@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:text="Post"
-        android:layout_marginBottom="2dp"/>
+        android:layout_marginBottom="2dp"
+        android:text="Post" />
 
 </RelativeLayout>

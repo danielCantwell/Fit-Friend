@@ -12,7 +12,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fitfriend.app.R;
+import com.cantwellcode.fitfriend.R;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 

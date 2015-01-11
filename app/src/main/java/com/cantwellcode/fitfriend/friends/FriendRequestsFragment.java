@@ -11,7 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cantwellcode.fitfriend.connect.SocialEvent;
-import com.fitfriend.app.R;
+import com.cantwellcode.fitfriend.R;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
@@ -37,6 +37,10 @@ public class FriendRequestsFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_friends, null);
 
         mList = (ListView) root.findViewById(R.id.listView);
+
+        TextView empty = (TextView) root.findViewById(android.R.id.empty);
+        empty.setText("No friend requests");
+        mList.setEmptyView(empty);
 
         user = ParseUser.getCurrentUser();
 

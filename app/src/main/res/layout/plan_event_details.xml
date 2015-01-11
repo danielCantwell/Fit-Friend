@@ -121,7 +121,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@android:drawable/editbox_dropdown_light_frame"
                     android:text="1 Attending" />
 
                 <Button
@@ -129,15 +128,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@android:drawable/editbox_dropdown_light_frame"
                     android:text="Join" />
             </TableRow>
 
-            <ListView
-                android:id="@+id/discussion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp" />
+            <!--<ListView-->
+                <!--android:id="@+id/discussion"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="10dp" />-->
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

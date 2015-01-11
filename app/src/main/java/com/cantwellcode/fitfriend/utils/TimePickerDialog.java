@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
 
-import com.fitfriend.app.R;
+import com.cantwellcode.fitfriend.R;
 
 /**
  * Created by Daniel on 4/19/2014.
