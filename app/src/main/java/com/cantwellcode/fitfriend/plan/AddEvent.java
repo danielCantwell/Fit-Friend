@@ -19,6 +19,7 @@ import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.startup.MainActivity;
 import com.cantwellcode.fitfriend.utils.Statics;
 import com.parse.ParseException;
+import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.PushService;
 import com.parse.SaveCallback;
@@ -187,7 +188,7 @@ public class AddEvent extends FragmentActivity implements DatePickerDialog.OnDat
             @Override
             public void done(ParseException e) {
                                        /* Subscribe to push notifications */
-                PushService.subscribe(AddEvent.this, Statics.EVENT_CHANNEL_ + event.getObjectId(), MainActivity.class);
+                ParsePush.subscribeInBackground(Statics.EVENT_CHANNEL_ + event.getObjectId());
             }
         });
     }

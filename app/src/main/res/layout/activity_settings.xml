@@ -16,15 +16,15 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/settings_headline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/settings_name"
-        android:layout_alignLeft="@+id/nameText"
-        android:layout_alignRight="@+id/settings_name"
-        android:layout_below="@+id/textView5"
-        android:text="This is my headline" />
+    <!--<EditText-->
+    <!--android:id="@+id/settings_headline"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignEnd="@+id/settings_name"-->
+    <!--android:layout_alignLeft="@+id/nameText"-->
+    <!--android:layout_alignRight="@+id/settings_name"-->
+    <!--android:layout_below="@+id/textView5"-->
+    <!--android:text="This is my headline" />-->
 
     <TextView
         android:id="@+id/nameText"
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/settings_headline"
+        android:layout_below="@+id/textView5"
         android:ems="10"
         android:gravity="center"
         android:hint="what's your name"
@@ -76,7 +76,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/settings_location"
-        android:layout_alignStart="@+id/ageText"
+        android:layout_alignLeft="@+id/ageText"
         android:layout_marginBottom="10dp"
         android:text="Location:"
         android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -129,8 +129,8 @@
         android:id="@+id/settings_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/settings_mainSport"
         android:layout_alignLeft="@+id/settings_mainSport"
+        android:layout_alignRight="@+id/settings_mainSport"
         android:layout_alignStart="@+id/settings_mainSport"
         android:layout_below="@+id/settings_mainSport"
         android:ems="10"

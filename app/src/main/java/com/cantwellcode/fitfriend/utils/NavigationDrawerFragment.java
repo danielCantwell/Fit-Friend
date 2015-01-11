@@ -27,13 +27,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cantwellcode.fitfriend.R;
-import com.cantwellcode.fitfriend.connect.GoalsActivity;
-import com.cantwellcode.fitfriend.connect.ProfileActivity;
-import com.cantwellcode.fitfriend.connect.SettingsActivity;
-import com.cantwellcode.fitfriend.nutrition.NutritionFavoritesView;
 import com.cantwellcode.fitfriend.startup.DispatchActivity;
-import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;

@@ -1,20 +1,25 @@
 package com.cantwellcode.fitfriend.friends;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cantwellcode.fitfriend.connect.SocialEvent;
 import com.cantwellcode.fitfriend.R;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,14 +82,9 @@ public class FriendsFragment extends Fragment {
                 TextView name = (TextView) view.findViewById(R.id.name);
                 TextView mainSport = (TextView) view.findViewById(R.id.mainSport);
 
-                ParseUser from = object.getParseUser("from");
 
-                ParseUser friend;
-                if (from.hasSameId(user)) {
-                    friend = object.getParseUser("to");
-                } else {
-                    friend = from;
-                }
+                ParseUser friend = getFriendFromFriendship(object);
+                friend.pinInBackground("Friends");
 
                 name.setText(friend.getString("name"));
                 mainSport.setText(friend.getString("mainSport"));
@@ -95,6 +95,43 @@ public class FriendsFragment extends Fragment {
 
         mList.setAdapter(mAdapter);
 
+        mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ParseObject friendship = mAdapter.getItem(position);
+                final ParseUser friend = getFriendFromFriendship(friendship);
+
+                friend.pinInBackground("Friend_Profile", new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
+
         return root;
+    }
+
+    /*
+    Friend queries will be for a friendship object, where both you and the friend are in it
+    This method extracts your friend from the friendship object
+     */
+    private ParseUser getFriendFromFriendship(ParseObject friendship) {
+        ParseUser from = friendship.getParseUser("from");
+
+        ParseUser friend;
+        if (from.hasSameId(user)) {
+            friend = friendship.getParseUser("to");
+        } else {
+            friend = from;
+        }
+
+        return friend;
     }
 }

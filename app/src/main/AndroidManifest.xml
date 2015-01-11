@@ -113,10 +113,19 @@
         <activity
             android:name=".friends.FriendsActivity"
             android:label="@string/title_activity_friends" />
+        <activity
+            android:name=".connect.CreatePostActivity"
+            android:label="@string/title_activity_create_post" />
+        <activity
+            android:name=".connect.DiscussionActivity"
+            android:label="@string/title_activity_discussion" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.parse.push.notification_icon"
+            android:resource="@drawable/ic_launcher_white" />
 
         <service android:name="com.parse.PushService" />
 
@@ -136,14 +145,19 @@
                 <category android:name="com.cantwellcode.fitfriend" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name="com.parse.ParsePushBroadcastReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.parse.push.intent.RECEIVE" />
+                <action android:name="com.parse.push.intent.DELETE" />
+                <action android:name="com.parse.push.intent.OPEN" />
+            </intent-filter>
+        </receiver>
 
         <activity
-            android:name=".connect.CreatePostActivity"
-            android:label="@string/title_activity_create_post" >
-        </activity>
-        <activity
-            android:name=".connect.DiscussionActivity"
-            android:label="@string/title_activity_discussion" >
+            android:name=".friends.ProfileActivity"
+            android:label="@string/title_activity_profile" >
         </activity>
     </application>
 

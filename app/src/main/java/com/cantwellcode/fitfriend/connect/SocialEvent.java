@@ -64,6 +64,8 @@ public abstract class SocialEvent {
     }
 
     public static void confirmFriend(ParseUser friend) {
+
+//        friend.pinInBackground("Friends");
         // confirm an entry in the Friend table
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Friend");
         query.whereEqualTo("from", friend);
@@ -124,9 +126,13 @@ public abstract class SocialEvent {
         queries.add(query2);
 
         ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
+        mainQuery.addAscendingOrder("name");
         mainQuery.include("from");
         mainQuery.include("to");
 
+//        mainQuery.fromPin("Friends");
+
         return mainQuery;
     }
+
 }

@@ -16,7 +16,7 @@ import com.parse.ParseUser;
  */
 public class SettingsActivity extends FragmentActivity {
 
-    private EditText headline;
+//    private EditText headline;
     private EditText name;
     private EditText age;
     private EditText location;
@@ -34,16 +34,16 @@ public class SettingsActivity extends FragmentActivity {
 
         user = ParseUser.getCurrentUser();
 
-        headline = (EditText) findViewById(R.id.settings_headline);
+//        headline = (EditText) findViewById(R.id.settings_headline);
         name = (EditText) findViewById(R.id.settings_name);
         age = (EditText) findViewById(R.id.settings_age);
         location = (EditText) findViewById(R.id.settings_location);
         mainSport = (EditText) findViewById(R.id.settings_mainSport);
         email = (EditText) findViewById(R.id.settings_email);
 
-        if (user.containsKey("headline")) {
-            headline.setText(user.getString("headline"));
-        }
+//        if (user.containsKey("headline")) {
+//            headline.setText(user.getString("headline"));
+//        }
         if (user.containsKey("name")) {
             name.setText(user.getString("name"));
         }
@@ -86,7 +86,7 @@ public class SettingsActivity extends FragmentActivity {
         if (age.length() > 0) {
             user.put("age", Integer.parseInt(age.getText().toString()));
         }
-        user.put("headline", headline.getText().toString());
+//        user.put("headline", headline.getText().toString());
         user.put("name", name.getText().toString());
         user.put("location", location.getText().toString());
         user.put("mainSport", mainSport.getText().toString());

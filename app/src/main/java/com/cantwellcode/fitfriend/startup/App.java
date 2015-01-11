@@ -8,7 +8,6 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.cantwellcode.fitfriend.exercise.types.Workout;
-import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.connect.Comment;
 import com.cantwellcode.fitfriend.connect.Group;
 import com.cantwellcode.fitfriend.connect.Post;
@@ -16,9 +15,10 @@ import com.cantwellcode.fitfriend.exercise.types.Exercise;
 import com.cantwellcode.fitfriend.nutrition.Food;
 import com.cantwellcode.fitfriend.plan.Event;
 import com.parse.Parse;
-import com.parse.ParseFacebookUtils;
+import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.PushService;
+import com.parse.ParsePush;
+import com.parse.SaveCallback;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -46,21 +46,32 @@ public class App extends Application {
         Parse.enableLocalDatastore(this);
 
         Parse.initialize(this, "6ndNVpRctpv0EB5awdLtiT1nEwg5WidUBSNyKRwo", "QeU6X4k0S1zJDtlMZhiZPoe59DKhhGJONMdhZEBN");
-        ParseFacebookUtils.initialize(getString(R.string.facebook_app_id));
+//        ParseFacebookUtils.initialize(getString(R.string.facebook_app_id));
 
-        try{
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.cantwellcode.fitfriend.app", PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-
+        ParsePush.subscribeInBackground("", new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Log.d("com.parse.push", "successfully subscribed to the broadcast channel.");
+                } else {
+                    Log.e("com.parse.push", "failed to subscribe for push", e);
+                }
             }
-        } catch (PackageManager.NameNotFoundException e) {
+        });
 
-        } catch (NoSuchAlgorithmException e) {
-
-        }
+//        try{
+//            PackageInfo info = getPackageManager().getPackageInfo(
+//                    "com.cantwellcode.fitfriend.app", PackageManager.GET_SIGNATURES);
+//            for (Signature signature : info.signatures) {
+//                MessageDigest md = MessageDigest.getInstance("SHA");
+//                md.update(signature.toByteArray());
+//                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+//
+//            }
+//        } catch (PackageManager.NameNotFoundException e) {
+//
+//        } catch (NoSuchAlgorithmException e) {
+//
+//        }
     }
 }

@@ -110,14 +110,14 @@ public class EventDetails extends FragmentActivity {
                     mJoin.setText("Join");
                     going = false;
                     /* Unsubscribe to push notifications */
-                    PushService.unsubscribe(EventDetails.this, Statics.EVENT_CHANNEL_ + mEvent.getObjectId());
+                    ParsePush.unsubscribeInBackground(Statics.EVENT_CHANNEL_ + mEvent.getObjectId());
                 } else {
                     mEvent.addAttendee(ParseUser.getCurrentUser());
                     mEvent.saveInBackground();
                     mJoin.setText("Going");
                     going = true;
                     /* Subscribe to push notifications */
-                    PushService.subscribe(EventDetails.this, Statics.EVENT_CHANNEL_ + mEvent.getObjectId(), MainActivity.class);
+                    ParsePush.subscribeInBackground(Statics.EVENT_CHANNEL_ + mEvent.getObjectId());
                     /* Notify subscribers */
                     ParsePush push = new ParsePush();
                     push.setChannel(Statics.EVENT_CHANNEL_ + mEvent.getObjectId());
