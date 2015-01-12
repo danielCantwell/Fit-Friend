@@ -159,6 +159,10 @@
             android:name=".friends.ProfileActivity"
             android:label="@string/title_activity_profile" >
         </activity>
+        <activity
+            android:name=".exercise.log.ExerciseStatsActivity"
+            android:label="@string/title_activity_exercise_stats" >
+        </activity>
     </application>
 
 </manifest>

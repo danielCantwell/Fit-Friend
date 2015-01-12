@@ -229,8 +229,9 @@ public class NewWorkoutActivity extends Activity {
             return;
         }
 
+        Workout workout = new Workout(mDate, mNotes.getText().toString().trim());
         try {
-            Workout workout = new Workout(mDate, mNotes.getText().toString().trim(), factory.create().find());
+            workout.saveExercisesLocally(factory.create().find());
             workout.pinInBackground("Workout Log", new SaveCallback() {
                 @Override
                 public void done(ParseException e) {

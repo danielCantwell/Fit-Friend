@@ -3,14 +3,24 @@ package com.cantwellcode.fitfriend.exercise.types;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Daniel on 10/27/2014.
  */
 @ParseClassName("Exercise")
 public class Exercise extends ParseObject {
+
+    public void setWorkout(Workout workout) {
+        put("workout", workout);
+    }
+
+    public Workout getWorkout() {
+        return (Workout) get("workout");
+    }
 
     public void setName(String name) {
         put("name", name);
@@ -32,17 +42,29 @@ public class Exercise extends ParseObject {
         return getList("sets");
     }
 
-    public void weight(boolean recordWeight) { put("recordWeight", recordWeight); }
+    public void weight(boolean recordWeight) {
+        put("recordWeight", recordWeight);
+    }
 
-    public boolean recordWeight() { return getBoolean("recordWeight"); }
+    public boolean recordWeight() {
+        return getBoolean("recordWeight");
+    }
 
-    public void reps(boolean recordReps) { put("recordReps", recordReps); }
+    public void reps(boolean recordReps) {
+        put("recordReps", recordReps);
+    }
 
-    public boolean recordReps() { return getBoolean("recordReps"); }
+    public boolean recordReps() {
+        return getBoolean("recordReps");
+    }
 
-    public void time(boolean recordTime) { put("recordTime", recordTime); }
+    public void time(boolean recordTime) {
+        put("recordTime", recordTime);
+    }
 
-    public boolean recordTime() { return getBoolean("recordTime"); }
+    public boolean recordTime() {
+        return getBoolean("recordTime");
+    }
 
     public void setArms(boolean isArms) {
         put("arms", isArms);
@@ -116,6 +138,36 @@ public class Exercise extends ParseObject {
         e.setGlutes(usesGlutes());
 
         return e;
+    }
+
+    public ParseQuery<Exercise> getDetailedQuery() {
+        ParseQuery<Exercise> query = Exercise.getQuery();
+        query.whereEqualTo("name", getName());
+        query.whereEqualTo("recordWeight", recordWeight());
+        query.whereEqualTo("recordReps", recordReps());
+        query.whereEqualTo("recordTime", recordTime());
+        query.whereEqualTo("arms", usesArms());
+        query.whereEqualTo("chest", usesChest());
+        query.whereEqualTo("shoulders", usesShoulders());
+        query.whereEqualTo("back", usesBack());
+        query.whereEqualTo("abs", usesAbs());
+        query.whereEqualTo("legs", usesLegs());
+        query.whereEqualTo("glutes", usesGlutes());
+        return query;
+    }
+
+    public boolean sameExercise(Exercise e) {
+        return (getName().equals(e.getName())
+                && (recordWeight() == e.recordWeight())
+                && (recordReps() == e.recordReps())
+                && (recordTime() == e.recordTime())
+                && (usesArms() == e.usesArms())
+                && (usesShoulders() == e.usesShoulders())
+                && (usesChest() == e.usesChest())
+                && (usesBack() == e.usesBack())
+                && (usesAbs() == e.usesAbs())
+                && (usesLegs() == e.usesLegs())
+                && (usesGlutes() == e.usesGlutes()));
     }
 
     public static ParseQuery<Exercise> getQuery() {

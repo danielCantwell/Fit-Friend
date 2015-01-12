@@ -6,6 +6,7 @@ package com.cantwellcode.fitfriend.utils;
 public abstract class Statics {
 
     public static final String SAVED_EXERCISES = "Saved Exercises";
+    public static final String EXERCISES = "Exercises";
 
     public static final String GOAL_CALORIES = "GoalCalories";
     public static final String GOAL_FAT = "GoalFat";

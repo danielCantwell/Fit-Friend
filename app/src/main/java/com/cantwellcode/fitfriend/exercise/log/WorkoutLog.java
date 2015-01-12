@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -44,6 +45,8 @@ public class WorkoutLog extends Fragment {
     private ParseQueryAdapter<Workout> mAdapter;
     private ParseQueryAdapter.QueryFactory<Workout> factory;
 
+    private Button mStats;
+
     private static Fragment instance = null;
 
     public static Fragment newInstance() {
@@ -55,6 +58,14 @@ public class WorkoutLog extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_workout_log, null);
+
+        mStats = (Button) root.findViewById(R.id.stats);
+        mStats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ExerciseStatsActivity.class));
+            }
+        });
 
         mCalendar = Calendar.getInstance();
 
@@ -118,18 +129,24 @@ public class WorkoutLog extends Fragment {
 
                 String detailsText = "";
 
-                List<Exercise> exerciseList = workout.getExerciseList();
-                for (Exercise e : exerciseList) {
-                    if (e.usesArms()) usesArms = true;
-                    if (e.usesShoulders()) usesShoulders = true;
-                    if (e.usesChest()) usesChest = true;
-                    if (e.usesBack()) usesBack = true;
-                    if (e.usesAbs()) usesAbs = true;
-                    if (e.usesLegs()) usesLegs = true;
-                    if (e.usesGlutes()) usesGlutes = true;
+                List<Exercise> exerciseList = null;
+                try {
+                    exerciseList = workout.getLocalExerciseList();
+                    for (Exercise e : exerciseList) {
+                        if (e.usesArms()) usesArms = true;
+                        if (e.usesShoulders()) usesShoulders = true;
+                        if (e.usesChest()) usesChest = true;
+                        if (e.usesBack()) usesBack = true;
+                        if (e.usesAbs()) usesAbs = true;
+                        if (e.usesLegs()) usesLegs = true;
+                        if (e.usesGlutes()) usesGlutes = true;
 
-                    detailsText += e.getName() + ",  ";
+                        detailsText += e.getName() + ",  ";
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
+
                 // this next line removes the extra 'plus' at the end from the for loop
                 if (!detailsText.trim().isEmpty()) {
                     detailsText = detailsText.substring(0, detailsText.length() - 3);
@@ -187,10 +204,10 @@ public class WorkoutLog extends Fragment {
 
     private void menuClickDelete(Workout workout) {
         try {
-            List<Workout> workouts = factory.create().find();
-            workouts.remove(workout);
-            ParseObject.unpinAll("Workout Log");
-            ParseObject.pinAll("Workout Log", workouts);
+            for (Exercise e : workout.getLocalExerciseList()) {
+                e.unpin(Statics.EXERCISES);
+            }
+            workout.unpin("Workout Log");
         } catch (ParseException e) {
             e.printStackTrace();
         }

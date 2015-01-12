@@ -1,6 +1,8 @@
 package com.cantwellcode.fitfriend.exercise.types;
 
+import com.cantwellcode.fitfriend.utils.Statics;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -15,10 +17,29 @@ public class Workout extends ParseObject {
 
     public Workout() {};
 
-    public Workout(Date date, String notes, List<Exercise> exerciseList) {
+    public Workout(Date date, String notes) {
         put("date", date);
         put("notes", notes);
-        put("exercises", exerciseList);
+    }
+
+    public void saveExercisesLocally(List<Exercise> exercises) {
+        for (Exercise e : exercises) {
+            e.setWorkout(this);
+        }
+        pinAllInBackground(Statics.EXERCISES, exercises);
+    }
+
+    public List<Exercise> getExerciseList() throws ParseException {
+        ParseQuery<Exercise> query = Exercise.getQuery();
+        query.whereEqualTo("workout", this);
+        return query.find();
+    }
+
+    public List<Exercise> getLocalExerciseList() throws ParseException {
+        ParseQuery<Exercise> query = Exercise.getQuery();
+        query.fromPin(Statics.EXERCISES);
+        query.whereEqualTo("workout", this);
+        return query.find();
     }
 
     public Date getDate() {
@@ -35,14 +56,6 @@ public class Workout extends ParseObject {
 
     public void setNotes(String notes) {
         put("notes", notes);
-    }
-
-    public List<Exercise> getExerciseList() {
-        return getList("exercises");
-    }
-
-    public void setExerciseList(List<Exercise> exerciseList) {
-        put("exercises", exerciseList);
     }
 
     public static ParseQuery<Workout> getQuery() { return ParseQuery.getQuery("Workout"); }
