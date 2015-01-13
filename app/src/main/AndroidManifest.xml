@@ -67,10 +67,6 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".connect.ProfileActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".connect.SettingsActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
