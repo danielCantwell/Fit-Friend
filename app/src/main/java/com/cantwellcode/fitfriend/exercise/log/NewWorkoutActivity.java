@@ -178,7 +178,7 @@ public class NewWorkoutActivity extends Activity {
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                // TODO - create option to remove this exercise
             }
         });
     }

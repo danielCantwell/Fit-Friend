@@ -1,7 +1,12 @@
 package com.cantwellcode.fitfriend.startup;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -44,6 +49,21 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean firstOpen = sp.getBoolean("firstOpen", true);
+        if (firstOpen) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setView(getLayoutInflater().inflate(R.layout.fragment_initial_help, null));
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.create().show();
+            sp.edit().putBoolean("firstOpen", false);
+        }
     }
 
 
