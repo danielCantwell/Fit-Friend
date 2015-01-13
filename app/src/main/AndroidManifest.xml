@@ -163,6 +163,10 @@
             android:name=".exercise.log.ExerciseStatsActivity"
             android:label="@string/title_activity_exercise_stats" >
         </activity>
+        <activity
+            android:name=".exercise.log.WorkoutViewActivity"
+            android:label="@string/title_activity_workout_view" >
+        </activity>
     </application>
 
 </manifest>

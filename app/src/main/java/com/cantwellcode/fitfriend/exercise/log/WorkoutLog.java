@@ -25,10 +25,12 @@ import com.cantwellcode.fitfriend.exercise.types.Exercise;
 import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.exercise.types.Workout;
 import com.cantwellcode.fitfriend.utils.Statics;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.parse.SaveCallback;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -166,6 +168,20 @@ public class WorkoutLog extends Fragment {
         };
 
         mList.setAdapter(mAdapter);
+
+        mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Workout workout = mAdapter.getItem(position);
+
+                workout.pinInBackground("Workout to View", new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        startActivity(new Intent(getActivity(), WorkoutViewActivity.class));
+                    }
+                });
+            }
+        });
 
         mList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override

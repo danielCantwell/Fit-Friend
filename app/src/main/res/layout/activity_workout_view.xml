@@ -1,0 +1,55 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:padding="16dp"
+    tools:context="com.cantwellcode.fitfriend.exercise.log.WorkoutViewActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+        android:text="Number of Exercises: "
+        android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/numExercises"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/textView"
+        android:text="0"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/numExercises"
+        android:layout_marginTop="10dp"
+        android:hint="NOTES"
+        android:textSize="16sp" />
+
+    <ListView
+        android:id="@+id/exerciseList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/notes"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@android:id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/notes"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="This workout has no exercises"
+        android:textColor="@color/dark_grey"
+        android:textSize="20sp" />
+
+</RelativeLayout>
