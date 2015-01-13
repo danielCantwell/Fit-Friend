@@ -1,22 +1,25 @@
 package com.cantwellcode.fitfriend.exercise.log;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.exercise.types.Exercise;
-import com.cantwellcode.fitfriend.exercise.types.Set;
+import com.cantwellcode.fitfriend.exercise.types.ExerciseSet;
 import com.cantwellcode.fitfriend.utils.Statics;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -24,6 +27,8 @@ import java.util.List;
  * Created by Daniel on 1/12/2015.
  */
 public class ExerciseStatsFragment extends Fragment {
+
+    private ExerciseStatsActivity mActivity;
 
     private Exercise mExercise;
 
@@ -44,7 +49,7 @@ public class ExerciseStatsFragment extends Fragment {
         mSets = (TextView) root.findViewById(R.id.totalSets);
         mMaxWeight = (TextView) root.findViewById(R.id.maxWeight);
         mAvgWeight = (TextView) root.findViewById(R.id.avgWeight);
-        mReps = (TextView) root.findViewById(R.id.reps);
+        mReps = (TextView) root.findViewById(R.id.totalReps);
 
         mName.setText(mExercise.getName());
 
@@ -55,15 +60,53 @@ public class ExerciseStatsFragment extends Fragment {
             public void done(List<Exercise> exercises, ParseException exception) {
                 mNum.setText("" + exercises.size());
                 int numSets = 0;
-//                int maxWeight = 0;
-//                int avgWeight = 0;
-//                int totalWeight = 0;
-//                int numReps = 0;
+                int maxWeight = 0;
+                int totalWeight = 0;
+                int numReps = 0;
+
                 for (Exercise e : exercises) {
-                    List<Set> sets = e.getSets();
-                    numSets += sets.size();
+
+                    JSONArray setArray = null;
+                    try {
+                        setArray = new JSONArray(e.getSets().toString());
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    }
+
+                    for (int i = 0; i < setArray.length(); i++) {
+
+                        try {
+
+                            JSONObject s = setArray.getJSONObject(i);
+
+                            if (mExercise.recordWeight()) {
+                                int weight = s.getInt("weight");
+                                totalWeight += weight;
+                                if (weight > maxWeight) {
+                                    maxWeight = weight;
+                                }
+
+                            }
+                            if (mExercise.recordReps()) {
+                                int reps = s.getInt("reps");
+                                numReps += reps;
+                            }
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                    numSets += setArray.length();
                 }
+
                 mSets.setText("" + numSets);
+                if (mExercise.recordWeight()) {
+                    mMaxWeight.setText("" + maxWeight);
+                    int avg = totalWeight / numSets;
+                    mAvgWeight.setText("" + avg);
+                }
+                if (mExercise.recordReps()) {
+                    mReps.setText("" + numReps);
+                }
             }
         });
 
@@ -72,5 +115,9 @@ public class ExerciseStatsFragment extends Fragment {
 
     public void setExercise(Exercise e) {
         mExercise = e;
+    }
+
+    public void setActivity(ExerciseStatsActivity a) {
+        mActivity = a;
     }
 }

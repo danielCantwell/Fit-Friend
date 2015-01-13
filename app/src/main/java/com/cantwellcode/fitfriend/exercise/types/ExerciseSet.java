@@ -6,11 +6,11 @@ import org.json.JSONObject;
 /**
  * Created by Daniel on 10/26/2014.
  */
-public class Set extends JSONObject {
-    public Set() {
+public class ExerciseSet extends JSONObject {
+    public ExerciseSet() {
     }
 
-    public Set(int weight, int reps, int time) {
+    public ExerciseSet(int weight, int reps, int time) {
         try {
             put("weight", weight);
             put("reps", reps);

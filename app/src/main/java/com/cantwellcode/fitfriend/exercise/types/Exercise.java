@@ -3,10 +3,8 @@ package com.cantwellcode.fitfriend.exercise.types;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseRelation;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by Daniel on 10/27/2014.
@@ -30,15 +28,15 @@ public class Exercise extends ParseObject {
         return getString("name");
     }
 
-    public void setSets(List<Set> sets) {
-        put("sets", sets);
+    public void setSets(List<ExerciseSet> exerciseSets) {
+        put("sets", exerciseSets);
     }
 
-    public void addSet(Set set) {
-        add("sets", set);
+    public void addSet(ExerciseSet exerciseSet) {
+        add("sets", exerciseSet);
     }
 
-    public List<Set> getSets() {
+    public List<ExerciseSet> getSets() {
         return getList("sets");
     }
 

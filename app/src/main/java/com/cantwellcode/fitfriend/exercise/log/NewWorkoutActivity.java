@@ -12,14 +12,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cantwellcode.fitfriend.exercise.types.Set;
+import com.cantwellcode.fitfriend.exercise.types.ExerciseSet;
 import com.cantwellcode.fitfriend.exercise.types.Workout;
 import com.cantwellcode.fitfriend.utils.Statics;
 import com.cantwellcode.fitfriend.R;
@@ -37,8 +35,6 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 public class NewWorkoutActivity extends Activity {
@@ -118,9 +114,6 @@ public class NewWorkoutActivity extends Activity {
                 boolean reps = exercise.recordReps();
                 boolean weight = exercise.recordWeight();
                 boolean time = exercise.recordTime();
-
-                List<Set> setsList = exercise.getSets();
-                Log.d("SETS", "set: " + setsList.get(0));
 
                 JSONArray setArray = null;
                 try {

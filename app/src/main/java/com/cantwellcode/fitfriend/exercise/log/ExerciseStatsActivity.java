@@ -19,6 +19,8 @@ import com.parse.ParseQueryAdapter;
 
 public class ExerciseStatsActivity extends Activity {
 
+    boolean displayingListFragment = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,14 +32,30 @@ public class ExerciseStatsActivity extends Activity {
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
                     .add(R.id.container, fragment)
-                    .addToBackStack(null)
                     .commit();
         }
     }
 
     public void showStatsFragment(Exercise e) {
+
+        displayingListFragment = false;
+
         ExerciseStatsFragment fragment = new ExerciseStatsFragment();
         fragment.setExercise(e);
+        fragment.setActivity(this);
+
+        getFragmentManager().beginTransaction()
+                .replace(R.id.container, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void showListFragment() {
+
+        displayingListFragment = true;
+
+        ExerciseListFragment fragment = new ExerciseListFragment();
+        fragment.setActivity(this);
 
         getFragmentManager().beginTransaction()
                 .replace(R.id.container, fragment)
@@ -55,19 +73,27 @@ public class ExerciseStatsActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == android.R.id.home) {
-            finish();
-            return true;
+        if (item.getItemId() == android.R.id.home) {
+            if (displayingListFragment) {
+                finish();
+                return true;
+            } else {
+                showListFragment();
+                return true;
+            }
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-
+    @Override
+    public void onBackPressed() {
+        if (displayingListFragment) {
+            finish();
+        } else {
+            displayingListFragment = true;
+            super.onBackPressed();
+        }
+    }
 }

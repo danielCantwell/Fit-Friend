@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,11 +17,8 @@ import android.widget.Toast;
 
 import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.exercise.types.Exercise;
-import com.cantwellcode.fitfriend.exercise.types.Set;
-import com.parse.FindCallback;
-import com.parse.GetCallback;
+import com.cantwellcode.fitfriend.exercise.types.ExerciseSet;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
@@ -61,7 +57,7 @@ public class ExerciseSetsActivity extends Activity implements SeekBar.OnSeekBarC
 
     private Button mAddSet;
 
-    private List<Set> mSets;
+    private List<ExerciseSet> mExerciseSets;
     private String mName;
     private boolean weightData;
     private boolean repsData;
@@ -91,7 +87,7 @@ public class ExerciseSetsActivity extends Activity implements SeekBar.OnSeekBarC
         TextView name = (TextView) findViewById(R.id.name);
         name.setText(mName);
 
-        mSets = new ArrayList<Set>();
+        mExerciseSets = new ArrayList<ExerciseSet>();
 
         weightData = e.recordWeight();
         repsData = e.recordReps();
@@ -162,12 +158,12 @@ public class ExerciseSetsActivity extends Activity implements SeekBar.OnSeekBarC
         switch (item.getItemId()) {
 
             case R.id.action_save:
-                if (mSets.isEmpty()) {
+                if (mExerciseSets.isEmpty()) {
                     Toast.makeText(this, "Add at least 1 set", Toast.LENGTH_SHORT).show();
                 } else {
                     Exercise exercise = mExercise.createNew();
                     exercise.setName(mName);
-                    exercise.setSets(mSets);
+                    exercise.setSets(mExerciseSets);
                     exercise.pinInBackground("CurrentExercises", new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
@@ -248,16 +244,16 @@ public class ExerciseSetsActivity extends Activity implements SeekBar.OnSeekBarC
         TextView weightText = (TextView) view.findViewById(R.id.weight);
         TextView repsText = (TextView) view.findViewById(R.id.reps);
         TextView timeText = (TextView) view.findViewById(R.id.time_text);
-        Set set = new Set();
+        ExerciseSet exerciseSet = new ExerciseSet();
 
         if (weightData) {
-            set.setWeight(mSeekWeight.getProgress());
+            exerciseSet.setWeight(mSeekWeight.getProgress());
             weightText.setText("" + mSeekWeight.getProgress());
         } else {
             view.findViewById(R.id.row_weight).setVisibility(View.GONE);
         }
         if (repsData) {
-            set.setReps(mSeekReps.getProgress());
+            exerciseSet.setReps(mSeekReps.getProgress());
             repsText.setText("" + mSeekReps.getProgress());
         } else {
             view.findViewById(R.id.row_reps).setVisibility(View.GONE);
@@ -271,14 +267,14 @@ public class ExerciseSetsActivity extends Activity implements SeekBar.OnSeekBarC
             } else {
                 time = 0;
             }
-            set.setTime(time);
+            exerciseSet.setTime(time);
             timeText.setText("" + time + "s");
         } else {
             view.findViewById(R.id.row_time).setVisibility(View.GONE);
         }
 
         mScrollLayout.addView(view);
-        mSets.add(set);
+        mExerciseSets.add(exerciseSet);
     }
 
     public void startTimer() {
