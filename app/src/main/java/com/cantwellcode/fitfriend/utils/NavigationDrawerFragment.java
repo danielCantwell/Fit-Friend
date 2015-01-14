@@ -137,6 +137,7 @@ public class NavigationDrawerFragment extends Fragment {
         drawerItems.add(new DrawerItem(getString(R.string.title_section6), R.drawable.ic_goals));
         drawerItems.add(new DrawerItem(getString(R.string.title_section7), android.R.drawable.btn_star));
         drawerItems.add(new DrawerItem(getString(R.string.title_section8), R.drawable.ic_friends_black));
+        drawerItems.add(new DrawerItem("Premium Upgrade", R.drawable.ic_launcher));
         mAdapter = new NavigationDrawerAdapter(getActivity(),
                 android.R.layout.simple_list_item_activated_1, drawerItems);
 

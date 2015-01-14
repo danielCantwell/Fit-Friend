@@ -31,6 +31,7 @@ import com.cantwellcode.fitfriend.utils.DialogListener;
 import com.cantwellcode.fitfriend.utils.PieChart;
 import com.cantwellcode.fitfriend.utils.SmallDecimalTextView;
 import com.cantwellcode.fitfriend.utils.Statics;
+import com.parse.ParseUser;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -88,6 +89,8 @@ public class NutritionLog extends ListFragment {
 
     private ImageView mEmptyListImage;
 
+    private boolean isAthlete;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.nutrition_log, null);
@@ -123,75 +126,89 @@ public class NutritionLog extends ListFragment {
         date = (Button) root.findViewById(R.id.n_date);
         next = (Button) root.findViewById(R.id.n_next);
 
+        isAthlete = ParseUser.getCurrentUser().getBoolean("athlete");
+
         next.setEnabled(false);
 
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatePickerFragment dateFragment = new DatePickerFragment();
-                dateFragment.setDialogListener(new DialogListener() {
-                    @Override
-                    public void onDialogOK(Bundle bundle) {
-                        year = bundle.getInt("year");
-                        month = bundle.getInt("month");
-                        day = bundle.getInt("day");
+                if (isAthlete) {
+                    DatePickerFragment dateFragment = new DatePickerFragment();
+                    dateFragment.setDialogListener(new DialogListener() {
+                        @Override
+                        public void onDialogOK(Bundle bundle) {
+                            year = bundle.getInt("year");
+                            month = bundle.getInt("month");
+                            day = bundle.getInt("day");
 
-                        c.set(Calendar.YEAR, year);
-                        c.set(Calendar.MONTH, month);
-                        c.set(Calendar.DAY_OF_MONTH, day);
+                            c.set(Calendar.YEAR, year);
+                            c.set(Calendar.MONTH, month);
+                            c.set(Calendar.DAY_OF_MONTH, day);
 
-                        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
-                        String formattedDate = df.format(c.getTime());
-                        meals = db.getMealList(new Meal(formattedDate));
+                            SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+                            String formattedDate = df.format(c.getTime());
+                            meals = db.getMealList(new Meal(formattedDate));
 
-                        mAdapter.clear();
-                        mAdapter.addAll(meals);
-                        updateList();
+                            mAdapter.clear();
+                            mAdapter.addAll(meals);
+                            updateList();
 
-                        final Calendar cal = Calendar.getInstance();
-                        int y = cal.get(Calendar.YEAR);
-                        int m = cal.get(Calendar.MONTH);
-                        int d = cal.get(Calendar.DAY_OF_MONTH);
+                            final Calendar cal = Calendar.getInstance();
+                            int y = cal.get(Calendar.YEAR);
+                            int m = cal.get(Calendar.MONTH);
+                            int d = cal.get(Calendar.DAY_OF_MONTH);
 
-                        if (y == year && m == month && d == day) {
-                            date.setText("Today");
-                            next.setEnabled(false);
-                            next.setTextColor(Color.GRAY);
-                        } else {
-                            date.setText(formattedDate);
+                            if (y == year && m == month && d == day) {
+                                date.setText("Today");
+                                next.setEnabled(false);
+                                next.setTextColor(Color.GRAY);
+                            } else {
+                                date.setText(formattedDate);
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onDialogCancel() {
+                        @Override
+                        public void onDialogCancel() {
 
-                    }
-                });
-                dateFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+                        }
+                    });
+                    dateFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+                } else {
+                    Toast.makeText(getActivity(), "Upgrade to 'Athlete' to view other days", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                c.add(Calendar.DATE, -1);
-                year = c.get(Calendar.YEAR);
-                month = c.get(Calendar.MONTH) + 1;
-                day = c.get(Calendar.DAY_OF_MONTH);
+                if (isAthlete) {
+                    c.add(Calendar.DATE, -1);
+                    year = c.get(Calendar.YEAR);
+                    month = c.get(Calendar.MONTH) + 1;
+                    day = c.get(Calendar.DAY_OF_MONTH);
 
-                updateList();
+                    updateList();
+                } else {
+                    Toast.makeText(getActivity(), "Upgrade to 'Athlete' to view other days", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                c.add(Calendar.DATE, 1);
-                year = c.get(Calendar.YEAR);
-                month = c.get(Calendar.MONTH) + 1;
-                day = c.get(Calendar.DAY_OF_MONTH);
+                if (isAthlete) {
+                    c.add(Calendar.DATE, 1);
+                    year = c.get(Calendar.YEAR);
+                    month = c.get(Calendar.MONTH) + 1;
+                    day = c.get(Calendar.DAY_OF_MONTH);
 
-                updateList();
+                    updateList();
+                } else {
+                    Toast.makeText(getActivity(), "Upgrade to 'Athlete' to view other days", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

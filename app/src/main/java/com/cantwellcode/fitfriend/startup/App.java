@@ -15,9 +15,11 @@ import com.cantwellcode.fitfriend.exercise.types.Exercise;
 import com.cantwellcode.fitfriend.nutrition.Food;
 import com.cantwellcode.fitfriend.plan.Event;
 import com.parse.Parse;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
+import com.parse.ParseRole;
 import com.parse.SaveCallback;
 
 import java.security.MessageDigest;
@@ -58,6 +60,7 @@ public class App extends Application {
                 }
             }
         });
+
 
 //        try{
 //            PackageInfo info = getPackageManager().getPackageInfo(

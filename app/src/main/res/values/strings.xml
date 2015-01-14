@@ -46,5 +46,6 @@
     <string name="title_activity_profile">ProfileActivity</string>
     <string name="title_activity_exercise_stats">Statistics</string>
     <string name="title_activity_workout_view">WorkoutViewActivity</string>
+    <string name="title_activity_purchases">PurchasesActivity</string>
 
 </resources>

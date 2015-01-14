@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.cantwellcode.fitfriend.exercise.types.Exercise;
@@ -30,6 +31,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.text.SimpleDateFormat;
@@ -65,7 +67,11 @@ public class WorkoutLog extends Fragment {
         mStats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ExerciseStatsActivity.class));
+                if (ParseUser.getCurrentUser().getBoolean("athlete")) {
+                    startActivity(new Intent(getActivity(), ExerciseStatsActivity.class));
+                } else {
+                    Toast.makeText(getActivity(), "Upgrade to 'Athlete' to view statistics", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

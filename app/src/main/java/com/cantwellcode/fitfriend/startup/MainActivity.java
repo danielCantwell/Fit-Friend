@@ -2,7 +2,6 @@ package com.cantwellcode.fitfriend.startup;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,6 +23,7 @@ import com.cantwellcode.fitfriend.connect.ForumFragment;
 import com.cantwellcode.fitfriend.exercise.log.WorkoutLog;
 import com.cantwellcode.fitfriend.nutrition.NutritionLog;
 import com.cantwellcode.fitfriend.plan.Plan;
+import com.cantwellcode.fitfriend.purchases.PurchasesActivity;
 import com.cantwellcode.fitfriend.utils.NavigationDrawerFragment;
 
 
@@ -62,8 +62,9 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
                 }
             });
             builder.create().show();
-            sp.edit().putBoolean("firstOpen", false);
+            sp.edit().putBoolean("firstOpen", false).commit();
         }
+
     }
 
 
@@ -121,8 +122,12 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
                 startActivity(i2);
                 break;
             case 7:
-                Intent intent = new Intent(this, FriendsActivity.class);
-                startActivity(intent);
+                Intent i3 = new Intent(this, FriendsActivity.class);
+                startActivity(i3);
+                break;
+            case 8:
+                Intent i4 = new Intent(this, PurchasesActivity.class);
+                startActivity(i4);
                 break;
         }
     }

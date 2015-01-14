@@ -184,9 +184,13 @@ public class Plan extends Fragment {
                         view.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(getActivity(), EventDetails.class);
-                                intent.putExtra("id", event.getObjectId());
-                                startActivityForResult(intent, Statics.INTENT_REQUEST_EVENT_DETAILS);
+                                if (user.getBoolean("athlete")) {
+                                    Intent intent = new Intent(getActivity(), EventDetails.class);
+                                    intent.putExtra("id", event.getObjectId());
+                                    startActivityForResult(intent, Statics.INTENT_REQUEST_EVENT_DETAILS);
+                                } else {
+                                    Toast.makeText(getActivity(), "Upgrade to 'Athlete' to view event details", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         });
 
