@@ -217,14 +217,19 @@ public class NewWorkoutActivity extends Activity {
     }
 
     private void saveWorkout() {
+        /* Make sure the user is not trying to save an empty workout */
         if (mExerciseCount == 0) {
             Toast.makeText(this, "Please add at least 1 exercise", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Workout workout = new Workout(mDate, mNotes.getText().toString().trim());
+        /* Create the workout object to save, and set the current user to the workout */
+        final Workout workout = new Workout(mDate, mNotes.getText().toString().trim());
+        workout.setUserAsCurrent();
+
         try {
-            workout.saveExercisesLocally(factory.create().find());
+            final List<Exercise> exerciseList = factory.create().find();
+            /* Save exercises and workout locally */
             workout.pinInBackground("Workout Log", new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
@@ -235,6 +240,15 @@ public class NewWorkoutActivity extends Activity {
                     finish();
                 }
             });
+            workout.saveExercisesLocally(exerciseList);
+            /* Save exercises and workout online */
+            workout.saveEventually(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    workout.saveExercises(exerciseList);
+                }
+            });
+
         } catch (ParseException e) {
             e.printStackTrace();
         }

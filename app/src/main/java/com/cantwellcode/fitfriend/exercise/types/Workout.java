@@ -5,6 +5,7 @@ import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.Date;
 import java.util.List;
@@ -22,9 +23,18 @@ public class Workout extends ParseObject {
         put("notes", notes);
     }
 
+    public void saveExercises(List<Exercise> exercises) {
+        for (Exercise e : exercises) {
+            e.setWorkout(this);
+            e.setUserAsCurrent();
+            e.saveEventually();
+        }
+    }
+
     public void saveExercisesLocally(List<Exercise> exercises) {
         for (Exercise e : exercises) {
             e.setWorkout(this);
+            e.setUserAsCurrent();
         }
         pinAllInBackground(Statics.PIN_EXERCISES, exercises);
     }
@@ -57,6 +67,10 @@ public class Workout extends ParseObject {
     public void setNotes(String notes) {
         put("notes", notes);
     }
+
+    public ParseUser getUser() { return getParseUser("user"); }
+
+    public void setUserAsCurrent() { put("user", ParseUser.getCurrentUser()); }
 
     public static ParseQuery<Workout> getQuery() { return ParseQuery.getQuery("Workout"); }
 }

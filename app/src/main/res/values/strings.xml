@@ -24,7 +24,7 @@
     <string name="title_section1">Nutrition</string>
     <string name="title_section2">Exercise</string>
     <string name="title_section3">Plan</string>
-    <string name="title_section4">Forum</string>
+    <string name="title_section4">Social</string>
     <string name="title_section5">Settings</string>
     <string name="title_section6">Goals</string>
     <string name="title_section7">Favorites</string>
@@ -39,13 +39,13 @@
     <string name="title_activity_new_exercise">Create or Select Exercise</string>
     <string name="title_activity_routine_sets">RoutineSetsActivity</string>
     <string name="title_activity_new_food">NewFoodActivity</string>
-    <string name="title_activity_create_exercise">CreateExerciseActivity</string>
+    <string name="title_activity_create_exercise">Create Exercise</string>
     <string name="title_activity_friends">Friends</string>
     <string name="title_activity_create_post">Post in Forum</string>
     <string name="title_activity_discussion">Discussion</string>
-    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="title_activity_profile">User Profile</string>
     <string name="title_activity_exercise_stats">Statistics</string>
-    <string name="title_activity_workout_view">WorkoutViewActivity</string>
-    <string name="title_activity_purchases">PurchasesActivity</string>
+    <string name="title_activity_workout_view">Workout Details</string>
+    <string name="title_activity_purchases">Premium Upgrades</string>
 
 </resources>

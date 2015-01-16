@@ -3,6 +3,7 @@ package com.cantwellcode.fitfriend.exercise.types;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -119,6 +120,10 @@ public class Exercise extends ParseObject {
     public boolean usesGlutes() {
         return getBoolean("glutes");
     }
+
+    public ParseUser getUser() { return getParseUser("user"); }
+
+    public void setUserAsCurrent() { put("user", ParseUser.getCurrentUser()); }
 
     public Exercise createNew() {
         Exercise e = new Exercise();
