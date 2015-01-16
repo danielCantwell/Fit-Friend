@@ -11,13 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cantwellcode.fitfriend.R;
-import com.cantwellcode.fitfriend.startup.MainActivity;
 import com.cantwellcode.fitfriend.utils.Statics;
 import com.parse.ParseException;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.PushService;
 
 /**
  * Created by Daniel on 6/4/2014.
@@ -42,7 +40,7 @@ public class EventDetails extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.plan_event_details);
+        setContentView(R.layout.activity_event_details);
 
         /*
           Initialize widgets

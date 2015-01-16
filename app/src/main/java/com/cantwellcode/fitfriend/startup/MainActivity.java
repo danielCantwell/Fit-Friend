@@ -16,6 +16,7 @@ import android.view.MenuItem;
 
 import com.cantwellcode.fitfriend.connect.GoalsActivity;
 import com.cantwellcode.fitfriend.connect.SettingsActivity;
+import com.cantwellcode.fitfriend.connect.SocialEvent;
 import com.cantwellcode.fitfriend.friends.FriendsActivity;
 import com.cantwellcode.fitfriend.nutrition.NutritionFavoritesView;
 import com.cantwellcode.fitfriend.R;
@@ -25,6 +26,15 @@ import com.cantwellcode.fitfriend.nutrition.NutritionLog;
 import com.cantwellcode.fitfriend.plan.Plan;
 import com.cantwellcode.fitfriend.purchases.PurchasesActivity;
 import com.cantwellcode.fitfriend.utils.NavigationDrawerFragment;
+import com.cantwellcode.fitfriend.utils.Statics;
+import com.parse.DeleteCallback;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends FragmentActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -65,6 +75,31 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
             sp.edit().putBoolean("firstOpen", false).commit();
         }
 
+        // Query for Friends
+        SocialEvent.getCurrentFriendshipsQuery().findInBackground(new FindCallback<ParseObject>() {
+            // query for friendships
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if (e == null) {
+                    final List<ParseUser> friends = new ArrayList<ParseUser>();
+                    // get each friend out the friendship objects
+                    for (ParseObject friendship : parseObjects) {
+                        ParseUser friend = SocialEvent.getFriendFromFriendship(friendship);
+                        friends.add(friend);
+                    }
+                    // unpin the old friends
+                    ParseObject.unpinAllInBackground(Statics.PIN_FRIENDS, new DeleteCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            // pin the new friends
+                            ParseObject.pinAllInBackground(Statics.PIN_FRIENDS, friends);
+                        }
+                    });
+                } else {
+
+                }
+            }
+        });
     }
 
 

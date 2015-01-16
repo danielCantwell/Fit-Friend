@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -72,7 +71,7 @@ public class WorkoutViewActivity extends Activity {
 
                 /* Create a query for forum posts */
                 ParseQuery<Exercise> query = Exercise.getQuery();
-                query.fromPin(Statics.EXERCISES);
+                query.fromPin(Statics.PIN_EXERCISES);
                 query.whereEqualTo("workout", mWorkout);
 
                 return query;

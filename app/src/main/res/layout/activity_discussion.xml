@@ -3,7 +3,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/content"
@@ -30,13 +31,12 @@
         android:layout_below="@+id/name"
         android:background="#444444" />
 
-    <include
+    <ListView
         android:id="@+id/comments"
-        layout="@layout/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/createComment"
-        android:layout_below="@+id/icon" />
+        android:layout_below="@+id/icon"></ListView>
 
     <EditText
         android:id="@+id/createComment"

@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.cantwellcode.fitfriend.connect.SocialEvent;
 import com.cantwellcode.fitfriend.R;
+import com.cantwellcode.fitfriend.utils.Statics;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -29,9 +30,8 @@ import java.util.List;
  */
 public class FriendsFragment extends Fragment {
 
-    private ParseUser user;
-    private ParseQueryAdapter<ParseObject> mAdapter;
-    private ParseQueryAdapter.QueryFactory<ParseObject> factory;
+    private ParseQueryAdapter<ParseUser> mAdapter;
+    private ParseQueryAdapter.QueryFactory<ParseUser> factory;
 
     private ListView mList;
 
@@ -44,47 +44,27 @@ public class FriendsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_friends, null);
 
-        user = ParseUser.getCurrentUser();
-
         mList = (ListView) root.findViewById(R.id.listView);
 
         TextView empty = (TextView) root.findViewById(android.R.id.empty);
         mList.setEmptyView(empty);
 
-        factory = new ParseQueryAdapter.QueryFactory<ParseObject>() {
+        factory = new ParseQueryAdapter.QueryFactory<ParseUser>() {
             @Override
-            public ParseQuery<ParseObject> create() {
-//                ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Friend");
-//                query1.whereEqualTo("from", user);
-//                query1.whereEqualTo("confirmed", true);
-//                ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Friend");
-//                query2.whereEqualTo("to", user);
-//                query2.whereEqualTo("confirmed", true);
-//
-//                List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
-//                queries.add(query1);
-//                queries.add(query2);
-//
-//                ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
-//                mainQuery.include("from");
-//                mainQuery.include("to");
+            public ParseQuery<ParseUser> create() {
 
-                return SocialEvent.getCurrentFriendshipsQuery();
+                return SocialEvent.getCurrentFriendsLocalQuery();
             }
         };
 
-        mAdapter = new ParseQueryAdapter<ParseObject>(getActivity(), factory) {
+        mAdapter = new ParseQueryAdapter<ParseUser>(getActivity(), factory) {
             @Override
-            public View getItemView(ParseObject object, View view, ViewGroup parent) {
+            public View getItemView(ParseUser friend, View view, ViewGroup parent) {
                 if (view == null) {
                     view = view.inflate(getActivity(), R.layout.friend_list_item, null);
                 }
                 TextView name = (TextView) view.findViewById(R.id.name);
                 TextView mainSport = (TextView) view.findViewById(R.id.mainSport);
-
-
-                ParseUser friend = getFriendFromFriendship(object);
-                friend.pinInBackground("Friends");
 
                 name.setText(friend.getString("name"));
                 mainSport.setText(friend.getString("mainSport"));
@@ -98,10 +78,9 @@ public class FriendsFragment extends Fragment {
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ParseObject friendship = mAdapter.getItem(position);
-                final ParseUser friend = getFriendFromFriendship(friendship);
+                ParseUser friend = mAdapter.getItem(position);
 
-                friend.pinInBackground("Friend_Profile", new SaveCallback() {
+                friend.pinInBackground(Statics.PIN_FRIEND_PROFILE, new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         if (e == null) {
@@ -122,16 +101,16 @@ public class FriendsFragment extends Fragment {
     Friend queries will be for a friendship object, where both you and the friend are in it
     This method extracts your friend from the friendship object
      */
-    private ParseUser getFriendFromFriendship(ParseObject friendship) {
-        ParseUser from = friendship.getParseUser("from");
-
-        ParseUser friend;
-        if (from.hasSameId(user)) {
-            friend = friendship.getParseUser("to");
-        } else {
-            friend = from;
-        }
-
-        return friend;
-    }
+//    private ParseUser getFriendFromFriendship(ParseObject friendship) {
+//        ParseUser from = friendship.getParseUser("from");
+//
+//        ParseUser friend;
+//        if (from.hasSameId(user)) {
+//            friend = friendship.getParseUser("to");
+//        } else {
+//            friend = from;
+//        }
+//
+//        return friend;
+//    }
 }

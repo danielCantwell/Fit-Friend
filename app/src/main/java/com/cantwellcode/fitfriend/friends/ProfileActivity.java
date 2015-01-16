@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cantwellcode.fitfriend.R;
+import com.cantwellcode.fitfriend.utils.Statics;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -30,14 +31,14 @@ public class ProfileActivity extends Activity {
 
         // Find user for the requested profile
         ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
-        query.fromPin("Friend_Profile");
+        query.fromPin(Statics.PIN_FRIEND_PROFILE);
         try {
             user = query.getFirst();
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        ParseObject.unpinAllInBackground("Friend_Profile");
+        ParseObject.unpinAllInBackground(Statics.PIN_FRIEND_PROFILE);
 
         // Initialize widgets
         mName = (TextView) findViewById(R.id.name);
@@ -50,7 +51,7 @@ public class ProfileActivity extends Activity {
         if (user != null) {
             mName.setText(user.getString("name"));
             mSport.setText(user.getString("mainSport"));
-            mAge.setText(user.getString("age"));
+            mAge.setText("" + user.get("age"));
             mLocation.setText(user.getString("location"));
 //            mHeadline.setText(user.getString("headline"));
         } else {

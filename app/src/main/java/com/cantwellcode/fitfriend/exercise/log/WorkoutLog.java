@@ -1,12 +1,8 @@
 package com.cantwellcode.fitfriend.exercise.log;
 
 import android.app.ActionBar;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,9 +22,7 @@ import com.cantwellcode.fitfriend.exercise.types.Exercise;
 import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.exercise.types.Workout;
 import com.cantwellcode.fitfriend.utils.Statics;
-import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
@@ -227,7 +221,7 @@ public class WorkoutLog extends Fragment {
     private void menuClickDelete(Workout workout) {
         try {
             for (Exercise e : workout.getLocalExerciseList()) {
-                e.unpin(Statics.EXERCISES);
+                e.unpin(Statics.PIN_EXERCISES);
             }
             workout.unpin("Workout Log");
         } catch (ParseException e) {

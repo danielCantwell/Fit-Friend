@@ -71,7 +71,7 @@ public class CreateExerciseActivity extends Activity {
                     e.setLegs(mLegs.isChecked() ? true : false);
                     e.setGlutes(mGlutes.isChecked() ? true : false);
 
-                    e.pinInBackground(Statics.SAVED_EXERCISES, new SaveCallback() {
+                    e.pinInBackground(Statics.PIN_SAVED_EXERCISES, new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
                             Intent intent = new Intent(CreateExerciseActivity.this, NewExerciseActivity.class);

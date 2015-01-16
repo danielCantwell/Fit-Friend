@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.cantwellcode.fitfriend.connect.SocialEvent;
 import com.cantwellcode.fitfriend.R;
+import com.cantwellcode.fitfriend.utils.Statics;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
@@ -90,6 +91,7 @@ public class FriendRequestsFragment extends Fragment {
                         confirm.setText("Confirmed");
                         deny.setVisibility(View.GONE);
                         confirm.setClickable(false);
+                        friend.pinInBackground(Statics.PIN_FRIENDS);
                     }
                 });
 

@@ -41,51 +41,57 @@ public class PurchasesActivity extends Activity {
 
         mUpgradeAthlete = (Button) findViewById(R.id.upgradeAthlete);
 
-        String a = "MIIBIjANBgkqhki";
-        String b = "G9w0BAQEFAAOCAQ8AMIIBCgKCAQEAh+Z+TCnf";
-        String c = "OZXzuQs1HmJpgzGlgzltHCP4RHPfpx";
-        String d = "LBG4urknaog76upqstmW8bMfJ9qxV8bRpT9iNiDTZBmD2PclOuZX";
-        String e = "AHTtihgdGnWVxBfuWM6VKWkYKtpFF+UasSyJmhkXFKMy9P2tre9Cj2m5";
-        String f = "2uu8hT37BYGoX5C0kMECewKBbFgGH1MUjPIN1gaBS4oKLx/bSCT20677AF0Ko0PkHon1HVsiQ";
-        String g = "TcgXa3eu7YhXJnTx9R5NjbTggyJcA/u1a8hnhAUvIOZSwiyIwJMszROlUS2lTc26cgmko/ID";
-        String h = "oPZ2ZiWIoEjKQmXswsC7h6f7rJctASzjcYxa9RwRhLZt8sDBzQQIDAQAB";
+        if (user.getBoolean("athlete")) {
+            mUpgradeAthlete.setClickable(false);
+            mUpgradeAthlete.setText("Purchased 'Athlete' Upgrade");
+        } else {
 
-        String base64EncodedPublicKey = a + b + c + d + e + f + g + h;
+            String a = "MIIBIjANBgkqhki";
+            String b = "G9w0BAQEFAAOCAQ8AMIIBCgKCAQEAh+Z+TCnf";
+            String c = "OZXzuQs1HmJpgzGlgzltHCP4RHPfpx";
+            String d = "LBG4urknaog76upqstmW8bMfJ9qxV8bRpT9iNiDTZBmD2PclOuZX";
+            String e = "AHTtihgdGnWVxBfuWM6VKWkYKtpFF+UasSyJmhkXFKMy9P2tre9Cj2m5";
+            String f = "2uu8hT37BYGoX5C0kMECewKBbFgGH1MUjPIN1gaBS4oKLx/bSCT20677AF0Ko0PkHon1HVsiQ";
+            String g = "TcgXa3eu7YhXJnTx9R5NjbTggyJcA/u1a8hnhAUvIOZSwiyIwJMszROlUS2lTc26cgmko/ID";
+            String h = "oPZ2ZiWIoEjKQmXswsC7h6f7rJctASzjcYxa9RwRhLZt8sDBzQQIDAQAB";
 
-        mHelper = new IabHelper(this, base64EncodedPublicKey);
+            String base64EncodedPublicKey = a + b + c + d + e + f + g + h;
 
-        // enable debug logging (for a production application, you should set this to false).
+            mHelper = new IabHelper(this, base64EncodedPublicKey);
+
+            // enable debug logging (for a production application, you should set this to false).
 //        mHelper.enableDebugLogging(true);
 
-        // Start setup. This is asynchronous and the specified listener
-        // will be called once setup completes.
-        Log.d(TAG, "Starting setup.");
-        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-            public void onIabSetupFinished(IabResult result) {
-                Log.d(TAG, "Setup finished.");
+            // Start setup. This is asynchronous and the specified listener
+            // will be called once setup completes.
+            Log.d(TAG, "Starting setup.");
+            mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+                public void onIabSetupFinished(IabResult result) {
+                    Log.d(TAG, "Setup finished.");
 
-                if (!result.isSuccess()) {
-                    // Oh noes, there was a problem.
-                    complain("Problem setting up in-app billing: " + result);
-                    return;
+                    if (!result.isSuccess()) {
+                        // Oh noes, there was a problem.
+                        complain("Problem setting up in-app billing: " + result);
+                        return;
+                    }
+
+                    // Have we been disposed of in the meantime? If so, quit.
+                    if (mHelper == null) return;
+
+                    // IAB is fully set up. Now, let's get an inventory of stuff we own.
+                    Log.d(TAG, "Setup successful. Querying inventory.");
+                    mHelper.queryInventoryAsync(mGotInventoryListener);
                 }
+            });
 
-                // Have we been disposed of in the meantime? If so, quit.
-                if (mHelper == null) return;
-
-                // IAB is fully set up. Now, let's get an inventory of stuff we own.
-                Log.d(TAG, "Setup successful. Querying inventory.");
-                mHelper.queryInventoryAsync(mGotInventoryListener);
-            }
-        });
-
-        mUpgradeAthlete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mHelper.launchPurchaseFlow(PurchasesActivity.this, SKU_ATHLETE, 10001,
-                        mPurchaseFinishedListener, user.getObjectId());
-            }
-        });
+            mUpgradeAthlete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mHelper.launchPurchaseFlow(PurchasesActivity.this, SKU_ATHLETE, 10001,
+                            mPurchaseFinishedListener, user.getObjectId());
+                }
+            });
+        }
     }
 
     // Listener that's called when we finish querying the items and subscriptions we own
@@ -120,7 +126,9 @@ public class PurchasesActivity extends Activity {
         }
     };
 
-    /** Verifies the developer payload of a purchase. */
+    /**
+     * Verifies the developer payload of a purchase.
+     */
     boolean verifyDeveloperPayload(Purchase p) {
         String payload = p.getDeveloperPayload();
 
@@ -190,7 +198,7 @@ public class PurchasesActivity extends Activity {
 
         // "Upgrade" button is only usable if the user is not premium
         if (mIsAthlete) {
-            mUpgradeAthlete.setText("Purchases 'Athlete' Upgrade");
+            mUpgradeAthlete.setText("Purchased 'Athlete' Upgrade");
             mUpgradeAthlete.setClickable(false);
         }
     }

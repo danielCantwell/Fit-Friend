@@ -47,7 +47,7 @@ public class NewExerciseActivity extends Activity {
             public ParseQuery<Exercise> create() {
                 ParseQuery<Exercise> query = Exercise.getQuery();
                 query.orderByAscending("name");
-                query.fromPin(Statics.SAVED_EXERCISES);
+                query.fromPin(Statics.PIN_SAVED_EXERCISES);
                 return query;
             }
         };
@@ -155,8 +155,8 @@ public class NewExerciseActivity extends Activity {
         try {
             List<Exercise> exercises = factory.create().find();
             exercises.remove(exercise);
-            ParseObject.unpinAll(Statics.SAVED_EXERCISES);
-            ParseObject.pinAll(Statics.SAVED_EXERCISES, exercises);
+            ParseObject.unpinAll(Statics.PIN_SAVED_EXERCISES);
+            ParseObject.pinAll(Statics.PIN_SAVED_EXERCISES, exercises);
         } catch (ParseException e) {
             e.printStackTrace();
         }

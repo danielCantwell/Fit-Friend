@@ -10,9 +10,7 @@
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@color/transparent"
-        android:dividerHeight="2dp" />
+        android:layout_height="match_parent" />
 
     <TextView
         android:id="@android:id/empty"

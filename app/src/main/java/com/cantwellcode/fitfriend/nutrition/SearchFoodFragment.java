@@ -1,5 +1,6 @@
 package com.cantwellcode.fitfriend.nutrition;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -52,6 +54,9 @@ public class SearchFoodFragment extends Fragment {
                     Toast.makeText(getActivity(), "Please enter at leat 3 letters", Toast.LENGTH_SHORT).show();
                     return false;
                 }
+
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 
                 // Parse Query Factory + Adapter to fill list
                 mFactory = new ParseQueryAdapter.QueryFactory<Food>() {

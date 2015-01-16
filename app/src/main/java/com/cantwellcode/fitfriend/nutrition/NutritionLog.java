@@ -93,7 +93,7 @@ public class NutritionLog extends ListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.nutrition_log, null);
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_nutrition_log, null);
 
         c = Calendar.getInstance();
         year = c.get(Calendar.YEAR);
@@ -411,10 +411,6 @@ public class NutritionLog extends ListFragment {
         SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
         String formattedDate = df.format(c.getTime());
         meals = db.getMealList(new Meal(formattedDate));
-
-        if (meals.isEmpty()) {
-            Toast.makeText(activity, "No Meals Have Been Added", Toast.LENGTH_LONG).show();
-        }
 
         mAdapter.clear();
         mAdapter.addAll(meals);

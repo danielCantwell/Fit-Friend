@@ -26,7 +26,7 @@ public class Workout extends ParseObject {
         for (Exercise e : exercises) {
             e.setWorkout(this);
         }
-        pinAllInBackground(Statics.EXERCISES, exercises);
+        pinAllInBackground(Statics.PIN_EXERCISES, exercises);
     }
 
     public List<Exercise> getExerciseList() throws ParseException {
@@ -37,7 +37,7 @@ public class Workout extends ParseObject {
 
     public List<Exercise> getLocalExerciseList() throws ParseException {
         ParseQuery<Exercise> query = Exercise.getQuery();
-        query.fromPin(Statics.EXERCISES);
+        query.fromPin(Statics.PIN_EXERCISES);
         query.whereEqualTo("workout", this);
         return query.find();
     }

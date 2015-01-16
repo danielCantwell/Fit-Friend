@@ -3,6 +3,7 @@ package com.cantwellcode.fitfriend.connect;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.cantwellcode.fitfriend.utils.Statics;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -130,9 +131,31 @@ public abstract class SocialEvent {
         mainQuery.include("from");
         mainQuery.include("to");
 
-//        mainQuery.fromPin("Friends");
-
         return mainQuery;
     }
 
+    public static ParseQuery<ParseUser> getCurrentFriendsLocalQuery() {
+
+        ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
+        query.fromPin(Statics.PIN_FRIENDS);
+
+        return query;
+    }
+
+    /*
+    Friend queries will be for a friendship object, where both you and the friend are in it
+    This method extracts your friend from the friendship object
+    */
+    public static ParseUser getFriendFromFriendship(ParseObject friendship) {
+        ParseUser from = friendship.getParseUser("from");
+
+        ParseUser friend;
+        if (from.hasSameId(ParseUser.getCurrentUser())) {
+            friend = friendship.getParseUser("to");
+        } else {
+            friend = from;
+        }
+
+        return friend;
+    }
 }

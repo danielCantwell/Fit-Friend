@@ -16,12 +16,10 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 
 import com.cantwellcode.fitfriend.R;
-import com.cantwellcode.fitfriend.startup.MainActivity;
 import com.cantwellcode.fitfriend.utils.Statics;
 import com.parse.ParseException;
 import com.parse.ParsePush;
 import com.parse.ParseUser;
-import com.parse.PushService;
 import com.parse.SaveCallback;
 
 import java.text.DateFormat;
@@ -50,7 +48,7 @@ public class AddEvent extends FragmentActivity implements DatePickerDialog.OnDat
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.plan_add_event);
+        setContentView(R.layout.activity_add_event);
 
         mTitleText = (EditText) findViewById(R.id.title);
         mDateButton = (Button) findViewById(R.id.date);

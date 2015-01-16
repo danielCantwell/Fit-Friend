@@ -165,11 +165,11 @@ public class NewFoodActivity extends Activity implements ActionBar.TabListener {
             Locale l = Locale.getDefault();
             switch (position) {
                 case 0:
-                    return getString(R.string.newfood_tab1).toUpperCase(l);
+                    return getString(R.string.newfood_tab1);
                 case 1:
-                    return getString(R.string.newfood_tab2).toUpperCase(l);
+                    return getString(R.string.newfood_tab2);
                 case 2:
-                    return getString(R.string.newfood_tab3).toUpperCase(l);
+                    return getString(R.string.newfood_tab3);
             }
             return null;
         }

@@ -4,7 +4,6 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cantwellcode.fitfriend.R;
-import com.cantwellcode.fitfriend.connect.Group;
 import com.cantwellcode.fitfriend.connect.SocialEvent;
 import com.cantwellcode.fitfriend.utils.Statics;
 import com.parse.DeleteCallback;
@@ -60,7 +58,7 @@ public class Plan extends Fragment {
     private ParseQueryAdapter.QueryFactory<Event> factory;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.plan_activity, null);
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_plan, null);
         user = ParseUser.getCurrentUser();
 
         mCalendarView = (CalendarView) root.findViewById(R.id.calendarView);
