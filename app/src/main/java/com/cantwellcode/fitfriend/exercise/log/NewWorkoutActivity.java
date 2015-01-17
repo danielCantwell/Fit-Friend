@@ -8,12 +8,14 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -156,7 +158,7 @@ public class NewWorkoutActivity extends Activity {
                     }
 
                     // this next line removes the extra 'plus' at the end from the for loop
-                    setsText = setsText.substring(0, setsText.length() - 5);
+//                    setsText = setsText.substring(0, setsText.length() - 5);
                 }
 
                 sets.setText(setsText);
@@ -180,6 +182,14 @@ public class NewWorkoutActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 AddSetDialog dialog = new AddSetDialog(NewWorkoutActivity.this, mAdapter.getItem(position));
                 dialog.show();
+            }
+        });
+
+        mList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                showPopup(view, mAdapter.getItem(position));
+                return true;
             }
         });
 
@@ -235,6 +245,7 @@ public class NewWorkoutActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    /* Save the workout and go back to the log */
     private void saveWorkout() {
         /* Make sure the user is not trying to save an empty workout */
         if (mExerciseCount == 0) {
@@ -276,6 +287,48 @@ public class NewWorkoutActivity extends Activity {
     public void updateList() {
         // Update the exercise since it has a new set
         mAdapter.loadObjects();
+    }
+
+    private void showPopup(View v, final Exercise exercise) {
+        PopupMenu popup = new PopupMenu(this, v);
+
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.action_delete_last_set:
+                        deleteLastSet(exercise);
+                        return true;
+                    case R.id.action_delete_all_sets:
+                        deleteAllSets(exercise);
+                        return true;
+                    case R.id.action_delete_exercise:
+                        deleteExercise(exercise);
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.exercise_sets, popup.getMenu());
+        popup.show();
+    }
+
+    private void deleteLastSet(Exercise e) {
+//        e.removeLastSet(); TODO
+        updateList();
+    }
+
+    private void deleteAllSets(Exercise e) {
+//        e.removeAllSets(); TODO
+        updateList();
+    }
+
+    private void deleteExercise(Exercise e) {
+        e.unpinInBackground(Statics.PIN_CURRENT_EXERCISES);
+        updateList();
     }
 
     @Override

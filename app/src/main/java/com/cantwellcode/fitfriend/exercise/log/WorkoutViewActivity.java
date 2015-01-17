@@ -73,6 +73,7 @@ public class WorkoutViewActivity extends Activity {
                 ParseQuery<Exercise> query = Exercise.getQuery();
                 query.fromPin(Statics.PIN_EXERCISES);
                 query.whereEqualTo("workout", mWorkout);
+                query.addAscendingOrder("num");
 
                 return query;
             }
