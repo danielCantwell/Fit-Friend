@@ -81,8 +81,8 @@ public class NewWorkoutActivity extends Activity {
 
                 /* Create a query for forum posts */
                 ParseQuery<Exercise> query = Exercise.getQuery();
-                query.fromPin("CurrentExercises");
-                query.orderByAscending("name");
+                query.fromPin(Statics.PIN_CURRENT_EXERCISES);
+                query.orderByAscending("num");
 
                 return query;
             }
@@ -115,43 +115,50 @@ public class NewWorkoutActivity extends Activity {
                 boolean weight = exercise.recordWeight();
                 boolean time = exercise.recordTime();
 
-                JSONArray setArray = null;
-                try {
-                    setArray = new JSONArray(exercise.getSets().toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                for (int i = 0; i < setArray.length(); i++) {
-
+                if (exercise.getSets() == null) {
+                    setsText = "Click to Add Sets";
+                } else if (exercise.getSets().isEmpty()) {
+                    setsText = "Click to Add Sets";
+                } else {
+                    JSONArray setArray = null;
                     try {
-
-                        JSONObject s = setArray.getJSONObject(i);
-
-                        if (reps) {
-                            setsText += s.get("reps") + "";
-                            if (weight) {
-                                setsText += "x" + s.get("weight") + "lbs";
-                            }
-                            if (time) {
-                                setsText += "x" + s.get("time") + "s";
-                            }
-                        } else if (weight) {
-                            setsText += s.get("weight") + "lbs";
-                            if (time) {
-                                setsText += "x" + s.get("time") + "s";
-                            }
-                        } else if (time) {
-                            setsText += s.get("time") + "s";
-                        }
-                        setsText += "  +  ";
+                        setArray = new JSONArray(exercise.getSets().toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+
+                    for (int i = 0; i < setArray.length(); i++) {
+
+                        try {
+
+                            JSONObject s = setArray.getJSONObject(i);
+
+                            if (reps) {
+                                setsText += s.get("reps") + "";
+                                if (weight) {
+                                    setsText += "x" + s.get("weight") + "lbs";
+                                }
+                                if (time) {
+                                    setsText += "x" + s.get("time") + "s";
+                                }
+                            } else if (weight) {
+                                setsText += s.get("weight") + "lbs";
+                                if (time) {
+                                    setsText += "x" + s.get("time") + "s";
+                                }
+                            } else if (time) {
+                                setsText += s.get("time") + "s";
+                            }
+                            setsText += "  +  ";
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    // this next line removes the extra 'plus' at the end from the for loop
+                    setsText = setsText.substring(0, setsText.length() - 5);
                 }
 
-                // this next line removes the extra 'plus' at the end from the for loop
-                setsText = setsText.substring(0, setsText.length() - 5);
                 sets.setText(setsText);
 
                 arms.setVisibility(exercise.usesArms() ? View.VISIBLE : View.GONE);
@@ -178,7 +185,8 @@ public class NewWorkoutActivity extends Activity {
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO - create option to remove this exercise
+                AddSetDialog builder = new AddSetDialog(NewWorkoutActivity.this, mAdapter.getItem(position));
+                builder.create().show();
             }
         });
     }
@@ -204,10 +212,11 @@ public class NewWorkoutActivity extends Activity {
                 SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
                 sp.edit().putString("Workout Notes", mNotes.getText().toString().trim()).commit();
                 Intent intent = new Intent(this, NewExerciseActivity.class);
-                startActivity(intent);
+                intent.putExtra("num", mExerciseCount + 1);
+                startActivityForResult(intent, Statics.INTENT_REQUEST_ADD_EXERCISE);
                 return true;
             case android.R.id.home:
-                ParseObject.unpinAllInBackground("CurrentExercises");
+                ParseObject.unpinAllInBackground(Statics.PIN_CURRENT_EXERCISES);
                 setResult(RESULT_CANCELED);
                 finish();
                 break;
@@ -235,7 +244,7 @@ public class NewWorkoutActivity extends Activity {
                 public void done(ParseException e) {
                     SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(NewWorkoutActivity.this);
                     sp.edit().remove("Workout Notes").commit();
-                    ParseObject.unpinAllInBackground("CurrentExercises");
+                    ParseObject.unpinAllInBackground(Statics.PIN_CURRENT_EXERCISES);
                     setResult(Statics.INTENT_REQUEST_WORKOUT);
                     finish();
                 }
@@ -251,6 +260,19 @@ public class NewWorkoutActivity extends Activity {
 
         } catch (ParseException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void updateList() {
+        // Update the exercise since it has a new set
+        mAdapter.loadObjects();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Statics.INTENT_REQUEST_ADD_EXERCISE && resultCode == RESULT_OK) {
+            updateList();
         }
     }
 }

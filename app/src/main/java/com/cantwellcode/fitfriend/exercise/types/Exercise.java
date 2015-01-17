@@ -132,6 +132,8 @@ public class Exercise extends ParseObject {
     public Exercise createNew() {
         Exercise e = new Exercise();
 
+        e.setName(getName());
+
         e.weight(recordWeight());
         e.reps(recordReps());
         e.time(recordTime());

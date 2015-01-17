@@ -22,6 +22,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.parse.SaveCallback;
 
 import java.util.List;
 
@@ -33,10 +34,14 @@ public class NewExerciseActivity extends Activity {
     private ParseQueryAdapter<Exercise> mAdapter;
     private ParseQueryAdapter.QueryFactory<Exercise> factory;
 
+    private int mNum;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_exercise);
+
+        mNum = getIntent().getIntExtra("num", 1);
 
         mCreateExercise = (Button) findViewById(R.id.create);
 
@@ -114,9 +119,15 @@ public class NewExerciseActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Exercise e = mAdapter.getItem(position);
-                Intent intent = new Intent(NewExerciseActivity.this, ExerciseSetsActivity.class);
-                intent.putExtra("name", e.getName());
-                startActivity(intent);
+                Exercise ex = e.createNew();
+                ex.setNum(mNum);
+                ex.pinInBackground(Statics.PIN_CURRENT_EXERCISES, new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        setResult(RESULT_OK);
+                        finish();
+                    }
+                });
             }
         });
 
