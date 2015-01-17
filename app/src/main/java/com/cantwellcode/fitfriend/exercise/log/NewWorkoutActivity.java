@@ -174,19 +174,29 @@ public class NewWorkoutActivity extends Activity {
         };
 
         mList.setAdapter(mAdapter);
-        try {
-            // TODO - there could be a better way to do this
-            mExerciseCount = factory.create().count();
-            mNumExercies.setText("" + mExerciseCount);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 AddSetDialog builder = new AddSetDialog(NewWorkoutActivity.this, mAdapter.getItem(position));
                 builder.create().show();
+            }
+        });
+
+        mAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Exercise>() {
+            @Override
+            public void onLoading() {
+                
+            }
+
+            @Override
+            public void onLoaded(List<Exercise> exercises, Exception e) {
+                if (e == null) {
+                    mExerciseCount = exercises.size();
+                } else {
+                    mExerciseCount = 0;
+                }
+                mNumExercies.setText("" + mExerciseCount);
             }
         });
     }
