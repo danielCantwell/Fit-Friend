@@ -94,12 +94,6 @@
             />
         </activity>
         <activity
-            android:name=".exercise.log.ExerciseSetsActivity"
-            android:label="@string/title_activity_routine_sets"
-            android:screenOrientation="portrait" >
-            />
-        </activity>
-        <activity
             android:name=".nutrition.NewFoodActivity"
             android:label="@string/title_activity_new_food"
             android:screenOrientation="portrait"

@@ -178,8 +178,8 @@ public class NewWorkoutActivity extends Activity {
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AddSetDialog builder = new AddSetDialog(NewWorkoutActivity.this, mAdapter.getItem(position));
-                builder.create().show();
+                AddSetDialog dialog = new AddSetDialog(NewWorkoutActivity.this, mAdapter.getItem(position));
+                dialog.show();
             }
         });
 
