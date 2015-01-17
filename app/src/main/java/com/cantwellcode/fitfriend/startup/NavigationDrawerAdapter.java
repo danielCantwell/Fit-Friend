@@ -1,4 +1,4 @@
-package com.cantwellcode.fitfriend.utils;
+package com.cantwellcode.fitfriend.startup;
 
 import android.content.Context;
 import android.graphics.Typeface;

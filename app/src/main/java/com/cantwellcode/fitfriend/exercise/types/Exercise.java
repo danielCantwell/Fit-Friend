@@ -29,6 +29,10 @@ public class Exercise extends ParseObject {
         return getString("name");
     }
 
+    public int getNum() { return getInt("num"); }
+
+    public void setNum(int num) { put("num", num); }
+
     public void setSets(List<ExerciseSet> exerciseSets) {
         put("sets", exerciseSets);
     }

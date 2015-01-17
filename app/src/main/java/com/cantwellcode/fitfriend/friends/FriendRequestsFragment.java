@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.cantwellcode.fitfriend.connect.SocialEvent;
+import com.cantwellcode.fitfriend.utils.SocialEvent;
 import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.utils.Statics;
 import com.parse.ParseObject;

@@ -1,4 +1,4 @@
-package com.cantwellcode.fitfriend.connect;
+package com.cantwellcode.fitfriend.utils;
 
 import android.content.Context;
 import android.widget.Toast;

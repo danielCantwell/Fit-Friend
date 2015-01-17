@@ -16,7 +16,6 @@ import android.view.MenuItem;
 
 import com.cantwellcode.fitfriend.connect.GoalsActivity;
 import com.cantwellcode.fitfriend.connect.SettingsActivity;
-import com.cantwellcode.fitfriend.connect.SocialEvent;
 import com.cantwellcode.fitfriend.friends.FriendsActivity;
 import com.cantwellcode.fitfriend.nutrition.NutritionFavoritesView;
 import com.cantwellcode.fitfriend.R;
@@ -25,7 +24,7 @@ import com.cantwellcode.fitfriend.exercise.log.WorkoutLog;
 import com.cantwellcode.fitfriend.nutrition.NutritionLog;
 import com.cantwellcode.fitfriend.plan.Plan;
 import com.cantwellcode.fitfriend.purchases.PurchasesActivity;
-import com.cantwellcode.fitfriend.utils.NavigationDrawerFragment;
+import com.cantwellcode.fitfriend.utils.SocialEvent;
 import com.cantwellcode.fitfriend.utils.Statics;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;

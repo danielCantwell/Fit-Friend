@@ -1,11 +1,10 @@
-package com.cantwellcode.fitfriend.utils;
+package com.cantwellcode.fitfriend.startup;
 
 
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -21,13 +20,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cantwellcode.fitfriend.R;
-import com.cantwellcode.fitfriend.startup.DispatchActivity;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;

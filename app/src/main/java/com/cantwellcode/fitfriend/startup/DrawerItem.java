@@ -1,4 +1,4 @@
-package com.cantwellcode.fitfriend.utils;
+package com.cantwellcode.fitfriend.startup;
 
 /**
  * Created by Daniel on 8/8/2014.

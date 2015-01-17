@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cantwellcode.fitfriend.R;
+import com.cantwellcode.fitfriend.utils.SocialEvent;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -322,14 +323,6 @@ public class ForumFragment extends ListFragment {
         setListAdapter(posts);
     }
 
-    private boolean isEmpty(EditText etText) {
-        if (etText.getText().toString().trim().length() > 0) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
     public static List<Group> getGroups() {
         ParseQuery<Group> query = Group.getQuery();
         query.whereEqualTo("members", ParseUser.getCurrentUser());
@@ -343,7 +336,7 @@ public class ForumFragment extends ListFragment {
     private void restoreActionBar() {
         ActionBar actionBar = getActivity().getActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle("Forum");
+        actionBar.setTitle("Social");
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
     }
 

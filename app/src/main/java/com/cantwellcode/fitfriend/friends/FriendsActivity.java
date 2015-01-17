@@ -1,8 +1,5 @@
 package com.cantwellcode.fitfriend.friends;
 
-import java.util.List;
-import java.util.Locale;
-
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -13,16 +10,8 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.cantwellcode.fitfriend.R;
-import com.cantwellcode.fitfriend.connect.SocialEvent;
-import com.cantwellcode.fitfriend.utils.Statics;
-import com.parse.FindCallback;
-import com.parse.Parse;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseUser;
 
 public class FriendsActivity extends Activity implements ActionBar.TabListener {
 

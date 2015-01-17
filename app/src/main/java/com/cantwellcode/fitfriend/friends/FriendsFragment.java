@@ -12,18 +12,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cantwellcode.fitfriend.connect.SocialEvent;
+import com.cantwellcode.fitfriend.utils.SocialEvent;
 import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.utils.Statics;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Daniel on 1/9/2015.
