@@ -125,7 +125,6 @@ public class NewExerciseActivity extends Activity {
                 ex.pinInBackground(Statics.PIN_CURRENT_EXERCISES, new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        setResult(RESULT_OK);
                         finish();
                     }
                 });

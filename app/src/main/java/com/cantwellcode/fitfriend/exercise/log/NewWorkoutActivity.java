@@ -330,10 +330,8 @@ public class NewWorkoutActivity extends Activity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Statics.INTENT_REQUEST_ADD_EXERCISE && resultCode == RESULT_OK) {
-            updateList();
-        }
+    protected void onResume() {
+        super.onResume();
+        updateList();
     }
 }
