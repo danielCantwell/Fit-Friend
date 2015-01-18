@@ -142,37 +142,68 @@ public class WorkoutLog extends Fragment {
                 String detailsText = "";
 
                 List<Exercise> exerciseList = null;
+
                 int count = 0;
+                boolean armsCounted = false;
+                boolean shouldersCounted = false;
+                boolean chestCounted = false;
+                boolean backCounted = false;
+                boolean absCounted = false;
+                boolean legsCounted = false;
+                boolean glutesCounted = false;
+
+
                 try {
                     exerciseList = workout.getLocalExerciseList();
                     for (Exercise e : exerciseList) {
                         if (e.usesArms()) {
-                            count++;
                             usesArms = true;
+                            if (!armsCounted) {
+                                count++;
+                                armsCounted = true;
+                            }
                         }
                         if (e.usesShoulders()) {
-                            count++;
                             usesShoulders = true;
+                            if (!shouldersCounted) {
+                                count++;
+                                shouldersCounted = true;
+                            }
                         }
                         if (e.usesChest()) {
-                            count++;
                             usesChest = true;
+                            if (!chestCounted) {
+                                count++;
+                                chestCounted = true;
+                            }
                         }
                         if (e.usesBack()) {
-                            count++;
                             usesBack = true;
+                            if (!backCounted) {
+                                count++;
+                                backCounted = true;
+                            }
                         }
                         if (e.usesAbs()) {
-                            count++;
                             usesAbs = true;
+                            if (!absCounted) {
+                                count++;
+                                absCounted = true;
+                            }
                         }
                         if (e.usesLegs()) {
-                            count++;
                             usesLegs = true;
+                            if (!legsCounted) {
+                                count++;
+                                legsCounted = true;
+                            }
                         }
                         if (e.usesGlutes()) {
-                            count++;
                             usesGlutes = true;
+                            if (!glutesCounted) {
+                                count++;
+                                glutesCounted = true;
+                            }
                         }
 
                         detailsText += e.getName() + ",  ";
@@ -190,22 +221,16 @@ public class WorkoutLog extends Fragment {
                 arms.setVisibility(usesArms ? View.VISIBLE : View.GONE);
                 shoulders.setVisibility(usesShoulders ? View.VISIBLE : View.GONE);
                 chest.setVisibility(usesChest ? View.VISIBLE : View.GONE);
-                if (count < 5) {
-                    back.setVisibility(usesBack ? View.VISIBLE : View.GONE);
-                    abs.setVisibility(usesAbs ? View.VISIBLE : View.GONE);
-                    legs.setVisibility(usesLegs ? View.VISIBLE : View.GONE);
-                    glutes.setVisibility(usesGlutes ? View.VISIBLE : View.GONE);
-                } else {
-                    back.setVisibility(View.GONE);
-                    abs.setVisibility(View.GONE);
-                    legs.setVisibility(View.GONE);
-                    glutes.setVisibility(View.GONE);
 
-                    backOverflow.setVisibility(usesBack ? View.VISIBLE : View.GONE);
-                    absOverflow.setVisibility(usesAbs ? View.VISIBLE : View.GONE);
-                    legsOverflow.setVisibility(usesLegs ? View.VISIBLE : View.GONE);
-                    glutesOverflow.setVisibility(usesGlutes ? View.VISIBLE : View.GONE);
-                }
+                back.setVisibility(usesBack && count <= 5 ? View.VISIBLE : View.GONE);
+                abs.setVisibility(usesAbs && count <= 5 ? View.VISIBLE : View.GONE);
+                legs.setVisibility(usesLegs && count <= 5 ? View.VISIBLE : View.GONE);
+                glutes.setVisibility(usesGlutes && count <= 5 ? View.VISIBLE : View.GONE);
+
+                backOverflow.setVisibility(usesBack && count > 5 ? View.VISIBLE : View.GONE);
+                absOverflow.setVisibility(usesAbs && count > 5 ? View.VISIBLE : View.GONE);
+                legsOverflow.setVisibility(usesLegs && count > 5 ? View.VISIBLE : View.GONE);
+                glutesOverflow.setVisibility(usesGlutes && count > 5 ? View.VISIBLE : View.GONE);
 
                 return view;
             }
