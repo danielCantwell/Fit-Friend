@@ -71,5 +71,12 @@
         sha1="523988f0266036332e4c213be2f350a976d97fc2">
         <dex dex="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\pre-dexed\debug\db4o-8.0.249.16098-all-java5-bb2066e8d0e4a128076656e82ad4fd951c44b5fe.jar" />
     </item>
+    <item
+        jar="C:\Users\Daniel\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.2.4\a60a5e993c98c864010053cb901b7eab25306568\gson-2.2.4.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="a60a5e993c98c864010053cb901b7eab25306568">
+        <dex dex="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\pre-dexed\debug\gson-2.2.4-31127544fe5a2a62ce9560ec571b95389254d65c.jar" />
+    </item>
 
 </items>

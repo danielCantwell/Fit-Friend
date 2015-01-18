@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.exercise.types.Exercise;
+import com.cantwellcode.fitfriend.exercise.types.ExerciseSet;
 import com.cantwellcode.fitfriend.exercise.types.Workout;
 import com.cantwellcode.fitfriend.utils.Statics;
 import com.parse.ParseException;
@@ -22,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 public class WorkoutViewActivity extends Activity {
 
@@ -73,7 +75,8 @@ public class WorkoutViewActivity extends Activity {
                 ParseQuery<Exercise> query = Exercise.getQuery();
                 query.fromPin(Statics.PIN_EXERCISES);
                 query.whereEqualTo("workout", mWorkout);
-                query.addAscendingOrder("num");
+                query.orderByAscending("num");
+                query.include("sets");
 
                 return query;
             }
@@ -106,43 +109,38 @@ public class WorkoutViewActivity extends Activity {
                 boolean weight = exercise.recordWeight();
                 boolean time = exercise.recordTime();
 
-                JSONArray setArray = null;
-                try {
-                    setArray = new JSONArray(exercise.getSets().toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                List<ExerciseSet> eSets = exercise.getSets();
 
-                for (int i = 0; i < setArray.length(); i++) {
+                if (eSets == null) {
+                    setsText = "No Sets";
+                } else {
 
-                    try {
-
-                        JSONObject s = setArray.getJSONObject(i);
-
+                    int count = 0;
+                    for (ExerciseSet eSet : eSets) {
+                        count++;
                         if (reps) {
-                            setsText += s.get("reps") + "";
+                            setsText += String.valueOf(eSet.getReps());
                             if (weight) {
-                                setsText += "x" + s.get("weight") + "lbs";
+                                setsText += "x" + String.valueOf(eSet.getWeight()) + "lbs";
                             }
                             if (time) {
-                                setsText += "x" + s.get("time") + "s";
+                                setsText += "x" + String.valueOf(eSet.getTime()) + "s";
                             }
                         } else if (weight) {
-                            setsText += s.get("weight") + "lbs";
+                            setsText += String.valueOf(eSet.getWeight()) + "lbs";
                             if (time) {
-                                setsText += "x" + s.get("time") + "s";
+                                setsText += "x" + String.valueOf(eSet.getTime()) + "s";
                             }
                         } else if (time) {
-                            setsText += s.get("time") + "s";
+                            setsText += String.valueOf(eSet.getTime()) + "s";
                         }
-                        setsText += "  +  ";
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+
+                        if (count != eSets.size()) {
+                            setsText += "  +  ";
+                        }
                     }
                 }
 
-                // this next line removes the extra 'plus' at the end from the for loop
-                setsText = setsText.substring(0, setsText.length() - 5);
                 sets.setText(setsText);
 
                 arms.setVisibility(exercise.usesArms() ? View.VISIBLE : View.GONE);

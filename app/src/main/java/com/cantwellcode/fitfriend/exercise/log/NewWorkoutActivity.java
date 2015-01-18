@@ -99,6 +99,7 @@ public class NewWorkoutActivity extends Activity {
                     view = view.inflate(NewWorkoutActivity.this, R.layout.exercise_list_item, null);
                 }
 
+                /* Initialize all of the widgets in the exercise item view */
                 TextView name = (TextView) view.findViewById(R.id.name);
                 TextView sets = (TextView) view.findViewById(R.id.sets);
                 TextView arms = (TextView) view.findViewById(R.id.arms);
@@ -111,54 +112,43 @@ public class NewWorkoutActivity extends Activity {
 
                 name.setText(exercise.getName());
 
+                // empty string - will be adjusting it
                 String setsText = "";
 
                 boolean reps = exercise.recordReps();
                 boolean weight = exercise.recordWeight();
                 boolean time = exercise.recordTime();
 
-                if (exercise.getSets() == null) {
-                    setsText = "Click to Add Sets";
-                } else if (exercise.getSets().isEmpty()) {
+                List<ExerciseSet> eSets = exercise.getSets();
+
+                if (eSets == null) {
                     setsText = "Click to Add Sets";
                 } else {
-                    JSONArray setArray = null;
-                    try {
-                        setArray = new JSONArray(exercise.getSets().toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
 
-                    for (int i = 0; i < setArray.length(); i++) {
-
-                        try {
-
-                            JSONObject s = setArray.getJSONObject(i);
-
-                            if (reps) {
-                                setsText += s.get("reps") + "";
-                                if (weight) {
-                                    setsText += "x" + s.get("weight") + "lbs";
-                                }
-                                if (time) {
-                                    setsText += "x" + s.get("time") + "s";
-                                }
-                            } else if (weight) {
-                                setsText += s.get("weight") + "lbs";
-                                if (time) {
-                                    setsText += "x" + s.get("time") + "s";
-                                }
-                            } else if (time) {
-                                setsText += s.get("time") + "s";
+                    int count = 0;
+                    for (ExerciseSet eSet : eSets) {
+                        count++;
+                        if (reps) {
+                            setsText += String.valueOf(eSet.getReps());
+                            if (weight) {
+                                setsText += "x" + String.valueOf(eSet.getWeight()) + "lbs";
                             }
+                            if (time) {
+                                setsText += "x" + String.valueOf(eSet.getTime()) + "s";
+                            }
+                        } else if (weight) {
+                            setsText += String.valueOf(eSet.getWeight()) + "lbs";
+                            if (time) {
+                                setsText += "x" + String.valueOf(eSet.getTime()) + "s";
+                            }
+                        } else if (time) {
+                            setsText += String.valueOf(eSet.getTime()) + "s";
+                        }
+
+                        if (count != eSets.size()) {
                             setsText += "  +  ";
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
                     }
-
-                    // this next line removes the extra 'plus' at the end from the for loop
-//                    setsText = setsText.substring(0, setsText.length() - 5);
                 }
 
                 sets.setText(setsText);
@@ -196,7 +186,7 @@ public class NewWorkoutActivity extends Activity {
         mAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Exercise>() {
             @Override
             public void onLoading() {
-                
+
             }
 
             @Override
@@ -206,7 +196,7 @@ public class NewWorkoutActivity extends Activity {
                 } else {
                     mExerciseCount = 0;
                 }
-                mNumExercies.setText("" + mExerciseCount);
+                mNumExercies.setText(String.valueOf(mExerciseCount));
             }
         });
     }

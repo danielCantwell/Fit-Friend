@@ -25,4 +25,5 @@ dependencies {
     compile project(':ParseLoginUI')
     compile project(':facebook')
     compile 'com.android.support:support-v13:21.0.3'
+    compile 'com.google.code.gson:gson:2.2.4'
 }

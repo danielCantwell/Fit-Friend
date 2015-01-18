@@ -20,15 +20,20 @@ import android.widget.Toast;
 
 import com.cantwellcode.fitfriend.exercise.types.Exercise;
 import com.cantwellcode.fitfriend.R;
+import com.cantwellcode.fitfriend.exercise.types.ExerciseSet;
 import com.cantwellcode.fitfriend.exercise.types.Workout;
 import com.cantwellcode.fitfriend.utils.Statics;
+import com.parse.DeleteCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -220,10 +225,26 @@ public class WorkoutLog extends Fragment {
 
     private void menuClickDelete(Workout workout) {
         try {
-            for (Exercise e : workout.getLocalExerciseList()) {
-                e.unpin(Statics.PIN_EXERCISES);
+            List<ExerciseSet> exerciseSets = new ArrayList<ExerciseSet>();
+            List<Exercise> exerciseList = workout.getLocalExerciseList();
+
+            for (Exercise e : exerciseList) {
+                exerciseSets.addAll(e.getSets());
             }
+
+            // Delete Locally
+//            ParseObject.unpinAll(exerciseSets); Not sure where sets are stored, or if they even need to be explicitly deleted
+            ParseObject.unpinAll(Statics.PIN_EXERCISES, exerciseList);
             workout.unpin("Workout Log");
+
+            List<ParseObject> objectsToDelete = new ArrayList<ParseObject>();
+            objectsToDelete.add(workout);
+            objectsToDelete.addAll(exerciseList);
+            objectsToDelete.addAll(exerciseSets);
+
+            // Delete Online
+            ParseObject.deleteAllInBackground(objectsToDelete);
+
         } catch (ParseException e) {
             e.printStackTrace();
         }

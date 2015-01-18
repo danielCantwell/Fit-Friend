@@ -42,6 +42,7 @@ public class Workout extends ParseObject {
     public List<Exercise> getExerciseList() throws ParseException {
         ParseQuery<Exercise> query = Exercise.getQuery();
         query.whereEqualTo("workout", this);
+        query.orderByAscending("num");
         return query.find();
     }
 
@@ -49,6 +50,7 @@ public class Workout extends ParseObject {
         ParseQuery<Exercise> query = Exercise.getQuery();
         query.fromPin(Statics.PIN_EXERCISES);
         query.whereEqualTo("workout", this);
+        query.orderByAscending("num");
         return query.find();
     }
 

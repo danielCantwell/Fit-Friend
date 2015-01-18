@@ -1,58 +1,35 @@
 package com.cantwellcode.fitfriend.exercise.types;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
 
 /**
  * Created by Daniel on 10/26/2014.
  */
-public class ExerciseSet extends JSONObject {
-    public ExerciseSet() {
-    }
+@ParseClassName("ExerciseSet")
+public class ExerciseSet extends ParseObject {
 
-    public ExerciseSet(int weight, int reps, int time) {
-        try {
-            put("weight", weight);
-            put("reps", reps);
-            put("time", time);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public int getWeight() throws JSONException {
-        return getInt("weight");
-    }
-
-    public void setWeight(int weight) {
-        try {
-            put("weight", weight);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public int getReps() throws JSONException {
+    public int getReps() {
         return getInt("reps");
     }
 
     public void setReps(int reps) {
-        try {
-            put("reps", reps);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        put("reps", reps);
     }
 
-    public int getTime() throws JSONException {
+    public int getWeight() {
+        return getInt("weight");
+    }
+
+    public void setWeight(int weight) {
+        put("weight", weight);
+    }
+
+    public int getTime() {
         return getInt("time");
     }
 
     public void setTime(int time) {
-        try {
-            put("time", time);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        put("time", time);
     }
 }
