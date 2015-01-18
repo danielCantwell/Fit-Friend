@@ -32,6 +32,8 @@ public class CreateExerciseActivity extends Activity {
     private CheckBox mGlutes;
     private Button mSave;
 
+    private int mNum;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +51,8 @@ public class CreateExerciseActivity extends Activity {
         mLegs = (CheckBox) findViewById(R.id.checkLegs);
         mGlutes = (CheckBox) findViewById(R.id.checkGlutes);
         mSave = (Button) findViewById(R.id.save);
+
+        mNum = getIntent().getIntExtra("num", 1);
 
         mSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +80,7 @@ public class CreateExerciseActivity extends Activity {
                         public void done(ParseException e) {
                             Intent intent = new Intent(CreateExerciseActivity.this, NewExerciseActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.putExtra("num", mNum);
                             startActivity(intent);
                         }
                     });

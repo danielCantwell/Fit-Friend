@@ -111,6 +111,7 @@ public class NewExerciseActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(NewExerciseActivity.this, CreateExerciseActivity.class);
+                intent.putExtra("num", mNum);
                 startActivity(intent);
             }
         });

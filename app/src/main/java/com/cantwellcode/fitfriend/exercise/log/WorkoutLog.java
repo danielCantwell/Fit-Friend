@@ -268,7 +268,8 @@ public class WorkoutLog extends Fragment {
             List<Exercise> exerciseList = workout.getLocalExerciseList();
 
             for (Exercise e : exerciseList) {
-                exerciseSets.addAll(e.getSets());
+                if (e.getSets() != null)
+                    exerciseSets.addAll(e.getSets());
             }
 
             // Delete Locally
