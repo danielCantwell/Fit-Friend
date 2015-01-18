@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.exercise.types.Exercise;
+import com.cantwellcode.fitfriend.exercise.types.ExerciseSet;
 import com.cantwellcode.fitfriend.utils.Statics;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -53,6 +54,7 @@ public class ExerciseStatsFragment extends Fragment {
 
         ParseQuery<Exercise> query = mExercise.getDetailedQuery();
         query.fromPin(Statics.PIN_EXERCISES);
+        query.include("sets");
         query.findInBackground(new FindCallback<Exercise>() {
             @Override
             public void done(List<Exercise> exercises, ParseException exception) {
@@ -73,36 +75,24 @@ public class ExerciseStatsFragment extends Fragment {
 
                     for (Exercise e : exercises) {
 
-                        JSONArray setArray = null;
-                        try {
-                            setArray = new JSONArray(e.getSets().toString());
-                        } catch (JSONException e1) {
-                            e1.printStackTrace();
-                        }
+                        List<ExerciseSet> eSets = e.getSets();
 
-                        for (int i = 0; i < setArray.length(); i++) {
+                        for (ExerciseSet s : eSets) {
 
-                            try {
-
-                                JSONObject s = setArray.getJSONObject(i);
-
-                                if (mExercise.recordWeight()) {
-                                    int weight = s.getInt("weight");
-                                    totalWeight += weight;
-                                    if (weight > maxWeight) {
-                                        maxWeight = weight;
-                                    }
-
+                            if (mExercise.recordWeight()) {
+                                int weight = s.getInt("weight");
+                                totalWeight += weight;
+                                if (weight > maxWeight) {
+                                    maxWeight = weight;
                                 }
-                                if (mExercise.recordReps()) {
-                                    int reps = s.getInt("reps");
-                                    numReps += reps;
-                                }
-                            } catch (JSONException e1) {
-                                e1.printStackTrace();
+
+                            }
+                            if (mExercise.recordReps()) {
+                                int reps = s.getInt("reps");
+                                numReps += reps;
                             }
                         }
-                        numSets += setArray.length();
+                        numSets += eSets.size();
                     }
 
                     mSets.setText("" + numSets);
