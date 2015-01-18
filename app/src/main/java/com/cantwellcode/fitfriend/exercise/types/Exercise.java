@@ -36,12 +36,26 @@ public class Exercise extends ParseObject {
 
     public void setNum(int num) { put("num", num); }
 
+    public void setSets(List<ExerciseSet> exerciseSet) {
+        put("sets", exerciseSet);
+    }
+
     public void addSet(ExerciseSet exerciseSet) {
         add("sets", exerciseSet);
     }
 
     public List<ExerciseSet> getSets() {
         return getList("sets");
+    }
+
+    public void removeLastSet() {
+        List<ExerciseSet> sets = getSets();
+        sets.remove(sets.size()-1);
+        setSets(sets);
+    }
+
+    public void removeAllSets() {
+        remove("sets");
     }
 
     public void weight(boolean recordWeight) {

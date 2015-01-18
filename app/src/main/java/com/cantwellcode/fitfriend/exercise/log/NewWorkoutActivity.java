@@ -123,6 +123,8 @@ public class NewWorkoutActivity extends Activity {
 
                 if (eSets == null) {
                     setsText = "Click to Add Sets";
+                } else if (eSets.isEmpty()) {
+                    setsText = "Click to Add Sets";
                 } else {
 
                     int count = 0;
@@ -302,17 +304,23 @@ public class NewWorkoutActivity extends Activity {
         });
 
         MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.exercise_sets, popup.getMenu());
+        boolean hasSets = true;
+        if (exercise.getSets() == null) {
+            hasSets = false;
+        } else if (exercise.getSets().isEmpty()) {
+            hasSets = false;
+        }
+        inflater.inflate(hasSets ? R.menu.exercise_sets : R.menu.exercise_no_sets, popup.getMenu());
         popup.show();
     }
 
     private void deleteLastSet(Exercise e) {
-//        e.removeLastSet(); TODO
+        e.removeLastSet();
         updateList();
     }
 
     private void deleteAllSets(Exercise e) {
-//        e.removeAllSets(); TODO
+        e.removeAllSets();
         updateList();
     }
 
