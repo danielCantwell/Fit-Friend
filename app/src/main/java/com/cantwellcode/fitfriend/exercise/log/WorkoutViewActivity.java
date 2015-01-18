@@ -143,6 +143,7 @@ public class WorkoutViewActivity extends Activity {
 
                 sets.setText(setsText);
 
+
                 arms.setVisibility(exercise.usesArms() ? View.VISIBLE : View.GONE);
                 shoulders.setVisibility(exercise.usesShoulders() ? View.VISIBLE : View.GONE);
                 chest.setVisibility(exercise.usesChest() ? View.VISIBLE : View.GONE);

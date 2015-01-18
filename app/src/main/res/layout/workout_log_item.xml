@@ -103,23 +103,79 @@
             android:textSize="12sp" />
     </TableRow>
 
+    <TableRow
+        android:id="@+id/tableRowOverflow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tableRow"
+        android:layout_marginTop="6dp">
+
+        <TextView
+            android:id="@+id/backOverflow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            android:background="@drawable/excs_back"
+            android:padding="@dimen/excs_muscle_padding"
+            android:text="BACK"
+            android:textColor="@color/chart_green"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/absOverflow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            android:background="@drawable/excs_abs"
+            android:padding="@dimen/excs_muscle_padding"
+            android:text="ABS"
+            android:textColor="@color/chart_red"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/legsOverflow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            android:background="@drawable/excs_legs"
+            android:padding="@dimen/excs_muscle_padding"
+            android:text="LEGS"
+            android:textColor="@color/chart_orange"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/glutesOverflow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            android:background="@drawable/excs_glutes"
+            android:padding="@dimen/excs_muscle_padding"
+            android:text="GLUTES"
+            android:textColor="@color/chart_yellow"
+            android:textSize="12sp"
+            android:visibility="gone" />
+    </TableRow>
+
     <TextView
         android:id="@+id/details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tableRow"
+        android:layout_below="@+id/tableRowOverflow"
         android:layout_marginTop="6dp"
-        android:textSize="14sp"
         android:text="Exercise 1750lbs  +  Exercise 380lbs"
-        android:textColor="@color/dark_grey"/>
+        android:textColor="@color/dark_grey"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/notes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/details"
-        android:textColor="@color/grey"
         android:layout_marginTop="6dp"
-        android:textSize="14sp"
-        android:text="Here are some notes about this workout..."/>
+        android:text="Here are some notes about this workout..."
+        android:textColor="@color/grey"
+        android:textSize="14sp" />
 </RelativeLayout>
