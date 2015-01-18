@@ -98,7 +98,12 @@ public class AddSetDialog extends AlertDialog {
             mRepsPicker.setMinValue(1);
             mRepsPicker.setMaxValue(50);
             mRepsPicker.setWrapSelectorWheel(false);
-            mRepsPicker.setValue(15);  // TODO - change this to be a 'smart' value
+            ExerciseSet lastSet = mExercise.getLastSet();
+            if (lastSet != null) {
+                mRepsPicker.setValue(lastSet.getReps());
+            } else {
+                mRepsPicker.setValue(15);
+            }
 
         } else {
             root.findViewById(R.id.includeReps).setVisibility(View.GONE);
@@ -110,7 +115,12 @@ public class AddSetDialog extends AlertDialog {
             mWeightPicker.setMinValue(1);
             mWeightPicker.setMaxValue(400);
             mWeightPicker.setWrapSelectorWheel(false);
-            mWeightPicker.setValue(50);  // TODO - change this to be a 'smart' value
+            ExerciseSet lastSet = mExercise.getLastSet();
+            if (lastSet != null) {
+                mWeightPicker.setValue(lastSet.getWeight());
+            } else {
+                mWeightPicker.setValue(50);
+            }
 
         } else {
             root.findViewById(R.id.includeWeight).setVisibility(View.GONE);
@@ -118,6 +128,12 @@ public class AddSetDialog extends AlertDialog {
         /* If the exercise records time, setup time */
         if (hasTime) {
             final EditText time = (EditText) root.findViewById(R.id.time);
+            ExerciseSet lastSet = mExercise.getLastSet();
+            if (lastSet != null) {
+                time.setText(String.valueOf(lastSet.getTime()));
+            } else {
+                time.setText("30");
+            }
             time.setSelectAllOnFocus(true);
             Button start_stop = (Button) root.findViewById(R.id.start_stop);
             Button reset = (Button) root.findViewById(R.id.reset);

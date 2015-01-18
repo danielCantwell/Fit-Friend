@@ -48,6 +48,15 @@ public class Exercise extends ParseObject {
         return getList("sets");
     }
 
+    public ExerciseSet getLastSet() {
+        List<ExerciseSet> sets = getSets();
+        if (sets != null && !sets.isEmpty()) {
+            return sets.get(sets.size() - 1);
+        } else {
+            return null;
+        }
+    }
+
     public void removeLastSet() {
         List<ExerciseSet> sets = getSets();
         sets.remove(sets.size()-1);
