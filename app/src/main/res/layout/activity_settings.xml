@@ -139,4 +139,25 @@
         android:inputType="textEmailAddress"
         android:textSize="12sp" />
 
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/settings_email"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="Workout Settings"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/load_online_workouts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="Load workouts from online" />
+
 </RelativeLayout>

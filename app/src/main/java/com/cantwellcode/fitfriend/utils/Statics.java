@@ -5,6 +5,7 @@ package com.cantwellcode.fitfriend.utils;
  */
 public abstract class Statics {
 
+    public static final String PIN_WORKOUT_LOG = "Workout Log";
     public static final String PIN_SAVED_EXERCISES = "Saved Exercises";
     public static final String PIN_EXERCISES = "Exercises";
     public static final String PIN_CURRENT_EXERCISES = "Current Exercises";

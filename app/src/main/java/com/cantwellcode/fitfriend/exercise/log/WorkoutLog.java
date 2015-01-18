@@ -3,6 +3,7 @@ package com.cantwellcode.fitfriend.exercise.log;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -87,7 +88,7 @@ public class WorkoutLog extends Fragment {
 
                 /* Create a query for forum posts */
                 ParseQuery<Workout> query = Workout.getQuery();
-                query.fromPin("Workout Log");
+                query.fromPin(Statics.PIN_WORKOUT_LOG);
                 query.include("exercises");
                 query.orderByDescending("date");
 
@@ -152,9 +153,10 @@ public class WorkoutLog extends Fragment {
                 boolean legsCounted = false;
                 boolean glutesCounted = false;
 
-
                 try {
+
                     exerciseList = workout.getLocalExerciseList();
+
                     for (Exercise e : exerciseList) {
                         if (e.usesArms()) {
                             usesArms = true;

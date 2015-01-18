@@ -1,15 +1,30 @@
 package com.cantwellcode.fitfriend.connect;
 
+import android.app.ProgressDialog;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.app.ActionBar;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.cantwellcode.fitfriend.R;
+import com.cantwellcode.fitfriend.exercise.types.Exercise;
+import com.cantwellcode.fitfriend.exercise.types.Workout;
+import com.cantwellcode.fitfriend.utils.Statics;
+import com.parse.DeleteCallback;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.util.List;
 
 /**
  * Created by Daniel on 6/8/2014.
@@ -23,6 +38,8 @@ public class SettingsActivity extends FragmentActivity {
     private EditText mainSport;
     private EditText email;
 
+    private Button mLoadOnlineWorkouts;
+
     SharedPreferences sp;
 
     ParseUser user;
@@ -32,6 +49,8 @@ public class SettingsActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        sp = PreferenceManager.getDefaultSharedPreferences(this);
+
         user = ParseUser.getCurrentUser();
 
 //        headline = (EditText) findViewById(R.id.settings_headline);
@@ -40,6 +59,55 @@ public class SettingsActivity extends FragmentActivity {
         location = (EditText) findViewById(R.id.settings_location);
         mainSport = (EditText) findViewById(R.id.settings_mainSport);
         email = (EditText) findViewById(R.id.settings_email);
+
+        mLoadOnlineWorkouts = (Button) findViewById(R.id.load_online_workouts);
+        mLoadOnlineWorkouts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final ProgressDialog progressDialog = new ProgressDialog(SettingsActivity.this);
+                progressDialog.setMessage("Loading workouts, please wait...");
+                progressDialog.show();
+
+                ParseQuery<Workout> workoutQuery = Workout.getQuery();
+                workoutQuery.whereEqualTo("user", user);
+                workoutQuery.include("exercises");
+                workoutQuery.findInBackground(new FindCallback<Workout>() {
+                    @Override
+                    public void done(final List<Workout> workouts, ParseException e) {
+
+                        if (e == null) {
+                            ParseObject.unpinAllInBackground(Statics.PIN_WORKOUT_LOG, new DeleteCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    ParseObject.pinAllInBackground(Statics.PIN_WORKOUT_LOG, workouts);
+                                }
+                            });
+
+                            ParseQuery<Exercise> exerciseQuery = Exercise.getQuery();
+                            exerciseQuery.whereContainedIn("workout", workouts);
+                            exerciseQuery.include("sets");
+
+                            exerciseQuery.findInBackground(new FindCallback<Exercise>() {
+                                @Override
+                                public void done(final List<Exercise> exercises, ParseException e) {
+                                    ParseObject.unpinAllInBackground(Statics.PIN_EXERCISES, new DeleteCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            ParseObject.pinAllInBackground(Statics.PIN_EXERCISES, exercises);
+
+                                            if (progressDialog.isShowing()) {
+                                                progressDialog.dismiss();
+                                                mLoadOnlineWorkouts.setText("Workouts Loaded");
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        });
 
 //        if (user.containsKey("headline")) {
 //            headline.setText(user.getString("headline"));
@@ -61,6 +129,7 @@ public class SettingsActivity extends FragmentActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.save, menu);
         restoreActionBar();
         return true;
     }
@@ -69,6 +138,9 @@ public class SettingsActivity extends FragmentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                finish();
+                break;
+            case R.id.action_save:
                 save();
                 finish();
                 break;
@@ -78,7 +150,6 @@ public class SettingsActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-        save();
         finish();
     }
 
