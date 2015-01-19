@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
@@ -46,8 +47,13 @@ public class AddSetDialog extends AlertDialog {
     private NumberPicker mRepsPicker;
     private NumberPicker mWeightPicker;
 
+    private EditText time;
+    ProgressBar timerProgress;
+
     private Button mNegative;
     private Button mPositive;
+
+    private CountDownTimer mCountDownTimer;
 
     private View root;
     private NewWorkoutActivity mActivity;
@@ -77,6 +83,9 @@ public class AddSetDialog extends AlertDialog {
         mNegative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (timerActive) {
+                    mCountDownTimer.cancel();
+                }
                 dismiss();
             }
         });
@@ -84,6 +93,9 @@ public class AddSetDialog extends AlertDialog {
         mPositive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (timerActive) {
+                    mCountDownTimer.cancel();
+                }
                 addSet();
                 dismiss();
             }
@@ -127,7 +139,7 @@ public class AddSetDialog extends AlertDialog {
         }
         /* If the exercise records time, setup time */
         if (hasTime) {
-            final EditText time = (EditText) root.findViewById(R.id.time);
+            time = (EditText) root.findViewById(R.id.time);
             ExerciseSet lastSet = mExercise.getLastSet();
             if (lastSet != null) {
                 time.setText(String.valueOf(lastSet.getTime()));
@@ -135,48 +147,66 @@ public class AddSetDialog extends AlertDialog {
                 time.setText("30");
             }
             time.setSelectAllOnFocus(true);
-            Button start_stop = (Button) root.findViewById(R.id.start_stop);
-            Button reset = (Button) root.findViewById(R.id.reset);
-            final ProgressBar timerProgress = (ProgressBar) root.findViewById(R.id.progressBar);
+            final Button start_stop = (Button) root.findViewById(R.id.start_stop);
+            final Button reset = (Button) root.findViewById(R.id.reset);
+            timerProgress = (ProgressBar) root.findViewById(R.id.progressBar);
+            timer = Long.valueOf(time.getText().toString().trim()) * 1000;
 
             start_stop.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     if (!timerActive) {
+
                         String countdownTime = time.getText().toString().trim();
                         if (countdownTime.length() == 0) {
                             Toast.makeText(mActivity, "Please set a time for the timer", Toast.LENGTH_SHORT).show();
+                            time.requestFocus();
+                            InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.showSoftInput(time, InputMethodManager.SHOW_IMPLICIT);
                             return;
                         } else {
+                            timerActive = true;
+                            timerPaused = false;
+                            reset.setVisibility(View.VISIBLE);
+                            start_stop.setText("Pause");
+
                             timer = Long.valueOf(countdownTime) * 1000;
-                            timerProgress.setMax((int) timer);
+                            timerProgress.setMax((int) timer - 1000);
+                            startCountdownTimer(timer);
                         }
 
-                        CountDownTimer countDownTimer = new CountDownTimer(timer, 1000) {
-                            @Override
-                            public void onTick(long millisUntilFinished) {
-                                millisLeft = millisUntilFinished;
-                                // fill the progress bar as time goes on
-                                time.setText("" + (int) (millisUntilFinished / 1000));
-                                timerProgress.setProgress((int) (timer - millisUntilFinished));
-                            }
+                    } else if (timerActive && !timerPaused) { // timer is active, so the user clicked on pause
 
-                            @Override
-                            public void onFinish() {
-                                // flash when time is up
-                                root.setBackgroundColor(mActivity.getResources().getColor(R.color.pomegranate));
-                                Vibrator v = (Vibrator) mActivity.getSystemService(Context.VIBRATOR_SERVICE);
-                                v.vibrate(300);
-                                // auto-add set when time is up
-                                addSet();
-                                dismiss();
-                            }
-                        };
-                        countDownTimer.start();
+                        timerActive = true;
+                        timerPaused = true;
+                        start_stop.setText("Restart");
+                        mCountDownTimer.cancel();
+                    } else { // timer is active, but paused, so the user clicked on restart
+
+                        timerActive = true;
+                        timerPaused = false;
+                        start_stop.setText("Pause");
+                        startCountdownTimer(millisLeft);
                     }
                 }
             });
+
+            reset.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    mCountDownTimer.cancel();
+
+                    timerActive = false;
+                    timerPaused = false;
+                    time.setText(String.valueOf(timer / 1000));
+                    reset.setVisibility(View.GONE);
+                    start_stop.setText("Start");
+                    timerProgress.setProgress(0);
+                }
+            });
+
         } else {
             root.findViewById(R.id.includeTime).setVisibility(View.GONE);
         }
@@ -196,5 +226,45 @@ public class AddSetDialog extends AlertDialog {
 
         mExercise.addSet(eSet);
         mActivity.updateList();
+    }
+
+    private void startCountdownTimer(long millis) {
+        mCountDownTimer = new CountDownTimer(millis, 100) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                AddSetDialog.this.onTick(millisUntilFinished);
+            }
+
+            @Override
+            public void onFinish() {
+                AddSetDialog.this.onFinish();
+            }
+        };
+        mCountDownTimer.start();
+    }
+
+    public void onTick(long millisUntilFinished) {
+        millisLeft = millisUntilFinished;
+        // fill the progress bar as time goes on
+        time.setText("" + (int) (millisUntilFinished / 1000));
+        timerProgress.setProgress((int) (timer - millisUntilFinished));
+    }
+
+    public void onFinish() {
+        // flash when time is up
+        root.setBackgroundColor(mActivity.getResources().getColor(R.color.pomegranate));
+        Vibrator v = (Vibrator) mActivity.getSystemService(Context.VIBRATOR_SERVICE);
+        v.vibrate(500);
+        // auto-add set when time is up
+        addSet();
+        dismiss();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (timerActive) {
+            mCountDownTimer.cancel();
+        }
+        super.onBackPressed();
     }
 }
