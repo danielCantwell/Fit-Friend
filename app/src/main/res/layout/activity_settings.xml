@@ -160,4 +160,12 @@
         android:layout_marginTop="10dp"
         android:text="Load workouts from online" />
 
+    <CheckBox
+        android:id="@+id/check_delayed_timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/load_online_workouts"
+        android:layout_centerHorizontal="true"
+        android:text="Delay timer start by 5 seconds"/>
+
 </RelativeLayout>

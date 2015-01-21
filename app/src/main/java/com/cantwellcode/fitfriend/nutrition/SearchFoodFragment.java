@@ -2,6 +2,7 @@ package com.cantwellcode.fitfriend.nutrition;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -30,6 +31,7 @@ public class SearchFoodFragment extends Fragment {
 
     private SearchView mSearch;
     private ListView mList;
+    private TextView mEmpty;
 
     private ParseQueryAdapter.QueryFactory<Food> mFactory;
     private ParseQueryAdapter<Food> mAdapter;
@@ -43,8 +45,13 @@ public class SearchFoodFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_food_search, null);
 
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+
         mSearch = (SearchView) root.findViewById(R.id.search);
         mList = (ListView) root.findViewById(R.id.list);
+        mEmpty = (TextView) root.findViewById(android.R.id.empty);
+
+        mList.setEmptyView(mEmpty);
 
         mSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -54,6 +61,9 @@ public class SearchFoodFragment extends Fragment {
                     Toast.makeText(getActivity(), "Please enter at leat 3 letters", Toast.LENGTH_SHORT).show();
                     return false;
                 }
+
+                progressDialog.setMessage("Searching for " + query);
+                progressDialog.show();
 
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
@@ -122,7 +132,7 @@ public class SearchFoodFragment extends Fragment {
                             @Override
                             public void onClick(View v) {
                                 mActivity.setDetails(food.getName(),
-                                    food.getCalories(), food.getFat(), food.getCarbs(), food.getProtein());
+                                        food.getCalories(), food.getFat(), food.getCarbs(), food.getProtein());
                                 Toast.makeText(mActivity, "(" + food.getBrand() + ") " + food.getName(), Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -132,6 +142,25 @@ public class SearchFoodFragment extends Fragment {
                 };
 
                 mList.setAdapter(mAdapter);
+
+                mAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Food>() {
+                    @Override
+                    public void onLoading() {
+
+                    }
+
+                    @Override
+                    public void onLoaded(List<Food> foods, Exception e) {
+                        if (progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+                        if (e != null) {
+                            mEmpty.setText(e.getMessage());
+                        } else if (foods == null || foods.isEmpty()) {
+                            mEmpty.setText("No food found");
+                        }
+                    }
+                });
 
                 return true;
             }

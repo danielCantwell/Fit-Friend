@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.exercise.types.Exercise;
 import com.cantwellcode.fitfriend.exercise.types.ExerciseSet;
+import com.cantwellcode.fitfriend.utils.Statics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +51,9 @@ public class AddSetDialog extends AlertDialog {
 
     private EditText time;
     ProgressBar timerProgress;
+
+    private Button start_stop;
+    private Button reset;
 
     private Button mNegative;
     private Button mPositive;
@@ -147,8 +152,8 @@ public class AddSetDialog extends AlertDialog {
                 time.setText("30");
             }
             time.setSelectAllOnFocus(true);
-            final Button start_stop = (Button) root.findViewById(R.id.start_stop);
-            final Button reset = (Button) root.findViewById(R.id.reset);
+            start_stop = (Button) root.findViewById(R.id.start_stop);
+            reset = (Button) root.findViewById(R.id.reset);
             timerProgress = (ProgressBar) root.findViewById(R.id.progressBar);
             timer = Long.valueOf(time.getText().toString().trim()) * 1000;
 
@@ -156,24 +161,22 @@ public class AddSetDialog extends AlertDialog {
                 @Override
                 public void onClick(View v) {
 
-                    if (!timerActive) {
+                    if (!timerActive) { // timer is not active, so the user wants to start the timer
 
-                        String countdownTime = time.getText().toString().trim();
-                        if (countdownTime.length() == 0) {
-                            Toast.makeText(mActivity, "Please set a time for the timer", Toast.LENGTH_SHORT).show();
-                            time.requestFocus();
-                            InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
-                            imm.showSoftInput(time, InputMethodManager.SHOW_IMPLICIT);
-                            return;
+                        if (PreferenceManager.getDefaultSharedPreferences(mActivity).getBoolean(Statics.SETTINGS_DELAYED_TIMER, false)) {
+                            CountDownTimer tempTimer = new CountDownTimer(5000, 1000) {
+                                @Override
+                                public void onTick(long millisUntilFinished) {
+                                    start_stop.setText("Timer starting in ... " + String.valueOf((int) millisUntilFinished / 1000));
+                                }
+
+                                @Override
+                                public void onFinish() {
+                                    startTimer();
+                                }
+                            }.start();
                         } else {
-                            timerActive = true;
-                            timerPaused = false;
-                            reset.setVisibility(View.VISIBLE);
-                            start_stop.setText("Pause");
-
-                            timer = Long.valueOf(countdownTime) * 1000;
-                            timerProgress.setMax((int) timer - 1000);
-                            startCountdownTimer(timer);
+                            startTimer();
                         }
 
                     } else if (timerActive && !timerPaused) { // timer is active, so the user clicked on pause
@@ -226,6 +229,26 @@ public class AddSetDialog extends AlertDialog {
 
         mExercise.addSet(eSet);
         mActivity.updateList();
+    }
+
+    private void startTimer() {
+        String countdownTime = time.getText().toString().trim();
+        if (countdownTime.length() == 0) {
+            Toast.makeText(mActivity, "Please set a time for the timer", Toast.LENGTH_SHORT).show();
+            time.requestFocus();
+            InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(time, InputMethodManager.SHOW_IMPLICIT);
+            return;
+        } else {
+            timerActive = true;
+            timerPaused = false;
+            reset.setVisibility(View.VISIBLE);
+            start_stop.setText("Pause");
+
+            timer = Long.valueOf(countdownTime) * 1000;
+            timerProgress.setMax((int) timer - 1000);
+            startCountdownTimer(timer);
+        }
     }
 
     private void startCountdownTimer(long millis) {
