@@ -2,9 +2,12 @@ package com.cantwellcode.fitfriend.exercise.log;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
@@ -54,12 +57,20 @@ public class NewWorkoutActivity extends Activity {
 
     private Date mDate;
 
+    private Vibrator mVibrator;
+
+    private CountDownTimer mRestTimer;
+    private View mRestView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_workout);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+        mRestView = findViewById(R.id.restTable);
 
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
@@ -175,6 +186,10 @@ public class NewWorkoutActivity extends Activity {
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (mRestTimer != null) {
+                    mRestView.setVisibility(View.GONE);
+                    mRestTimer.cancel();
+                }
                 AddSetDialog dialog = new AddSetDialog(NewWorkoutActivity.this, mAdapter.getItem(position));
                 dialog.show();
             }
@@ -284,6 +299,26 @@ public class NewWorkoutActivity extends Activity {
         mAdapter.loadObjects();
     }
 
+    public void restAndUpdate() {
+        updateList();
+
+        mRestView.setVisibility(View.VISIBLE);
+        final TextView restTime = (TextView) findViewById(R.id.restTime);
+
+        mRestTimer = new CountDownTimer(60000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                restTime.setText(String.valueOf((int) millisUntilFinished / 1000));
+            }
+
+            @Override
+            public void onFinish() {
+                mRestView.setVisibility(View.GONE);
+                mVibrator.vibrate(1000);
+            }
+        }.start();
+    }
+
     private void showPopup(View v, final Exercise exercise) {
         PopupMenu popup = new PopupMenu(this, v);
 
@@ -336,5 +371,13 @@ public class NewWorkoutActivity extends Activity {
     protected void onResume() {
         super.onResume();
         updateList();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mRestTimer != null) {
+            mRestTimer.cancel();
+        }
     }
 }

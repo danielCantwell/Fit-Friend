@@ -13,6 +13,7 @@ public abstract class Statics {
     public static final String PIN_FRIEND_PROFILE = "Friend_Profile";
 
     public static final String SETTINGS_DELAYED_TIMER = "Delayed Timer";
+    public static final String SETTINGS_REST_TIMER = "Rest Timer";
 
     public static final String GOAL_CALORIES = "GoalCalories";
     public static final String GOAL_FAT = "GoalFat";

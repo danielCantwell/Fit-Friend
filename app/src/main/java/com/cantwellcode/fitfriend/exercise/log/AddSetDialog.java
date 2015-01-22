@@ -63,11 +63,15 @@ public class AddSetDialog extends AlertDialog {
     private View root;
     private NewWorkoutActivity mActivity;
 
+    Vibrator mVibrator;
+
     protected AddSetDialog(NewWorkoutActivity activity, Exercise e) {
         super(activity);
 
         mExercise = e;
         mActivity = activity;
+
+        mVibrator = (Vibrator) mActivity.getSystemService(Context.VIBRATOR_SERVICE);
 
         hasReps = mExercise.recordReps();
         hasWeight = mExercise.recordWeight();
@@ -228,7 +232,12 @@ public class AddSetDialog extends AlertDialog {
         }
 
         mExercise.addSet(eSet);
-        mActivity.updateList();
+
+        if (PreferenceManager.getDefaultSharedPreferences(mActivity).getBoolean(Statics.SETTINGS_REST_TIMER, false)) {
+            mActivity.restAndUpdate();
+        } else {
+            mActivity.updateList();
+        }
     }
 
     private void startTimer() {
@@ -271,13 +280,18 @@ public class AddSetDialog extends AlertDialog {
         // fill the progress bar as time goes on
         time.setText("" + (int) (millisUntilFinished / 1000));
         timerProgress.setProgress((int) (timer - millisUntilFinished));
+
+        // TODO - find a good way for the user to notice when the timer is finished
+//        if (millisUntilFinished < 2500) {
+//            root.setBackgroundColor(mActivity.getResources().getColor(R.color.pomegranate));
+//        }
     }
 
     public void onFinish() {
         // flash when time is up
         root.setBackgroundColor(mActivity.getResources().getColor(R.color.pomegranate));
-        Vibrator v = (Vibrator) mActivity.getSystemService(Context.VIBRATOR_SERVICE);
-        v.vibrate(500);
+
+        mVibrator.vibrate(1000);
         // auto-add set when time is up
         addSet();
         dismiss();

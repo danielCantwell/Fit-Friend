@@ -35,6 +35,31 @@
         android:text="0"
         android:textStyle="bold" />
 
+    <TableRow
+        android:id="@+id/restTable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="REST   "
+            android:textColor="@color/dark_grey" />
+
+        <TextView
+            android:id="@+id/restTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="58"
+            android:textColor="@color/pomegranate"
+            android:textSize="30sp" />
+
+    </TableRow>
+
     <ListView
         android:id="@+id/exerciseList"
         android:layout_width="match_parent"
@@ -62,6 +87,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:hint="NOTES"
-        android:inputType="textCapSentences"/>
+        android:inputType="textCapSentences" />
 
 </RelativeLayout>

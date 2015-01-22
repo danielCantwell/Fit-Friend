@@ -40,6 +40,7 @@ public class SettingsActivity extends FragmentActivity {
 
     private Button mLoadOnlineWorkouts;
     private CheckBox mDelayedTimer;
+    private CheckBox mRestTimer;
 
     SharedPreferences sp;
 
@@ -63,6 +64,7 @@ public class SettingsActivity extends FragmentActivity {
 
         mLoadOnlineWorkouts = (Button) findViewById(R.id.load_online_workouts);
         mDelayedTimer = (CheckBox) findViewById(R.id.check_delayed_timer);
+        mRestTimer = (CheckBox) findViewById(R.id.check_rest_timer);
 
         mLoadOnlineWorkouts.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +115,7 @@ public class SettingsActivity extends FragmentActivity {
         });
 
         mDelayedTimer.setChecked(sp.getBoolean(Statics.SETTINGS_DELAYED_TIMER, false));
+        mRestTimer.setChecked(sp.getBoolean(Statics.SETTINGS_REST_TIMER, false));
 
 //        if (user.containsKey("headline")) {
 //            headline.setText(user.getString("headline"));
@@ -171,6 +174,7 @@ public class SettingsActivity extends FragmentActivity {
         user.saveInBackground();
 
         sp.edit().putBoolean(Statics.SETTINGS_DELAYED_TIMER, mDelayedTimer.isChecked()).commit();
+        sp.edit().putBoolean(Statics.SETTINGS_REST_TIMER, mRestTimer.isChecked()).commit();
     }
 
     private void restoreActionBar() {
