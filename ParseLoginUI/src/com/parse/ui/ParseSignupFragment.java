@@ -247,7 +247,10 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
         });
 
         // Save the current Installation to Parse. (Used for push notifications)
-        ParseInstallation.getCurrentInstallation().saveInBackground();
+        // Associate the device with a user
+        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+        installation.put("user", ParseUser.getCurrentUser());
+        installation.saveInBackground();
 
         onLoginSuccessListener.onLoginSuccess();
     }

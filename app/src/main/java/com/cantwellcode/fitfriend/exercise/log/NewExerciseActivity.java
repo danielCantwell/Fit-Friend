@@ -24,6 +24,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.SaveCallback;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class NewExerciseActivity extends Activity {
@@ -122,6 +123,7 @@ public class NewExerciseActivity extends Activity {
                 Exercise e = mAdapter.getItem(position);
                 Exercise ex = e.createNew();
                 ex.setNum(mNum);
+                ex.put("createdAt", Calendar.getInstance().getTime());
                 ex.pinInBackground(Statics.PIN_CURRENT_EXERCISES, new SaveCallback() {
                     @Override
                     public void done(ParseException e) {

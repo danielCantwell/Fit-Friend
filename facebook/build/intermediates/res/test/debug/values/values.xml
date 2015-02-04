@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/Daniel/Documents/AndroidProjects/Fit-Friend/facebook/build/intermediates/bundles/debug/res/values/values.xml -->
+    <!-- From: file:/Users/danielCantwell/Documents/Development/Fit-Friend/facebook/build/intermediates/bundles/debug/res/values/values.xml -->
     <eat-comment/>
     <color name="com_facebook_blue">#3B5998</color>
     <color name="com_facebook_loginview_text_color">#FFFFFF</color>

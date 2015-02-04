@@ -23,7 +23,9 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,7 +33,7 @@ import java.util.List;
  */
 public class SettingsActivity extends FragmentActivity {
 
-//    private EditText headline;
+    //    private EditText headline;
     private EditText name;
     private EditText age;
     private EditText location;
@@ -98,16 +100,55 @@ public class SettingsActivity extends FragmentActivity {
                                     ParseObject.unpinAllInBackground(Statics.PIN_EXERCISES, new DeleteCallback() {
                                         @Override
                                         public void done(ParseException e) {
-                                            ParseObject.pinAllInBackground(Statics.PIN_EXERCISES, exercises);
+                                            ParseObject.pinAllInBackground(Statics.PIN_EXERCISES, exercises, new SaveCallback() {
+                                                @Override
+                                                public void done(ParseException e) {
+                                                    if (progressDialog.isShowing()) {
+                                                        progressDialog.dismiss();
+                                                        mLoadOnlineWorkouts.setText("Workouts Loaded");
+                                                    }
 
-                                            if (progressDialog.isShowing()) {
-                                                progressDialog.dismiss();
-                                                mLoadOnlineWorkouts.setText("Workouts Loaded");
-                                            }
+                                                    // Now populate the "saved exercises" as well
+                                                    final List<Exercise> savedExercises = new ArrayList<Exercise>();
+
+                                                    // Loop through each exercise pulled from online
+                                                    for (Exercise exercise : exercises) {
+
+                                                        // Create a template of that exercise
+                                                        Exercise ex = exercise.createNew();
+                                                        boolean alreadyExists = false;
+
+                                                        // Loop through the exercises already in the list of saved exercises
+                                                        for (Exercise savedExercise : savedExercises) {
+
+                                                            // If this exercise already exists, we don't want to add another
+                                                            if (savedExercise.sameExercise(ex)) {
+                                                                alreadyExists = true;
+                                                                break;
+                                                            }
+                                                        }
+
+                                                        // If this is a new exercise template, add it to the list
+                                                        if (!alreadyExists) {
+                                                            savedExercises.add(ex);
+                                                        }
+                                                    }
+
+                                                    // Replace the "saved exercises"
+                                                    ParseObject.unpinAllInBackground(Statics.PIN_SAVED_EXERCISES, new DeleteCallback() {
+                                                        @Override
+                                                        public void done(ParseException e) {
+                                                            ParseObject.pinAllInBackground(Statics.PIN_SAVED_EXERCISES, savedExercises);
+                                                        }
+                                                    });
+                                                }
+                                            });
                                         }
                                     });
                                 }
                             });
+                        } else {
+                            mLoadOnlineWorkouts.setText(e.getMessage());
                         }
                     }
                 });

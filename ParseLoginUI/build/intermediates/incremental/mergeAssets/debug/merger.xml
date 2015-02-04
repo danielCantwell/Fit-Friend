@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\ParseLoginUI\src\main\assets"/></dataSet><dataSet config="debug"><source path="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\ParseLoginUI\src\debug\assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="/Users/danielCantwell/Documents/Development/Fit-Friend/ParseLoginUI/src/main/assets"/></dataSet><dataSet config="debug"><source path="/Users/danielCantwell/Documents/Development/Fit-Friend/ParseLoginUI/src/debug/assets"/></dataSet></merger>

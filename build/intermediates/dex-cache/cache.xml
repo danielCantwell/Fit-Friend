@@ -2,81 +2,95 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jar="/Users/danielCantwell/Documents/Development/Fit-Friend/app/build/intermediates/exploded-aar/com.jjoe64/graphview/4.0.0/classes.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-31283496aca72349771ceaf1d6d3d43e08575154.jar" />
+        sha1="ae24ad61a573cd1faf8261f5ec6d8f0cb58ddaad">
+        <dex dex="/Users/danielCantwell/Documents/Development/Fit-Friend/app/build/intermediates/pre-dexed/debug/classes-617f2b217be03c39d672841537add4cf6a201b07.jar" />
     </item>
     <item
-        jar="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\exploded-aar\Fit-Friend\ParseLoginUI\unspecified\classes.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="5fc473f2c0499fb83bf23dd3ceef67d7b24ee7e2">
-        <dex dex="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\pre-dexed\debug\classes-5e68b3043e849bfe359f3a98185e643f4f54ecdd.jar" />
-    </item>
-    <item
-        jar="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\exploded-aar\com.android.support\support-v13\21.0.3\libs\internal_impl-21.0.3.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="0dcc55e70f7ebf7238fe2ec53f662eb378ab2668">
-        <dex dex="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-d985b74e3c989e6638f5c4228ba7e4bec7329c0c.jar" />
-    </item>
-    <item
-        jar="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\exploded-aar\com.android.support\support-v13\21.0.3\classes.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="2c2071dcaf7a008c3b01a6381a33be55396bab09">
-        <dex dex="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\pre-dexed\debug\classes-d30a606e7739194a586062f6c42b02fd6a383e7b.jar" />
-    </item>
-    <item
-        jar="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\exploded-aar\Fit-Friend\ParseLoginUI\unspecified\libs\Parse-1.8.1.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="dd491448169a0c142a786164b249139d2407a6f9">
-        <dex dex="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\pre-dexed\debug\Parse-1.8.1-a642d7c7003d3593b4a5f85e327c1230e1855c67.jar" />
-    </item>
-    <item
-        jar="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\pre-dexed\debug\classes-37830f50f5dab77a36f1fb0ed445b1a255b355d9.jar" />
-    </item>
-    <item
-        jar="C:\Users\Daniel\Documents\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-6852fd566554e81b1b27af89692dcef8bf1c4808.jar" />
-    </item>
-    <item
-        jar="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\exploded-aar\Fit-Friend\facebook\unspecified\classes.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="b6d200f0c0bd049285b89cfdeb5037cc1f10bcef">
-        <dex dex="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\pre-dexed\debug\classes-1eb4a4f46425513e26870ea3a5a843c91b1a264d.jar" />
-    </item>
-    <item
-        jar="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\exploded-aar\Fit-Friend\facebook\unspecified\libs\bolts.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="1e5ba33c837d05dcca9dc40a0ab458f8599d7aef">
-        <dex dex="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\pre-dexed\debug\bolts-17226eb5de1555925b343b1b4c4966293325e653.jar" />
-    </item>
-    <item
-        jar="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\libs\db4o-8.0.249.16098-all-java5.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="523988f0266036332e4c213be2f350a976d97fc2">
-        <dex dex="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\pre-dexed\debug\db4o-8.0.249.16098-all-java5-bb2066e8d0e4a128076656e82ad4fd951c44b5fe.jar" />
-    </item>
-    <item
-        jar="C:\Users\Daniel\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.2.4\a60a5e993c98c864010053cb901b7eab25306568\gson-2.2.4.jar"
+        jar="/Users/danielCantwell/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.2.4/a60a5e993c98c864010053cb901b7eab25306568/gson-2.2.4.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="a60a5e993c98c864010053cb901b7eab25306568">
-        <dex dex="C:\Users\Daniel\Documents\AndroidProjects\Fit-Friend\app\build\intermediates\pre-dexed\debug\gson-2.2.4-31127544fe5a2a62ce9560ec571b95389254d65c.jar" />
+        <dex dex="/Users/danielCantwell/Documents/Development/Fit-Friend/app/build/intermediates/pre-dexed/debug/gson-2.2.4-88989d473a7e96dc68be7f55d4c5748ba18f8bea.jar" />
+    </item>
+    <item
+        jar="/Users/danielCantwell/Documents/Development/Fit-Friend/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="f21927d22fe31889ecce94dd697a2e75b137e0ef">
+        <dex dex="/Users/danielCantwell/Documents/Development/Fit-Friend/app/build/intermediates/pre-dexed/debug/classes-6797ffd1b3d6aaafc952eff6fc673a72e7493c1c.jar" />
+    </item>
+    <item
+        jar="/Users/danielCantwell/Documents/Development/Fit-Friend/app/build/intermediates/exploded-aar/Fit-Friend/facebook/unspecified/libs/bolts.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="1e5ba33c837d05dcca9dc40a0ab458f8599d7aef">
+        <dex dex="/Users/danielCantwell/Documents/Development/Fit-Friend/app/build/intermediates/pre-dexed/debug/bolts-aba4e75a5bc2e9d55302167fc64e47b6375c43fc.jar" />
+    </item>
+    <item
+        jar="/Users/danielCantwell/Documents/Development/Fit-Friend/app/build/intermediates/exploded-aar/com.android.support/support-v13/21.0.3/libs/internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="0dcc55e70f7ebf7238fe2ec53f662eb378ab2668">
+        <dex dex="/Users/danielCantwell/Documents/Development/Fit-Friend/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-ce0603070501ac33f62999081847e604392711f4.jar" />
+    </item>
+    <item
+        jar="/Users/danielCantwell/Documents/Development/Fit-Friend/app/libs/db4o-8.0.249.16098-all-java5.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="523988f0266036332e4c213be2f350a976d97fc2">
+        <dex dex="/Users/danielCantwell/Documents/Development/Fit-Friend/app/build/intermediates/pre-dexed/debug/db4o-8.0.249.16098-all-java5-f47fa793e830d14888c52f239c86ad389169ad5b.jar" />
+    </item>
+    <item
+        jar="/Users/danielCantwell/Documents/Development/Fit-Friend/app/build/intermediates/exploded-aar/Fit-Friend/facebook/unspecified/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="6f8324e730560dea8dbef320e6942907fc702322">
+        <dex dex="/Users/danielCantwell/Documents/Development/Fit-Friend/app/build/intermediates/pre-dexed/debug/classes-c8ade2e63eb318d1adb6a8b20986ade91895e21e.jar" />
+    </item>
+    <item
+        jar="/Users/danielCantwell/Documents/Development/Fit-Friend/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="/Users/danielCantwell/Documents/Development/Fit-Friend/app/build/intermediates/pre-dexed/debug/classes-41f83566f55db13da290a144e9185145619d9fce.jar" />
+    </item>
+    <item
+        jar="/Users/danielCantwell/Documents/Development/Fit-Friend/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="/Users/danielCantwell/Documents/Development/Fit-Friend/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-e8b0c0676ef7d4c13446ed50bfee801efc54aa81.jar" />
+    </item>
+    <item
+        jar="/Users/danielCantwell/Documents/Development/Fit-Friend/app/build/intermediates/exploded-aar/Fit-Friend/ParseLoginUI/unspecified/libs/Parse-1.8.1.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="dd491448169a0c142a786164b249139d2407a6f9">
+        <dex dex="/Users/danielCantwell/Documents/Development/Fit-Friend/app/build/intermediates/pre-dexed/debug/Parse-1.8.1-252243e330c8e87fd14c3b510093ba6ce655d48c.jar" />
+    </item>
+    <item
+        jar="/Users/danielCantwell/Documents/Development/Fit-Friend/app/build/intermediates/exploded-aar/com.android.support/support-v13/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="2c2071dcaf7a008c3b01a6381a33be55396bab09">
+        <dex dex="/Users/danielCantwell/Documents/Development/Fit-Friend/app/build/intermediates/pre-dexed/debug/classes-b5bce24c8b4a7382ec049308a31fe2655b5f1d8b.jar" />
+    </item>
+    <item
+        jar="/Users/danielCantwell/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="/Users/danielCantwell/Documents/Development/Fit-Friend/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-cfbcdac867bc8d26dc8f7126304cfc403030cb28.jar" />
+    </item>
+    <item
+        jar="/Users/danielCantwell/Documents/Development/Fit-Friend/app/build/intermediates/exploded-aar/Fit-Friend/ParseLoginUI/unspecified/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="b381eb6ef5eeee409e43686b7d7c190a66df2537">
+        <dex dex="/Users/danielCantwell/Documents/Development/Fit-Friend/app/build/intermediates/pre-dexed/debug/classes-998e21ea951a91eade7d2bc1f88e41880d8603de.jar" />
     </item>
 
 </items>

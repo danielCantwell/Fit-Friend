@@ -59,4 +59,4 @@
         android:text="@string/com_parse_ui_create_account_button_label" />
 
 </LinearLayout>
-<!-- From: file:/C:/Users/Daniel/Documents/AndroidProjects/Fit-Friend/ParseLoginUI/res/layout/com_parse_ui_parse_signup_form.xml --><!-- From: file:/C:/Users/Daniel/Documents/AndroidProjects/Fit-Friend/ParseLoginUI/build/intermediates/bundles/debug/res/layout/com_parse_ui_parse_signup_form.xml -->
+<!-- From: file:/Users/danielCantwell/Documents/Development/Fit-Friend/ParseLoginUI/res/layout/com_parse_ui_parse_signup_form.xml --><!-- From: file:/Users/danielCantwell/Documents/Development/Fit-Friend/ParseLoginUI/build/intermediates/bundles/debug/res/layout/com_parse_ui_parse_signup_form.xml -->
