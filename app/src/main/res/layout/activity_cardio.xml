@@ -1,0 +1,105 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.cantwellcode.fitfriend.exercise.log.CardioActivity">
+
+    <ImageView
+        android:id="@+id/location_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/ic_action_location_off" />
+
+    <Chronometer
+        android:id="@+id/totalTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:textColor="@color/dark_grey"
+        android:textSize="60sp" />
+
+    <TextView
+        android:id="@+id/timeText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/totalTime"
+        android:gravity="center"
+        android:text="Total Time" />
+
+    <TableRow
+        android:id="@+id/row_pace_distance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/timeText"
+        android:layout_marginTop="40dp">
+
+        <TextView
+            android:id="@+id/pace"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="0:00"
+            android:textColor="@color/dark_grey"
+            android:textSize="45sp" />
+
+        <TextView
+            android:id="@+id/distance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="0.00"
+            android:textColor="@color/dark_grey"
+            android:textSize="45sp" />
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/row_pace_distance_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/row_pace_distance">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="pace" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="miles" />
+
+    </TableRow>
+
+    <TextView
+        android:id="@+id/xmlResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/row_pace_distance_text" />
+
+    <Button
+        android:id="@+id/button_run"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/excs_abs"
+        android:text="Start Running!"
+        android:textColor="@color/chart_red"
+        android:textScaleX="1.2"
+        android:textSize="26sp" />
+
+</RelativeLayout>

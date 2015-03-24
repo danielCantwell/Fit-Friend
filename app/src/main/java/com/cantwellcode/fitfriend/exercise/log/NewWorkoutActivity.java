@@ -270,7 +270,7 @@ public class NewWorkoutActivity extends Activity {
         try {
             final List<Exercise> exerciseList = factory.create().find();
             /* Save exercises and workout locally */
-            workout.pinInBackground("Workout Log", new SaveCallback() {
+            workout.pinInBackground(Statics.PIN_WORKOUT_LOG, new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
                     SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(NewWorkoutActivity.this);

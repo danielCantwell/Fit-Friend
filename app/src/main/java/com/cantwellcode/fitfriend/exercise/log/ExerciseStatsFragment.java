@@ -67,8 +67,6 @@ public class ExerciseStatsFragment extends Fragment {
     private List<DataPoint> mTimes;
 
     private int minGraphWeight;
-    private int minGraphReps;
-    private int minGraphTime;
 
     private int numSets = 0;
 

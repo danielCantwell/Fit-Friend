@@ -1,9 +1,11 @@
 package com.cantwellcode.fitfriend.exercise.log;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -327,12 +329,17 @@ public class WorkoutLog extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_new:
-                Intent intent = new Intent(getActivity(), NewWorkoutActivity.class);
-                startActivityForResult(intent, Statics.INTENT_REQUEST_WORKOUT);
+                showWorkoutSelection();
                 break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showWorkoutSelection() {
+
+        WorkoutTypeDialog dialog = new WorkoutTypeDialog();
+        dialog.show();
     }
 
     private void updateWorkouts() {
@@ -351,5 +358,35 @@ public class WorkoutLog extends Fragment {
         if (requestCode == Statics.INTENT_REQUEST_WORKOUT) {
             updateWorkouts();
         }
+    }
+
+    public class WorkoutTypeDialog extends AlertDialog {
+
+        public WorkoutTypeDialog() {
+            super(getActivity());
+
+            View root = getActivity().getLayoutInflater().inflate(R.layout.dialog_workout_type, null);
+
+            setView(root);
+
+            root.findViewById(R.id.select_cardio).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismiss();
+                    Intent intent = new Intent(getActivity(), CardioActivity.class);
+                    startActivity(intent);
+                }
+            });
+
+            root.findViewById(R.id.select_gym).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismiss();
+                    Intent intent = new Intent(getActivity(), NewWorkoutActivity.class);
+                    startActivityForResult(intent, Statics.INTENT_REQUEST_WORKOUT);
+                }
+            });
+        }
+
     }
 }

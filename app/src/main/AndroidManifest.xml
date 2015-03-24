@@ -11,6 +11,12 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <meta-data
+        android:name="com.google.android.gms.version"
+        android:value="@integer/google_play_services_version" />
 
     <permission
         android:name="com.cantwellcode.fitfriend.permission.C2D_MESSAGE"
@@ -83,16 +89,12 @@
             android:name=".exercise.log.NewWorkoutActivity"
             android:label="@string/title_activity_new_workout"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateUnchanged" >
-            />
-        </activity>
+            android:windowSoftInputMode="stateUnchanged" />
         <activity
             android:name=".exercise.log.NewExerciseActivity"
             android:label="@string/title_activity_new_exercise"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateUnchanged" >
-            />
-        </activity>
+            android:windowSoftInputMode="stateUnchanged" />
         <activity
             android:name=".nutrition.NewFoodActivity"
             android:label="@string/title_activity_new_food"
@@ -100,16 +102,40 @@
             android:windowSoftInputMode="stateUnchanged" />
         <activity
             android:name=".exercise.log.CreateExerciseActivity"
-            android:label="@string/title_activity_create_exercise" />
+            android:label="@string/title_activity_create_exercise"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".friends.FriendsActivity"
-            android:label="@string/title_activity_friends" />
+            android:label="@string/title_activity_friends"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".connect.CreatePostActivity"
-            android:label="@string/title_activity_create_post" />
+            android:label="@string/title_activity_create_post"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".connect.DiscussionActivity"
-            android:label="@string/title_activity_discussion" />
+            android:label="@string/title_activity_discussion"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".friends.ProfileActivity"
+            android:label="@string/title_activity_profile"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".exercise.log.ExerciseStatsActivity"
+            android:label="@string/title_activity_exercise_stats"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".exercise.log.WorkoutViewActivity"
+            android:label="@string/title_activity_workout_view"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".purchases.PurchasesActivity"
+            android:label="@string/title_activity_purchases"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".exercise.log.CardioActivity"
+            android:label="@string/title_activity_cardio"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -147,20 +173,8 @@
         </receiver>
 
         <activity
-            android:name=".friends.ProfileActivity"
-            android:label="@string/title_activity_profile" >
-        </activity>
-        <activity
-            android:name=".exercise.log.ExerciseStatsActivity"
-            android:label="@string/title_activity_exercise_stats" >
-        </activity>
-        <activity
-            android:name=".exercise.log.WorkoutViewActivity"
-            android:label="@string/title_activity_workout_view" >
-        </activity>
-        <activity
-            android:name=".purchases.PurchasesActivity"
-            android:label="@string/title_activity_purchases" >
+            android:name=".exercise.log.CardioViewActivity"
+            android:label="@string/title_activity_cardio_view" >
         </activity>
     </application>
 

@@ -7,6 +7,7 @@ import android.content.pm.Signature;
 import android.util.Base64;
 import android.util.Log;
 
+import com.cantwellcode.fitfriend.exercise.types.Cardio;
 import com.cantwellcode.fitfriend.exercise.types.ExerciseSet;
 import com.cantwellcode.fitfriend.exercise.types.Workout;
 import com.cantwellcode.fitfriend.connect.Comment;
@@ -46,6 +47,7 @@ public class App extends Application {
         ParseObject.registerSubclass(ExerciseSet.class);
         ParseObject.registerSubclass(Workout.class);
         ParseObject.registerSubclass(Food.class);
+        ParseObject.registerSubclass(Cardio.class);
 
         Parse.enableLocalDatastore(this);
 
