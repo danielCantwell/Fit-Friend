@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.app.ActionBar;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.cantwellcode.fitfriend.R;
+import com.cantwellcode.fitfriend.exercise.types.Cardio;
 import com.cantwellcode.fitfriend.exercise.types.Exercise;
 import com.cantwellcode.fitfriend.exercise.types.Workout;
 import com.cantwellcode.fitfriend.utils.Statics;
@@ -75,7 +77,7 @@ public class SettingsActivity extends FragmentActivity {
                 progressDialog.setMessage("Loading workouts, please wait...");
                 progressDialog.show();
 
-                ParseQuery<Workout> workoutQuery = Workout.getQuery();
+                ParseQuery workoutQuery = Workout.getQuery();
                 workoutQuery.whereEqualTo("user", user);
                 workoutQuery.include("exercises");
                 workoutQuery.findInBackground(new FindCallback<Workout>() {
@@ -90,6 +92,8 @@ public class SettingsActivity extends FragmentActivity {
                                 }
                             });
 
+                            Log.d("Load Workouts", workouts.size() + " gym workouts loaded");
+
                             ParseQuery<Exercise> exerciseQuery = Exercise.getQuery();
                             exerciseQuery.whereContainedIn("workout", workouts);
                             exerciseQuery.include("sets");
@@ -103,10 +107,6 @@ public class SettingsActivity extends FragmentActivity {
                                             ParseObject.pinAllInBackground(Statics.PIN_EXERCISES, exercises, new SaveCallback() {
                                                 @Override
                                                 public void done(ParseException e) {
-                                                    if (progressDialog.isShowing()) {
-                                                        progressDialog.dismiss();
-                                                        mLoadOnlineWorkouts.setText("Workouts Loaded");
-                                                    }
 
                                                     // Now populate the "saved exercises" as well
                                                     final List<Exercise> savedExercises = new ArrayList<Exercise>();
@@ -149,6 +149,24 @@ public class SettingsActivity extends FragmentActivity {
                             });
                         } else {
                             mLoadOnlineWorkouts.setText(e.getMessage());
+                        }
+                    }
+                });
+
+                ParseQuery cardioQuery = Cardio.getQuery();
+                cardioQuery.whereEqualTo("user", user);
+                cardioQuery.findInBackground(new FindCallback<Cardio>() {
+                    @Override
+                    public void done(List<Cardio> list, ParseException e) {
+                        if (e == null) {
+                            ParseObject.pinAllInBackground(Statics.PIN_WORKOUT_LOG, list);
+                            Log.d("Load Workouts", list.size() + " cardio workouts loaded");
+                        } else {
+                            Log.e("Load Workouts", e.getMessage());
+                        }
+                        if (progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                            mLoadOnlineWorkouts.setText("Workouts Loaded");
                         }
                     }
                 });

@@ -48,10 +48,10 @@ public class WorkoutViewActivity extends Activity {
         mNotes = (TextView) findViewById(R.id.notes);
 
         ParseQuery<Workout> workoutParseQuery = Workout.getQuery();
-        workoutParseQuery.fromPin("Workout to View");
+        workoutParseQuery.fromPin(Statics.PIN_WORKOUT_DETAILS);
         try {
             mWorkout = workoutParseQuery.getFirst();
-            mWorkout.unpin("Workout to View");
+            mWorkout.unpin(Statics.PIN_WORKOUT_DETAILS);
         } catch (ParseException e) {
             e.printStackTrace();
         }

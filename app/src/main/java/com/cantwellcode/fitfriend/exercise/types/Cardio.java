@@ -3,6 +3,7 @@ package com.cantwellcode.fitfriend.exercise.types;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.Date;
@@ -26,27 +27,15 @@ public class Cardio extends ParseObject {
     }
 
     /**
-     * Get the name of the run (defaulted to the date + location)
-     * @return
-     */
-    public String getName() {
-        return getString("name");
-    }
-
-    public void setName(String name) {
-        put("name", name);
-    }
-
-    /**
      * Get the date-time the run was started
      * @return
      */
     public Date getDate() {
-        return getDate("dateTime");
+        return getDate("date");
     }
 
     public void setDate(Date date) {
-        put("dateTime", date);
+        put("date", date);
     }
 
     /**
@@ -84,4 +73,18 @@ public class Cardio extends ParseObject {
     public void setTime(long seconds) {
         put("time", seconds);
     }
+
+    /**
+     * Get the notes for the run (Defaulted to the city of the run)
+     * @return the notes
+     */
+    public String getNotes() { return getString("notes"); }
+
+    public void setNotes(String notes) { put("notes", notes); }
+
+    /*
+    QUERY
+     */
+
+    public static ParseQuery<Cardio> getQuery() { return ParseQuery.getQuery("Cardio"); }
 }

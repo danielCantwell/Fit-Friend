@@ -77,10 +77,13 @@ public class CardioActivity extends Activity implements GoogleApiClient.Connecti
     private Element trkElement;
     private Element trkSegElement;
 
+    /* UI Widgets */
     private Chronometer mChrono;
     private TextView mPace;
     private TextView mDistance;
+    private Button mButtonRun;
 
+    // The document for writing the gpx
     private Document mDocument;
 
     private GoogleApiClient mGoogleApiClient;
@@ -89,11 +92,10 @@ public class CardioActivity extends Activity implements GoogleApiClient.Connecti
     private Location mCurrentLocation;
     private String mLastUpdateTime;
 
-    private Button mButtonRun;
-
     private boolean bRunning;
     private boolean bLocated;
 
+    /* Data used for displaying to UI and uploading to database */
     private float mMeters;
     private int mSecondsPerMile;
     private long mTime;
@@ -103,6 +105,7 @@ public class CardioActivity extends Activity implements GoogleApiClient.Connecti
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cardio);
 
+        // Setup the gps location requests
         buildGoogleApiClient();
 
         bRunning = false;
@@ -121,6 +124,7 @@ public class CardioActivity extends Activity implements GoogleApiClient.Connecti
             }
         });
 
+        // Update the time every tick of the chronometer
         mChrono.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
             public void onChronometerTick(Chronometer chronometer) {
@@ -149,20 +153,22 @@ public class CardioActivity extends Activity implements GoogleApiClient.Connecti
     }
 
     private void handleRunButtonClick() {
+        // If GPS is enabled and the location is found
         if (bLocated) {
+            // If the user has not yet started the run
             if (!bRunning) {
                 bRunning = true;
                 mButtonRun.setText("Running");
                 setupGPX();
                 startChrono();
-            } else {
+            } else {    // If the user has started the run
                 bRunning = false;
                 mButtonRun.setText("Start Running");
                 closeGPX();
                 stopChrono();
             }
-        } else {
-            Toast.makeText(this, "Enable GPS", Toast.LENGTH_SHORT).show();
+        } else {    // If the location hasn't been found
+            Toast.makeText(this, "Please enable GPS\nor wait for location to be found if already enabled", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -175,6 +181,9 @@ public class CardioActivity extends Activity implements GoogleApiClient.Connecti
         mChrono.stop();
     }
 
+    /**
+     * Builds the beginning of the GPX file
+     */
     private void setupGPX() {
         try {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -209,6 +218,9 @@ public class CardioActivity extends Activity implements GoogleApiClient.Connecti
 
     }
 
+    /**
+     * Adds each location element to the GPX file
+     */
     private void addTrackPoint() {
         Log.d("GPX", "Adding Track Point");
         Element trackPoint = mDocument.createElement(TRACK_POINT);
@@ -226,6 +238,11 @@ public class CardioActivity extends Activity implements GoogleApiClient.Connecti
         time.appendChild(mDocument.createTextNode(mLastUpdateTime));
     }
 
+    /**
+     * Formats the document output for the xml / gpx file
+     * Also saves the Cardio
+     * TODO - Should separate out saving
+     */
     private void closeGPX() {
         try {
             TransformerFactory factory = TransformerFactory.newInstance();
@@ -246,11 +263,15 @@ public class CardioActivity extends Activity implements GoogleApiClient.Connecti
 
             transformer.transform(domSource, result);
 
+            Date date = Calendar.getInstance().getTime();
+
             ParseFile gpxFile = new ParseFile("cardio.gpx", output.toByteArray());
+            gpxFile.saveInBackground();
+
             Cardio cardio = new Cardio();
             cardio.setUser(ParseUser.getCurrentUser());
             cardio.setGPX(gpxFile);
-            cardio.setDate(Calendar.getInstance().getTime());
+            cardio.setDate(date);
             cardio.setPace(mSecondsPerMile);
             cardio.setDistance(mMeters);
             cardio.setTime(mTime);
@@ -261,14 +282,22 @@ public class CardioActivity extends Activity implements GoogleApiClient.Connecti
             try {
                 addresses = gcd.getFromLocation(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), 1);
                 if (!addresses.isEmpty()) {
-                    cardio.setName("Cardio in " + addresses.get(0).getLocality());
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
+                    String dateFormat = formatter.format(date);
+                    cardio.setNotes(dateFormat + ",  " + addresses.get(0).getLocality());
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-//            cardio.pinInBackground(Statics.PIN_WORKOUT_LOG);
-            cardio.saveEventually();
+            cardio.pinInBackground(Statics.PIN_WORKOUT_LOG, new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    Toast.makeText(CardioActivity.this, "Cardio Saved", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            });
+            cardio.saveInBackground();
 
 
         } catch (TransformerConfigurationException e) {
@@ -278,6 +307,9 @@ public class CardioActivity extends Activity implements GoogleApiClient.Connecti
         }
     }
 
+    /**
+     * Begin requesting location updates at a certain interval and priority
+     */
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(3000);
@@ -285,6 +317,9 @@ public class CardioActivity extends Activity implements GoogleApiClient.Connecti
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
+    /**
+     * Sets up the location api
+     */
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -303,7 +338,7 @@ public class CardioActivity extends Activity implements GoogleApiClient.Connecti
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        stopLocationUpdates();
+        stopLocationUpdates();
     }
 
     @Override
@@ -380,7 +415,7 @@ public class CardioActivity extends Activity implements GoogleApiClient.Connecti
         mMeters += l1.distanceTo(l2);
 
         if (mMeters > 0 && mTime > 0) {
-            mSecondsPerMile = (int) (mTime * 1609.34) / (int)(mMeters * 1000);
+            mSecondsPerMile = (int) (mTime * 1609.34) / (int) (mMeters * 1000);
         } else {
             mSecondsPerMile = 0;
         }

@@ -2,54 +2,51 @@ package com.cantwellcode.fitfriend.exercise.log;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.PopupMenu;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.cantwellcode.fitfriend.exercise.types.Cardio;
 import com.cantwellcode.fitfriend.exercise.types.Exercise;
 import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.exercise.types.ExerciseSet;
 import com.cantwellcode.fitfriend.exercise.types.Workout;
 import com.cantwellcode.fitfriend.utils.Statics;
-import com.parse.DeleteCallback;
-import com.parse.Parse;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
  * Created by Daniel on 2/8/14.
  */
-public class WorkoutLog extends Fragment {
+public class WorkoutLog extends Fragment implements WorkoutListAdapter.LogItemClickListener{
 
-    private Calendar mCalendar;
+    private List<ParseObject> mDataset;
 
-    private ListView mList;
-    private ParseQueryAdapter<Workout> mAdapter;
-    private ParseQueryAdapter.QueryFactory<Workout> factory;
+    private RecyclerView mList;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     private Button mStats;
 
@@ -77,200 +74,58 @@ public class WorkoutLog extends Fragment {
             }
         });
 
-        mCalendar = Calendar.getInstance();
+        mList = (RecyclerView) root.findViewById(R.id.recyclerView);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mList.setLayoutManager(mLayoutManager);
 
-        mList = (ListView) root.findViewById(R.id.listView);
+        ParseQuery workoutQuery = Workout.getQuery();
+        workoutQuery.fromPin(Statics.PIN_WORKOUT_LOG);
+        workoutQuery.include("exercises");
+        workoutQuery.orderByDescending("date");
 
-        TextView emptyView = (TextView) root.findViewById(android.R.id.empty);
-        mList.setEmptyView(emptyView);
+        final ParseQuery cardioQuery = Cardio.getQuery();
+        cardioQuery.fromPin(Statics.PIN_WORKOUT_LOG);
+        cardioQuery.orderByDescending("date");
 
-        /* Set up factory for current exercises */
-        factory = new ParseQueryAdapter.QueryFactory<Workout>() {
-            public ParseQuery<Workout> create() {
-
-                /* Create a query for forum posts */
-                ParseQuery<Workout> query = Workout.getQuery();
-                query.fromPin(Statics.PIN_WORKOUT_LOG);
-                query.include("exercises");
-                query.orderByDescending("date");
-
-                return query;
-            }
-        };
-
-        /* Set up list adapter using the factory of exercises */
-        mAdapter = new ParseQueryAdapter<Workout>(getActivity(), factory) {
+        workoutQuery.findInBackground(new FindCallback() {
             @Override
-            public View getItemView(final Workout workout, View view, ViewGroup parent) {
+            public void done(List list, ParseException e) {
+                mDataset = list;
 
-                if (view == null) {
-                    view = view.inflate(getActivity(), R.layout.workout_log_item, null);
-                }
-
-                TextView date = (TextView) view.findViewById(R.id.date);
-                TextView details = (TextView) view.findViewById(R.id.details);
-                TextView notes = (TextView) view.findViewById(R.id.notes);
-                TextView arms = (TextView) view.findViewById(R.id.arms);
-                TextView shoulders = (TextView) view.findViewById(R.id.shoulders);
-                TextView chest = (TextView) view.findViewById(R.id.chest);
-                TextView back = (TextView) view.findViewById(R.id.back);
-                TextView abs = (TextView) view.findViewById(R.id.abs);
-                TextView legs = (TextView) view.findViewById(R.id.legs);
-                TextView glutes = (TextView) view.findViewById(R.id.glutes);
-
-                TextView backOverflow = (TextView) view.findViewById(R.id.backOverflow);
-                TextView absOverflow = (TextView) view.findViewById(R.id.absOverflow);
-                TextView legsOverflow = (TextView) view.findViewById(R.id.legsOverflow);
-                TextView glutesOverflow = (TextView) view.findViewById(R.id.glutesOverflow);
-
-                SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
-                String dateFormat = formatter.format(workout.getDate());
-                date.setText(dateFormat);
-
-                if (workout.getNotes().trim().isEmpty()) {
-                    notes.setVisibility(View.GONE);
-                } else {
-                    notes.setVisibility(View.VISIBLE);
-                    notes.setText(workout.getNotes());
-                }
-
-                boolean usesArms = false;
-                boolean usesShoulders = false;
-                boolean usesChest = false;
-                boolean usesBack = false;
-                boolean usesAbs = false;
-                boolean usesLegs = false;
-                boolean usesGlutes = false;
-
-                String detailsText = "";
-
-                List<Exercise> exerciseList = null;
-
-                int count = 0;
-                boolean armsCounted = false;
-                boolean shouldersCounted = false;
-                boolean chestCounted = false;
-                boolean backCounted = false;
-                boolean absCounted = false;
-                boolean legsCounted = false;
-                boolean glutesCounted = false;
-
-                try {
-
-                    exerciseList = workout.getLocalExerciseList();
-
-                    for (Exercise e : exerciseList) {
-                        if (e.usesArms()) {
-                            usesArms = true;
-                            if (!armsCounted) {
-                                count++;
-                                armsCounted = true;
-                            }
-                        }
-                        if (e.usesShoulders()) {
-                            usesShoulders = true;
-                            if (!shouldersCounted) {
-                                count++;
-                                shouldersCounted = true;
-                            }
-                        }
-                        if (e.usesChest()) {
-                            usesChest = true;
-                            if (!chestCounted) {
-                                count++;
-                                chestCounted = true;
-                            }
-                        }
-                        if (e.usesBack()) {
-                            usesBack = true;
-                            if (!backCounted) {
-                                count++;
-                                backCounted = true;
-                            }
-                        }
-                        if (e.usesAbs()) {
-                            usesAbs = true;
-                            if (!absCounted) {
-                                count++;
-                                absCounted = true;
-                            }
-                        }
-                        if (e.usesLegs()) {
-                            usesLegs = true;
-                            if (!legsCounted) {
-                                count++;
-                                legsCounted = true;
-                            }
-                        }
-                        if (e.usesGlutes()) {
-                            usesGlutes = true;
-                            if (!glutesCounted) {
-                                count++;
-                                glutesCounted = true;
-                            }
-                        }
-
-                        detailsText += e.getName() + ",  ";
-                    }
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                // this next line removes the extra 'plus' at the end from the for loop
-                if (!detailsText.trim().isEmpty()) {
-                    detailsText = detailsText.substring(0, detailsText.length() - 3);
-                }
-                details.setText(detailsText);
-
-                arms.setVisibility(usesArms ? View.VISIBLE : View.GONE);
-                shoulders.setVisibility(usesShoulders ? View.VISIBLE : View.GONE);
-                chest.setVisibility(usesChest ? View.VISIBLE : View.GONE);
-
-                back.setVisibility(usesBack && count <= 5 ? View.VISIBLE : View.GONE);
-                abs.setVisibility(usesAbs && count <= 5 ? View.VISIBLE : View.GONE);
-                legs.setVisibility(usesLegs && count <= 5 ? View.VISIBLE : View.GONE);
-                glutes.setVisibility(usesGlutes && count <= 5 ? View.VISIBLE : View.GONE);
-
-                backOverflow.setVisibility(usesBack && count > 5 ? View.VISIBLE : View.GONE);
-                absOverflow.setVisibility(usesAbs && count > 5 ? View.VISIBLE : View.GONE);
-                legsOverflow.setVisibility(usesLegs && count > 5 ? View.VISIBLE : View.GONE);
-                glutesOverflow.setVisibility(usesGlutes && count > 5 ? View.VISIBLE : View.GONE);
-
-                return view;
-            }
-        };
-
-        mList.setAdapter(mAdapter);
-
-        mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Workout workout = mAdapter.getItem(position);
-
-                workout.pinInBackground("Workout to View", new SaveCallback() {
+                cardioQuery.findInBackground(new FindCallback() {
                     @Override
-                    public void done(ParseException e) {
-                        startActivity(new Intent(getActivity(), WorkoutViewActivity.class));
+                    public void done(List list, ParseException e) {
+                        mDataset.addAll(list);
+
+                        // Sort the list by date
+                        Collections.sort(mDataset, new Comparator<ParseObject>() {
+                            @Override
+                            public int compare(ParseObject o1, ParseObject o2) {
+                                return o2.getDate("date").compareTo(o1.getDate("date"));
+                            }
+                        });
+
+                        mAdapter = new WorkoutListAdapter(mDataset, WorkoutLog.this);
+                        mList.setAdapter(mAdapter);
                     }
                 });
             }
         });
 
-        mList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Workout workout = mAdapter.getItem(position);
-                showPopup(view, workout);
-                return true;
-            }
-        });
+//        mList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//                showPopup(view, mAdapter.getItem(position));
+//                return true;
+//            }
+//        });
 
         setHasOptionsMenu(true);
 
         return root;
     }
 
-    private void showPopup(View v, final Workout workout) {
+    private void showPopup(View v, final ParseObject object) {
         PopupMenu popup = new PopupMenu(getActivity(), v);
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -278,7 +133,10 @@ public class WorkoutLog extends Fragment {
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.action_delete:
-                        menuClickDelete(workout);
+                        if (object instanceof Workout)
+                            menuClickDeleteWorkout((Workout) object);
+                        else if (object instanceof Cardio)
+                            menuClickDeleteCardio((Cardio) object);
                         return true;
                     default:
                         return false;
@@ -291,7 +149,7 @@ public class WorkoutLog extends Fragment {
         popup.show();
     }
 
-    private void menuClickDelete(Workout workout) {
+    private void menuClickDeleteWorkout(Workout workout) {
         try {
             List<ExerciseSet> exerciseSets = new ArrayList<ExerciseSet>();
             List<Exercise> exerciseList = workout.getLocalExerciseList();
@@ -304,7 +162,7 @@ public class WorkoutLog extends Fragment {
             // Delete Locally
 //            ParseObject.unpinAll(exerciseSets); Not sure where sets are stored, or if they even need to be explicitly deleted
             ParseObject.unpinAll(Statics.PIN_EXERCISES, exerciseList);
-            workout.unpin("Workout Log");
+            workout.unpin(Statics.PIN_WORKOUT_LOG);
 
             List<ParseObject> objectsToDelete = new ArrayList<ParseObject>();
             objectsToDelete.add(workout);
@@ -317,6 +175,18 @@ public class WorkoutLog extends Fragment {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        ((WorkoutListAdapter) mAdapter).removeItemFromList(workout);
+        updateWorkouts();
+    }
+
+    private void menuClickDeleteCardio(Cardio cardio) {
+        try {
+            cardio.unpin(Statics.PIN_WORKOUT_LOG);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        cardio.deleteInBackground();
+        ((WorkoutListAdapter) mAdapter).removeItemFromList(cardio);
         updateWorkouts();
     }
 
@@ -343,7 +213,7 @@ public class WorkoutLog extends Fragment {
     }
 
     private void updateWorkouts() {
-        mAdapter.loadObjects();
+        mAdapter.notifyDataSetChanged();
     }
 
     private void restoreActionBar() {
@@ -360,6 +230,63 @@ public class WorkoutLog extends Fragment {
         }
     }
 
+    @Override
+    public void onCardioClick(View v) {
+        int i = mList.getChildAdapterPosition(v);
+        Cardio c = (Cardio) mDataset.get(i);
+
+        if (c != null) {
+            c.pinInBackground(Statics.PIN_WORKOUT_DETAILS, new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    startActivity(new Intent(getActivity(), CardioViewActivity.class));
+                }
+            });
+        } else {
+            Toast.makeText(getActivity(), "Cardio " + i + " doesn't exist", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onWorkoutClick(View v) {
+        int i = mList.getChildAdapterPosition(v);
+        Workout w = (Workout) mDataset.get(i);
+
+        if (w != null) {
+            w.pinInBackground(Statics.PIN_WORKOUT_DETAILS, new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    startActivity(new Intent(getActivity(), WorkoutViewActivity.class));
+                }
+            });
+        } else {
+            Toast.makeText(getActivity(), "Workout " + i + " doesn't exist", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onCardioLongClick(View v) {
+        int i = mList.getChildAdapterPosition(v);
+        Cardio c = (Cardio) mDataset.get(i);
+
+        if (c != null) {
+            showPopup(v, c);
+        }
+    }
+
+    @Override
+    public void onWorkoutLongClick(View v) {
+        int i = mList.getChildAdapterPosition(v);
+        Workout w = (Workout) mDataset.get(i);
+
+        if (w != null) {
+            showPopup(v, w);
+        }
+    }
+
+    /**
+     * Dialog for choosing a type of workout to begin ( Cardio / Gym )
+     */
     public class WorkoutTypeDialog extends AlertDialog {
 
         public WorkoutTypeDialog() {
@@ -374,7 +301,7 @@ public class WorkoutLog extends Fragment {
                 public void onClick(View view) {
                     dismiss();
                     Intent intent = new Intent(getActivity(), CardioActivity.class);
-                    startActivity(intent);
+                    startActivityForResult(intent, Statics.INTENT_REQUEST_WORKOUT);
                 }
             });
 
