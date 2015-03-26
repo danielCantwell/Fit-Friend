@@ -1,51 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    card_view:cardBackgroundColor="@color/white"
     card_view:cardCornerRadius="4dp"
-    card_view:cardPreventCornerOverlap="false">
+    card_view:cardBackgroundColor="@color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="8dp">
 
         <TextView
             android:id="@+id/date"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_gravity="left"
-            android:background="@color/dark_grey"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingTop="8dp"
             android:text="23 March 2015"
-            android:textColor="@color/white"
             android:textSize="21sp"
-            android:textStyle="bold"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/date"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/date"
-            android:paddingRight="8dp"
-            android:paddingTop="8dp"
-            android:src="@drawable/run_icon" />
+            android:textStyle="bold" />
 
         <TableRow
             android:id="@+id/tableRowDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/date"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
             android:layout_marginTop="6dp">
 
             <TextView
@@ -92,9 +76,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tableRowDetails"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
             android:layout_marginTop="6dp"
             android:text="Los Angeles"
             android:textColor="@color/grey"
