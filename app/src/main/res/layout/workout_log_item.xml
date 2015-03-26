@@ -24,6 +24,14 @@
             android:textSize="21sp"
             android:textStyle="bold" />
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/date"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/date"
+            android:src="@drawable/gym_icon" />
+
         <TableRow
             android:id="@+id/tableRow"
             android:layout_width="match_parent"
