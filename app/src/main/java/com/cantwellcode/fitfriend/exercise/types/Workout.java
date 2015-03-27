@@ -27,8 +27,8 @@ public class Workout extends ParseObject {
         for (Exercise e : exercises) {
             e.setWorkout(this);
             e.setUserAsCurrent();
-            e.saveEventually();
         }
+        saveAllInBackground(exercises);
     }
 
     public void saveExercisesLocally(List<Exercise> exercises) {

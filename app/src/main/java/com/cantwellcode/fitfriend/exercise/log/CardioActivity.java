@@ -294,6 +294,7 @@ public class CardioActivity extends Activity implements GoogleApiClient.Connecti
                 @Override
                 public void done(ParseException e) {
                     Toast.makeText(CardioActivity.this, "Cardio Saved", Toast.LENGTH_SHORT).show();
+                    setResult(Statics.INTENT_REQUEST_WORKOUT);
                     finish();
                 }
             });
@@ -415,7 +416,7 @@ public class CardioActivity extends Activity implements GoogleApiClient.Connecti
         mMeters += l1.distanceTo(l2);
 
         if (mMeters > 0 && mTime > 0) {
-            mSecondsPerMile = (int) (mTime * 1609.34) / (int) (mMeters * 1000);
+            mSecondsPerMile = (int) ((mTime * 1609.34) /  (mMeters * 1000));
         } else {
             mSecondsPerMile = 0;
         }

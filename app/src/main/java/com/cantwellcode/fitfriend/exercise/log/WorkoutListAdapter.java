@@ -1,5 +1,6 @@
 package com.cantwellcode.fitfriend.exercise.log;
 
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,10 @@ public class WorkoutListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public WorkoutListAdapter(List<ParseObject> dataset, LogItemClickListener listener) {
         parseObjects = dataset;
         mListener = listener;
+    }
+
+    public void updateList(List<ParseObject> newObjects) {
+        parseObjects = newObjects;
     }
 
     public void addItemToList(ParseObject o) {

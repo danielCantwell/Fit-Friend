@@ -282,7 +282,7 @@ public class NewWorkoutActivity extends Activity {
             });
             workout.saveExercisesLocally(exerciseList);
             /* Save exercises and workout online */
-            workout.saveEventually(new SaveCallback() {
+            workout.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
                     workout.saveExercises(exerciseList);

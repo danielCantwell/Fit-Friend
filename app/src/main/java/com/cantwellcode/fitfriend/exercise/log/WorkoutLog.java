@@ -45,12 +45,15 @@ public class WorkoutLog extends Fragment implements WorkoutListAdapter.LogItemCl
     private List<ParseObject> mDataset;
 
     private RecyclerView mList;
-    private RecyclerView.Adapter mAdapter;
+    private WorkoutListAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     private Button mStats;
 
     private static Fragment instance = null;
+
+    private ParseQuery workoutQuery;
+    private ParseQuery cardioQuery;
 
     public static Fragment newInstance() {
         if (instance == null)
@@ -78,12 +81,12 @@ public class WorkoutLog extends Fragment implements WorkoutListAdapter.LogItemCl
         mLayoutManager = new LinearLayoutManager(getActivity());
         mList.setLayoutManager(mLayoutManager);
 
-        ParseQuery workoutQuery = Workout.getQuery();
+        workoutQuery = Workout.getQuery();
         workoutQuery.fromPin(Statics.PIN_WORKOUT_LOG);
         workoutQuery.include("exercises");
         workoutQuery.orderByDescending("date");
 
-        final ParseQuery cardioQuery = Cardio.getQuery();
+        cardioQuery = Cardio.getQuery();
         cardioQuery.fromPin(Statics.PIN_WORKOUT_LOG);
         cardioQuery.orderByDescending("date");
 
@@ -111,14 +114,6 @@ public class WorkoutLog extends Fragment implements WorkoutListAdapter.LogItemCl
                 });
             }
         });
-
-//        mList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-//                showPopup(view, mAdapter.getItem(position));
-//                return true;
-//            }
-//        });
 
         setHasOptionsMenu(true);
 
@@ -175,8 +170,8 @@ public class WorkoutLog extends Fragment implements WorkoutListAdapter.LogItemCl
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        ((WorkoutListAdapter) mAdapter).removeItemFromList(workout);
-        updateWorkouts();
+        mAdapter.removeItemFromList(workout);
+        mAdapter.notifyDataSetChanged();
     }
 
     private void menuClickDeleteCardio(Cardio cardio) {
@@ -186,8 +181,8 @@ public class WorkoutLog extends Fragment implements WorkoutListAdapter.LogItemCl
             e.printStackTrace();
         }
         cardio.deleteInBackground();
-        ((WorkoutListAdapter) mAdapter).removeItemFromList(cardio);
-        updateWorkouts();
+        mAdapter.removeItemFromList(cardio);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -213,7 +208,30 @@ public class WorkoutLog extends Fragment implements WorkoutListAdapter.LogItemCl
     }
 
     private void updateWorkouts() {
-        mAdapter.notifyDataSetChanged();
+        workoutQuery.findInBackground(new FindCallback() {
+            @Override
+            public void done(List list, ParseException e) {
+                mDataset = list;
+
+                cardioQuery.findInBackground(new FindCallback() {
+                    @Override
+                    public void done(List list, ParseException e) {
+                        mDataset.addAll(list);
+
+                        // Sort the list by date
+                        Collections.sort(mDataset, new Comparator<ParseObject>() {
+                            @Override
+                            public int compare(ParseObject o1, ParseObject o2) {
+                                return o2.getDate("date").compareTo(o1.getDate("date"));
+                            }
+                        });
+
+                        mAdapter.updateList(mDataset);
+                        mAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        });
     }
 
     private void restoreActionBar() {

@@ -49,5 +49,6 @@
     <string name="title_activity_purchases">Premium Upgrades</string>
     <string name="title_activity_cardio">Cardio</string>
     <string name="title_activity_cardio_view">Cardio Details</string>
+    <string name="title_activity_welcome">WelcomeActivity</string>
 
 </resources>
