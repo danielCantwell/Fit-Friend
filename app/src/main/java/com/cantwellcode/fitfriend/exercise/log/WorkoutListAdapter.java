@@ -81,35 +81,22 @@ public class WorkoutListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (object instanceof Cardio) {
             Cardio cardio = (Cardio) object;
 
-            SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
-            String dateFormat = formatter.format(cardio.getDate());
-            ((CardioViewHolder) viewHolder).date.setText(dateFormat);
+            ((CardioViewHolder) viewHolder).date.setText(cardio.getDateString());
 
         /* Display Time */
 
-            int seconds = (int) cardio.getTime() / 1000;
-            int timeSeconds = seconds % 60;
-            int timeMinutes = seconds / 60;
-            int hours = 0;
-
-            if (timeMinutes >= 60) {
-                hours = seconds / 3600;
-            }
-            ((CardioViewHolder) viewHolder).time.setText(String.format("%d:%02d:%02d", hours, timeMinutes, timeSeconds));
+            ((CardioViewHolder) viewHolder).time.setText(cardio.getTimeString());
 
 
         /* Display Pace */
 
-            int paceSeconds = cardio.getPace() % 60;
-            int paceMinutes = cardio.getPace() / 60;
+            ((CardioViewHolder) viewHolder).pace.setTextWithLabel(cardio.getPaceString(), "/mi");
 
-            ((CardioViewHolder) viewHolder).pace.setTextWithLabel(String.format("%d:%02d", paceMinutes, paceSeconds), "/mi");
 
         /* Display Distance */
 
-            double miles = cardio.getDistance() / 1609.34;
+            ((CardioViewHolder) viewHolder).distance.setTextWithLabel(cardio.getMilesString(), " mi");
 
-            ((CardioViewHolder) viewHolder).distance.setTextWithLabel(String.format("%.2f", miles), " mi");
 
         }
         /*                                      *
