@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,7 +63,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-public class CardioActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+public class CardioActivity extends Activity implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     /* GPX Elements */
     private static final String GPX = "gpx";
@@ -81,7 +82,11 @@ public class CardioActivity extends Activity implements GoogleApiClient.Connecti
     private Chronometer mChrono;
     private TextView mPace;
     private TextView mDistance;
+
     private Button mButtonRun;
+    private ImageButton mButtonResume;
+    private ImageButton mButtonPause;
+    private ImageButton mButtonStop;
 
     // The document for writing the gpx
     private Document mDocument;
@@ -100,6 +105,9 @@ public class CardioActivity extends Activity implements GoogleApiClient.Connecti
     private int mSecondsPerMile;
     private long mTime;
 
+    /* Chronometer functionality */
+    private long mTimeWhenPaused;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,17 +121,24 @@ public class CardioActivity extends Activity implements GoogleApiClient.Connecti
         mLastUpdateTime = "";
 
         mChrono = (Chronometer) findViewById(R.id.totalTime);
-        mButtonRun = (Button) findViewById(R.id.button_run);
         mPace = (TextView) findViewById(R.id.pace);
         mDistance = (TextView) findViewById(R.id.distance);
 
-        mButtonRun.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                handleRunButtonClick();
-            }
-        });
+        mButtonRun = (Button) findViewById(R.id.button_run);
+        mButtonResume = (ImageButton) findViewById(R.id.button_resume);
+        mButtonPause = (ImageButton) findViewById(R.id.button_pause);
+        mButtonStop = (ImageButton) findViewById(R.id.button_stop);
 
+        mButtonResume.setVisibility(View.GONE);
+        mButtonPause.setVisibility(View.GONE);
+        mButtonStop.setVisibility(View.GONE);
+
+        mButtonRun.setOnClickListener(this);
+        mButtonResume.setOnClickListener(this);
+        mButtonPause.setOnClickListener(this);
+        mButtonStop.setOnClickListener(this);
+
+        mTimeWhenPaused = 0;
         // Update the time every tick of the chronometer
         mChrono.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
@@ -152,29 +167,64 @@ public class CardioActivity extends Activity implements GoogleApiClient.Connecti
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Button click handlers
+     **/
+
     private void handleRunButtonClick() {
         // If GPS is enabled and the location is found
         if (bLocated) {
-            // If the user has not yet started the run
-            if (!bRunning) {
-                bRunning = true;
-                mButtonRun.setText("Running");
-                setupGPX();
-                startChrono();
-            } else {    // If the user has started the run
-                bRunning = false;
-                mButtonRun.setText("Start Running");
-                closeGPX();
-                stopChrono();
-            }
+            // Start the run
+            bRunning = true;
+            mButtonRun.setVisibility(View.GONE);
+            mButtonPause.setVisibility(View.VISIBLE);
+            setupGPX();
+            startChrono();
         } else {    // If the location hasn't been found
-            Toast.makeText(this, "Please enable GPS\nor wait for location to be found if already enabled", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Location not found", Toast.LENGTH_SHORT).show();
         }
     }
+
+    private void handleResumeButtonClick() {
+        bRunning = true;
+        addTrackSegment();
+        resumeChrono();
+        mButtonResume.setVisibility(View.GONE);
+        mButtonStop.setVisibility(View.GONE);
+        mButtonPause.setVisibility(View.VISIBLE);
+    }
+
+    private void handlePauseButtonClick() {
+        bRunning = false;
+        pauseChrono();
+        mButtonPause.setVisibility(View.GONE);
+        mButtonResume.setVisibility(View.VISIBLE);
+        mButtonStop.setVisibility(View.VISIBLE);
+    }
+
+    private void handleStopButtonClick() {
+        bRunning = false;
+        stopChrono();
+        closeGPX();
+    }
+
+    /**
+     * Chronometer functions
+     **/
 
     private void startChrono() {
         mChrono.setBase(SystemClock.elapsedRealtime());
         mChrono.start();
+    }
+
+    private void resumeChrono() {
+        mChrono.setBase(SystemClock.elapsedRealtime() + mTimeWhenPaused);
+        mChrono.start();
+    }
+
+    private void pauseChrono() {
+        mTimeWhenPaused = mChrono.getBase() - SystemClock.elapsedRealtime();
+        mChrono.stop();
     }
 
     private void stopChrono() {
@@ -206,16 +256,12 @@ public class CardioActivity extends Activity implements GoogleApiClient.Connecti
         trkElement = mDocument.createElement(TRACK);
         gpxElement.appendChild(trkElement);
 
+        addTrackSegment();
+    }
+
+    private void addTrackSegment() {
         trkSegElement = mDocument.createElement(TRACK_SEGMENT);
         trkElement.appendChild(trkSegElement);
-
-//        Element nameElement = mDocument.createElement(NAME);
-//        mDocument.appendChild(nameElement);
-//
-//
-//
-//        nameElement.appendChild(mDocument.createTextNode(""))
-
     }
 
     /**
@@ -416,9 +462,27 @@ public class CardioActivity extends Activity implements GoogleApiClient.Connecti
         mMeters += l1.distanceTo(l2);
 
         if (mMeters > 0 && mTime > 0) {
-            mSecondsPerMile = (int) ((mTime * 1609.34) /  (mMeters * 1000));
+            mSecondsPerMile = (int) ((mTime * 1609.34) / (mMeters * 1000));
         } else {
             mSecondsPerMile = 0;
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.button_run:
+                handleRunButtonClick();
+                break;
+            case R.id.button_resume:
+                handleResumeButtonClick();
+                break;
+            case R.id.button_pause:
+                handlePauseButtonClick();
+                break;
+            case R.id.button_stop:
+                handleStopButtonClick();
+                break;
         }
     }
 }

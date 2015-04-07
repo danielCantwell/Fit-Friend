@@ -58,6 +58,17 @@ public class CardioViewActivity extends Activity implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cardio_view);
 
+        ParseQuery<Cardio> query = Cardio.getQuery();
+        query.fromPin(Statics.PIN_WORKOUT_DETAILS);
+        try {
+            mCardio = query.getFirst();
+            mCardio.unpin(Statics.PIN_WORKOUT_DETAILS);
+            getActionBar().setTitle(mCardio.getDateString());
+            getGeoPoints();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         mMapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mMapFragment.getMapAsync(this);
 
@@ -92,21 +103,7 @@ public class CardioViewActivity extends Activity implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(final GoogleMap map) {
-        ParseQuery<Cardio> query = Cardio.getQuery();
-        query.fromPin(Statics.PIN_WORKOUT_DETAILS);
-        query.getFirstInBackground(new GetCallback<Cardio>() {
-            @Override
-            public void done(Cardio cardio, ParseException e) {
-                if (e == null) {
-                    mCardio = cardio;
-                    getActionBar().setTitle(mCardio.getDateString());
-                    getGeoPoints();
-                    updateUI(map);
-                } else {
-                    Toast.makeText(CardioViewActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        updateUI(map);
     }
 
     private void getGeoPoints() {

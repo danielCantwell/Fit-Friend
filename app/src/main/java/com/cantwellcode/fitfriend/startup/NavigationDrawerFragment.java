@@ -126,8 +126,8 @@ public class NavigationDrawerFragment extends Fragment {
 //        mName.setText(user.get("name").toString());
 
         List<DrawerItem> drawerItems = new ArrayList<DrawerItem>();
-        drawerItems.add(new DrawerItem(getString(R.string.title_section1)));
         drawerItems.add(new DrawerItem(getString(R.string.title_section2)));
+        drawerItems.add(new DrawerItem(getString(R.string.title_section1)));
         drawerItems.add(new DrawerItem(getString(R.string.title_section3)));
         drawerItems.add(new DrawerItem(getString(R.string.title_section4)));
         drawerItems.add(new DrawerItem(getString(R.string.title_section5), android.R.drawable.ic_menu_preferences));
