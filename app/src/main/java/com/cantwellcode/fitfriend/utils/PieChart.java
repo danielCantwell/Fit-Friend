@@ -35,6 +35,8 @@ public class PieChart extends SurfaceView implements SurfaceHolder.Callback {
     private int[] values = {0, 0, 0, 0};
     private int sum = 0;
 
+    private int width, height;
+
     private enum Type {
         Calories, Macros
     }
@@ -82,6 +84,8 @@ public class PieChart extends SurfaceView implements SurfaceHolder.Callback {
 
         Log.d("Nutrition Canvas", "onDraw called");
 
+        int dim = 2 * width / 5;
+
         if (sum == 0) {
             drawArc(canvas, 0, 360, Color.DKGRAY);
         } else {
@@ -91,10 +95,10 @@ public class PieChart extends SurfaceView implements SurfaceHolder.Callback {
             int a3 = (values[2] * 360) / sum;
             int a4 = (values[3] * 360) / sum;
 
-            int a1P = values[0] * 100 / sum;
-            int a2P = values[1] * 100 / sum;
-            int a3P = values[2] * 100 / sum;
-            int a4P = values[3] * 100 / sum;
+            int a1Percent = values[0] * 100 / sum;
+            int a2Percent = values[1] * 100 / sum;
+            int a3Percent = values[2] * 100 / sum;
+            int a4Percent = values[3] * 100 / sum;
 
             a1 ++;
 
@@ -103,46 +107,55 @@ public class PieChart extends SurfaceView implements SurfaceHolder.Callback {
             drawArc(canvas, a1 + a2, a3, type == Type.Macros ? COLOR_PROTEIN : COLOR_DINNER);
             drawArc(canvas, a1 + a2 + a3, a4, COLOR_SNACK);
 
-            int colorCodeTextY = 80;
+            int dyMacros = dim / 3;
+            int dyMeals = dim / 4;
+            int colorCodeTextY;
 
             mPaint.setColor(Color.BLACK);
 
             if (type == Type.Macros) {
 
+                colorCodeTextY = dyMacros;
+
                 mPaint.setColor(COLOR_FAT);
-                canvas.drawText(a1P + "% Fat", 290, colorCodeTextY, mPaint);
-                colorCodeTextY += 80;
+                canvas.drawText(a1Percent + "% Fat", width / 2, colorCodeTextY, mPaint);
+                colorCodeTextY += dyMacros;
 
                 mPaint.setColor(COLOR_CARBS);
-                canvas.drawText(a2P + "% Carbs", 290, colorCodeTextY, mPaint);
-                colorCodeTextY += 80;
+                canvas.drawText(a2Percent + "% Carbs", width / 2, colorCodeTextY, mPaint);
+                colorCodeTextY += dyMacros;
 
                 mPaint.setColor(COLOR_PROTEIN);
-                canvas.drawText(a3P + "% Protein", 290, colorCodeTextY, mPaint);
+                canvas.drawText(a3Percent + "% Protein", width / 2 , colorCodeTextY, mPaint);
 
             } else {
 
+                colorCodeTextY = dyMeals;
+
                 mPaint.setColor(COLOR_BREAKFAST);
-                canvas.drawText(a1P + "% Breakfast", a1P == 100 ? 265 : 275, colorCodeTextY, mPaint);
-                colorCodeTextY += 60;
+                canvas.drawText(a1Percent + "% Breakfast", a1Percent == 100 ? ((width / 2) + (dim)) / 2 : width / 2, colorCodeTextY, mPaint);
+                colorCodeTextY += dyMeals;
 
                 mPaint.setColor(COLOR_LUNCH);
-                canvas.drawText(a2P + "% Lunch", 275, colorCodeTextY, mPaint);
-                colorCodeTextY += 60;
+                canvas.drawText(a2Percent + "% Lunch", width / 2, colorCodeTextY, mPaint);
+                colorCodeTextY += dyMeals;
 
                 mPaint.setColor(COLOR_DINNER);
-                canvas.drawText(a3P + "% Dinner", 275, colorCodeTextY, mPaint);
-                colorCodeTextY += 60;
+                canvas.drawText(a3Percent + "% Dinner", width / 2, colorCodeTextY, mPaint);
+                colorCodeTextY += dyMeals;
 
                 mPaint.setColor(COLOR_SNACK);
-                canvas.drawText(a4P + "% Snack", 275, colorCodeTextY, mPaint);
+                canvas.drawText(a4Percent + "% Snack", width / 2, colorCodeTextY, mPaint);
 
             }
         }
     }
 
     private void drawArc(Canvas canvas, int startDegree, int angle, int color) {
-        RectF oval = new RectF(40, 50, 240, 250);
+//        RectF oval = new RectF(40, 50, 240, 250);
+        int dim = 2 * width / 5;
+
+        RectF oval = new RectF(0, 0, dim, dim);
 
         mPaint.setColor(color);
         canvas.drawArc(oval, startDegree, angle, true, mPaint);
@@ -178,6 +191,8 @@ public class PieChart extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         mHolder = surfaceHolder;
+        width = mHolder.getSurfaceFrame().width();
+        height = mHolder.getSurfaceFrame().height();
         surfaceCreatedNotCalled = false;
         setWillNotDraw(false);
 

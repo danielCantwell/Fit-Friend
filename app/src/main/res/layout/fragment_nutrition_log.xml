@@ -24,6 +24,9 @@
             android:id="@+id/chartsRow"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="2dp"
             android:layout_weight="5"
             android:weightSum="2">
 
@@ -31,12 +34,14 @@
                 android:id="@+id/surfaceCalories"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginRight="2dp"
                 android:layout_weight="1" />
 
             <com.cantwellcode.fitfriend.utils.PieChart
                 android:id="@+id/surfaceMacros"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
                 android:layout_weight="1" />
 
         </TableRow>
