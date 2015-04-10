@@ -3,7 +3,6 @@ package com.cantwellcode.fitfriend.utils;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.cantwellcode.fitfriend.utils.Statics;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;

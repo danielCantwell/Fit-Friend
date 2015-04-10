@@ -10,9 +10,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.cantwellcode.fitfriend.R;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
-import com.parse.ParseRole;
 import com.parse.ParseUser;
 
 public class PurchasesActivity extends Activity {

@@ -19,52 +19,25 @@
         android:layout_below="@+id/title"
         android:background="@color/pomegranate" />
 
-    <!--<FrameLayout-->
-    <!--android:id="@+id/profile"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:background="@color/pomegranate">-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/profilePicture"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentTop="true"-->
-    <!--android:layout_centerHorizontal="true"-->
-    <!--android:layout_gravity="left|center_vertical" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/name"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignBottom="@+id/profilePicture"-->
-    <!--android:layout_centerHorizontal="true"-->
-    <!--android:layout_gravity="right|center_vertical"-->
-    <!--android:layout_margin="10dp"-->
-    <!--android:text="First Last"-->
-    <!--android:textColor="@color/white"-->
-    <!--android:textSize="16sp" />-->
-    <!--</FrameLayout>-->
-
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/logout"
+        android:layout_above="@+id/login"
         android:layout_below="@+id/title"
         android:layout_marginTop="8dp"
         android:choiceMode="singleChoice"
         android:dividerHeight="10dp" />
 
     <Button
-        android:id="@+id/logout"
+        android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
-        android:text="Logout"
+        android:text="Sign Up / Log In"
+        android:textScaleX="1.2"
         android:textColor="@color/pomegranate"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textSize="18sp" />
 
 </RelativeLayout>

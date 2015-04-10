@@ -17,9 +17,14 @@
     <string name="error_intro">"Please "</string>
     <string name="error_blank_username">enter a username</string>
     <string name="error_blank_password">enter a password</string>
-    <string name="error_mismatched_passwords">enter the same password twice</string>
+    <string name="error_login_fail_invalid_credentials">The username and password you entered don\'t match</string>
+    <string name="error_login_fail_unknown">Could not log in, please try again later</string>
+    <string name="error_signup_fail_unknown">Could not sign up, please try again later</string>
+    <string name="error_mismatched_passwords">Please enter the same password twice</string>
+    <string name="error_blank_name">Please enter your name</string>
     <string name="error_join">", and "</string>
     <string name="error_end">.</string>
+    <string name="error_username_taken">username / email already in use</string>
 
     <string name="facebook_app_id">502758439858970</string>
 

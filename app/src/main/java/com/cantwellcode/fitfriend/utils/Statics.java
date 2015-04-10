@@ -29,13 +29,9 @@ public abstract class Statics {
     public static final int INTENT_REQUEST_WORKOUT = 1002;
     public static final int INTENT_REQUEST_EVENT = 1003;
     public static final int INTENT_REQUEST_EVENT_DETAILS = 1004;
-    public static final int INTENT_REQUEST_FRIENDS = 1005;
-    public static final int INTENT_REQUEST_SELECT_PICTURE = 1006;
+    public static final int INTENT_REQUEST_SETTINGS = 1005;
+    public static final int INTENT_REQUEST_LOGIN = 1006;
     public static final int INTENT_REQUEST_ADD_EXERCISE = 1007;
-
-    public static enum RoutineType {
-        Lifting, Speed, HeartRate, Cadence
-    }
 
     // Category for friends posts
     public static String FORUM_CATEGORY_FRIENDS = "Friends";

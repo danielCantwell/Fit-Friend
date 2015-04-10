@@ -1,8 +1,6 @@
 package com.cantwellcode.fitfriend.exercise.types;
 
-import android.util.Log;
 
-import com.google.gson.Gson;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;

@@ -1,21 +1,12 @@
 package com.cantwellcode.fitfriend.exercise.log;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.exercise.types.Exercise;
-import com.cantwellcode.fitfriend.utils.Statics;
-import com.parse.ParseQuery;
-import com.parse.ParseQueryAdapter;
 
 public class ExerciseStatsActivity extends Activity {
 

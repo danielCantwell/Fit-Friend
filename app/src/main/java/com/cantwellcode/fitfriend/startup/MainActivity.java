@@ -5,22 +5,23 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-import com.cantwellcode.fitfriend.connect.GoalsActivity;
-import com.cantwellcode.fitfriend.connect.SettingsActivity;
-import com.cantwellcode.fitfriend.friends.FriendsActivity;
-import com.cantwellcode.fitfriend.nutrition.NutritionFavoritesView;
 import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.connect.ForumFragment;
+import com.cantwellcode.fitfriend.connect.GoalsActivity;
+import com.cantwellcode.fitfriend.connect.SettingsActivity;
 import com.cantwellcode.fitfriend.exercise.log.WorkoutLog;
+import com.cantwellcode.fitfriend.friends.FriendsActivity;
+import com.cantwellcode.fitfriend.nutrition.NutritionFavoritesView;
 import com.cantwellcode.fitfriend.nutrition.NutritionLog;
 import com.cantwellcode.fitfriend.plan.Plan;
 import com.cantwellcode.fitfriend.purchases.PurchasesActivity;
@@ -31,6 +32,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,13 +122,30 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Statics.INTENT_REQUEST_SETTINGS) {
+            if (resultCode == RESULT_OK) {
+                WorkoutLog fragment = (WorkoutLog) getSupportFragmentManager().findFragmentByTag("Workout Log");
+                if (fragment.isVisible())
+                    fragment.updateWorkouts();
+            }
+        }
+        if (requestCode == Statics.INTENT_REQUEST_LOGIN) {
+            Toast.makeText(this, "RESULT LOGIN", Toast.LENGTH_SHORT).show();
+            if (resultCode == RESULT_OK)
+                mNavigationDrawerFragment.updateLoginButton();
+        }
+    }
+
+    @Override
     public void onNavigationDrawerItemSelected(int position) {
 
         switch (position) {
             case 0:
                 Fragment workoutFragment = WorkoutLog.newInstance();
                 FragmentManager fm1 = getSupportFragmentManager();
-                fm1.beginTransaction().replace(R.id.container, workoutFragment).commit();
+                fm1.beginTransaction().replace(R.id.container, workoutFragment, "Workout Log").commit();
                 break;
             case 1:
                 Fragment nutritionFragment = NutritionLog.newInstance();
@@ -144,24 +163,28 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
                 fm3.beginTransaction().replace(R.id.container, forumFragment).commit();
                 break;
             case 4:
-                Intent i0 = new Intent(this, SettingsActivity.class);
-                startActivity(i0);
+                Intent i4 = new Intent(MainActivity.this, PurchasesActivity.class);
+                startActivity(i4);
                 break;
             case 5:
-                Intent i1 = new Intent(this, GoalsActivity.class);
-                startActivity(i1);
+                Intent i0 = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivityForResult(i0, Statics.INTENT_REQUEST_SETTINGS);
                 break;
             case 6:
-                Intent i2 = new Intent(this, NutritionFavoritesView.class);
-                startActivity(i2);
+                Intent i1 = new Intent(MainActivity.this, GoalsActivity.class);
+                startActivity(i1);
                 break;
             case 7:
-                Intent i3 = new Intent(this, FriendsActivity.class);
-                startActivity(i3);
+                Intent i2 = new Intent(MainActivity.this, NutritionFavoritesView.class);
+                startActivity(i2);
                 break;
             case 8:
-                Intent i4 = new Intent(this, PurchasesActivity.class);
-                startActivity(i4);
+                Intent i3 = new Intent(MainActivity.this, FriendsActivity.class);
+                startActivity(i3);
+                break;
+            case 9:
+                ParseUser.logOut();
+                finish();
                 break;
         }
     }

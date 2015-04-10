@@ -1,31 +1,25 @@
 package com.cantwellcode.fitfriend.startup;
 
 import android.app.Application;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
 
-import com.cantwellcode.fitfriend.exercise.types.Cardio;
-import com.cantwellcode.fitfriend.exercise.types.ExerciseSet;
-import com.cantwellcode.fitfriend.exercise.types.Workout;
 import com.cantwellcode.fitfriend.connect.Comment;
 import com.cantwellcode.fitfriend.connect.Group;
 import com.cantwellcode.fitfriend.connect.Post;
+import com.cantwellcode.fitfriend.exercise.types.Cardio;
 import com.cantwellcode.fitfriend.exercise.types.Exercise;
+import com.cantwellcode.fitfriend.exercise.types.ExerciseSet;
+import com.cantwellcode.fitfriend.exercise.types.Workout;
 import com.cantwellcode.fitfriend.nutrition.Food;
 import com.cantwellcode.fitfriend.plan.Event;
 import com.parse.Parse;
-import com.parse.ParseACL;
+import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
-import com.parse.ParseRole;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by Daniel on 5/3/2014.
@@ -50,6 +44,7 @@ public class App extends Application {
         ParseObject.registerSubclass(Cardio.class);
 
         Parse.enableLocalDatastore(this);
+
 
         Parse.initialize(this, "6ndNVpRctpv0EB5awdLtiT1nEwg5WidUBSNyKRwo", "QeU6X4k0S1zJDtlMZhiZPoe59DKhhGJONMdhZEBN");
 //        ParseFacebookUtils.initialize(getString(R.string.facebook_app_id));

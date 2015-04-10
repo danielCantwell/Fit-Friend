@@ -1,7 +1,6 @@
 package com.cantwellcode.fitfriend.utils;
 
 import android.util.Log;
-import android.util.Xml;
 
 import com.cantwellcode.fitfriend.exercise.types.Cardio;
 import com.google.android.gms.maps.model.LatLng;
@@ -12,7 +11,6 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;

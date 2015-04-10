@@ -13,8 +13,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cantwellcode.fitfriend.utils.SocialEvent;
 import com.cantwellcode.fitfriend.R;
+import com.cantwellcode.fitfriend.utils.SocialEvent;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;

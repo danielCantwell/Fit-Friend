@@ -1,11 +1,11 @@
 package com.cantwellcode.fitfriend.connect;
 
-import android.app.ProgressDialog;
-import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
 import android.app.ActionBar;
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -205,10 +205,12 @@ public class SettingsActivity extends FragmentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                setResult(RESULT_OK);
                 finish();
                 break;
             case R.id.action_save:
                 save();
+                setResult(RESULT_OK);
                 finish();
                 break;
         }
@@ -224,7 +226,7 @@ public class SettingsActivity extends FragmentActivity {
         if (age.length() > 0) {
             user.put("age", Integer.parseInt(age.getText().toString()));
         }
-//        user.put("headline", headline.getText().toString());
+
         user.put("name", name.getText().toString());
         user.put("location", location.getText().toString());
         user.put("mainSport", mainSport.getText().toString());

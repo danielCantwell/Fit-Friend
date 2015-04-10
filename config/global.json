@@ -1,0 +1,14 @@
+{
+  "global": {
+    "parseVersion": "1.4.0"
+  },
+  "applications": {
+    "Fit-Friend": {
+      "applicationId": "6ndNVpRctpv0EB5awdLtiT1nEwg5WidUBSNyKRwo",
+      "masterKey": "cae8CYhhu2nt4VoHupcZAvBy0gTeYXWP4USinCLL"
+    },
+    "_default": {
+      "link": "Fit-Friend"
+    }
+  }
+}

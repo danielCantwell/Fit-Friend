@@ -46,7 +46,7 @@ public class NavigationDrawerAdapter extends ArrayAdapter<DrawerItem> {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // Items 0, 1, 2, 3 are main fragment items, and use the "drawer_item" layout
-        if (position < 4) {
+        if (item.primary) {
             convertView = inflater.inflate(R.layout.drawer_item, null);
             holder.text = (TextView) convertView.findViewById(R.id.text);
 

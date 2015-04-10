@@ -15,16 +15,15 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.exercise.types.Exercise;
 import com.cantwellcode.fitfriend.utils.Statics;
-import com.cantwellcode.fitfriend.R;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.SaveCallback;
 
-import java.util.Calendar;
 import java.util.List;
 
 public class NewExerciseActivity extends Activity {

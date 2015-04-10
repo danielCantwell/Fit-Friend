@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,20 +22,16 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cantwellcode.fitfriend.R;
+import com.cantwellcode.fitfriend.exercise.types.Exercise;
 import com.cantwellcode.fitfriend.exercise.types.ExerciseSet;
 import com.cantwellcode.fitfriend.exercise.types.Workout;
 import com.cantwellcode.fitfriend.utils.Statics;
-import com.cantwellcode.fitfriend.R;
-import com.cantwellcode.fitfriend.exercise.types.Exercise;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.SaveCallback;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -276,7 +271,7 @@ public class NewWorkoutActivity extends Activity {
                     SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(NewWorkoutActivity.this);
                     sp.edit().remove("Workout Notes").commit();
                     ParseObject.unpinAllInBackground(Statics.PIN_CURRENT_EXERCISES);
-                    setResult(Statics.INTENT_REQUEST_WORKOUT);
+                    setResult(RESULT_OK);
                     finish();
                 }
             });

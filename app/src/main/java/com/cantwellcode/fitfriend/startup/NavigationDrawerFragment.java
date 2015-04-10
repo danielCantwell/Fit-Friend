@@ -1,17 +1,17 @@
 package com.cantwellcode.fitfriend.startup;
 
 
-import android.app.Activity;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,12 +20,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cantwellcode.fitfriend.R;
+import com.cantwellcode.fitfriend.utils.Statics;
+import com.parse.ParseAnonymousUtils;
+import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,10 +64,7 @@ public class NavigationDrawerFragment extends Fragment {
     private NavigationDrawerAdapter mAdapter;
     private View mFragmentContainerView;
 
-    private ImageView mProfilePicture;
-    private TextView mName;
-
-    private Button logout;
+    private Button login;
 
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
@@ -105,36 +105,36 @@ public class NavigationDrawerFragment extends Fragment {
                              Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_navigation_drawer, null);
 
+        if (ParseUser.getCurrentUser() == null) {
+            ParseUser.enableAutomaticUser();
+            ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e != null)
+                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
         user = ParseUser.getCurrentUser();
 
-//        mProfilePicture = (ImageView) root.findViewById(R.id.profilePicture);
-//        mName = (TextView) root.findViewById(R.id.name);
-        logout = (Button) root.findViewById(R.id.logout);
-
-//        ParseFile pic = user.getParseFile("picture");
-//
-//        if (pic != null) {
-//            try {
-//                byte[] file = pic.getData();
-//                mProfilePicture.setImageBitmap(BitmapFactory.decodeByteArray(file, 0, file.length));
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
-//        } else {
-//            mProfilePicture.setImageResource(R.drawable.profile);
-//        }
-//        mName.setText(user.get("name").toString());
+        login = (Button) root.findViewById(R.id.login);
 
         List<DrawerItem> drawerItems = new ArrayList<DrawerItem>();
         drawerItems.add(new DrawerItem(getString(R.string.title_section2)));
         drawerItems.add(new DrawerItem(getString(R.string.title_section1)));
         drawerItems.add(new DrawerItem(getString(R.string.title_section3)));
         drawerItems.add(new DrawerItem(getString(R.string.title_section4)));
+        drawerItems.add(new DrawerItem("Premium Upgrade", R.drawable.ic_launcher));
         drawerItems.add(new DrawerItem(getString(R.string.title_section5), android.R.drawable.ic_menu_preferences));
         drawerItems.add(new DrawerItem(getString(R.string.title_section6), R.drawable.ic_goals));
         drawerItems.add(new DrawerItem(getString(R.string.title_section7), android.R.drawable.btn_star));
         drawerItems.add(new DrawerItem(getString(R.string.title_section8), R.drawable.ic_friends_black));
-        drawerItems.add(new DrawerItem("Premium Upgrade", R.drawable.ic_launcher));
+        if (!ParseAnonymousUtils.isLinked(user)) {
+            drawerItems.add(new DrawerItem("Logout"));
+            login.setVisibility(View.GONE);
+        }
+
         mAdapter = new NavigationDrawerAdapter(getActivity(),
                 android.R.layout.simple_list_item_activated_1, drawerItems);
 
@@ -148,22 +148,11 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerListView.setAdapter(mAdapter);
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 
-//        FrameLayout frameLayout = (FrameLayout) root.findViewById(R.id.profile);
-//        frameLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getActivity(), ProfileActivity.class);
-//                startActivity(intent);
-//            }
-//        });
 
-        logout.setOnClickListener(new View.OnClickListener() {
+        login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseUser.logOut();
-                Intent intent = new Intent(getActivity(), DispatchActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                startActivityForResult(new Intent(getActivity(), LoginActivity.class), Statics.INTENT_REQUEST_LOGIN);
             }
         });
 
@@ -266,6 +255,15 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Statics.INTENT_REQUEST_LOGIN) {
+            if (resultCode == getActivity().RESULT_OK)
+                updateLoginButton();
+        }
+    }
+
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
@@ -336,5 +334,10 @@ public class NavigationDrawerFragment extends Fragment {
          * Called when an item in the navigation drawer is selected.
          */
         void onNavigationDrawerItemSelected(int position);
+    }
+
+    public void updateLoginButton() {
+        login.setVisibility(View.GONE);
+        mAdapter.add(new DrawerItem("Logout"));
     }
 }

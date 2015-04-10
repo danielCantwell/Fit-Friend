@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,12 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
-
+import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.exercise.types.Cardio;
 import com.cantwellcode.fitfriend.exercise.types.Exercise;
-import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.exercise.types.ExerciseSet;
 import com.cantwellcode.fitfriend.exercise.types.Workout;
 import com.cantwellcode.fitfriend.utils.Statics;
@@ -32,7 +33,6 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -41,6 +41,8 @@ import java.util.List;
  * Created by Daniel on 2/8/14.
  */
 public class WorkoutLog extends Fragment implements WorkoutListAdapter.LogItemClickListener{
+
+    private TextView emptyText;
 
     private List<ParseObject> mDataset;
 
@@ -90,12 +92,14 @@ public class WorkoutLog extends Fragment implements WorkoutListAdapter.LogItemCl
         cardioQuery.fromPin(Statics.PIN_WORKOUT_LOG);
         cardioQuery.orderByDescending("date");
 
-        workoutQuery.findInBackground(new FindCallback() {
+        emptyText = (TextView) root.findViewById(R.id.empty);
+
+        workoutQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List list, ParseException e) {
                 mDataset = list;
 
-                cardioQuery.findInBackground(new FindCallback() {
+                cardioQuery.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List list, ParseException e) {
                         mDataset.addAll(list);
@@ -107,6 +111,12 @@ public class WorkoutLog extends Fragment implements WorkoutListAdapter.LogItemCl
                                 return o2.getDate("date").compareTo(o1.getDate("date"));
                             }
                         });
+
+                        if (mDataset.isEmpty()) {
+                            emptyText.setText("When you add a workout\nyou will see it here");
+                        } else {
+                            emptyText.setVisibility(View.GONE);
+                        }
 
                         mAdapter = new WorkoutListAdapter(mDataset, WorkoutLog.this);
                         mList.setAdapter(mAdapter);
@@ -207,13 +217,14 @@ public class WorkoutLog extends Fragment implements WorkoutListAdapter.LogItemCl
         dialog.show();
     }
 
-    private void updateWorkouts() {
-        workoutQuery.findInBackground(new FindCallback() {
+    public void updateWorkouts() {
+
+        workoutQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List list, ParseException e) {
                 mDataset = list;
 
-                cardioQuery.findInBackground(new FindCallback() {
+                cardioQuery.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List list, ParseException e) {
                         mDataset.addAll(list);
@@ -225,6 +236,12 @@ public class WorkoutLog extends Fragment implements WorkoutListAdapter.LogItemCl
                                 return o2.getDate("date").compareTo(o1.getDate("date"));
                             }
                         });
+
+                        if (mDataset.isEmpty()) {
+                            emptyText.setText("When you add a workout\nyou will see it here");
+                        } else {
+                            emptyText.setVisibility(View.GONE);
+                        }
 
                         mAdapter.updateList(mDataset);
                         mAdapter.notifyDataSetChanged();
@@ -244,7 +261,9 @@ public class WorkoutLog extends Fragment implements WorkoutListAdapter.LogItemCl
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Statics.INTENT_REQUEST_WORKOUT) {
-            updateWorkouts();
+            if (resultCode == getActivity().RESULT_OK) {
+                updateWorkouts();
+            }
         }
     }
 
