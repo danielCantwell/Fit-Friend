@@ -51,5 +51,6 @@
     <string name="title_activity_cardio_view">Cardio Details</string>
     <string name="title_activity_welcome">Welcome</string>
     <string name="title_activity_sign_up">Sign Up</string>
+    <string name="title_activity_splash_screen">SplashScreen</string>
 
 </resources>

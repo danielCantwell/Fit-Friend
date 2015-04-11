@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.cantwellcode.fitfriend" >
+    package="com.cantwellcode.fitfriend">
 
     <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -33,21 +33,26 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBqOfXS-GK6JRwNe0eUrz9oprUSpAF3j-4" />
 
         <activity
-            android:name=".startup.MainActivity"
+            android:name=".startup.SplashScreen"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".startup.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".plan.AddEvent"
             android:label="@string/app_name"
@@ -121,31 +126,28 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".exercise.log.CardioViewActivity"
-            android:label="@string/title_activity_cardio_view" >
-        </activity>
+            android:label="@string/title_activity_cardio_view"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".startup.WelcomeActivity"
-            android:label="@string/title_activity_welcome" >
-        </activity>
+            android:label="@string/title_activity_welcome"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".startup.LoginActivity"
-            android:label="@string/title_activity_login" >
-        </activity>
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".startup.SignUpActivity"
-            android:label="@string/title_activity_sign_up" >
-        </activity>
+            android:label="@string/title_activity_sign_up"
+            android:screenOrientation="portrait"></activity>
 
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
         <meta-data
             android:name="com.parse.push.notification_icon"
             android:resource="@drawable/ic_launcher_white" />
 
         <service android:name="com.parse.PushService" />
 
-        <receiver android:name="com.parse.ParseBroadcastReceiver" >
+        <receiver android:name="com.parse.ParseBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.USER_PRESENT" />
@@ -153,7 +155,7 @@
         </receiver>
         <receiver
             android:name="com.parse.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
@@ -163,7 +165,7 @@
         </receiver>
         <receiver
             android:name="com.parse.ParsePushBroadcastReceiver"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />
                 <action android:name="com.parse.push.intent.DELETE" />
