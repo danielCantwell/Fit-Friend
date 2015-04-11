@@ -94,6 +94,7 @@ public class CardioActivity extends Activity implements View.OnClickListener,
 
     private boolean bRunning;
     private boolean bLocated;
+    private boolean bStartedRunning;
 
     /* Data used for displaying to UI and uploading to database */
     private float mMeters;
@@ -113,6 +114,7 @@ public class CardioActivity extends Activity implements View.OnClickListener,
 
         bRunning = false;
         bLocated = false;
+        bStartedRunning = false;
         mLastUpdateTime = "";
 
         mChrono = (Chronometer) findViewById(R.id.totalTime);
@@ -156,9 +158,13 @@ public class CardioActivity extends Activity implements View.OnClickListener,
 
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (bRunning)
-                    handlePauseButtonClick();
-                showConfirmationDialog(ConfirmationDialog.TYPE_CANCEL, "Cancel Run?");
+                if (bStartedRunning) {
+                    if (bRunning)
+                        handlePauseButtonClick();
+                    showConfirmationDialog(ConfirmationDialog.TYPE_CANCEL, "Cancel Run?");
+                } else {
+                    finish();
+                }
         }
 
         return super.onOptionsItemSelected(item);
@@ -166,9 +172,13 @@ public class CardioActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onBackPressed() {
-        if (bRunning)
-            handlePauseButtonClick();
-        showConfirmationDialog(ConfirmationDialog.TYPE_CANCEL, "Cancel Run?");
+        if (bStartedRunning) {
+            if (bRunning)
+                handlePauseButtonClick();
+            showConfirmationDialog(ConfirmationDialog.TYPE_CANCEL, "Cancel Run?");
+        } else {
+            finish();
+        }
     }
 
     private void showConfirmationDialog(String type, String message) {
@@ -185,6 +195,7 @@ public class CardioActivity extends Activity implements View.OnClickListener,
         if (bLocated) {
             // Start the run
             bRunning = true;
+            bStartedRunning = true;
             mButtonRun.setVisibility(View.GONE);
             mButtonPause.setVisibility(View.VISIBLE);
             setupGPX();
