@@ -1,5 +1,6 @@
-package com.cantwellcode.fitfriend.exercise.log;
+package com.cantwellcode.fitfriend.utils;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -10,29 +11,43 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.cantwellcode.fitfriend.R;
+import com.cantwellcode.fitfriend.exercise.log.CardioActivity;
+
+import java.io.Serializable;
 
 /**
  * Created by danielCantwell on 4/10/15.
  */
-public class CardioConfirmationDialog extends DialogFragment {
+public class ConfirmationDialog extends DialogFragment {
 
     private TextView message;
     private Button noButton;
     private Button yesButton;
 
-    public static final String TYPE_SAVE = "Save Cardio";
-    public static final String TYPE_CANCEL = "Cancel Cardio";
+    public static final String TYPE_SAVE = "Save";
+    public static final String TYPE_CANCEL = "Cancel";
 
     private String type;
+    private String msg;
 
-    static CardioConfirmationDialog newInstance(String t) {
-        CardioConfirmationDialog d = new CardioConfirmationDialog();
+    private ConfirmationListener mListener;
+
+    public static ConfirmationDialog newInstance(String t, String msg) {
+        ConfirmationDialog d = new ConfirmationDialog();
 
         Bundle args = new Bundle();
-        args.putString("type", t);
+        args.putString("type", t);;
+        args.putString("message", msg);
         d.setArguments(args);
 
         return d;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        mListener = (ConfirmationListener) activity;
     }
 
     @Override
@@ -41,19 +56,16 @@ public class CardioConfirmationDialog extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        View root = inflater.inflate(R.layout.dialog_cardio_confirmation, null);
+        View root = inflater.inflate(R.layout.dialog_confirmation, null);
 
         message = (TextView) root.findViewById(R.id.message);
         noButton = (Button) root.findViewById(R.id.no);
         yesButton = (Button) root.findViewById(R.id.yes);
 
         type = getArguments().getString("type");
+        msg = getArguments().getString("message");
 
-        if (type == TYPE_SAVE) {
-            message.setText("Save Run?");
-        } else if (type == TYPE_CANCEL) {
-            message.setText("Cancel Run?");
-        }
+        message.setText(msg);
 
         noButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,10 +77,10 @@ public class CardioConfirmationDialog extends DialogFragment {
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (type == TYPE_SAVE) {
-                    saveCardio();
-                } else if (type == TYPE_CANCEL) {
-                   cancelCardio();
+                if (type.equals(TYPE_SAVE)) {
+                    save();
+                } else if (type.equals(TYPE_CANCEL)) {
+                    cancel();
                 }
             }
         });
@@ -77,13 +89,13 @@ public class CardioConfirmationDialog extends DialogFragment {
         return builder.create();
     }
 
-    private void cancelCardio() {
+    private void cancel() {
         dismiss();
-        ((CardioActivity)getActivity()).cancelCardio();
+        mListener.onCancel();
     }
 
-    private void saveCardio() {
+    private void save() {
         dismiss();
-        ((CardioActivity)getActivity()).saveCardio();
+        mListener.onSave();
     }
 }

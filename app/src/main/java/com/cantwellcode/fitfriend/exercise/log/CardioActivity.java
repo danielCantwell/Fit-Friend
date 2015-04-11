@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.exercise.types.Cardio;
+import com.cantwellcode.fitfriend.utils.ConfirmationDialog;
+import com.cantwellcode.fitfriend.utils.ConfirmationListener;
 import com.cantwellcode.fitfriend.utils.Statics;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -54,7 +56,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-public class CardioActivity extends Activity implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+public class CardioActivity extends Activity implements View.OnClickListener,
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+        LocationListener, ConfirmationListener {
 
     /* GPX Elements */
     private static final String GPX = "gpx";
@@ -154,7 +158,7 @@ public class CardioActivity extends Activity implements View.OnClickListener, Go
             case android.R.id.home:
                 if (bRunning)
                     handlePauseButtonClick();
-                showConfirmationDialog(CardioConfirmationDialog.TYPE_CANCEL);
+                showConfirmationDialog(ConfirmationDialog.TYPE_CANCEL, "Cancel Run?");
         }
 
         return super.onOptionsItemSelected(item);
@@ -164,20 +168,12 @@ public class CardioActivity extends Activity implements View.OnClickListener, Go
     public void onBackPressed() {
         if (bRunning)
             handlePauseButtonClick();
-        showConfirmationDialog(CardioConfirmationDialog.TYPE_CANCEL);
+        showConfirmationDialog(ConfirmationDialog.TYPE_CANCEL, "Cancel Run?");
     }
 
-    private void showConfirmationDialog(String type) {
-        CardioConfirmationDialog dialog = CardioConfirmationDialog.newInstance(type);
+    private void showConfirmationDialog(String type, String message) {
+        ConfirmationDialog dialog = ConfirmationDialog.newInstance(type, message);
         dialog.show(getFragmentManager(), "Cardio Confirmation Dialog");
-    }
-
-    public void cancelCardio() {
-        finish();
-    }
-
-    public void saveCardio() {
-        closeGPX();
     }
 
     /**
@@ -218,7 +214,7 @@ public class CardioActivity extends Activity implements View.OnClickListener, Go
     private void handleStopButtonClick() {
         bRunning = false;
         pauseChrono();
-        showConfirmationDialog(CardioConfirmationDialog.TYPE_SAVE);
+        showConfirmationDialog(ConfirmationDialog.TYPE_SAVE, "Save Run?");
     }
 
     /**
@@ -493,5 +489,16 @@ public class CardioActivity extends Activity implements View.OnClickListener, Go
                 handleStopButtonClick();
                 break;
         }
+    }
+
+    @Override
+    public void onCancel() {
+        finish();
+    }
+
+    @Override
+    public void onSave() {
+        closeGPX();
+        finish();
     }
 }
