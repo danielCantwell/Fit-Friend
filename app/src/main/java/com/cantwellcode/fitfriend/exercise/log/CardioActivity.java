@@ -152,10 +152,32 @@ public class CardioActivity extends Activity implements View.OnClickListener, Go
 
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+                if (bRunning)
+                    handlePauseButtonClick();
+                showConfirmationDialog(CardioConfirmationDialog.TYPE_CANCEL);
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (bRunning)
+            handlePauseButtonClick();
+        showConfirmationDialog(CardioConfirmationDialog.TYPE_CANCEL);
+    }
+
+    private void showConfirmationDialog(String type) {
+        CardioConfirmationDialog dialog = CardioConfirmationDialog.newInstance(type);
+        dialog.show(getFragmentManager(), "Cardio Confirmation Dialog");
+    }
+
+    public void cancelCardio() {
+        finish();
+    }
+
+    public void saveCardio() {
+        closeGPX();
     }
 
     /**
@@ -195,8 +217,8 @@ public class CardioActivity extends Activity implements View.OnClickListener, Go
 
     private void handleStopButtonClick() {
         bRunning = false;
-        stopChrono();
-        closeGPX();
+        pauseChrono();
+        showConfirmationDialog(CardioConfirmationDialog.TYPE_SAVE);
     }
 
     /**
@@ -215,10 +237,6 @@ public class CardioActivity extends Activity implements View.OnClickListener, Go
 
     private void pauseChrono() {
         mTimeWhenPaused = mChrono.getBase() - SystemClock.elapsedRealtime();
-        mChrono.stop();
-    }
-
-    private void stopChrono() {
         mChrono.stop();
     }
 
