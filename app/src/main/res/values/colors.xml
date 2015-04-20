@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="transparent">#00000000</color>
+    <color name="black_semi_transparent">#CC000000</color>
     <color name="pomegranate">#c0392b</color>
     <color name="amethyst">#9b59b6</color>
     <color name="wysteria">#8e44ad</color>

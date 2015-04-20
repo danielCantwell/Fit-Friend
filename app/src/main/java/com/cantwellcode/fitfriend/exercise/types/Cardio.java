@@ -15,6 +15,9 @@ import java.util.Date;
 @ParseClassName("Cardio")
 public class Cardio extends ParseObject {
 
+    public static final String RUN = "run";
+    public static final String BIKE = "bike";
+
     public ParseUser getUser() { return getParseUser("user"); }
 
     public void setUser(ParseUser user) { put("user", user);}
@@ -25,6 +28,21 @@ public class Cardio extends ParseObject {
 
     public void setGPX(ParseFile gpxFile) {
         put("gpx", gpxFile);
+    }
+
+    /**
+     * Get the type of the run, either "run" or "bike"
+     * @return
+     */
+    public String getType() {
+        return getString("type");
+    }
+
+    public boolean setType(String type) {
+        if (!type.equals(RUN) || !type.equals(BIKE)) return false;
+
+        put("type", type);
+        return true;
     }
 
     /**

@@ -337,6 +337,7 @@ public class CardioActivity extends Activity implements View.OnClickListener,
             cardio.setPace(mSecondsPerMile);
             cardio.setDistance(mMeters);
             cardio.setTime(mTime);
+            cardio.setType(Cardio.RUN);
 
             // Get the city name
             Geocoder gcd = new Geocoder(this, Locale.getDefault());

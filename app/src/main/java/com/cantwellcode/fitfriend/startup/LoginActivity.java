@@ -19,6 +19,7 @@ import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.HashMap;
 
@@ -149,6 +150,12 @@ public class LoginActivity extends Activity {
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("anonId", anonId);
         ParseCloud.callFunctionInBackground("deleteAnonUser", params);
+
+        // Save the current Installation to Parse. (Used for push notifications)
+        // Associate the device with a user
+        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+        installation.put("user", ParseUser.getCurrentUser());
+        installation.saveInBackground();
 
         Toast.makeText(this, "Successfully Logged In", Toast.LENGTH_SHORT).show();
         setResult(RESULT_OK);

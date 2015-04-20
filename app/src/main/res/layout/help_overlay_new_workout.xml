@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black_semi_transparent"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/arrow_cancel"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:src="@android:drawable/arrow_up_float" />
+
+    <TextView
+        android:id="@+id/text_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/arrow_cancel"
+        android:text="Cancel workout"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/arrow_new_one"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:src="@android:drawable/arrow_up_float" />
+
+    <ImageView
+        android:id="@+id/arrow_new_two"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/arrow_new_one"
+        android:src="@android:drawable/arrow_up_float" />
+
+    <ImageView
+        android:id="@+id/arrow_new_three"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/arrow_new_two"
+        android:src="@android:drawable/arrow_up_float" />
+
+    <ImageView
+        android:id="@+id/arrow_new_four"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/arrow_new_three"
+        android:src="@android:drawable/arrow_up_float" />
+
+    <ImageView
+        android:id="@+id/arrow_new_five"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/arrow_new_four"
+        android:src="@android:drawable/arrow_up_float" />
+
+    <ImageView
+        android:id="@+id/arrow_new_six"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/arrow_new_five"
+        android:src="@android:drawable/arrow_up_float" />
+
+    <TextView
+        android:id="@+id/text_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/arrow_new_six"
+        android:text="Add a new exercise to the workout\nBench Press, Squats, etc"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/arrow_save_one"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="25dp"
+        android:layout_toLeftOf="@+id/arrow_new_one"
+        android:src="@android:drawable/arrow_up_float" />
+
+    <ImageView
+        android:id="@+id/arrow_save_two"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignRight="@+id/arrow_save_one"
+        android:layout_below="@+id/arrow_save_one"
+        android:src="@android:drawable/arrow_up_float" />
+
+    <ImageView
+        android:id="@+id/arrow_save_three"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignRight="@+id/arrow_save_one"
+        android:layout_below="@+id/arrow_save_two"
+        android:src="@android:drawable/arrow_up_float" />
+
+    <TextView
+        android:id="@+id/text_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/arrow_save_one"
+        android:layout_below="@+id/arrow_save_three"
+        android:text="Save workout"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/text_back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/dismiss_overlay"
+        android:gravity="center"
+        android:text="Pressing the back button will exit this screen, but you may come back to continue your workout"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/dismiss_overlay"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="Got It!"
+        android:textSize="30sp" />
+
+</RelativeLayout>

@@ -16,7 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -26,6 +28,8 @@ import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.exercise.types.Exercise;
 import com.cantwellcode.fitfriend.exercise.types.ExerciseSet;
 import com.cantwellcode.fitfriend.exercise.types.Workout;
+import com.cantwellcode.fitfriend.utils.ConfirmationDialog;
+import com.cantwellcode.fitfriend.utils.ConfirmationListener;
 import com.cantwellcode.fitfriend.utils.Statics;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -38,7 +42,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class NewWorkoutActivity extends Activity {
+public class NewWorkoutActivity extends Activity implements ConfirmationListener {
 
     private TextView mName;
     private TextView mNumExercies;
@@ -57,33 +61,39 @@ public class NewWorkoutActivity extends Activity {
     private CountDownTimer mRestTimer;
     private View mRestView;
 
+    private View root;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_workout);
+        final FrameLayout frameLayout = new FrameLayout(this);
+        setContentView(frameLayout);
+
+        root = getLayoutInflater().inflate(R.layout.activity_new_workout, frameLayout);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
-        mRestView = findViewById(R.id.restTable);
+        mRestView = root.findViewById(R.id.restTable);
 
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
         String formattedDate = df.format(c.getTime());
         mDate = c.getTime();
 
-        mName = (TextView) findViewById(R.id.name);
-        mNumExercies = (TextView) findViewById(R.id.numExercises);
-        mNotes = (EditText) findViewById(R.id.notes);
+        mName = (TextView) root.findViewById(R.id.name);
+        mNumExercies = (TextView) root.findViewById(R.id.numExercises);
+        mNotes = (EditText) root.findViewById(R.id.notes);
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         mNotes.setText(sp.getString("Workout Notes", ""));
 
         mName.setText(formattedDate);
 
-        TextView emptyView = (TextView) findViewById(android.R.id.empty);
+        TextView emptyView = (TextView) root.findViewById(android.R.id.empty);
 
-        mList = (ListView) findViewById(R.id.exerciseList);
+        mList = (ListView) root.findViewById(R.id.exerciseList);
         mList.setEmptyView(emptyView);
 
         /* Set up factory for current exercises */
@@ -214,6 +224,21 @@ public class NewWorkoutActivity extends Activity {
                 mNumExercies.setText(String.valueOf(mExerciseCount));
             }
         });
+
+        // Help Overlay
+//        boolean firstOpen = sp.getBoolean("first_open_new_workout", true);
+//        if (firstOpen) {
+//            final View overlay = getLayoutInflater().inflate(R.layout.help_overlay_new_workout, null);
+//            frameLayout.addView(overlay);
+//            Button dismissOverlay = (Button) overlay.findViewById(R.id.dismiss_overlay);
+//            dismissOverlay.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    frameLayout.removeView(overlay);
+//                }
+//            });
+//            sp.edit().putBoolean("first_open_new_workout", false).commit();
+//        }
     }
 
 
@@ -231,7 +256,7 @@ public class NewWorkoutActivity extends Activity {
         switch (item.getItemId()) {
 
             case R.id.action_save:
-                saveWorkout();
+                showConfirmationDialog(ConfirmationDialog.TYPE_SAVE, "Save Workout?");
                 break;
             case R.id.action_new_routine:
                 SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
@@ -241,9 +266,7 @@ public class NewWorkoutActivity extends Activity {
                 startActivityForResult(intent, Statics.INTENT_REQUEST_ADD_EXERCISE);
                 return true;
             case android.R.id.home:
-                ParseObject.unpinAllInBackground(Statics.PIN_CURRENT_EXERCISES);
-                setResult(RESULT_CANCELED);
-                finish();
+                showConfirmationDialog(ConfirmationDialog.TYPE_CANCEL, "Cancel Workout?");
                 break;
         }
 
@@ -298,7 +321,7 @@ public class NewWorkoutActivity extends Activity {
         updateList();
 
         mRestView.setVisibility(View.VISIBLE);
-        final TextView restTime = (TextView) findViewById(R.id.restTime);
+        final TextView restTime = (TextView) root.findViewById(R.id.restTime);
 
         mRestTimer = new CountDownTimer(60000, 1000) {
             @Override
@@ -374,5 +397,26 @@ public class NewWorkoutActivity extends Activity {
         if (mRestTimer != null) {
             mRestTimer.cancel();
         }
+    }
+
+    /**
+     * Dialog Interface Functions
+     */
+
+    private void showConfirmationDialog(String type, String message) {
+        ConfirmationDialog dialog = ConfirmationDialog.newInstance(type, message);
+        dialog.show(getFragmentManager(), "Workout Confirmation Dialog");
+    }
+
+    @Override
+    public void onCancel() {
+        ParseObject.unpinAllInBackground(Statics.PIN_CURRENT_EXERCISES);
+        setResult(RESULT_CANCELED);
+        finish();
+    }
+
+    @Override
+    public void onSave() {
+        saveWorkout();
     }
 }
