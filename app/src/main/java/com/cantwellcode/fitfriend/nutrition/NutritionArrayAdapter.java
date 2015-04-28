@@ -46,8 +46,6 @@ public class NutritionArrayAdapter extends ArrayAdapter<Meal> {
             convertView = inflater.inflate(R.layout.nutrition_data, null);
             holder = new ViewHolder();
             holder.name = (TextView) convertView.findViewById(R.id.n_data_name);
-            holder.date = (TextView) convertView.findViewById(R.id.n_data_date);
-            holder.type = (TextView) convertView.findViewById(R.id.n_data_type);
             holder.calories = (SmallDecimalTextView) convertView.findViewById(R.id.n_data_calories);
             holder.protein = (SmallDecimalTextView) convertView.findViewById(R.id.n_data_protein);
             holder.carbs = (SmallDecimalTextView) convertView.findViewById(R.id.n_data_carbs);

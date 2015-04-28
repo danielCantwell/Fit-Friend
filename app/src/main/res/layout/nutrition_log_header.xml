@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TableRow
+        android:id="@+id/caloriesRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:text="Meal Type"
+            android:textColor="@color/pomegranate"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <com.cantwellcode.fitfriend.utils.SmallDecimalTextView
+            android:id="@+id/calories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="850"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="  calories"
+            android:textColor="@color/grey" />
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/macrosRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:weightSum="6">
+
+        <com.cantwellcode.fitfriend.utils.SmallDecimalTextView
+            android:id="@+id/fat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:hint="60" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="  fat"
+            android:textColor="@color/grey" />
+
+        <com.cantwellcode.fitfriend.utils.SmallDecimalTextView
+            android:id="@+id/carbs"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:hint="320" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="  carbs"
+            android:textColor="@color/grey" />
+
+        <com.cantwellcode.fitfriend.utils.SmallDecimalTextView
+            android:id="@+id/protein"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:hint="145" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="  prot"
+            android:textColor="@color/grey" />
+
+    </TableRow>
+
+</LinearLayout>

@@ -31,5 +31,5 @@ dependencies {
     compile 'com.jjoe64:graphview:4.0.0'
     compile files('libs/bolts-android-1.2.0.jar')
     compile files('libs/db4o-8.0.249.16098-all-java5.jar')
-    compile files('libs/CantwellGraphs_1.1.jar')
+    compile files('libs/CantwellGraphs_2.2.jar')
 }

@@ -14,14 +14,36 @@
         android:layout_marginLeft="10dp"
         android:hint="Name"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="?android:attr/textColorPrimary" />
+        android:textColor="@color/pomegranate" />
+
+    <TextView
+        android:id="@+id/n_data_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/n_data_name"
+        android:layout_alignTop="@+id/n_data_brand"
+        android:hint="Size"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="?android:attr/textColorSecondary"
+        android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/n_data_brand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/n_data_name"
+        android:layout_marginRight="10dp"
+        android:hint="Brand"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="?android:attr/textColorSecondary" />
 
     <TableRow
         android:id="@+id/tableRow"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="false"
-        android:layout_below="@+id/n_data_name">
+        android:layout_below="@+id/n_data_brand">
 
         <com.cantwellcode.fitfriend.utils.SmallDecimalTextView
             android:id="@+id/n_data_calories"

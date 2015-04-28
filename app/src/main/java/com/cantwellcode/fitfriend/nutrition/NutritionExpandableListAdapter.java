@@ -1,7 +1,6 @@
 package com.cantwellcode.fitfriend.nutrition;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +14,10 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by Daniel on 2/12/14.
+ * Created by danielCantwell on 4/27/15.
+ * Copyright (c) Cantwell Code 2015. All Rights Reserved
  */
-public class FavoritesExpandableListAdapter extends BaseExpandableListAdapter {
+public class NutritionExpandableListAdapter extends BaseExpandableListAdapter {
 
     private class ViewHolder {
         TextView name;
@@ -29,11 +29,11 @@ public class FavoritesExpandableListAdapter extends BaseExpandableListAdapter {
 
     private final Context context;
 
-    private List<String> headerData;
-    private HashMap<String, List<FavoriteMeal>> childData;
+    private List<Meal> headerData;
+    private HashMap<Meal, List<Meal>> childData;
 
-    public FavoritesExpandableListAdapter(Context context, List<String> headerData,
-                                          HashMap<String, List<FavoriteMeal>> childData) {
+    public NutritionExpandableListAdapter(Context context, List<Meal> headerData,
+                                          HashMap<Meal, List<Meal>> childData) {
         this.context = context;
         this.headerData = headerData;
         this.childData = childData;
@@ -76,16 +76,26 @@ public class FavoritesExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        String headerTitle = (String) getGroup(groupPosition);
+
+        Meal header = (Meal) getGroup(groupPosition);
+
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.nutrition_favorites_header, null);
+            convertView = inflater.inflate(R.layout.nutrition_log_header, null);
         }
 
-        TextView header = (TextView) convertView.findViewById(R.id.favorites_group_header);
-        header.setTypeface(null, Typeface.BOLD);
-        header.setText(headerTitle);
+        TextView title = (TextView) convertView.findViewById(R.id.title);
+        TextView calories = (TextView) convertView.findViewById(R.id.calories);
+        TextView fat = (TextView) convertView.findViewById(R.id.fat);
+        TextView carbs = (TextView) convertView.findViewById(R.id.carbs);
+        TextView protein = (TextView) convertView.findViewById(R.id.protein);
+
+        title.setText(header.getType());
+        calories.setText(header.getCalories());
+        fat.setText(header.getFat());
+        carbs.setText(header.getCarbs());
+        protein.setText(header.getProtein());
 
         return convertView;
     }
@@ -94,7 +104,7 @@ public class FavoritesExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
         ViewHolder holder = null;
-        FavoriteMeal meal = (FavoriteMeal) getChild(groupPosition, childPosition);
+        Meal meal = (Meal) getChild(groupPosition, childPosition);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 

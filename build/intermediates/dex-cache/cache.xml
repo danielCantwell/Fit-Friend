@@ -16,13 +16,6 @@
         <dex dex="/Users/danielCantwell/Documents/Development/Android/Fit-Friend/app/build/intermediates/pre-dexed/debug/classes-728c0fb5b1de628d0f2adb554588d6507ab34793.jar" />
     </item>
     <item
-        jar="/Users/danielCantwell/Documents/Development/Android/Fit-Friend/app/libs/CantwellGraphs_1.1.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="e54cad219f35590cb2e876dcbcac1253a4b2e9bf">
-        <dex dex="/Users/danielCantwell/Documents/Development/Android/Fit-Friend/app/build/intermediates/pre-dexed/debug/CantwellGraphs_1.1-e756747679c66a93d9982d2da827206f0d0f5eec.jar" />
-    </item>
-    <item
         jar="/Users/danielCantwell/Documents/Development/Android/Fit-Friend/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/22.0.0/classes.jar"
         jumboMode="false"
         revision="19.1.0"
@@ -42,6 +35,13 @@
         revision="19.1.0"
         sha1="ae24ad61a573cd1faf8261f5ec6d8f0cb58ddaad">
         <dex dex="/Users/danielCantwell/Documents/Development/Android/Fit-Friend/app/build/intermediates/pre-dexed/debug/classes-55223028fa61e0299a7d2008b980a611c1ecaa5a.jar" />
+    </item>
+    <item
+        jar="/Users/danielCantwell/Documents/Development/Android/Fit-Friend/app/libs/CantwellGraphs_2.2.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="810da91653da159f77318fc3cfc9d48a2e100689">
+        <dex dex="/Users/danielCantwell/Documents/Development/Android/Fit-Friend/app/build/intermediates/pre-dexed/debug/CantwellGraphs_2.2-03e1aac7b1607be1caf11ff2227de8dc0e2d2763.jar" />
     </item>
     <item
         jar="/Users/danielCantwell/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.0.0/support-annotations-22.0.0.jar"

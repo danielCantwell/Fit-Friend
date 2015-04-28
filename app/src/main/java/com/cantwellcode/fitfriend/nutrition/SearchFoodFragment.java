@@ -100,11 +100,11 @@ public class SearchFoodFragment extends Fragment {
                         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
                         if (view == null) {
-                            view = inflater.inflate(R.layout.nutrition_data, null);
+                            view = inflater.inflate(R.layout.nutrition_search_data, null);
                             holder = new ViewHolder();
                             holder.name = (TextView) view.findViewById(R.id.n_data_name);
-                            holder.type = (TextView) view.findViewById(R.id.n_data_type);
-                            holder.date = (TextView) view.findViewById(R.id.n_data_date);
+                            holder.brand = (TextView) view.findViewById(R.id.n_data_brand);
+                            holder.size = (TextView) view.findViewById(R.id.n_data_size);
                             holder.calories = (TextView) view.findViewById(R.id.n_data_calories);
                             holder.protein = (TextView) view.findViewById(R.id.n_data_protein);
                             holder.carbs = (TextView) view.findViewById(R.id.n_data_carbs);
@@ -120,13 +120,8 @@ public class SearchFoodFragment extends Fragment {
                         holder.carbs.setText("" + food.getCarbs());
                         holder.fat.setText("" + food.getFat());
 
-                        // In the search interface
-                        // the date textview is used for the brand
-                        // the type textview is used for the serving size
-                        holder.date.setText(food.getBrand());
-                        holder.type.setText(food.getSize());
-
-                        holder.name.setTextColor(getActivity().getResources().getColor(R.color.pomegranate));
+                        holder.brand.setText(food.getBrand());
+                        holder.size.setText(food.getSize());
 
                         view.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -183,8 +178,8 @@ public class SearchFoodFragment extends Fragment {
      */
     private class ViewHolder {
         TextView name;
-        TextView type;
-        TextView date;
+        TextView size;
+        TextView brand;
         TextView calories;
         TextView protein;
         TextView carbs;
