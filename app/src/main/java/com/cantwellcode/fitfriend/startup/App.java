@@ -2,7 +2,6 @@ package com.cantwellcode.fitfriend.startup;
 
 import android.app.Application;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.cantwellcode.fitfriend.connect.Comment;
 import com.cantwellcode.fitfriend.connect.Group;
@@ -14,11 +13,9 @@ import com.cantwellcode.fitfriend.exercise.types.Workout;
 import com.cantwellcode.fitfriend.nutrition.Food;
 import com.cantwellcode.fitfriend.plan.Event;
 import com.parse.Parse;
-import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 /**
@@ -47,7 +44,6 @@ public class App extends Application {
 
 
         Parse.initialize(this, "6ndNVpRctpv0EB5awdLtiT1nEwg5WidUBSNyKRwo", "QeU6X4k0S1zJDtlMZhiZPoe59DKhhGJONMdhZEBN");
-//        ParseFacebookUtils.initialize(getString(R.string.facebook_app_id));
 
         ParsePush.subscribeInBackground("", new SaveCallback() {
             @Override
@@ -60,20 +56,5 @@ public class App extends Application {
             }
         });
 
-
-//        try{
-//            PackageInfo info = getPackageManager().getPackageInfo(
-//                    "com.cantwellcode.fitfriend.app", PackageManager.GET_SIGNATURES);
-//            for (Signature signature : info.signatures) {
-//                MessageDigest md = MessageDigest.getInstance("SHA");
-//                md.update(signature.toByteArray());
-//                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-//
-//            }
-//        } catch (PackageManager.NameNotFoundException e) {
-//
-//        } catch (NoSuchAlgorithmException e) {
-//
-//        }
     }
 }
