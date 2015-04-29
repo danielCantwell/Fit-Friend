@@ -29,11 +29,11 @@ public class NutritionExpandableListAdapter extends BaseExpandableListAdapter {
 
     private final Context context;
 
-    private List<Meal> headerData;
-    private HashMap<Meal, List<Meal>> childData;
+    private List<Food> headerData;
+    private HashMap<Food, List<Food>> childData;
 
-    public NutritionExpandableListAdapter(Context context, List<Meal> headerData,
-                                          HashMap<Meal, List<Meal>> childData) {
+    public NutritionExpandableListAdapter(Context context, List<Food> headerData,
+                                          HashMap<Food, List<Food>> childData) {
         this.context = context;
         this.headerData = headerData;
         this.childData = childData;
@@ -77,7 +77,7 @@ public class NutritionExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
-        Meal header = (Meal) getGroup(groupPosition);
+        Food header = (Food) getGroup(groupPosition);
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.context
@@ -92,10 +92,10 @@ public class NutritionExpandableListAdapter extends BaseExpandableListAdapter {
         TextView protein = (TextView) convertView.findViewById(R.id.protein);
 
         title.setText(header.getType());
-        calories.setText(header.getCalories());
-        fat.setText(header.getFat());
-        carbs.setText(header.getCarbs());
-        protein.setText(header.getProtein());
+        calories.setText(String.format("%d", header.getCalories()));
+        fat.setText(String.format("%.1f", header.getFat()));
+        carbs.setText(String.format("%.1f", header.getCarbs()));
+        protein.setText(String.format("%.1f", header.getProtein()));
 
         return convertView;
     }
@@ -104,7 +104,7 @@ public class NutritionExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
         ViewHolder holder = null;
-        Meal meal = (Meal) getChild(groupPosition, childPosition);
+        Food meal = (Food) getChild(groupPosition, childPosition);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -122,10 +122,10 @@ public class NutritionExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         holder.name.setText(meal.getName());
-        holder.calories.setText(meal.getCalories());
-        holder.protein.setText(meal.getProtein());
-        holder.carbs.setText(meal.getCarbs());
-        holder.fat.setText(meal.getFat());
+        holder.calories.setText(String.format("%d", meal.getCalories()));
+        holder.protein.setText(String.format("%.1f", meal.getProtein()));
+        holder.carbs.setText(String.format("%.1f", meal.getCarbs()));
+        holder.fat.setText(String.format("%.1f", meal.getFat()));
 
         return convertView;
     }

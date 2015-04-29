@@ -23,13 +23,6 @@
         <dex dex="/Users/danielCantwell/Documents/Development/Android/Fit-Friend/app/build/intermediates/pre-dexed/debug/classes-ded62f12776088d163615cc0770f3ce449838710.jar" />
     </item>
     <item
-        jar="/Users/danielCantwell/Documents/Development/Android/Fit-Friend/app/libs/db4o-8.0.249.16098-all-java5.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="523988f0266036332e4c213be2f350a976d97fc2">
-        <dex dex="/Users/danielCantwell/Documents/Development/Android/Fit-Friend/app/build/intermediates/pre-dexed/debug/db4o-8.0.249.16098-all-java5-0b9704c97d6d232d774c3a10d612cf9bb2f7e5b1.jar" />
-    </item>
-    <item
         jar="/Users/danielCantwell/Documents/Development/Android/Fit-Friend/app/build/intermediates/exploded-aar/com.jjoe64/graphview/4.0.0/classes.jar"
         jumboMode="false"
         revision="19.1.0"
@@ -42,13 +35,6 @@
         revision="19.1.0"
         sha1="685d0b2c590447e85284ed84712cb363ba04eff8">
         <dex dex="/Users/danielCantwell/Documents/Development/Android/Fit-Friend/app/build/intermediates/pre-dexed/debug/support-annotations-22.0.0-366ba4d7d1a9aca613326069b2da4650e321ab67.jar" />
-    </item>
-    <item
-        jar="/Users/danielCantwell/Documents/Development/Android/Fit-Friend/app/libs/CantwellGraphs_2.2.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="810da91653da159f77318fc3cfc9d48a2e100689">
-        <dex dex="/Users/danielCantwell/Documents/Development/Android/Fit-Friend/app/build/intermediates/pre-dexed/debug/CantwellGraphs_2.2-03e1aac7b1607be1caf11ff2227de8dc0e2d2763.jar" />
     </item>
     <item
         jar="/Users/danielCantwell/Documents/Development/Android/Fit-Friend/app/build/intermediates/exploded-aar/com.android.support/support-v13/21.0.3/libs/internal_impl-21.0.3.jar"
@@ -84,6 +70,13 @@
         revision="19.1.0"
         sha1="f21927d22fe31889ecce94dd697a2e75b137e0ef">
         <dex dex="/Users/danielCantwell/Documents/Development/Android/Fit-Friend/app/build/intermediates/pre-dexed/debug/classes-a4fddf019d3761dfbbe97be6c6e3237778f2674c.jar" />
+    </item>
+    <item
+        jar="/Users/danielCantwell/Documents/Development/Android/Fit-Friend/app/libs/CantwellGraphs_2.3.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="797418e78293ee1bb25593babdc1bcdc53a73032">
+        <dex dex="/Users/danielCantwell/Documents/Development/Android/Fit-Friend/app/build/intermediates/pre-dexed/debug/CantwellGraphs_2.3-61b5c0f51052fd1600379b8e59e2178392d4cc55.jar" />
     </item>
     <item
         jar="/Users/danielCantwell/Documents/Development/Android/Fit-Friend/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/classes.jar"

@@ -2,7 +2,6 @@ package com.cantwellcode.fitfriend.nutrition;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,10 @@ import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import com.cantwellcode.fitfriend.R;
-import com.cantwellcode.fitfriend.utils.DBHelper;
+import com.cantwellcode.fitfriend.utils.Statics;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,82 +24,82 @@ import java.util.List;
  */
 public class FavoriteFoodFragment extends Fragment {
 
-    private DBHelper db;
-
-    private ExpandableListView listView;
-    private List<FavoriteMeal> meals;
+    private ExpandableListView mListView;
+    private List<Food> mFoods;
     private FavoritesExpandableListAdapter mAdapter;
-    private List<String> listHeaders;
-    private HashMap<String, List<FavoriteMeal>> listData;
+    private List<String> mListHeaders;
+    private HashMap<String, List<Food>> mListData;
     private NewFoodActivity mActivity;
 
     public static FavoriteFoodFragment newInstance() {
         return new FavoriteFoodFragment();
     }
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.nutrition_favorites_view, null);
 
-        db = new DBHelper(getActivity());
-        meals = db.getAllFavorites();
+        mListView = (ExpandableListView) root.findViewById(android.R.id.list);
 
-        prepareListData(db);
-        mAdapter = new FavoritesExpandableListAdapter(getActivity(), listHeaders, listData);
-
-        listView = (ExpandableListView) root.findViewById(android.R.id.list);
-        listView.setAdapter(mAdapter);
-
-        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+        mListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                FavoriteMeal food = (FavoriteMeal) mAdapter.getChild(groupPosition, childPosition);
+                Food food = (Food) mAdapter.getChild(groupPosition, childPosition);
                 mActivity.setDetails(food);
                 Toast.makeText(mActivity, food.getName(), Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
 
+        ParseQuery<Food> favoritesQuery = Food.getQuery();
+        favoritesQuery.fromPin(Statics.PIN_NUTRITION_FAVORITES);
+
+        favoritesQuery.findInBackground(new FindCallback<Food>() {
+            @Override
+            public void done(List<Food> foods, ParseException e) {
+                mFoods = foods;
+                prepareListData();
+                mAdapter = new FavoritesExpandableListAdapter(getActivity(), mListHeaders, mListData);
+                mListView.setAdapter(mAdapter);
+            }
+        });
+
         return root;
     }
 
-    private void prepareListData(DBHelper db) {
-        listHeaders = new ArrayList<String>();
-        listData = new HashMap<String, List<FavoriteMeal>>();
+    private void prepareListData() {
+        mListHeaders = new ArrayList<String>();
+        mListData = new HashMap<String, List<Food>>();
 
-        List<FavoriteMeal> favorites = db.getAllFavorites();
         // If user selects "meal type" sort type
-        listHeaders.add("Breakfast");
-        listHeaders.add("Lunch");
-        listHeaders.add("Dinner");
-        listHeaders.add("Snack");
-        listHeaders.add("Pre-Workout");
-        listHeaders.add("Post-Workout");
+        mListHeaders.add("Breakfast");
+        mListHeaders.add("Lunch");
+        mListHeaders.add("Dinner");
+        mListHeaders.add("Snack");
 
-        for (String header : listHeaders) {
-            List<FavoriteMeal> favoritesInType = new ArrayList<FavoriteMeal>();
-            for (FavoriteMeal favorite : favorites) {
+        for (String header : mListHeaders) {
+            List<Food> favoritesInType = new ArrayList<Food>();
+            for (Food favorite : mFoods) {
                 if (favorite.getType().equals(header)) {
                     favoritesInType.add(favorite);
                 }
             }
-            listData.put(header, sortFavoritesByName(favoritesInType));
+            mListData.put(header, sortFavoritesByName(favoritesInType));
         }
 
     }
 
-    private List<FavoriteMeal> sortFavoritesByName(List<FavoriteMeal> favoritesUnsorted) {
-        List<FavoriteMeal> favoritesSorted = new ArrayList<FavoriteMeal>();
+    private List<Food> sortFavoritesByName(List<Food> favoritesUnsorted) {
+        List<Food> favoritesSorted = new ArrayList<Food>();
         List<String> favoritesNames = new ArrayList<String>();
 
-        for (FavoriteMeal f1 : favoritesUnsorted) {
+        for (Food f1 : favoritesUnsorted) {
             favoritesNames.add(f1.getName());
         }
         Collections.sort(favoritesNames);
 
         for (String name : favoritesNames) {
-            for (FavoriteMeal f2 : favoritesUnsorted) {
+            for (Food f2 : favoritesUnsorted) {
                 if (name.equals(f2.getName())) {
                     favoritesSorted.add(f2);
                     favoritesUnsorted.remove(f2);

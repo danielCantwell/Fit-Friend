@@ -33,8 +33,8 @@ public class SearchFoodFragment extends Fragment {
     private ListView mList;
     private TextView mEmpty;
 
-    private ParseQueryAdapter.QueryFactory<Food> mFactory;
-    private ParseQueryAdapter<Food> mAdapter;
+    private ParseQueryAdapter.QueryFactory<FoodDatabase> mFactory;
+    private ParseQueryAdapter<FoodDatabase> mAdapter;
 
     public static SearchFoodFragment newInstance() {
         return new SearchFoodFragment();
@@ -69,31 +69,31 @@ public class SearchFoodFragment extends Fragment {
                 imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 
                 // Parse Query Factory + Adapter to fill list
-                mFactory = new ParseQueryAdapter.QueryFactory<Food>() {
+                mFactory = new ParseQueryAdapter.QueryFactory<FoodDatabase>() {
                     @Override
-                    public ParseQuery<Food> create() {
+                    public ParseQuery<FoodDatabase> create() {
                         /* Query for food where the input matches the name */
-                        ParseQuery<Food> nameQuery = Food.getQuery();
+                        ParseQuery<FoodDatabase> nameQuery = FoodDatabase.getQuery();
                         nameQuery.whereContains("name", query);
 
                         /* Query for food where the input matches the brand */
-                        ParseQuery<Food> brandQuery = Food.getQuery();
+                        ParseQuery<FoodDatabase> brandQuery = FoodDatabase.getQuery();
                         brandQuery.whereContains("brand", query);
 
                         /* Put both queries in a list */
-                        List<ParseQuery<Food>> queries = new ArrayList<ParseQuery<Food>>();
+                        List<ParseQuery<FoodDatabase>> queries = new ArrayList<ParseQuery<FoodDatabase>>();
                         queries.add(nameQuery);
                         queries.add(brandQuery);
 
                         /* Create the "OR" of the two queries */
-                        ParseQuery<Food> searchQuery = ParseQuery.or(queries);
+                        ParseQuery<FoodDatabase> searchQuery = ParseQuery.or(queries);
                         return searchQuery;
                     }
                 };
 
-                mAdapter = new ParseQueryAdapter<Food>(getActivity(), mFactory) {
+                mAdapter = new ParseQueryAdapter<FoodDatabase>(getActivity(), mFactory) {
                     @Override
-                    public View getItemView(final Food food, View view, ViewGroup parent) {
+                    public View getItemView(final FoodDatabase foodDatabase, View view, ViewGroup parent) {
 
                         ViewHolder holder = null;
 
@@ -114,21 +114,21 @@ public class SearchFoodFragment extends Fragment {
                             holder = (ViewHolder) view.getTag();
                         }
 
-                        holder.name.setText(food.getName());
-                        holder.calories.setText("" + food.getCalories());
-                        holder.protein.setText("" + food.getProtein());
-                        holder.carbs.setText("" + food.getCarbs());
-                        holder.fat.setText("" + food.getFat());
+                        holder.name.setText(foodDatabase.getName());
+                        holder.calories.setText("" + foodDatabase.getCalories());
+                        holder.protein.setText("" + foodDatabase.getProtein());
+                        holder.carbs.setText("" + foodDatabase.getCarbs());
+                        holder.fat.setText("" + foodDatabase.getFat());
 
-                        holder.brand.setText(food.getBrand());
-                        holder.size.setText(food.getSize());
+                        holder.brand.setText(foodDatabase.getBrand());
+                        holder.size.setText(foodDatabase.getSize());
 
                         view.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                mActivity.setDetails(food.getName(),
-                                        food.getCalories(), food.getFat(), food.getCarbs(), food.getProtein());
-                                Toast.makeText(mActivity, "(" + food.getBrand() + ") " + food.getName(), Toast.LENGTH_SHORT).show();
+                                mActivity.setDetails(foodDatabase.getName(),
+                                        foodDatabase.getCalories(), foodDatabase.getFat(), foodDatabase.getCarbs(), foodDatabase.getProtein());
+                                Toast.makeText(mActivity, "(" + foodDatabase.getBrand() + ") " + foodDatabase.getName(), Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -138,20 +138,20 @@ public class SearchFoodFragment extends Fragment {
 
                 mList.setAdapter(mAdapter);
 
-                mAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Food>() {
+                mAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<FoodDatabase>() {
                     @Override
                     public void onLoading() {
 
                     }
 
                     @Override
-                    public void onLoaded(List<Food> foods, Exception e) {
+                    public void onLoaded(List<FoodDatabase> foodDatabases, Exception e) {
                         if (progressDialog.isShowing()) {
                             progressDialog.dismiss();
                         }
                         if (e != null) {
                             mEmpty.setText(e.getMessage());
-                        } else if (foods == null || foods.isEmpty()) {
+                        } else if (foodDatabases == null || foodDatabases.isEmpty()) {
                             mEmpty.setText("No food found");
                         }
                     }

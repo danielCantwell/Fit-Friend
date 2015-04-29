@@ -30,10 +30,10 @@ public class FavoritesExpandableListAdapter extends BaseExpandableListAdapter {
     private final Context context;
 
     private List<String> headerData;
-    private HashMap<String, List<FavoriteMeal>> childData;
+    private HashMap<String, List<Food>> childData;
 
     public FavoritesExpandableListAdapter(Context context, List<String> headerData,
-                                          HashMap<String, List<FavoriteMeal>> childData) {
+                                          HashMap<String, List<Food>> childData) {
         this.context = context;
         this.headerData = headerData;
         this.childData = childData;
@@ -94,7 +94,7 @@ public class FavoritesExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
         ViewHolder holder = null;
-        FavoriteMeal meal = (FavoriteMeal) getChild(groupPosition, childPosition);
+        Food meal = (Food) getChild(groupPosition, childPosition);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -112,10 +112,10 @@ public class FavoritesExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         holder.name.setText(meal.getName());
-        holder.calories.setText(meal.getCalories());
-        holder.protein.setText(meal.getProtein());
-        holder.carbs.setText(meal.getCarbs());
-        holder.fat.setText(meal.getFat());
+        holder.calories.setText(String.format("%d", meal.getCalories()));
+        holder.protein.setText(String.format("%.1f", meal.getProtein()));
+        holder.carbs.setText(String.format("%.1f", meal.getCarbs()));
+        holder.fat.setText(String.format("%.1f", meal.getFat()));
 
         return convertView;
     }

@@ -182,10 +182,11 @@ public class NewFoodActivity extends Activity implements ActionBar.TabListener {
 
     public void setDetails(String name, int cal, double fat, double carbs, double prot) {
         mViewPager.setCurrentItem(1);
-        mDetailsFragment.setDetails(name, "" + cal, "" + fat, "" + carbs, "" + prot);
+        mDetailsFragment.setDetails(
+                name, String.format("%d", cal), String.format("%.1f", fat), String.format("%.1f", carbs), String.format("%.1f", prot));
     }
 
-    public void setDetails(FavoriteMeal food) {
+    public void setDetails(Food food) {
         mViewPager.setCurrentItem(1);
         mDetailsFragment.setDetails(food);
     }

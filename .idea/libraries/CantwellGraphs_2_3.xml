@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="CantwellGraphs_2.2">
+  <library name="CantwellGraphs_2.3">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/app/libs/CantwellGraphs_2.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/app/libs/CantwellGraphs_2.3.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

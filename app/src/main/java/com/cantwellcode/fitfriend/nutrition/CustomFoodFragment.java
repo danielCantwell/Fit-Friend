@@ -2,13 +2,8 @@ package com.cantwellcode.fitfriend.nutrition;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,15 +13,17 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.cantwellcode.fitfriend.R;
-import com.cantwellcode.fitfriend.utils.DBHelper;
+import com.cantwellcode.fitfriend.utils.Statics;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,12 +31,7 @@ import java.util.List;
  */
 public class CustomFoodFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
-    private DBHelper mDatabase;
-
-    private DialogFragment mDateDialog;
-
     private AutoCompleteTextView mNameText;
-    private Button mDateButton;
     private EditText mCaloriesText;
     private EditText mProteinText;
     private EditText mCarbsText;
@@ -48,38 +40,39 @@ public class CustomFoodFragment extends Fragment implements AdapterView.OnItemSe
     private Button mSaveButton;
 
     private String mName;
-    private String mDate;
     private String mType;
-    private String mCalories;
-    private String mProtein;
-    private String mCarbs;
-    private String mFat;
+    private int mCalories;
+    private double mProtein;
+    private double mCarbs;
+    private double mFat;
     private boolean isFavorite = false;
-
-    private int mYear;
-    private int mMonth;
-    private int mDay;
+    private Date mDate;
 
     private Spinner mTypeSpinner;
     private ArrayAdapter<CharSequence> mAdapter;
 
     private List<String> mSpinnerFavorites = new ArrayList<String>();
-    private List<FavoriteMeal> mFavoritesList;
+    private List<Food> mFavoritesList;
 
-    private Meal mMeal = null;
-    private Meal mOldMeal = null;
+    private Food mFood = null;
 
     public static CustomFoodFragment newInstance() {
         return new CustomFoodFragment();
     }
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_food_custom, null);
 
-        mDatabase = new DBHelper(getActivity());
+        /* Widget Initialization*/
+        mNameText = (AutoCompleteTextView) root.findViewById(R.id.n_name);
+        mCaloriesText = (EditText) root.findViewById(R.id.n_calories);
+        mProteinText = (EditText) root.findViewById(R.id.n_protein);
+        mCarbsText = (EditText) root.findViewById(R.id.n_carbs);
+        mFatText = (EditText) root.findViewById(R.id.n_fat);
+        mAddToFavorites = (CheckBox) root.findViewById(R.id.addFavoriteCheck);
+        mSaveButton = (Button) root.findViewById(R.id.save);
 
         /* Meal Type Spinner */
         mTypeSpinner = (Spinner) root.findViewById(R.id.n_type);
@@ -92,79 +85,65 @@ public class CustomFoodFragment extends Fragment implements AdapterView.OnItemSe
         mTypeSpinner.setAdapter(mAdapter);
         mTypeSpinner.setOnItemSelectedListener(this);
 
-        mFavoritesList = mDatabase.getAllFavorites();
-        for (FavoriteMeal meal : mFavoritesList) {
-            mSpinnerFavorites.add(meal.getName());
-        }
-        Collections.sort(mSpinnerFavorites);
-        mSpinnerFavorites.add(0, "Favorite Meals");
+        ParseQuery<Food> favoritesQuery = Food.getQuery();
+        favoritesQuery.fromPin(Statics.PIN_NUTRITION_FAVORITES);
 
-        ArrayAdapter<String> favoritesAdapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item, mSpinnerFavorites);
-        favoritesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        try {
+            mFavoritesList = favoritesQuery.find();
+            for (Food food : mFavoritesList) {
+                mSpinnerFavorites.add(food.getName());
+            }
+            Collections.sort(mSpinnerFavorites);
+            mSpinnerFavorites.add(0, "Favorite Meals");
 
-        mNameText = (AutoCompleteTextView) root.findViewById(R.id.n_name);
-        mDateButton = (Button) root.findViewById(R.id.n_date);
-        mCaloriesText = (EditText) root.findViewById(R.id.n_calories);
-        mProteinText = (EditText) root.findViewById(R.id.n_protein);
-        mCarbsText = (EditText) root.findViewById(R.id.n_carbs);
-        mFatText = (EditText) root.findViewById(R.id.n_fat);
-        mAddToFavorites = (CheckBox) root.findViewById(R.id.addFavoriteCheck);
-        mSaveButton = (Button) root.findViewById(R.id.save);
+            ArrayAdapter<String> favoritesAdapter = new ArrayAdapter<String>(getActivity(),
+                    android.R.layout.simple_spinner_item, mSpinnerFavorites);
+            favoritesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        if (getActivity().getIntent().hasExtra("Edit")) {
-            mMeal = (Meal) getActivity().getIntent().getExtras().getSerializable("Edit");
-            mOldMeal = mMeal;
-
-            int spinnerPosition = mAdapter.getPosition(mMeal.getType());
-
-            mNameText.setText(mMeal.getName());
-            mTypeSpinner.setSelection(spinnerPosition);
-            mCaloriesText.setText(mMeal.getCalories());
-            mFatText.setText(mMeal.getFat());
-            mCarbsText.setText(mMeal.getCarbs());
-            mProteinText.setText(mMeal.getProtein());
-
-            mAddToFavorites.setEnabled(false);
-            mAddToFavorites.setVisibility(View.GONE);
+            mNameText.setAdapter(favoritesAdapter);
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
 
-        final Calendar c = Calendar.getInstance();
-        mYear = c.get(Calendar.YEAR);
-        mMonth = c.get(Calendar.MONTH);
-        mDay = c.get(Calendar.DAY_OF_MONTH);
 
-        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
-        String formattedDate = df.format(c.getTime());
+//        if (getActivity().getIntent().hasExtra("Edit")) {
+//            mMeal = (Meal) getActivity().getIntent().getExtras().getSerializable("Edit");
+//            mOldMeal = mMeal;
+//
+//            int spinnerPosition = mAdapter.getPosition(mMeal.getType());
+//
+//            mNameText.setText(mMeal.getName());
+//            mTypeSpinner.setSelection(spinnerPosition);
+//            mCaloriesText.setText(mMeal.getCalories());
+//            mFatText.setText(mMeal.getFat());
+//            mCarbsText.setText(mMeal.getCarbs());
+//            mProteinText.setText(mMeal.getProtein());
+//
+//            mAddToFavorites.setEnabled(false);
+//            mAddToFavorites.setVisibility(View.GONE);
+//        }
 
-        mDateButton.setText(formattedDate);
+        mDate = Calendar.getInstance().getTime();
 
-//        mDateButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mDateDialog = new DatePickerFragment();
-//                mDateDialog.show(getSupportFragmentManager(), "datePicker");
-//            }
-//        });
-
-        mNameText.setAdapter(favoritesAdapter);
-
+        /* Name Autocomplete item clicks */
         mNameText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 String item = parent.getItemAtPosition(position).toString();
 
-                for (FavoriteMeal meal : mFavoritesList) {
-                    if (meal.getName() == item) {
-                        int spinnerPosition = mAdapter.getPosition(meal.getType());
+                for (Food food : mFavoritesList) {
+                    if (food.getName() == item) {
+                        int spinnerPosition = mAdapter.getPosition(food.getType());
 
-                        mNameText.setText(meal.getName());
+                        mNameText.setText(food.getName());
                         mTypeSpinner.setSelection(spinnerPosition);
-                        mCaloriesText.setText(meal.getCalories());
-                        mProteinText.setText(meal.getProtein());
-                        mCarbsText.setText(meal.getCarbs());
-                        mFatText.setText(meal.getFat());
+                        mCaloriesText.setText(String.format("%d", food.getCalories()));
+                        mProteinText.setText(String.format("%.1f", food.getProtein()));
+                        mCarbsText.setText(String.format("%.1f", food.getCarbs()));
+                        mFatText.setText(String.format("%.1f", food.getFat()));
+
+                        mAddToFavorites.setVisibility(View.INVISIBLE);
                     }
                 }
             }
@@ -174,8 +153,6 @@ public class CustomFoodFragment extends Fragment implements AdapterView.OnItemSe
             @Override
             public void onClick(View v) {
                 saveNutrition();
-                getActivity().setResult(getActivity().RESULT_OK);
-                getActivity().finish();
             }
         });
 
@@ -201,51 +178,26 @@ public class CustomFoodFragment extends Fragment implements AdapterView.OnItemSe
 
     }
 
-    /* Options Menu */
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        return super.onOptionsItemSelected(item);
-    }
-
     public void prepareData() {
         if (!mNameText.getText().toString().isEmpty())
             mName = mNameText.getText().toString();
         else mName = mType;
 
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, mYear);
-        cal.set(Calendar.MONTH, mMonth);
-        cal.set(Calendar.DAY_OF_MONTH, mDay);
-
-        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
-        String formattedDate = df.format(cal.getTime());
-
-        mDate = formattedDate;
-
-        // mTypeSpinner is already set
-
         if (!mCaloriesText.getText().toString().isEmpty())
-            mCalories = mCaloriesText.getText().toString();
-        else mCalories = "0";
+            mCalories = Integer.valueOf(mCaloriesText.getText().toString());
+        else mCalories = 0;
 
         if (!mProteinText.getText().toString().isEmpty())
-            mProtein = mProteinText.getText().toString();
-        else mProtein = "0";
+            mProtein = Double.valueOf(mProteinText.getText().toString());
+        else mProtein = 0;
 
         if (!mCarbsText.getText().toString().isEmpty())
-            mCarbs = mCarbsText.getText().toString();
-        else mCarbs = "0";
+            mCarbs = Double.valueOf(mCarbsText.getText().toString());
+        else mCarbs = 0;
 
         if (!mFatText.getText().toString().isEmpty())
-            mFat = mFatText.getText().toString();
-        else mFat = "0";
+            mFat = Double.valueOf(mFatText.getText().toString());
+        else mFat = 0;
 
         if (mAddToFavorites.isChecked()) {
             isFavorite = true;
@@ -254,28 +206,40 @@ public class CustomFoodFragment extends Fragment implements AdapterView.OnItemSe
 
     public void saveNutrition() {
         prepareData();
-        Toast.makeText(getActivity(), "Saving Meal", Toast.LENGTH_SHORT).show();
-        Log.d("Nutrition", "Name: " + mName + " Date: " + mDate + " Type: " + mType + " Calories: " + mCalories);
 
-        mMeal = new Meal(mName, mDate, mType, mCalories, mProtein, mCarbs, mFat);
+        mFood = new Food();
+        mFood.setUserToCurrent();
+        mFood.setName(mName);
+        mFood.setDate(mDate);
+        mFood.setType(mType);
+        mFood.setCalories(mCalories);
+        mFood.setFat(mFat);
+        mFood.setCarbs(mCarbs);
+        mFood.setProtein(mProtein);
 
         if (isFavorite) {
-            mDatabase.store(new FavoriteMeal(mName, mType, mCalories, mProtein, mCarbs, mFat));
+            mFood.pinInBackground(Statics.PIN_NUTRITION_FAVORITES);
         }
 
-        mDatabase.store(mMeal);
+        mFood.pinInBackground(Statics.PIN_NUTRITION_LOG, new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                getActivity().setResult(getActivity().RESULT_OK);
+                getActivity().finish();
+            }
+        });
+        mFood.saveInBackground();
     }
 
-    public void editNutrition() {
-
-        prepareData();
-        Toast.makeText(getActivity(), "Saving Meal", Toast.LENGTH_SHORT).show();
-        Log.d("Nutrition", "Name: " + mName + " Date: " + mDate + " Type: " + mType + " Calories: " + mCalories);
-        mMeal = new Meal(mName, mDate, mType, mCalories, mProtein, mCarbs, mFat);
-
-        mDatabase.updateMeal(mMeal, mOldMeal);
-    }
-
+//    public void editNutrition() {
+//
+//        prepareData();
+//        Toast.makeText(getActivity(), "Saving Meal", Toast.LENGTH_SHORT).show();
+//        Log.d("Nutrition", "Name: " + mName + " Date: " + mDate + " Type: " + mType + " Calories: " + mCalories);
+//        mMeal = new Meal(mName, mDate, mType, mCalories, mProtein, mCarbs, mFat);
+//
+//        mDatabase.updateMeal(mMeal, mOldMeal);
+//    }
 
 
     public void setDetails(String name, String cal, String fat, String carbs, String prot) {
@@ -286,12 +250,12 @@ public class CustomFoodFragment extends Fragment implements AdapterView.OnItemSe
         mProteinText.setText(prot);
     }
 
-    public void setDetails(FavoriteMeal food) {
+    public void setDetails(Food food) {
         mNameText.setText(food.getName());
-        mCaloriesText.setText(food.getCalories());
-        mFatText.setText(food.getFat());
-        mCarbsText.setText(food.getCarbs());
-        mProteinText.setText(food.getProtein());
+        mCaloriesText.setText(String.format("%d", food.getCalories()));
+        mFatText.setText(String.format("%.1f", food.getFat()));
+        mCarbsText.setText(String.format("%.1f", food.getCarbs()));
+        mProteinText.setText(String.format("%.1f", food.getProtein()));
 
         int spinnerPosition = mAdapter.getPosition(food.getType());
         mTypeSpinner.setSelection(spinnerPosition);

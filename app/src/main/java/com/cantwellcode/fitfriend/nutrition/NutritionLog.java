@@ -2,13 +2,14 @@ package com.cantwellcode.fitfriend.nutrition;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,11 +19,8 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -33,17 +31,18 @@ import com.cantwellcode.cantwellgraphs.PieChart;
 import com.cantwellcode.cantwellgraphs.PieLabelType;
 import com.cantwellcode.cantwellgraphs.PieSection;
 import com.cantwellcode.fitfriend.R;
-import com.cantwellcode.fitfriend.utils.DBHelper;
 import com.cantwellcode.fitfriend.utils.DatePickerFragment;
 import com.cantwellcode.fitfriend.utils.DialogListener;
 import com.cantwellcode.fitfriend.utils.SmallDecimalTextView;
 import com.cantwellcode.fitfriend.utils.Statics;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -62,14 +61,11 @@ public class NutritionLog extends Fragment {
 
     private Activity activity;
 
-    // SQLite Database
-    private DBHelper db;
-
-    private ExpandableListView list;
-    private List<Meal> meals;
+    private ExpandableListView mList;
+    private List<Food> mFoods;
     private NutritionExpandableListAdapter mAdapter;
-    private List<Meal> listHeaders;
-    private HashMap<Meal, List<Meal>> listData;
+    private List<Food> mListHeaders;
+    private HashMap<Food, List<Food>> mListData;
 
     private ViewSwitcher viewSwitcher;
     private ImageButton date;
@@ -103,40 +99,34 @@ public class NutritionLog extends Fragment {
 
     private boolean currentViewIsChart;
 
+    private ViewGroup root;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_nutrition_log, null);
+        root = (ViewGroup) inflater.inflate(R.layout.fragment_nutrition_log, null);
 
         currentViewIsChart = true;
 
         c = Calendar.getInstance();
         year = c.get(Calendar.YEAR);
-        month = c.get(Calendar.MONTH) + 1;
+        month = c.get(Calendar.MONTH);
         day = c.get(Calendar.DAY_OF_MONTH);
 
-        db = new DBHelper(getActivity());
+        mList = (ExpandableListView) root.findViewById(R.id.list);
+        updateList();
 
-        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
-        String formattedDate = df.format(c.getTime());
-        meals = db.getMealList(new Meal(formattedDate));
-
-        prepareListData();
-        list = (ExpandableListView) root.findViewById(R.id.list);
-        mAdapter = new NutritionExpandableListAdapter(activity, listHeaders, listData);
-        list.setAdapter(mAdapter);
-
-        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        mList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
-                long packedPosition = list.getExpandableListPosition(position);
+                long packedPosition = mList.getExpandableListPosition(position);
 
                 int itemType = ExpandableListView.getPackedPositionType(packedPosition);
                 int groupPosition = ExpandableListView.getPackedPositionGroup(packedPosition);
                 int childPosition = ExpandableListView.getPackedPositionChild(packedPosition);
 
                 if (itemType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-                    Meal meal = (Meal) mAdapter.getChild(groupPosition, childPosition);
-                    showPopup(view, meal);
+                    Food food = (Food) mAdapter.getChild(groupPosition, childPosition);
+                    showPopup(view, food);
 
                     return true;
                 }
@@ -184,14 +174,6 @@ public class NutritionLog extends Fragment {
                             month = bundle.getInt("month");
                             day = bundle.getInt("day");
 
-                            c.set(Calendar.YEAR, year);
-                            c.set(Calendar.MONTH, month);
-                            c.set(Calendar.DAY_OF_MONTH, day);
-
-                            SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
-                            String formattedDate = df.format(c.getTime());
-                            meals = db.getMealList(new Meal(formattedDate));
-
                             updateList();
                         }
 
@@ -207,6 +189,8 @@ public class NutritionLog extends Fragment {
             }
         });
 
+        /* Widget Initialization */
+
         mCaloriesChart = (PieChart) root.findViewById(R.id.chart_calories);
         mMacrosChart = (PieChart) root.findViewById(R.id.chart_macros);
 
@@ -220,45 +204,47 @@ public class NutritionLog extends Fragment {
         goalCarbs = (TextView) root.findViewById(R.id.n_goal_carbs);
         goalProtein = (TextView) root.findViewById(R.id.n_goal_protein);
 
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
-        goalCalories.setText(sp.getString(Statics.GOAL_CALORIES, "3000 cal"));
-        goalProtein.setText(sp.getString(Statics.GOAL_PROTEIN, "150 prot"));
-        goalCarbs.setText(sp.getString(Statics.GOAL_CARBS, "300 carbs"));
-        goalFat.setText(sp.getString(Statics.GOAL_FAT, "70 fat"));
+        mProgressCalories = (ProgressBar) root.findViewById(R.id.caloriesProgress);
+        mProgressFat = (ProgressBar) root.findViewById(R.id.fatProgress);
+        mProgressCarbs = (ProgressBar) root.findViewById(R.id.carbsProgress);
+        mProgressProtein = (ProgressBar) root.findViewById(R.id.proteinProgress);
 
+        /* Set the macros text values */
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
+        goalCalories.setText(sp.getString(Statics.GOAL_CALORIES, "3000"));
+        goalProtein.setText(sp.getString(Statics.GOAL_PROTEIN, "150"));
+        goalCarbs.setText(sp.getString(Statics.GOAL_CARBS, "300"));
+        goalFat.setText(sp.getString(Statics.GOAL_FAT, "70"));
+
+        /* Set the calories progress bar */
         String calories = sp.getString(Statics.GOAL_CALORIES, "3000");
         int calGoal = 3000;
-        if (!calories.trim().isEmpty()) {
-            calGoal = Integer.valueOf(calGoal);
-        }
-        mProgressCalories = (ProgressBar) root.findViewById(R.id.caloriesProgress);
+        if (!calories.trim().isEmpty())
+            calGoal = Integer.valueOf(calories);
         mProgressCalories.setMax(calGoal);
 
+        /* Set the fat progress bar */
         String fat = sp.getString(Statics.GOAL_FAT, "70");
         int fatGoal = 70;
-        if (!fat.trim().isEmpty()) {
+        if (!fat.trim().isEmpty())
             fatGoal = Integer.valueOf(fat);
-        }
-        mProgressFat = (ProgressBar) root.findViewById(R.id.fatProgress);
         mProgressFat.setMax(fatGoal);
 
+        /* Set the carbs progress bar */
         String carbs = sp.getString(Statics.GOAL_CARBS, "300");
         int carbGoal = 300;
-        if (!carbs.trim().isEmpty()) {
+        if (!carbs.trim().isEmpty())
             carbGoal = Integer.valueOf(carbs);
-        }
-        mProgressCarbs = (ProgressBar) root.findViewById(R.id.carbsProgress);
         mProgressCarbs.setMax(carbGoal);
 
+        /* Set the protein progress bar */
         String protein = sp.getString(Statics.GOAL_PROTEIN, "150");
         int protGoal = 150;
-        if (!protein.trim().isEmpty()) {
+        if (!protein.trim().isEmpty())
             protGoal = Integer.valueOf(protein);
-        }
-        mProgressProtein = (ProgressBar) root.findViewById(R.id.proteinProgress);
         mProgressProtein.setMax(protGoal);
 
-        updateTotals();
+//        updateTotals();
 
         return root;
     }
@@ -267,10 +253,10 @@ public class NutritionLog extends Fragment {
     public void onResume() {
         super.onResume();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
-        goalCalories.setText(sp.getString(Statics.GOAL_CALORIES, "goal"));
-        goalFat.setText(sp.getString(Statics.GOAL_FAT, "goal"));
-        goalCarbs.setText(sp.getString(Statics.GOAL_CARBS, "goal"));
-        goalProtein.setText(sp.getString(Statics.GOAL_PROTEIN, "goal"));
+        goalCalories.setText(sp.getString(Statics.GOAL_CALORIES, "3000"));
+        goalFat.setText(sp.getString(Statics.GOAL_FAT, "70"));
+        goalCarbs.setText(sp.getString(Statics.GOAL_CARBS, "300"));
+        goalProtein.setText(sp.getString(Statics.GOAL_PROTEIN, "150"));
     }
 
     @Override
@@ -296,8 +282,8 @@ public class NutritionLog extends Fragment {
     }
 
     private void prepareListData() {
-        listHeaders = new ArrayList<Meal>();
-        listData = new HashMap<Meal, List<Meal>>();
+        mListHeaders = new ArrayList<Food>();
+        mListData = new HashMap<Food, List<Food>>();
 
         float breakfastProtein = 0;
         float breakfastCarbs = 0;
@@ -315,128 +301,115 @@ public class NutritionLog extends Fragment {
         float snackCarbs = 0;
         float snackFat = 0;
 
-        float breakfastCals = 0;
-        float lunchCals = 0;
-        float dinnerCals = 0;
-        float snackCals = 0;
+        int breakfastCals = 0;
+        int lunchCals = 0;
+        int dinnerCals = 0;
+        int snackCals = 0;
 
-        for (Meal m : meals) {
-            if (m.getType().equals("Breakfast")) {
-                breakfastCals += Float.valueOf(m.getCalories());
-                breakfastFat += Float.valueOf(m.getFat());
-                breakfastCarbs += Float.valueOf(m.getCarbs());
-                breakfastProtein += Float.valueOf(m.getProtein());
-            } else if (m.getType().equals("Lunch")) {
-                lunchCals += Float.valueOf(m.getCalories());
-                lunchFat += Float.valueOf(m.getFat());
-                lunchCarbs += Float.valueOf(m.getCarbs());
-                lunchProtein += Float.valueOf(m.getProtein());
-            } else if (m.getType().equals("Dinner")) {
-                dinnerCals += Float.valueOf(m.getCalories());
-                dinnerFat += Float.valueOf(m.getFat());
-                dinnerCarbs += Float.valueOf(m.getCarbs());
-                dinnerProtein += Float.valueOf(m.getProtein());
-            } else if (m.getType().equals("Snack")) {
-                snackCals += Float.valueOf(m.getCalories());
-                snackFat += Float.valueOf(m.getFat());
-                snackCarbs += Float.valueOf(m.getCarbs());
-                snackProtein += Float.valueOf(m.getProtein());
+        for (Food f : mFoods) {
+            if (f.getType().equals("Breakfast")) {
+                breakfastCals += f.getCalories();
+                breakfastFat += f.getFat();
+                breakfastCarbs += f.getCarbs();
+                breakfastProtein += f.getProtein();
+            } else if (f.getType().equals("Lunch")) {
+                lunchCals += f.getCalories();
+                lunchFat += f.getFat();
+                lunchCarbs += f.getCarbs();
+                lunchProtein += f.getProtein();
+            } else if (f.getType().equals("Dinner")) {
+                dinnerCals += f.getCalories();
+                dinnerFat += f.getFat();
+                dinnerCarbs += f.getCarbs();
+                dinnerProtein += f.getProtein();
+            } else if (f.getType().equals("Snack")) {
+                snackCals += f.getCalories();
+                snackFat += f.getFat();
+                snackCarbs += f.getCarbs();
+                snackProtein += f.getProtein();
             }
         }
 
-        Meal breakfast = new Meal("", "", "Breakfast",
-                String.valueOf(breakfastCals),
-                String.valueOf(breakfastProtein),
-                String.valueOf(breakfastCarbs),
-                String.valueOf(breakfastFat));
+        Food breakfast = new Food();
+        breakfast.setType("Breakfast");
+        breakfast.setCalories(breakfastCals);
+        breakfast.setFat(breakfastFat);
+        breakfast.setCarbs(breakfastCarbs);
+        breakfast.setProtein(breakfastProtein);
 
-        Meal lunch = new Meal("", "", "Lunch",
-                String.valueOf(lunchCals),
-                String.valueOf(lunchProtein),
-                String.valueOf(lunchCarbs),
-                String.valueOf(lunchFat));
+        Food lunch = new Food();
+        lunch.setType("Lunch");
+        lunch.setCalories(lunchCals);
+        lunch.setFat(lunchFat);
+        lunch.setCarbs(lunchCarbs);
+        lunch.setProtein(lunchProtein);
 
-        Meal dinner = new Meal("", "", "Dinner",
-                String.valueOf(dinnerCals),
-                String.valueOf(dinnerProtein),
-                String.valueOf(dinnerCarbs),
-                String.valueOf(dinnerFat));
+        Food dinner = new Food();
+        dinner.setType("Dinner");
+        dinner.setCalories(dinnerCals);
+        dinner.setFat(dinnerFat);
+        dinner.setCarbs(dinnerCarbs);
+        dinner.setProtein(dinnerProtein);
 
-        Meal snack = new Meal("", "", "Snack",
-                String.valueOf(snackCals),
-                String.valueOf(snackProtein),
-                String.valueOf(snackCarbs),
-                String.valueOf(snackFat));
+        Food snack = new Food();
+        snack.setType("Snack");
+        snack.setCalories(snackCals);
+        snack.setFat(snackFat);
+        snack.setCarbs(snackCarbs);
+        snack.setProtein(snackProtein);
 
 
         // If user selects "meal type" sort type
-        listHeaders.add(breakfast);
-        listHeaders.add(lunch);
-        listHeaders.add(dinner);
-        listHeaders.add(snack);
+        mListHeaders.add(breakfast);
+        mListHeaders.add(lunch);
+        mListHeaders.add(dinner);
+        mListHeaders.add(snack);
 
-        for (Meal header : listHeaders) {
-            List<Meal> mealsInType = new ArrayList<Meal>();
-            for (Meal meal : meals) {
-                if (meal.getType().equals(header.getType())) {
-                    mealsInType.add(meal);
+        for (Food header : mListHeaders) {
+            List<Food> foodInType = new ArrayList<Food>();
+            for (Food food : mFoods) {
+                if (food.getType().equals(header.getType())) {
+                    foodInType.add(food);
                 }
             }
-            listData.put(header, mealsInType);
+            mListData.put(header, foodInType);
         }
     }
 
     private void updateTotals() {
-        BigDecimal calories = new BigDecimal(0);
-        BigDecimal protein = new BigDecimal(0);
-        BigDecimal carbs = new BigDecimal(0);
-        BigDecimal fat = new BigDecimal(0);
+        int calories = 0;
+        double protein = 0;
+        double carbs = 0;
+        double fat = 0;
 
-        float breakfastCals = 0;
-        float lunchCals = 0;
-        float dinnerCals = 0;
-        float snackCals = 0;
+        int breakfastCals = 0;
+        double lunchCals = 0;
+        double dinnerCals = 0;
+        double snackCals = 0;
 
-        for (Meal n : meals) {
-            calories = calories.add(BigDecimal.valueOf(Double.parseDouble(n.getCalories())));
-            protein = protein.add(BigDecimal.valueOf(Double.parseDouble(n.getProtein())));
-            carbs = carbs.add(BigDecimal.valueOf(Double.parseDouble(n.getCarbs())));
-            fat = fat.add(BigDecimal.valueOf(Double.parseDouble(n.getFat())));
+        for (Food f : mFoods) {
+            calories += f.getCalories();
+            fat += f.getFat();
+            carbs += f.getCarbs();
+            protein += f.getProtein();
 
-            if (n.getType().equals("Breakfast")) {
-                breakfastCals += Float.valueOf(n.getCalories());
-            } else if (n.getType().equals("Lunch")) {
-                lunchCals += Float.valueOf(n.getCalories());
-            } else if (n.getType().equals("Dinner")) {
-                dinnerCals += Float.valueOf(n.getCalories());
-            } else if (n.getType().equals("Snack")) {
-                snackCals += Float.valueOf(n.getCalories());
+            if (f.getType().equals("Breakfast")) {
+                breakfastCals += f.getCalories();
+            } else if (f.getType().equals("Lunch")) {
+                lunchCals += f.getCalories();
+            } else if (f.getType().equals("Dinner")) {
+                dinnerCals += f.getCalories();
+            } else if (f.getType().equals("Snack")) {
+                snackCals += f.getCalories();
             }
         }
 
-        if (calories.toString().endsWith(".0")) {
-            totalCalories.setText(calories.toString().substring(0, calories.toString().indexOf(".")));
-        } else {
-            totalCalories.setText(calories.toString());
-        }
+        totalCalories.setText(String.format("%d", calories));
+        totalFat.setText(String.format("%.1f", fat));
+        totalCarbs.setText(String.format("%.1f", carbs));
+        totalProtein.setText(String.format("%.1f", protein));
 
-        if (protein.toString().endsWith(".0")) {
-            totalProtein.setText(protein.toString().substring(0, protein.toString().indexOf(".")));
-        } else {
-            totalProtein.setText(protein.toString());
-        }
-
-        if (carbs.toString().endsWith(".0")) {
-            totalCarbs.setText(carbs.toString().substring(0, carbs.toString().indexOf(".")));
-        } else {
-            totalCarbs.setText(carbs.toString());
-        }
-
-        if (fat.toString().endsWith(".0")) {
-            totalFat.setText(fat.toString().substring(0, fat.toString().indexOf(".")));
-        } else {
-            totalFat.setText(fat.toString());
-        }
+        /* Setup the pie charts */
 
         mCaloriesChart.setEmptyColor(Color.GRAY);
         mMacrosChart.setEmptyColor(Color.GRAY);
@@ -450,7 +423,7 @@ public class NutritionLog extends Fragment {
         pieBreakfast.setLabelType(PieLabelType.PERCENTAGE_then_NAME);
 
         // "lunch" section of the pie chart
-        PieSection pieLunch = new PieSection("Lunch", lunchCals);
+        PieSection pieLunch = new PieSection("Lunch", (float) lunchCals);
         pieLunch.setFillColor(getResources().getColor(R.color.chart_orange));
         pieLunch.setLabelSize(35);
         pieLunch.setStrokeWidth(1);
@@ -458,7 +431,7 @@ public class NutritionLog extends Fragment {
         pieLunch.setLabelType(PieLabelType.PERCENTAGE_then_NAME);
 
         // "dinner" section of the pie chart
-        PieSection pieDinner = new PieSection("Dinner", dinnerCals);
+        PieSection pieDinner = new PieSection("Dinner", (float) dinnerCals);
         pieDinner.setFillColor(getResources().getColor(R.color.chart_green));
         pieDinner.setLabelSize(35);
         pieDinner.setStrokeWidth(1);
@@ -466,7 +439,7 @@ public class NutritionLog extends Fragment {
         pieDinner.setLabelType(PieLabelType.PERCENTAGE_then_NAME);
 
         // "snack" section of the pie chart
-        PieSection pieSnack = new PieSection("Snack", snackCals);
+        PieSection pieSnack = new PieSection("Snack", (float) snackCals);
         pieSnack.setFillColor(getResources().getColor(R.color.chart_pink));
         pieSnack.setLabelSize(35);
         pieSnack.setStrokeWidth(1);
@@ -474,17 +447,21 @@ public class NutritionLog extends Fragment {
         pieSnack.setLabelType(PieLabelType.PERCENTAGE_then_NAME);
 
         List<PieSection> pieCalorieSections = new ArrayList<PieSection>();
-        pieCalorieSections.add(pieBreakfast);
-        pieCalorieSections.add(pieLunch);
-        pieCalorieSections.add(pieDinner);
-        pieCalorieSections.add(pieSnack);
+        if (breakfastCals > 0)
+            pieCalorieSections.add(pieBreakfast);
+        if (lunchCals > 0)
+            pieCalorieSections.add(pieLunch);
+        if (dinnerCals > 0)
+            pieCalorieSections.add(pieDinner);
+        if (snackCals > 0)
+            pieCalorieSections.add(pieSnack);
 
         mCaloriesChart.clearChart();
         mCaloriesChart.setPieItems(pieCalorieSections);
         mCaloriesChart.drawChart();
 
         // "fat" section of the pie chart
-        PieSection pieFat = new PieSection("Fat", fat.floatValue() * 9);
+        PieSection pieFat = new PieSection("Fat", (float) fat * 9);
         pieFat.setFillColor(getResources().getColor(R.color.chart_red));
         pieFat.setLabelSize(35);
         pieFat.setStrokeWidth(1);
@@ -492,7 +469,7 @@ public class NutritionLog extends Fragment {
         pieFat.setLabelType(PieLabelType.PERCENTAGE_then_NAME);
 
         // "carbs" section of the pie chart
-        PieSection pieCarbs = new PieSection("Carbs", carbs.floatValue() * 4);
+        PieSection pieCarbs = new PieSection("Carbs", (float) carbs * 4);
         pieCarbs.setFillColor(getResources().getColor(R.color.chart_yellow));
         pieCarbs.setLabelSize(35);
         pieCarbs.setStrokeWidth(1);
@@ -500,7 +477,7 @@ public class NutritionLog extends Fragment {
         pieCarbs.setLabelType(PieLabelType.PERCENTAGE_then_NAME);
 
         // "protein" section of the pie chart
-        PieSection pieProtein = new PieSection("Protein", protein.floatValue() * 4);
+        PieSection pieProtein = new PieSection("Protein", (float) protein * 4);
         pieProtein.setFillColor(getResources().getColor(R.color.chart_purple));
         pieProtein.setLabelSize(35);
         pieProtein.setStrokeWidth(1);
@@ -508,21 +485,24 @@ public class NutritionLog extends Fragment {
         pieProtein.setLabelType(PieLabelType.PERCENTAGE_then_NAME);
 
         List<PieSection> pieMacrosSections = new ArrayList<PieSection>();
-        pieMacrosSections.add(pieFat);
-        pieMacrosSections.add(pieCarbs);
-        pieMacrosSections.add(pieProtein);
+        if (fat > 0)
+            pieMacrosSections.add(pieFat);
+        if (carbs > 0)
+            pieMacrosSections.add(pieCarbs);
+        if (protein > 0)
+            pieMacrosSections.add(pieProtein);
 
         mMacrosChart.clearChart();
         mMacrosChart.setPieItems(pieMacrosSections);
         mMacrosChart.drawChart();
 
-        mProgressCalories.setProgress(calories.intValue());
-        mProgressFat.setProgress(fat.intValue());
-        mProgressCarbs.setProgress(carbs.intValue());
-        mProgressProtein.setProgress(protein.intValue());
+        mProgressCalories.setProgress(calories);
+        mProgressFat.setProgress((int) fat);
+        mProgressCarbs.setProgress((int) carbs);
+        mProgressProtein.setProgress((int) protein);
     }
 
-    private void showPopup(View v, final Meal meal) {
+    private void showPopup(View v, final Food food) {
         PopupMenu popup = new PopupMenu(activity, v);
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -530,13 +510,13 @@ public class NutritionLog extends Fragment {
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.n_action_addToFavorites:
-                        menuClickAddToFavorites(meal);
+                        menuClickAddToFavorites(food);
                         return true;
                     case R.id.n_action_edit:
-                        menuClickEdit(meal);
+                        menuClickEdit(food);
                         return true;
                     case R.id.n_action_delete:
-                        menuClickDelete(meal);
+                        menuClickDelete(food);
                         return true;
                     default:
                         return false;
@@ -549,42 +529,65 @@ public class NutritionLog extends Fragment {
         popup.show();
     }
 
-    private void menuClickAddToFavorites(Meal meal) {
-        db.store(new FavoriteMeal(
-                meal.getName(), meal.getType(), meal.getCalories(), meal.getProtein(), meal.getCarbs(), meal.getFat()
-        ));
+    private void menuClickAddToFavorites(Food food) {
+        food.pinInBackground(Statics.PIN_NUTRITION_FAVORITES);
     }
 
-    private void menuClickEdit(Meal meal) {
+    private void menuClickEdit(Food food) {
 //        Intent intent = new Intent(getActivity(), CustomFoodFragment.class);
 //        intent.putExtra("Edit", meal);
 //        startActivityForResult(intent, Statics.INTENT_REQUEST_MEAL);
         Toast.makeText(getActivity(), "Edit is currently not enabled", Toast.LENGTH_SHORT).show();
     }
 
-    private void menuClickDelete(Meal meal) {
-        db.delete(meal);
+    private void menuClickDelete(Food food) {
 
-        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
-        String formattedDate = df.format(c.getTime());
-        meals = db.getMealList(new Meal(formattedDate));
+        mFoods.remove(food);
+        food.unpinInBackground(Statics.PIN_NUTRITION_LOG);
+        food.deleteInBackground();
 
         prepareListData();
-        mAdapter = new NutritionExpandableListAdapter(activity, listHeaders, listData);
-        list.setAdapter(mAdapter);
+        mAdapter = new NutritionExpandableListAdapter(activity, mListHeaders, mListData);
+        mList.setAdapter(mAdapter);
         updateTotals();
 
     }
 
     private void updateList() {
-        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
-        String formattedDate = df.format(c.getTime());
+        Calendar midnight = Calendar.getInstance();
+        midnight.set(Calendar.YEAR, year);
+        midnight.set(Calendar.MONTH, month);
+        midnight.set(Calendar.DAY_OF_MONTH, day);
+        midnight.set(Calendar.HOUR_OF_DAY, 0);
+        midnight.set(Calendar.MINUTE, 0);
+        midnight.set(Calendar.SECOND, 0);
 
-        meals = db.getMealList(new Meal(formattedDate));
-        prepareListData();
-        mAdapter = new NutritionExpandableListAdapter(activity, listHeaders, listData);
-        list.setAdapter(mAdapter);
-        updateTotals();
+        Calendar elevenFiftyNine = Calendar.getInstance();
+        elevenFiftyNine.set(Calendar.YEAR, year);
+        elevenFiftyNine.set(Calendar.MONTH, month);
+        elevenFiftyNine.set(Calendar.DAY_OF_MONTH, day);
+        elevenFiftyNine.set(Calendar.HOUR_OF_DAY, 23);
+        elevenFiftyNine.set(Calendar.MINUTE, 59);
+        elevenFiftyNine.set(Calendar.SECOND, 59);
+
+        Date dayStart = new Date(midnight.getTimeInMillis());
+        Date dayEnd = new Date(elevenFiftyNine.getTimeInMillis());
+
+        ParseQuery<Food> foodQuery = Food.getQuery();
+        foodQuery.fromPin(Statics.PIN_NUTRITION_LOG);
+        foodQuery.whereGreaterThan("date", dayStart);
+        foodQuery.whereLessThan("date", dayEnd);
+        foodQuery.findInBackground(new FindCallback<Food>() {
+            @Override
+            public void done(List<Food> foods, ParseException e) {
+                mFoods = foods;
+
+                prepareListData();
+                mAdapter = new NutritionExpandableListAdapter(activity, mListHeaders, mListData);
+                mList.setAdapter(mAdapter);
+                updateTotals();
+            }
+        });
     }
 
     @Override
