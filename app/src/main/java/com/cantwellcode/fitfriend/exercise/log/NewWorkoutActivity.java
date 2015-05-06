@@ -63,6 +63,8 @@ public class NewWorkoutActivity extends Activity implements ConfirmationListener
 
     private View root;
 
+    private final String MSG_CANCEL = "Cancel Workout?";
+    private final String MSG_SAVE = "Save Workout?";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -256,7 +258,7 @@ public class NewWorkoutActivity extends Activity implements ConfirmationListener
         switch (item.getItemId()) {
 
             case R.id.action_save:
-                showConfirmationDialog(ConfirmationDialog.TYPE_SAVE, "Save Workout?");
+                showConfirmationDialog(MSG_SAVE);
                 break;
             case R.id.action_new_routine:
                 SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
@@ -266,7 +268,7 @@ public class NewWorkoutActivity extends Activity implements ConfirmationListener
                 startActivityForResult(intent, Statics.INTENT_REQUEST_ADD_EXERCISE);
                 return true;
             case android.R.id.home:
-                showConfirmationDialog(ConfirmationDialog.TYPE_CANCEL, "Cancel Workout?");
+                showConfirmationDialog(MSG_CANCEL);
                 break;
         }
 
@@ -403,20 +405,24 @@ public class NewWorkoutActivity extends Activity implements ConfirmationListener
      * Dialog Interface Functions
      */
 
-    private void showConfirmationDialog(String type, String message) {
-        ConfirmationDialog dialog = ConfirmationDialog.newInstance(type, message);
+    private void showConfirmationDialog(String message) {
+        ConfirmationDialog dialog = ConfirmationDialog.newInstance(message);
         dialog.show(getFragmentManager(), "Workout Confirmation Dialog");
     }
 
     @Override
-    public void onCancel() {
-        ParseObject.unpinAllInBackground(Statics.PIN_CURRENT_EXERCISES);
-        setResult(RESULT_CANCELED);
-        finish();
+    public void onNo(String msg) {
     }
 
     @Override
-    public void onSave() {
-        saveWorkout();
+    public void onYes(String msg) {
+
+        if (msg.equals(MSG_CANCEL)) {
+            ParseObject.unpinAllInBackground(Statics.PIN_CURRENT_EXERCISES);
+            setResult(RESULT_CANCELED);
+            finish();
+        } else if (msg.equals(MSG_SAVE)) {
+            saveWorkout();
+        }
     }
 }

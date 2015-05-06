@@ -11,7 +11,5 @@
         <item>Lunch</item>
         <item>Dinner</item>
         <item>Snack</item>
-        <item>Pre-Workout</item>
-        <item>Post-Workout</item>
     </string-array>
 </resources>

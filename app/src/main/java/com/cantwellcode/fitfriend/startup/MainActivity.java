@@ -31,6 +31,7 @@ import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -87,6 +88,10 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
                     for (ParseObject friendship : parseObjects) {
                         ParseUser friend = SocialEvent.getFriendFromFriendship(friendship);
                         friends.add(friend);
+                        // Subscribe to their friend
+                        // Mainly used for events
+                        ParsePush.subscribeInBackground(friend.getObjectId());
+                        ParsePush push = new ParsePush();
                     }
                     // unpin the old friends
                     ParseObject.unpinAllInBackground(Statics.PIN_FRIENDS, new DeleteCallback() {
@@ -157,32 +162,32 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
                 FragmentManager fm2 = getSupportFragmentManager();
                 fm2.beginTransaction().replace(R.id.container, planFragment).commit();
                 break;
+//            case 3:
+//                Fragment forumFragment = ForumFragment.newInstance();
+//                FragmentManager fm3 = getSupportFragmentManager();
+//                fm3.beginTransaction().replace(R.id.container, forumFragment).commit();
+//                break;
             case 3:
-                Fragment forumFragment = ForumFragment.newInstance();
-                FragmentManager fm3 = getSupportFragmentManager();
-                fm3.beginTransaction().replace(R.id.container, forumFragment).commit();
-                break;
-            case 4:
                 Intent i4 = new Intent(MainActivity.this, PurchasesActivity.class);
                 startActivity(i4);
                 break;
-            case 5:
+            case 4:
                 Intent i0 = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivityForResult(i0, Statics.INTENT_REQUEST_SETTINGS);
                 break;
-            case 6:
+            case 5:
                 Intent i1 = new Intent(MainActivity.this, GoalsActivity.class);
                 startActivity(i1);
                 break;
-            case 7:
+            case 6:
                 Intent i2 = new Intent(MainActivity.this, NutritionFavoritesView.class);
                 startActivity(i2);
                 break;
-            case 8:
+            case 7:
                 Intent i3 = new Intent(MainActivity.this, FriendsActivity.class);
                 startActivity(i3);
                 break;
-            case 9:
+            case 8:
                 ParseUser.logOut();
                 finish();
                 break;

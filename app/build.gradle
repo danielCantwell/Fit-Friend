@@ -8,8 +8,8 @@ android {
         applicationId "com.cantwellcode.fitfriend"
         minSdkVersion 18
         targetSdkVersion 20
-        versionCode 14
-        versionName "2.1"
+        versionCode 15
+        versionName "2.2"
     }
     buildTypes {
         release {

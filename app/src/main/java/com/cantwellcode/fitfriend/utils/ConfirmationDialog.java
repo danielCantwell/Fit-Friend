@@ -24,19 +24,14 @@ public class ConfirmationDialog extends DialogFragment {
     private Button noButton;
     private Button yesButton;
 
-    public static final String TYPE_SAVE = "Save";
-    public static final String TYPE_CANCEL = "Cancel";
-
-    private String type;
     private String msg;
 
     private ConfirmationListener mListener;
 
-    public static ConfirmationDialog newInstance(String t, String msg) {
+    public static ConfirmationDialog newInstance(String msg) {
         ConfirmationDialog d = new ConfirmationDialog();
 
         Bundle args = new Bundle();
-        args.putString("type", t);;
         args.putString("message", msg);
         d.setArguments(args);
 
@@ -62,7 +57,6 @@ public class ConfirmationDialog extends DialogFragment {
         noButton = (Button) root.findViewById(R.id.no);
         yesButton = (Button) root.findViewById(R.id.yes);
 
-        type = getArguments().getString("type");
         msg = getArguments().getString("message");
 
         message.setText(msg);
@@ -71,31 +65,19 @@ public class ConfirmationDialog extends DialogFragment {
             @Override
             public void onClick(View view) {
                 dismiss();
+                mListener.onNo(msg);
             }
         });
 
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (type.equals(TYPE_SAVE)) {
-                    save();
-                } else if (type.equals(TYPE_CANCEL)) {
-                    cancel();
-                }
+                dismiss();
+                mListener.onYes(msg);
             }
         });
 
         builder.setView(root);
         return builder.create();
-    }
-
-    private void cancel() {
-        dismiss();
-        mListener.onCancel();
-    }
-
-    private void save() {
-        dismiss();
-        mListener.onSave();
     }
 }

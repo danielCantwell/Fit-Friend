@@ -104,6 +104,9 @@ public class CardioActivity extends Activity implements View.OnClickListener,
     /* Chronometer functionality */
     private long mTimeWhenPaused;
 
+    private final String MSG_CANCEL = "Cancel Run?";
+    private final String MSG_SAVE = "Save Run?";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -161,7 +164,7 @@ public class CardioActivity extends Activity implements View.OnClickListener,
                 if (bStartedRunning) {
                     if (bRunning)
                         handlePauseButtonClick();
-                    showConfirmationDialog(ConfirmationDialog.TYPE_CANCEL, "Cancel Run?");
+                    showConfirmationDialog(MSG_CANCEL);
                 } else {
                     finish();
                 }
@@ -175,14 +178,14 @@ public class CardioActivity extends Activity implements View.OnClickListener,
         if (bStartedRunning) {
             if (bRunning)
                 handlePauseButtonClick();
-            showConfirmationDialog(ConfirmationDialog.TYPE_CANCEL, "Cancel Run?");
+            showConfirmationDialog(MSG_CANCEL);
         } else {
             finish();
         }
     }
 
-    private void showConfirmationDialog(String type, String message) {
-        ConfirmationDialog dialog = ConfirmationDialog.newInstance(type, message);
+    private void showConfirmationDialog(String message) {
+        ConfirmationDialog dialog = ConfirmationDialog.newInstance(message);
         dialog.show(getFragmentManager(), "Cardio Confirmation Dialog");
     }
 
@@ -225,7 +228,7 @@ public class CardioActivity extends Activity implements View.OnClickListener,
     private void handleStopButtonClick() {
         bRunning = false;
         pauseChrono();
-        showConfirmationDialog(ConfirmationDialog.TYPE_SAVE, "Save Run?");
+        showConfirmationDialog(MSG_SAVE);
     }
 
     /**
@@ -504,13 +507,17 @@ public class CardioActivity extends Activity implements View.OnClickListener,
     }
 
     @Override
-    public void onCancel() {
+    public void onNo(String msg) {
         finish();
     }
 
     @Override
-    public void onSave() {
-        closeGPX();
-        finish();
+    public void onYes(String msg) {
+        if (msg.equals(MSG_CANCEL)) {
+            finish();
+        } else if (msg.equals(MSG_SAVE)) {
+            closeGPX();
+            finish();
+        }
     }
 }

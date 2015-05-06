@@ -12,28 +12,38 @@ import android.widget.TextView;
 
 import com.cantwellcode.fitfriend.R;
 import com.cantwellcode.fitfriend.utils.Statics;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.ParseException;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 /**
  * Created by Daniel on 6/4/2014.
  */
-public class EventDetails extends FragmentActivity {
+public class EventDetails extends FragmentActivity implements OnMapReadyCallback {
 
-    private TextView mTitle;
     private TextView mTime;
     private TextView mCreator;
     private TextView mDate;
-    private ImageView mType;
-    private TextView mLocation;
     private TextView mDescription;
 
     private Button mAttendeesButton;
     private Button mJoin;
 
-    private Event mEvent;
+    private Event mEvent = null;
+
+    private MapFragment mMap;
 
     private boolean going = false;
 
@@ -45,28 +55,27 @@ public class EventDetails extends FragmentActivity {
         /*
           Initialize widgets
          */
-        mTitle = (TextView) findViewById(R.id.title);
         mTime = (TextView) findViewById(R.id.time);
         mCreator = (TextView) findViewById(R.id.creator);
         mDate = (TextView) findViewById(R.id.date);
-        mType = (ImageView) findViewById(R.id.icon);
-        mLocation = (TextView) findViewById(R.id.location);
         mDescription = (TextView) findViewById(R.id.description);
         mAttendeesButton = (Button) findViewById(R.id.attendees);
         mJoin = (Button) findViewById(R.id.join);
 
+        mMap = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        mMap.getMapAsync(this);
+
         /*
           Query for event
          */
-        Bundle bundle = getIntent().getExtras();
-        String eventID = bundle.getString("id");
 
         ParseQuery<Event> eventQuery = Event.getQuery();
-        eventQuery.whereEqualTo("objectId", eventID);
+        eventQuery.fromPin(Statics.PIN_EVENT_DETAILS);
         eventQuery.include("user");
         eventQuery.include("attendees");
         try {
             mEvent = eventQuery.getFirst();
+            mEvent.unpinInBackground(Statics.PIN_EVENT_DETAILS);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -74,57 +83,73 @@ public class EventDetails extends FragmentActivity {
         /*
           Set event details
          */
-        mTitle.setText(mEvent.getTitle());
-        mTime.setText(mEvent.getTime());
-        mCreator.setText(mEvent.getUser().get("name").toString());
-        mDate.setText(mEvent.getDate());
-        mLocation.setText(mEvent.getLocation());
-        mDescription.setText(mEvent.getDescription());
+        if (mEvent != null) {
+            SimpleDateFormat timeFormat = new SimpleDateFormat("K:mm aa", Locale.US);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM yyyy", Locale.US);
 
-        String type = mEvent.getType();
-        if (type.equals("Swim")) {
-            mType.setImageResource(R.drawable.gym_icon);
-        } // else icon is food icon
+            getActionBar().setTitle(mEvent.getTitle());
+            mTime.setText(timeFormat.format(mEvent.getDateTime()));
+            mCreator.setText(mEvent.getUser().getString("name"));
+            mDate.setText(dateFormat.format(mEvent.getDateTime()));
+            mDescription.setText(mEvent.getDescription());
 
-        /*
-          Create the list of attendees
-         */
-        mAttendeesButton.setText(mEvent.getAttendees().size() + " Attending");
+            if (mEvent.getLocation() != null) {
+                if (mMap != null && mMap.getMap() != null) {
+                    mMap.getMap().clear();
+                    MarkerOptions markerOptions = new MarkerOptions()
+                            .position(new LatLng(mEvent.getLocation().getLatitude(), mEvent.getLocation().getLongitude()))
+                            .title(mEvent.getTitle());
+                    Marker marker = mMap.getMap().addMarker(markerOptions);
+//                    marker.showInfoWindow();
 
-        /*
-          Check if user is in the list of attendees
-         */
-        if (mEvent.checkIfAttending(ParseUser.getCurrentUser())) {
-            mJoin.setText("Going");
-            going = true;
-        }
-
-        mJoin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (going) {
-                    mEvent.removeAttendee(ParseUser.getCurrentUser());
-                    mEvent.saveInBackground();
-                    mJoin.setText("Join");
-                    going = false;
-                    /* Unsubscribe to push notifications */
-                    ParsePush.unsubscribeInBackground(Statics.EVENT_CHANNEL_ + mEvent.getObjectId());
-                } else {
-                    mEvent.addAttendee(ParseUser.getCurrentUser());
-                    mEvent.saveInBackground();
-                    mJoin.setText("Going");
-                    going = true;
-                    /* Subscribe to push notifications */
-                    ParsePush.subscribeInBackground(Statics.EVENT_CHANNEL_ + mEvent.getObjectId());
-                    /* Notify subscribers */
-                    ParsePush push = new ParsePush();
-                    push.setChannel(Statics.EVENT_CHANNEL_ + mEvent.getObjectId());
-                    push.setMessage(ParseUser.getCurrentUser().getString("name") + " has joined the event " + mEvent.getTitle());
-                    push.sendInBackground();
+                    LatLng latLng = new LatLng(mEvent.getLocation().getLatitude(), mEvent.getLocation().getLongitude());
+                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 11);
+                    mMap.getMap().animateCamera(cameraUpdate);
                 }
-                mAttendeesButton.setText(mEvent.getAttendees().size() + " Attending");
+            } else {
+                mMap.getView().setVisibility(View.GONE);
             }
-        });
+
+            /*
+            Create the list of attendees
+            */
+            mAttendeesButton.setText(mEvent.getAttendees().size() + " Attending");
+
+            /*
+            Check if user is in the list of attendees
+            */
+            if (mEvent.checkIfAttending(ParseUser.getCurrentUser())) {
+                mJoin.setText("Going");
+                going = true;
+            }
+
+            mJoin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (going) {
+                        mEvent.removeAttendee(ParseUser.getCurrentUser());
+                        mEvent.saveInBackground();
+                        mJoin.setText("Join");
+                        going = false;
+                    /* Unsubscribe to push notifications */
+                        ParsePush.unsubscribeInBackground(Statics.PUSH_CHANNEL_ID + mEvent.getObjectId());
+                    } else {
+                        mEvent.addAttendee(ParseUser.getCurrentUser());
+                        mEvent.saveInBackground();
+                        mJoin.setText("Going");
+                        going = true;
+                    /* Subscribe to push notifications */
+                        ParsePush.subscribeInBackground(Statics.PUSH_CHANNEL_ID + mEvent.getObjectId());
+                    /* Notify subscribers */
+                        ParsePush push = new ParsePush();
+                        push.setChannel(Statics.PUSH_CHANNEL_ID + mEvent.getObjectId());
+                        push.setMessage(ParseUser.getCurrentUser().getString("name") + " has joined the event " + mEvent.getTitle());
+                        push.sendInBackground();
+                    }
+                    mAttendeesButton.setText(mEvent.getAttendees().size() + " Attending");
+                }
+            });
+        }
     }
 
     @Override
@@ -149,6 +174,23 @@ public class EventDetails extends FragmentActivity {
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Event Details");
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        if (mEvent != null && mEvent.getLocation() != null) {
+            mMap.getMap().clear();
+            MarkerOptions markerOptions = new MarkerOptions()
+                    .position(new LatLng(mEvent.getLocation().getLatitude(), mEvent.getLocation().getLongitude()))
+                    .title(mEvent.getTitle());
+            Marker marker = mMap.getMap().addMarker(markerOptions);
+//            marker.showInfoWindow();
+
+            LatLng latLng = new LatLng(mEvent.getLocation().getLatitude(), mEvent.getLocation().getLongitude());
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 11);
+            mMap.getMap().animateCamera(cameraUpdate);
+        } else {
+            mMap.getView().setVisibility(View.GONE);
+        }
     }
 }

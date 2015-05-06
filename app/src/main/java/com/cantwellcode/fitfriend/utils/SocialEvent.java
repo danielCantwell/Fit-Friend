@@ -5,9 +5,14 @@ import android.widget.Toast;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,11 +63,6 @@ public abstract class SocialEvent {
         });
     }
 
-    public static void confirmFriend(ParseObject object) {
-        object.put("confirmed", true);
-        object.saveEventually();
-    }
-
     public static void confirmFriend(ParseUser friend) {
 
 //        friend.pinInBackground("Friends");
@@ -76,13 +76,30 @@ public abstract class SocialEvent {
             public void done(ParseObject parseObject, ParseException e) {
                 if (e == null) {
                     parseObject.put("confirmed", true);
-                    parseObject.saveEventually();
+                    parseObject.saveInBackground();
                 }
             }
         });
     }
 
     public static void removeFriend(ParseUser friend) {
+        ParsePush.unsubscribeInBackground(friend.getObjectId());
+
+        JSONObject j = new JSONObject();
+        try {
+            j.put(Statics.PUSH_ACTION_UNSUBSCRIBE, ParseUser.getCurrentUser().getObjectId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        ParseQuery query = ParseInstallation.getQuery();
+        query.whereEqualTo("channels", ParseUser.getCurrentUser().getObjectId());
+
+        ParsePush push = new ParsePush();
+        push.setData(j);
+        push.setQuery(query);
+        push.sendInBackground();
+
         // remove an entry in the Friend table
         ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Friend");
         query1.whereEqualTo("from", friend);
@@ -101,7 +118,7 @@ public abstract class SocialEvent {
             @Override
             public void done(ParseObject parseObject, ParseException e) {
                 if (e == null) {
-                    parseObject.deleteEventually();
+                    parseObject.deleteInBackground();
                 }
             }
         });

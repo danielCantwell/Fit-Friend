@@ -15,9 +15,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.cantwellcode.fitfriend.R;
+import com.cantwellcode.fitfriend.startup.DrawerItem;
+import com.cantwellcode.fitfriend.utils.ConfirmationDialog;
+import com.cantwellcode.fitfriend.utils.ConfirmationListener;
 import com.cantwellcode.fitfriend.utils.Statics;
+import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
@@ -29,7 +34,7 @@ import java.util.List;
 /**
  * Created by Daniel on 2/8/14.
  */
-public class CustomFoodFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class CustomFoodFragment extends Fragment implements AdapterView.OnItemSelectedListener, ConfirmationListener {
 
     private AutoCompleteTextView mNameText;
     private EditText mCaloriesText;
@@ -221,6 +226,12 @@ public class CustomFoodFragment extends Fragment implements AdapterView.OnItemSe
             mFood.pinInBackground(Statics.PIN_NUTRITION_FAVORITES);
         }
 
+        // If the user is an anonymous user
+//        if (!ParseAnonymousUtils.isLinked(ParseUser.getCurrentUser())) {
+//            ConfirmationDialog dialog = ConfirmationDialog.newInstance("Would you like to sign up or log in?");
+//            dialog.show(getFragmentManager(), "Confirmation Dialog");
+//        }
+
         mFood.pinInBackground(Statics.PIN_NUTRITION_LOG, new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -261,6 +272,16 @@ public class CustomFoodFragment extends Fragment implements AdapterView.OnItemSe
         mTypeSpinner.setSelection(spinnerPosition);
 
         mAddToFavorites.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onNo(String msg) {
+
+    }
+
+    @Override
+    public void onYes(String msg) {
+
     }
 }
 

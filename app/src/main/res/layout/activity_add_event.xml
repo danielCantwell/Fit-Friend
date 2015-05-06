@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <TextView
-        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_margin="10dp"
         android:text="Title: "
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -20,120 +17,73 @@
     <EditText
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
-
-    <TextView
-        android:id="@+id/typeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
-        android:layout_margin="10dp"
-        android:text="Type"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <Spinner
-        android:id="@+id/type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/typeText"
-        android:layout_marginLeft="10dp" />
+        android:layout_height="wrap_content" />
 
     <!--<TextView-->
-        <!--android:id="@+id/groupText"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_below="@+id/title"-->
-        <!--android:layout_margin="10dp"-->
-        <!--android:text="Group"-->
-        <!--android:textSize="18sp"-->
-        <!--android:textStyle="bold" />-->
+    <!--android:id="@+id/groupText"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_below="@+id/title"-->
+    <!--android:layout_margin="10dp"-->
+    <!--android:text="Group"-->
+    <!--android:textSize="18sp"-->
+    <!--android:textStyle="bold" />-->
 
     <!--<Spinner-->
-        <!--android:id="@+id/group"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_below="@+id/groupText"-->
-        <!--android:layout_marginRight="10dp" />-->
+    <!--android:id="@+id/group"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_below="@+id/groupText"-->
+    <!--android:layout_marginRight="10dp" />-->
 
-    <TextView
-        android:id="@+id/dateText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/type"
-        android:layout_margin="10dp"
-        android:text="Date"
-        android:textSize="18dp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/dateText"
-        android:layout_marginLeft="10dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:text="21 May 2014" />
-
-    <TextView
-        android:id="@+id/timeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/time"
-        android:layout_alignLeft="@+id/time"
-        android:layout_below="@+id/type"
-        android:layout_marginTop="10dp"
-        android:text="Time"
-        android:textSize="18dp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/date"
-        android:layout_marginLeft="20dp"
-        android:layout_toRightOf="@+id/date"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:text="8:30 am" />
-
-    <TextView
-        android:id="@+id/weight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/date"
-        android:layout_margin="10dp"
-        android:text="Location"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/location"
+    <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/weight"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Date"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Time"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="21 May 2014" />
+
+
+        <Button
+            android:id="@+id/time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="8:30 am" />
+    </TableRow>
 
     <TextView
-        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/location"
-        android:layout_margin="10dp"
+        android:layout_marginTop="16dp"
         android:text="Description"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -142,12 +92,21 @@
         android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView3"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:ems="10"
         android:inputType="textMultiLine" />
 
-</RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Location"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

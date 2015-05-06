@@ -7,6 +7,6 @@ import android.os.Bundle;
  */
 public interface DialogListener {
 
-    public void onDialogOK(Bundle bundle);
-    public void onDialogCancel();
+    void onDialogOK(Bundle bundle);
+    void onDialogCancel();
 }

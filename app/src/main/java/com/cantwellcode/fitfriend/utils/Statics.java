@@ -5,6 +5,9 @@ package com.cantwellcode.fitfriend.utils;
  */
 public abstract class Statics {
 
+    public static final String PIN_OBJECT_TO_SAVE = "Obect to Save";
+
+    public static final String PIN_WORKOUT_LOG_ANON = "Workout Log Anonymous";
     public static final String PIN_WORKOUT_LOG = "Workout Log";
     public static final String PIN_SAVED_EXERCISES = "Saved Exercises";
     public static final String PIN_EXERCISES = "Exercises";
@@ -13,6 +16,9 @@ public abstract class Statics {
 
     public static final String PIN_NUTRITION_LOG = "Nutrition Log";
     public static final String PIN_NUTRITION_FAVORITES = "Nutrition Favorites";
+
+    public static final String PIN_PLAN = "Plan";
+    public static final String PIN_EVENT_DETAILS = "Event Details";
 
     public static final String PIN_FRIENDS = "Friends";
     public static final String PIN_FRIEND_PROFILE = "Friend Profile";
@@ -39,7 +45,8 @@ public abstract class Statics {
     public static final int INTENT_REQUEST_LOGIN = 1006;
     public static final int INTENT_REQUEST_ADD_EXERCISE = 1007;
 
-
     // Push Channels
-    public static String EVENT_CHANNEL_ = "Event-";
+
+    public static final String PUSH_CHANNEL_ID = "id_";
+    public static final String PUSH_ACTION_UNSUBSCRIBE = "Unsubscribe";
 }

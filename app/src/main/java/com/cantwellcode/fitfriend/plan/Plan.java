@@ -22,16 +22,26 @@ import com.cantwellcode.fitfriend.utils.Statics;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by Daniel on 6/1/2014.
@@ -56,6 +66,7 @@ public class Plan extends Fragment {
     private ParseUser user;
     private ParseQueryAdapter<Event> mEvents;
     private ParseQueryAdapter.QueryFactory<Event> factory;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_plan, null);
@@ -140,14 +151,35 @@ public class Plan extends Fragment {
                 factory = new ParseQueryAdapter.QueryFactory<Event>() {
                     public ParseQuery<Event> create() {
 
-                        DateFormat df = new SimpleDateFormat("d MMMM yyyy");
-                        String date = df.format(mCalendar.getTime());
+                        int year = mCalendar.get(Calendar.YEAR);
+                        int month = mCalendar.get(Calendar.MONTH);
+                        int day = mCalendar.get(Calendar.DAY_OF_MONTH);
+
+                        Calendar midnight = Calendar.getInstance();
+                        midnight.set(Calendar.YEAR, year);
+                        midnight.set(Calendar.MONTH, month);
+                        midnight.set(Calendar.DAY_OF_MONTH, day);
+                        midnight.set(Calendar.HOUR_OF_DAY, 0);
+                        midnight.set(Calendar.MINUTE, 0);
+                        midnight.set(Calendar.SECOND, 0);
+
+                        Calendar elevenFiftyNine = Calendar.getInstance();
+                        elevenFiftyNine.set(Calendar.YEAR, year);
+                        elevenFiftyNine.set(Calendar.MONTH, month);
+                        elevenFiftyNine.set(Calendar.DAY_OF_MONTH, day);
+                        elevenFiftyNine.set(Calendar.HOUR_OF_DAY, 23);
+                        elevenFiftyNine.set(Calendar.MINUTE, 59);
+                        elevenFiftyNine.set(Calendar.SECOND, 59);
+
+                        Date dayStart = new Date(midnight.getTimeInMillis());
+                        Date dayEnd = new Date(elevenFiftyNine.getTimeInMillis());
 
                         /* Create a query for events */
                         ParseQuery<Event> query = Event.getQuery();
                         // Events must be created by someone in the list of friends
                         query.whereContainedIn("user", friends);
-                        query.whereEqualTo("date", date);
+                        query.whereGreaterThan("dateTime", dayStart);
+                        query.whereLessThan("dateTime", dayEnd);
                         query.include("user");
                         query.orderByAscending("title");
                         query.setLimit(MAX_EVENT_SEARCH_RESULTS);
@@ -168,24 +200,24 @@ public class Plan extends Fragment {
                         TextView title = (TextView) view.findViewById(R.id.title);
                         TextView time = (TextView) view.findViewById(R.id.time);
                         TextView creator = (TextView) view.findViewById(R.id.creator);
-                        ImageView icon = (ImageView) view.findViewById(R.id.icon);
 
-                        String type = event.getType();
-                        if (type.equals("Exercise")) {
-                            icon.setImageResource(R.drawable.gym_icon);
-                        } // else icon is food icon
+                        SimpleDateFormat timeFormat = new SimpleDateFormat("K:mm aa", Locale.US);
 
                         title.setText(event.getTitle());
-                        time.setText(event.getTime());
+                        time.setText(timeFormat.format(event.getDateTime()));
                         creator.setText(event.getUser().getString("name"));
 
                         view.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 if (user.getBoolean("athlete")) {
-                                    Intent intent = new Intent(getActivity(), EventDetails.class);
-                                    intent.putExtra("id", event.getObjectId());
-                                    startActivityForResult(intent, Statics.INTENT_REQUEST_EVENT_DETAILS);
+                                    event.pinInBackground(Statics.PIN_EVENT_DETAILS, new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            Intent intent = new Intent(getActivity(), EventDetails.class);
+                                            startActivityForResult(intent, Statics.INTENT_REQUEST_EVENT_DETAILS);
+                                        }
+                                    });
                                 } else {
                                     Toast.makeText(getActivity(), "Upgrade to 'Athlete' to view event details", Toast.LENGTH_SHORT).show();
                                 }
@@ -196,6 +228,26 @@ public class Plan extends Fragment {
                             @Override
                             public boolean onLongClick(View v) {
                                 if (event.getUser().getObjectId().equals(user.getObjectId())) {
+
+                                    HashMap<String, String> params = new HashMap<String, String>();
+                                    params.put(Statics.PUSH_ACTION_UNSUBSCRIBE, Statics.PUSH_CHANNEL_ID + event.getObjectId());
+
+                                    String json = getJSONString(params);
+                                    JSONObject j = null;
+                                    try {
+                                        j = new JSONObject(json);
+                                    } catch (JSONException e1) {
+                                        e1.printStackTrace();
+                                    }
+
+                                    ParseQuery query = ParseInstallation.getQuery();
+                                    query.whereEqualTo("channels", event.getObjectId());
+
+                                    ParsePush push = new ParsePush();
+                                    push.setData(j);
+                                    push.setQuery(query);
+                                    push.sendInBackground();
+
                                     Toast.makeText(getActivity(), "Deleting Event", Toast.LENGTH_SHORT).show();
                                     event.deleteInBackground(new DeleteCallback() {
                                         @Override
@@ -230,5 +282,28 @@ public class Plan extends Fragment {
         if (resultCode == getActivity().RESULT_OK && requestCode == Statics.INTENT_REQUEST_EVENT) {
             setupFriendsEvents();
         }
+    }
+
+    private String getJSONString(HashMap<String, String> keyValues) {
+        String json = "{\"";
+
+        int count = 1;
+        for (Map.Entry<String, String> entry : keyValues.entrySet()) {
+
+            String key = entry.getKey();
+            String value = entry.getValue();
+
+            json += key + "\":\"" + value + "\"";
+
+            if (count != keyValues.entrySet().size()) {
+                json += ",";
+            }
+
+            count ++;
+        }
+
+        json += "}";
+
+        return json;
     }
 }

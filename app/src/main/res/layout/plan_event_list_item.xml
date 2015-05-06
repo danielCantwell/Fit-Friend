@@ -14,7 +14,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_margin="2dp"
-        android:src="@drawable/ic_food_icon" />
+        android:src="@drawable/gym_icon" />
 
     <TextView
         android:id="@+id/title"

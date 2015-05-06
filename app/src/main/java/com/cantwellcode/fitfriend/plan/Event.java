@@ -2,10 +2,12 @@ package com.cantwellcode.fitfriend.plan;
 
 import com.cantwellcode.fitfriend.connect.Comment;
 import com.parse.ParseClassName;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,29 +35,20 @@ public class Event extends ParseObject {
     }
 
     // Date of the Event
-    public String getDate() {
-        return getString("date");
+    public Date getDateTime() {
+        return getDate("dateTime");
     }
 
-    public void setDate(String date) {
-        put("date", date);
-    }
-
-    // Time of the Event
-    public String getTime() {
-        return getString("time");
-    }
-
-    public void setTime(String time) {
-        put("time", time);
+    public void setDateTime(Date dateTime) {
+        put("dateTime", dateTime);
     }
 
     // Location of the Event
-    public String getLocation() {
-        return getString("location");
+    public ParseGeoPoint getLocation() {
+        return getParseGeoPoint("location");
     }
 
-    public void setLocation(String location) {
+    public void setLocation(ParseGeoPoint location) {
         put("location", location);
     }
 
@@ -66,15 +59,6 @@ public class Event extends ParseObject {
 
     public void setDescription(String description) {
         put("description", description);
-    }
-
-    // Type of Event
-    public String getType() {
-        return getString("type");
-    }
-
-    public void setType(String type) {
-        put("type", type);
     }
 
     // Comments on the Event

@@ -110,40 +110,32 @@ MERGED from com.android.support:support-v4:22.0.0:22:5
 	android:name
 		ADDED from AndroidManifest.xml:32:9
 meta-data#com.google.android.geo.API_KEY
-ADDED from AndroidManifest.xml:37:9
+ADDED from AndroidManifest.xml:40:9
 	android:value
-		ADDED from AndroidManifest.xml:39:13
-	android:name
-		ADDED from AndroidManifest.xml:38:13
-activity#com.cantwellcode.fitfriend.startup.SplashScreen
-ADDED from AndroidManifest.xml:41:9
-	android:screenOrientation
-		ADDED from AndroidManifest.xml:44:13
-	android:label
-		ADDED from AndroidManifest.xml:43:13
-	android:theme
-		ADDED from AndroidManifest.xml:45:13
-	android:name
 		ADDED from AndroidManifest.xml:42:13
-intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from AndroidManifest.xml:46:13
-action#android.intent.action.MAIN
-ADDED from AndroidManifest.xml:47:17
 	android:name
-		ADDED from AndroidManifest.xml:47:25
-category#android.intent.category.LAUNCHER
-ADDED from AndroidManifest.xml:49:17
-	android:name
-		ADDED from AndroidManifest.xml:49:27
-activity#com.cantwellcode.fitfriend.startup.MainActivity
-ADDED from AndroidManifest.xml:52:9
+		ADDED from AndroidManifest.xml:41:13
+activity#com.cantwellcode.fitfriend.startup.SplashScreen
+ADDED from AndroidManifest.xml:45:9
 	android:screenOrientation
-		ADDED from AndroidManifest.xml:55:13
+		ADDED from AndroidManifest.xml:48:13
 	android:label
-		ADDED from AndroidManifest.xml:54:13
+		ADDED from AndroidManifest.xml:47:13
+	android:theme
+		ADDED from AndroidManifest.xml:49:13
 	android:name
-		ADDED from AndroidManifest.xml:53:13
-activity#com.cantwellcode.fitfriend.plan.AddEvent
+		ADDED from AndroidManifest.xml:46:13
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from AndroidManifest.xml:50:13
+action#android.intent.action.MAIN
+ADDED from AndroidManifest.xml:51:17
+	android:name
+		ADDED from AndroidManifest.xml:51:25
+category#android.intent.category.LAUNCHER
+ADDED from AndroidManifest.xml:53:17
+	android:name
+		ADDED from AndroidManifest.xml:53:27
+activity#com.cantwellcode.fitfriend.startup.MainActivity
 ADDED from AndroidManifest.xml:56:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:59:13
@@ -151,7 +143,7 @@ ADDED from AndroidManifest.xml:56:9
 		ADDED from AndroidManifest.xml:58:13
 	android:name
 		ADDED from AndroidManifest.xml:57:13
-activity#com.cantwellcode.fitfriend.plan.EventDetails
+activity#com.cantwellcode.fitfriend.plan.AddEvent
 ADDED from AndroidManifest.xml:60:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:63:13
@@ -159,7 +151,7 @@ ADDED from AndroidManifest.xml:60:9
 		ADDED from AndroidManifest.xml:62:13
 	android:name
 		ADDED from AndroidManifest.xml:61:13
-activity#com.cantwellcode.fitfriend.connect.SettingsActivity
+activity#com.cantwellcode.fitfriend.plan.EventDetails
 ADDED from AndroidManifest.xml:64:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:67:13
@@ -167,7 +159,7 @@ ADDED from AndroidManifest.xml:64:9
 		ADDED from AndroidManifest.xml:66:13
 	android:name
 		ADDED from AndroidManifest.xml:65:13
-activity#com.cantwellcode.fitfriend.connect.GoalsActivity
+activity#com.cantwellcode.fitfriend.connect.SettingsActivity
 ADDED from AndroidManifest.xml:68:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:71:13
@@ -175,7 +167,7 @@ ADDED from AndroidManifest.xml:68:9
 		ADDED from AndroidManifest.xml:70:13
 	android:name
 		ADDED from AndroidManifest.xml:69:13
-activity#com.cantwellcode.fitfriend.nutrition.NutritionFavoritesView
+activity#com.cantwellcode.fitfriend.connect.GoalsActivity
 ADDED from AndroidManifest.xml:72:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:75:13
@@ -183,45 +175,45 @@ ADDED from AndroidManifest.xml:72:9
 		ADDED from AndroidManifest.xml:74:13
 	android:name
 		ADDED from AndroidManifest.xml:73:13
-activity#com.cantwellcode.fitfriend.exercise.log.NewWorkoutActivity
+activity#com.cantwellcode.fitfriend.nutrition.NutritionFavoritesView
 ADDED from AndroidManifest.xml:76:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:79:13
 	android:label
 		ADDED from AndroidManifest.xml:78:13
-	android:windowSoftInputMode
-		ADDED from AndroidManifest.xml:80:13
 	android:name
 		ADDED from AndroidManifest.xml:77:13
-activity#com.cantwellcode.fitfriend.exercise.log.NewExerciseActivity
-ADDED from AndroidManifest.xml:81:9
+activity#com.cantwellcode.fitfriend.exercise.log.NewWorkoutActivity
+ADDED from AndroidManifest.xml:80:9
 	android:screenOrientation
-		ADDED from AndroidManifest.xml:84:13
-	android:label
 		ADDED from AndroidManifest.xml:83:13
-	android:windowSoftInputMode
-		ADDED from AndroidManifest.xml:85:13
-	android:name
+	android:label
 		ADDED from AndroidManifest.xml:82:13
-activity#com.cantwellcode.fitfriend.nutrition.NewFoodActivity
-ADDED from AndroidManifest.xml:86:9
-	android:screenOrientation
-		ADDED from AndroidManifest.xml:89:13
-	android:label
-		ADDED from AndroidManifest.xml:88:13
 	android:windowSoftInputMode
-		ADDED from AndroidManifest.xml:90:13
+		ADDED from AndroidManifest.xml:84:13
 	android:name
-		ADDED from AndroidManifest.xml:87:13
-activity#com.cantwellcode.fitfriend.exercise.log.CreateExerciseActivity
-ADDED from AndroidManifest.xml:91:9
+		ADDED from AndroidManifest.xml:81:13
+activity#com.cantwellcode.fitfriend.exercise.log.NewExerciseActivity
+ADDED from AndroidManifest.xml:85:9
 	android:screenOrientation
-		ADDED from AndroidManifest.xml:94:13
+		ADDED from AndroidManifest.xml:88:13
 	android:label
-		ADDED from AndroidManifest.xml:93:13
+		ADDED from AndroidManifest.xml:87:13
+	android:windowSoftInputMode
+		ADDED from AndroidManifest.xml:89:13
 	android:name
+		ADDED from AndroidManifest.xml:86:13
+activity#com.cantwellcode.fitfriend.nutrition.NewFoodActivity
+ADDED from AndroidManifest.xml:90:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:93:13
+	android:label
 		ADDED from AndroidManifest.xml:92:13
-activity#com.cantwellcode.fitfriend.friends.FriendsActivity
+	android:windowSoftInputMode
+		ADDED from AndroidManifest.xml:94:13
+	android:name
+		ADDED from AndroidManifest.xml:91:13
+activity#com.cantwellcode.fitfriend.exercise.log.CreateExerciseActivity
 ADDED from AndroidManifest.xml:95:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:98:13
@@ -229,7 +221,7 @@ ADDED from AndroidManifest.xml:95:9
 		ADDED from AndroidManifest.xml:97:13
 	android:name
 		ADDED from AndroidManifest.xml:96:13
-activity#com.cantwellcode.fitfriend.connect.CreatePostActivity
+activity#com.cantwellcode.fitfriend.friends.FriendsActivity
 ADDED from AndroidManifest.xml:99:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:102:13
@@ -237,7 +229,7 @@ ADDED from AndroidManifest.xml:99:9
 		ADDED from AndroidManifest.xml:101:13
 	android:name
 		ADDED from AndroidManifest.xml:100:13
-activity#com.cantwellcode.fitfriend.connect.DiscussionActivity
+activity#com.cantwellcode.fitfriend.connect.CreatePostActivity
 ADDED from AndroidManifest.xml:103:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:106:13
@@ -245,7 +237,7 @@ ADDED from AndroidManifest.xml:103:9
 		ADDED from AndroidManifest.xml:105:13
 	android:name
 		ADDED from AndroidManifest.xml:104:13
-activity#com.cantwellcode.fitfriend.friends.ProfileActivity
+activity#com.cantwellcode.fitfriend.connect.DiscussionActivity
 ADDED from AndroidManifest.xml:107:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:110:13
@@ -253,7 +245,7 @@ ADDED from AndroidManifest.xml:107:9
 		ADDED from AndroidManifest.xml:109:13
 	android:name
 		ADDED from AndroidManifest.xml:108:13
-activity#com.cantwellcode.fitfriend.exercise.log.ExerciseStatsActivity
+activity#com.cantwellcode.fitfriend.friends.ProfileActivity
 ADDED from AndroidManifest.xml:111:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:114:13
@@ -261,7 +253,7 @@ ADDED from AndroidManifest.xml:111:9
 		ADDED from AndroidManifest.xml:113:13
 	android:name
 		ADDED from AndroidManifest.xml:112:13
-activity#com.cantwellcode.fitfriend.exercise.log.WorkoutViewActivity
+activity#com.cantwellcode.fitfriend.exercise.log.ExerciseStatsActivity
 ADDED from AndroidManifest.xml:115:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:118:13
@@ -269,7 +261,7 @@ ADDED from AndroidManifest.xml:115:9
 		ADDED from AndroidManifest.xml:117:13
 	android:name
 		ADDED from AndroidManifest.xml:116:13
-activity#com.cantwellcode.fitfriend.purchases.PurchasesActivity
+activity#com.cantwellcode.fitfriend.exercise.log.WorkoutViewActivity
 ADDED from AndroidManifest.xml:119:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:122:13
@@ -277,7 +269,7 @@ ADDED from AndroidManifest.xml:119:9
 		ADDED from AndroidManifest.xml:121:13
 	android:name
 		ADDED from AndroidManifest.xml:120:13
-activity#com.cantwellcode.fitfriend.exercise.log.CardioActivity
+activity#com.cantwellcode.fitfriend.purchases.PurchasesActivity
 ADDED from AndroidManifest.xml:123:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:126:13
@@ -285,7 +277,7 @@ ADDED from AndroidManifest.xml:123:9
 		ADDED from AndroidManifest.xml:125:13
 	android:name
 		ADDED from AndroidManifest.xml:124:13
-activity#com.cantwellcode.fitfriend.exercise.log.CardioViewActivity
+activity#com.cantwellcode.fitfriend.exercise.log.CardioActivity
 ADDED from AndroidManifest.xml:127:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:130:13
@@ -293,7 +285,7 @@ ADDED from AndroidManifest.xml:127:9
 		ADDED from AndroidManifest.xml:129:13
 	android:name
 		ADDED from AndroidManifest.xml:128:13
-activity#com.cantwellcode.fitfriend.startup.WelcomeActivity
+activity#com.cantwellcode.fitfriend.exercise.log.CardioViewActivity
 ADDED from AndroidManifest.xml:131:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:134:13
@@ -301,7 +293,7 @@ ADDED from AndroidManifest.xml:131:9
 		ADDED from AndroidManifest.xml:133:13
 	android:name
 		ADDED from AndroidManifest.xml:132:13
-activity#com.cantwellcode.fitfriend.startup.LoginActivity
+activity#com.cantwellcode.fitfriend.startup.WelcomeActivity
 ADDED from AndroidManifest.xml:135:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:138:13
@@ -309,7 +301,7 @@ ADDED from AndroidManifest.xml:135:9
 		ADDED from AndroidManifest.xml:137:13
 	android:name
 		ADDED from AndroidManifest.xml:136:13
-activity#com.cantwellcode.fitfriend.startup.SignUpActivity
+activity#com.cantwellcode.fitfriend.startup.LoginActivity
 ADDED from AndroidManifest.xml:139:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:142:13
@@ -317,70 +309,78 @@ ADDED from AndroidManifest.xml:139:9
 		ADDED from AndroidManifest.xml:141:13
 	android:name
 		ADDED from AndroidManifest.xml:140:13
-meta-data#com.parse.push.notification_icon
-ADDED from AndroidManifest.xml:144:9
-	android:resource
+activity#com.cantwellcode.fitfriend.startup.SignUpActivity
+ADDED from AndroidManifest.xml:143:9
+	android:screenOrientation
 		ADDED from AndroidManifest.xml:146:13
-	android:name
+	android:label
 		ADDED from AndroidManifest.xml:145:13
-service#com.parse.PushService
+	android:name
+		ADDED from AndroidManifest.xml:144:13
+meta-data#com.parse.push.notification_icon
 ADDED from AndroidManifest.xml:148:9
+	android:resource
+		ADDED from AndroidManifest.xml:150:13
 	android:name
-		ADDED from AndroidManifest.xml:148:18
+		ADDED from AndroidManifest.xml:149:13
+service#com.parse.PushService
+ADDED from AndroidManifest.xml:152:9
+	android:name
+		ADDED from AndroidManifest.xml:152:18
 receiver#com.parse.ParseBroadcastReceiver
-ADDED from AndroidManifest.xml:150:9
+ADDED from AndroidManifest.xml:154:9
 	android:name
-		ADDED from AndroidManifest.xml:150:19
+		ADDED from AndroidManifest.xml:154:19
 intent-filter#android.intent.action.BOOT_COMPLETED+android.intent.action.USER_PRESENT
-ADDED from AndroidManifest.xml:151:13
+ADDED from AndroidManifest.xml:155:13
 action#android.intent.action.BOOT_COMPLETED
-ADDED from AndroidManifest.xml:152:17
+ADDED from AndroidManifest.xml:156:17
 	android:name
-		ADDED from AndroidManifest.xml:152:25
+		ADDED from AndroidManifest.xml:156:25
 action#android.intent.action.USER_PRESENT
-ADDED from AndroidManifest.xml:153:17
+ADDED from AndroidManifest.xml:157:17
 	android:name
-		ADDED from AndroidManifest.xml:153:25
+		ADDED from AndroidManifest.xml:157:25
 receiver#com.parse.GcmBroadcastReceiver
-ADDED from AndroidManifest.xml:156:9
+ADDED from AndroidManifest.xml:160:9
 	android:permission
-		ADDED from AndroidManifest.xml:158:13
+		ADDED from AndroidManifest.xml:162:13
 	android:name
-		ADDED from AndroidManifest.xml:157:13
+		ADDED from AndroidManifest.xml:161:13
 intent-filter#com.cantwellcode.fitfriend+com.google.android.c2dm.intent.RECEIVE+com.google.android.c2dm.intent.REGISTRATION
-ADDED from AndroidManifest.xml:159:13
+ADDED from AndroidManifest.xml:163:13
 action#com.google.android.c2dm.intent.RECEIVE
-ADDED from AndroidManifest.xml:160:17
+ADDED from AndroidManifest.xml:164:17
 	android:name
-		ADDED from AndroidManifest.xml:160:25
+		ADDED from AndroidManifest.xml:164:25
 action#com.google.android.c2dm.intent.REGISTRATION
-ADDED from AndroidManifest.xml:161:17
+ADDED from AndroidManifest.xml:165:17
 	android:name
-		ADDED from AndroidManifest.xml:161:25
+		ADDED from AndroidManifest.xml:165:25
 category#com.cantwellcode.fitfriend
-ADDED from AndroidManifest.xml:163:17
+ADDED from AndroidManifest.xml:167:17
 	android:name
-		ADDED from AndroidManifest.xml:163:27
+		ADDED from AndroidManifest.xml:167:27
 receiver#com.parse.ParsePushBroadcastReceiver
-ADDED from AndroidManifest.xml:166:9
+ADDED from AndroidManifest.xml:170:9
 	android:exported
-		ADDED from AndroidManifest.xml:168:13
+		ADDED from AndroidManifest.xml:172:13
 	android:name
-		ADDED from AndroidManifest.xml:167:13
+		ADDED from AndroidManifest.xml:171:13
 intent-filter#com.parse.push.intent.DELETE+com.parse.push.intent.OPEN+com.parse.push.intent.RECEIVE
-ADDED from AndroidManifest.xml:169:13
+ADDED from AndroidManifest.xml:173:13
 action#com.parse.push.intent.RECEIVE
-ADDED from AndroidManifest.xml:170:17
+ADDED from AndroidManifest.xml:174:17
 	android:name
-		ADDED from AndroidManifest.xml:170:25
+		ADDED from AndroidManifest.xml:174:25
 action#com.parse.push.intent.DELETE
-ADDED from AndroidManifest.xml:171:17
+ADDED from AndroidManifest.xml:175:17
 	android:name
-		ADDED from AndroidManifest.xml:171:25
+		ADDED from AndroidManifest.xml:175:25
 action#com.parse.push.intent.OPEN
-ADDED from AndroidManifest.xml:172:17
+ADDED from AndroidManifest.xml:176:17
 	android:name
-		ADDED from AndroidManifest.xml:172:25
+		ADDED from AndroidManifest.xml:176:25
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
 MERGED from com.android.support:support-v13:21.0.3:15:5
